@@ -16,7 +16,7 @@ int main(int argc, char **argv){
 
     D->fileOutput();
 
-    D->runSimulation();
+    D->runSimulation("ANR");
 
     delete D;
 

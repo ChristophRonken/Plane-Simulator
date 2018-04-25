@@ -423,19 +423,23 @@ void AirportHandler::runSimulation(string name) {
 
     }
 
-    double now = time(NULL);
-    //double startTime = now;
+    double nowtime = time(NULL);
+    double startTime = nowtime;
 
     Airport* Port = getAirport(name);
 
     while (!airportEmpty(Airports[0])) {
+
         double later = time(NULL);
-        double deltaTime = difftime(later, now);
+        double deltaTime = difftime(later, nowtime);
+
         if (deltaTime >= TimeUnit){
 
-            now = later;
+            nowtime += TimeUnit ;
 
-            //double passedTime = now - startTime;
+            double passedTimeUnits = (nowtime - startTime)/TimeUnit;
+
+            cout << timeToString(passedTimeUnits);
 
             for (unsigned int i = 0; i < Airplanes.size(); i++) {
                 Airplane *Plane = Airplanes[i];
@@ -443,7 +447,6 @@ void AirportHandler::runSimulation(string name) {
                     if (Plane->getTime() > 0) {
 
                         Plane->execTask(Port);
-
 
                     } else {
                         Plane->finishtask(Port);
@@ -512,4 +515,28 @@ void AirportHandler::printAirport(string & AirportIata) {
 
 }
 
+string AirportHandler::timeToString(double passedTimeUnits){
 
+    passedTimeUnits += simulationStartTime*60;
+
+    double hour = floor(passedTimeUnits/60);
+    double minutes = int(passedTimeUnits)%60;
+
+    stringstream ss;
+
+    if (minutes < 10){
+        ss << hour << ":0" << minutes << endl;
+
+    }else{
+        if (minutes == 0){
+            ss << hour << ":" << "00" << endl;
+
+        }else{
+            ss << hour << ":" << minutes << endl;
+
+        }
+    }
+
+    return ss.str();
+
+}
