@@ -5,6 +5,8 @@
 #include "AirplaneClass.h"
 #include <string>
 
+string globalTime;
+
 Airplane::Airplane() {
     gate = -1;
     runway = NULL;

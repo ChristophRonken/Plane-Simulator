@@ -428,7 +428,7 @@ void AirportHandler::runSimulation(string name) {
 
     Airport* Port = getAirport(name);
 
-    while (airportEmpty(Airports[0])) {
+    while (!airportEmpty(Airports[0])) {
 
         double later = time(NULL);
         double deltaTime = difftime(later, nowtime);

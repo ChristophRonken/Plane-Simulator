@@ -15,7 +15,7 @@
 
 using namespace std;
 
-string globalTime;
+
 
 class Airport;
 class Runway;
