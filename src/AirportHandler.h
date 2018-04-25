@@ -7,6 +7,7 @@
 
 #include <fstream>
 #include <ctime>
+#include <cmath>
 #include "AirportClass.h"
 #include "AirplaneClass.h"
 #include "RunwayClass.h"
@@ -19,6 +20,7 @@ class AirportHandler {
     vector<Airport*> Airports;
     vector<Airplane*> Airplanes;
     const static double TimeUnit = 1;   // in seconds
+    const static double simulationStartTime = 12; // in hours
 
 public:
     AirportHandler();
@@ -130,6 +132,8 @@ public:
     bool airportEmpty(Airport *Port);
 
     void printAirport(string & AirportIata);
+
+    string timeToString(double passedTimeUnits);
 
 };
 
