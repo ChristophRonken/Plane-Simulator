@@ -13,8 +13,9 @@
 
 #include "DesignByContract.h"
 
-
 using namespace std;
+
+string globalTime;
 
 class Airport;
 class Runway;
@@ -299,5 +300,7 @@ public:
     vector<string> getTaxiInstructions();
 };
 
+void setTime(string time);
+string getTime();
 
 #endif //PSE_V1_AirplaneCLASS_H

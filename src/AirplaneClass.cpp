@@ -877,3 +877,13 @@ const string &Airplane::getSquawkCode() const {
     return squawkCode;
 };
 
+void setTime(string time){
+    globalTime = time;
+
+
+};
+string getTime(){
+
+    return globalTime;
+
+};

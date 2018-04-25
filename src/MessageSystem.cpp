@@ -64,6 +64,9 @@ ofstream * getText(){
     return &OutputStream;
 };
 
+/*
+ * Landing messages
+ */
 
 void initialCommunicationMessage(Airplane* Plane, Airport* Port, string time){
 
@@ -75,10 +78,17 @@ void initialCommunicationMessage(Airplane* Plane, Airport* Port, string time){
 void waitBeforeDescendMessage(Airplane* Plane, string time){
 
     OutputStream << "[" << time << "][ATC]\n"
-                 << "$ " << Plane->getCallsign() << ", hold south on the one eighty radial, expect further clearance at " << time << ".\n"
-                 << "[" << time << "][AIR]\n"
-                 << "$ Holding south on the one eighty radial, " << Plane->getCallsign() << ".\n";
+                 << "$ " << Plane->getCallsign() << ", hold south on the one eighty radial, expect further clearance at " << time << ".\n";
 
+
+
+
+};
+
+void waitBeforeDescendConfirmation(Airplane* Plane, string time){
+
+    OutputStream << "[" << time << "][AIR]\n"
+                 << "$ Holding south on the one eighty radial, " << Plane->getCallsign() << ".\n";
 
 
 };
@@ -86,8 +96,14 @@ void waitBeforeDescendMessage(Airplane* Plane, string time){
 void descendTo5000ftMessage(Airplane* Plane, string time){
 
     OutputStream << "[" << time << "][ATC]\n"
-                 << "$" << Plane->getCallsign() << ", radar contact, descend and maintain five thousand feet, squawk " << Plane->getSquawkCode() << ".\n"
-                 << "[" << time << "][AIR]\n"
+                 << "$" << Plane->getCallsign() << ", radar contact, descend and maintain five thousand feet, squawk " << Plane->getSquawkCode() << ".\n";
+
+
+};
+
+void descendTo5000ftConfirmation(Airplane* Plane, string time){
+
+    OutputStream << "[" << time << "][AIR]\n"
                  << "$ Descend and maintain five thousand feet, squawking " << Plane->getSquawkCode() << ", " << Plane->getCallsign() << ".\n";
 
 };
@@ -95,8 +111,14 @@ void descendTo5000ftMessage(Airplane* Plane, string time){
 void descendTo3000ftMessage(Airplane* Plane, string time){
 
     OutputStream << "[" << time << "][ATC]\n"
-                 << "$" << Plane->getCallsign() << ", radar contact, descend and maintain three thousand feet.\n"
-                 << "[" << time << "][AIR]\n"
+                 << "$" << Plane->getCallsign() << ", radar contact, descend and maintain three thousand feet.\n";
+
+
+};
+
+void descendTo3000ftConfirmation(Airplane* Plane, string time){
+
+    OutputStream << "[" << time << "][AIR]\n"
                  << "$ Descend and maintain five thousand feet, " << Plane->getCallsign() << ".\n";
 
 };
@@ -104,8 +126,14 @@ void descendTo3000ftMessage(Airplane* Plane, string time){
 void finalApproachMessage(Airplane* Plane, Runway* Runw, string time){
 
     OutputStream << "[" << time << "][ATC]\n"
-                 << "$" << Plane->getCallsign() << ", cleared ILS approach runway" << Runw->getName() << ".\n"
-                 << "[" << time << "][AIR]\n"
+                 << "$" << Plane->getCallsign() << ", cleared ILS approach runway" << Runw->getName() << ".\n";
+
+
+};
+
+void finalApproachConfirmation(Airplane* Plane, Runway* Runw, string time){
+
+    OutputStream << "[" << time << "][AIR]\n"
                  << "$ Cleared ILS approach runway " << Runw->getName() << ", " << Plane->getCallsign() << ".\n";
 
 };
@@ -117,3 +145,37 @@ void afterLandingMessage(Airplane* Plane, Airport* Port, Runway* Runw, string ti
     // send taxi instructions afterwards.
 
 };
+
+/*
+ * Take off messages
+ */
+
+void IFRRequest(Airplane* Plane, string time){
+
+    OutputStream << "[" << time << "][AIR]\n"
+                 << "$ " << Plane->getAirport()->getCallsign() << ", " << Plane->getCallsign() << ", requesting IFR clearancy to " << Plane->getDestination() << ".\n";
+
+
+};
+
+void IFRMessage(Airplane* Plane, string time){
+
+    OutputStream << "[" << time << "][ATC]\n"
+                 << "$ " << Plane->getCallsign() << ", " << Plane->getAirport()->getCallsign() << ", cleared to " << Plane->getDestination() << ", maintain five thousand, "
+                    "expect flight level one zero zero - ten minutes after departure, squawk " << Plane->getSquawkCode() << ".\n";
+
+};
+
+void IFRConfirmation(Airplane* Plane, string time){
+
+    OutputStream << "[" << time << "][AIR]\n"
+                 << "Cleared to " << Plane->getDestination() << ", initial altitude five thousand, expecting one zero zero in ten, squawking "
+                 << Plane->getSquawkCode() << ", " << Plane->getCallsign() << ".\n";
+
+};
+
+
+
+
+
+
