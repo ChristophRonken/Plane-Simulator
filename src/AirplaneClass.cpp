@@ -201,29 +201,93 @@ void Airplane::toRunway(Runway *runway ) {
         return;
     }
     readyToTaxiMessage(this, tijd);
-
     inputMessage("Sending airplane (" + getNumber() + ") to runway (" + runway->getName() + ")");
+}
 
-    Runway * PrevRunw = Airplane::runway;
-    Airplane::runway = runway;
-
-    if (gate != -1 || PrevRunw != NULL) {
-        actionMessage("Arplane " + getNumber() + " is taxiing to " + runway->getName());
+void Airplane::taxiToRunway(Runway* Runway){
+    string tijd = getTime();
+    if (Runway == NULL){
+        Runway = attemptrunway;
     }
+    inputMessage("Taxiing airplane (" + getNumber() + ") to runway (" + Runway->getName() + ")");
+    taxiroute = Runway->getTaxiRoute();
+    if (! atcrossing) {
+        if (taxipoint == NULL) {
+            if (taxicrossing == NULL) {
 
-    if (PrevRunw != NULL) {
-        PrevRunw->setOccupied(false);
+                if (gate != -1) {
+                    airPort->setGateOccupied(gate, false);
+                    gate = -1;
+                }
+
+                taxipoint = taxiroute->getTaxiPoints()[0];
+                return;
+            } else {
+                for (unsigned int i = 0; i < taxiroute->getTaxiCrossings().size(); i++) {
+                    if (taxicrossing == taxiroute->getTaxiCrossings()[i]) {
+                        if (!taxirequest) {
+                            toRunwayMessage(this, Runway, taxiroute->getTaxiPoints()[i + 1], tijd);
+                            taxirequest = true;
+                            return;
+                        } else {
+                            toRunwayConfirmation(this, Runway, taxiroute->getTaxiPoints()[i + 1], tijd);
+                            taxipoint = taxiroute->getTaxiPoints()[i + 1];
+                            taxicrossing = NULL;
+                            taxirequest = false;
+                            if (i == taxiroute->getTaxiPoints().size()-2){
+                                Airplane::runway = Runway;
+                                Airplane::setState("At runway");
+                                notificationMessage("Airplane (" + number + ") is now at runway " + runway->getName() + "\n");
+                                runway->setOccupied(true);
+                            }
+                            return;
+                        }
+                    }
+                }
+            }
+        } else {
+            for (unsigned int i = 0; i < taxiroute->getTaxiPoints().size(); i++) {
+                if (taxipoint == taxiroute->getTaxiPoints()[i]) {
+                    if (!taxirequest) {
+                        toHoldingPointMessage(this, Runway, taxiroute->getTaxiCrossings()[i], tijd);
+                        taxirequest = true;
+                        return;
+                    } else {
+                        toHoldingPointConfirmation(this, Runway, taxiroute->getTaxiCrossings()[i], tijd);
+                        taxicrossing = taxiroute->getTaxiCrossings()[i];
+                        taxipoint = NULL;
+                        taxirequest = false;
+                        atcrossing = true;
+                        return;
+                    }
+                }
+            }
+
+        }
     }
+    else{
+        if (!crossrequest){
+            clearedToCrossRequest(this, Runway, tijd);
+            crossrequest = true;
+            return;
+        }
+        if (!crossconfirm){
+            clearedToCrossMessage(this, Runway, tijd);
+            crossconfirm = true;
+            return;
+        }
+        if (Runway->isOccupied()){
+            return;
+        }
+        else{
+            clearedToCrossConfirmation(this, Runway, tijd);
+            atcrossing = false;
+            crossrequest = false;
+            crossconfirm = false;
+            return;
+        }
 
-    if (gate != -1) {
-        airPort->setGateOccupied(gate, false);
-        gate = -1;
     }
-
-    notificationMessage("Airplane (" + number + ") is now at runway " + runway->getName() + "\n");
-    Airplane::setState("At runway");
-    runway->setOccupied(true);
-
 }
 
 int Airplane::getGate() const {
@@ -472,6 +536,7 @@ void Airplane::land(Airport *Port, Runway* Runw) {
             request = true;
             if (permissionToDescend(height, Port, Runw)){
                 finalApproachMessage(this, Runw, tijd);
+                Runw->setOccupied(true);
                 requestwait = false;
                 return;
             }
@@ -507,8 +572,6 @@ void Airplane::land(Airport *Port, Runway* Runw) {
 
         Airplane::setRunway(Runw);
         notificationMessage("Airplane (" + Airplane::number + ") is now at runway " + Runw->getName() + "\n");
-
-        Runw->setOccupied(true);
 
         Airplane::setState("At runway");
 

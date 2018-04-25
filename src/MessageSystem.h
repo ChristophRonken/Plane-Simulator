@@ -147,6 +147,8 @@ void toGateMessage(Airplane* Plane, int gateIndex,  string taxiPoint, string tim
 
 void toGateConfirmation(Airplane* Plane, int gateIndex,  string taxiPoint, string time);
 
+void clearedToCrossRequest(Airplane* Plane, Runway* Runw, string time );
+
 void clearedToCrossMessage(Airplane* Plane, Runway* Runw, string time );
 
 void clearedToCrossConfirmation(Airplane* Plane, Runway* Runw, string time );

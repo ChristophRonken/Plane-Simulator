@@ -18,3 +18,7 @@ void TaxiRoute::addCrossing(string crossing){
 vector<string> TaxiRoute::getTaxiPoints(){
     return TaxiRoute::taxipoints;
 }
+
+vector<string> TaxiRoute::getTaxiCrossings(){
+    return TaxiRoute::taxicrossings;
+}

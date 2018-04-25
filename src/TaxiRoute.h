@@ -23,6 +23,7 @@ public:
     void addCrossing(string crossing);
 
     vector<string> getTaxiPoints();
+    vector<string> getTaxiCrossings();
 
 };
 

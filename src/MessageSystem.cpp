@@ -309,6 +309,12 @@ void toGateConfirmation(Airplane* Plane, int gateIndex,  string taxiPoint, strin
 
 };
 
+void clearedToCrossRequest(Airplane* Plane, Runway* Runw, string time ){
+
+    OutputStream << "[" << time << "][AIR]\n"
+                 << "$ " << Plane->getAirport()->getCallsign() << ", " << Plane->getCallsign() << ", holding short at  " << Runw->getName() << ".\n";
+
+};
 
 void clearedToCrossMessage(Airplane* Plane, Runway* Runw, string time ){
 
