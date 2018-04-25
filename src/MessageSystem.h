@@ -68,38 +68,70 @@ ofstream* getText();
  * Landing messages
  */
 
+// 10.000 ft
 void initialCommunicationMessage(Airplane* Plane, Airport* Port, string time);
-
-void waitBeforeDescendMessage(Airplane* Plane, string time);
-
-void waitBeforeDescendConfirmation(Airplane* Plane, string time);
 
 void descendTo5000ftMessage(Airplane* Plane, string time);
 
 void descendTo5000ftConfirmation(Airplane* Plane, string time);
 
+// Waiting pattern
+void waitBeforeDescendMessage(Airplane* Plane, string time);
+
+void waitBeforeDescendConfirmation(Airplane* Plane, string time);
+
+// 5.000 ft
 void descendTo3000ftMessage(Airplane* Plane, string time);
 
 void descendTo3000ftConfirmation(Airplane* Plane, string time);
 
+// 3.000 ft
 void finalApproachMessage(Airplane* Plane, Runway* Runw, string time);
 
 void finalApproachConfirmation(Airplane* Plane, Runway* Runw, string time);
 
+// after landing
 void afterLandingMessage(Airplane* Plane, Airport* Port, Runway* Runw, string time);
 
 /*
  * Take off messages
  */
 
+// At gate
 void IFRRequest(Airplane* Plane, string time);
 
 void IFRMessage(Airplane* Plane, string time);
 
 void IFRConfirmation(Airplane* Plane, string time);
 
+// After IFR authorization
 void pushbackRequest(Airplane* Plane, string time);
 
+void pushbackMessage(Airplane* Plane, string time);
+
+void pushbackConfirmation(Airplane* Plane, string time);
+
+// From gate
+void readyToTaxiMessage(Airplane* Plane, string time);
+
+
+// Waiting at Runway
+void holdingShortAtRunway(Airplane* Plane, Runway* Runw, string time);
+
+// Keep waiting at runway (first holdingShortAtRunway())
+void waitAtRunwayMessage(Airplane* Plane, string time);
+
+void waitAtRunwayConfirmation(Airplane* Plane, string time);
+
+// Enter runway (first holdingShortAtRunway())
+void lineUpRunwayMessage(Airplane* Plane, Runway* Runw, string time);
+
+void lineUpRunwayConfirmation(Airplane* Plane, Runway* Runw, string time);
+
+// take off (first holdingShortAtRunway())
+void clearedForTakeOffMessage(Airplane* Plane, Runway* Runw, string time);
+
+void clearedForTakeOffConfirmation(Airplane* Plane, Runway* Runw, string time);
 
 
 #endif //PSE_V1_MESSAGESYSTEM_H
