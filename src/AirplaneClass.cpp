@@ -3,6 +3,7 @@
 //
 
 #include "AirplaneClass.h"
+#include <string>
 
 Airplane::Airplane() {
     gate = -1;
@@ -351,7 +352,7 @@ void Airplane::land(Airport *Port, Runway* Runw) {
     Airplane::setState("Approaching");
 
     if (Runw == NULL) {
-        inputMessage("Preparing airplane (" + Airplane::getNumber() + ") for landing in " + Port->getName());
+        inputMessage("Preparing airplane (" + Airplane::number + ") for landing in " + Port->getName());
 
         vector<Runway *> runw = Port->getRunways();
 
@@ -361,35 +362,35 @@ void Airplane::land(Airport *Port, Runway* Runw) {
 
                 break;
             }
-
         }
-
     }
 
-    notificationMessage(Airplane::getNumber() + " is approaching " + Port->getName() + " at 10.000 ft.");
+    notificationMessage(Airplane::number + " is approaching " + Port->getName() + " at " + intToString(height) + "ft.");
 
-    while (height > 1000) {
-        height -= 1000;
-        actionMessage(Airplane::getNumber() + " descents to a height of " + intToString(height));
-
+    if (!permissionToDescend(height, Port, Runw)){
+        actionMessage(Airplane::number + " is waiting at a height of " + intToString(height));
+        return;
     }
+    else if (height != 0){
+        descend();
+        actionMessage(Airplane::number + " descended to a height of " + intToString(height));
+        return;
+    }
+    else{
+        actionMessage(Airplane::number + " is landing at Runway" + Runw->getName());
+        Airplane::setAirport(Port);
+        notificationMessage("Airplane (" + Airplane::number + ") landed in " + Port->getIata());
 
-    height = 0;
+        Airplane::setRunway(Runw);
+        notificationMessage("Airplane (" + Airplane::number + ") is now at runway " + Runw->getName() + "\n");
 
-    actionMessage(Airplane::getNumber() + " is landing at Runway" + Runw->getName());
+        Runw->setOccupied(true);
 
-    Airplane::setAirport(Port);
-    notificationMessage("Airplane (" + Airplane::getNumber() + ") landed in " + Port->getName());
+        Airplane::setState("At runway");
 
-    Airplane::setRunway(Runw);
-    notificationMessage("Airplane (" + Airplane::number + ") is now at runway " + Runw->getName() + "\n");
-
-    Runw->setOccupied(true);
-
-    Airplane::setState("At runway");
-
-    ENSURE(Runw == Airplane::getRunway(), "Landed" );
-
+        ENSURE(Runw == Airplane::getRunway(), "Landed" );
+        return;
+    }
 }
 
 void Airplane::takeOff() {
@@ -769,3 +770,51 @@ void Airplane::execTask(Airport* Port) {
 
 }
 
+bool Airplane::permissionToDescend(int height, Airport* Port, Runway* Runway){
+    if (height == 10000){
+        if (Port->getWait5000() == NULL){
+            Port->setWait5000(this);
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    else if (height == 5000){
+        if (Port->getWait3000() == NULL){
+            Port->setWait5000(NULL);
+            Port->setWait3000(this);
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    else if (height == 3000){
+        if (Runway->isOccupied()){
+            return false;
+        }
+        else{
+            Port->setWait3000(NULL);
+            return true;
+        }
+    }
+    else {
+        return true;
+    }
+
+}
+
+void Airplane:: descend(){
+    if (Airplane::engine == "jet"){
+        Airplane::height -= 1000;
+    }
+    else if (Airplane::engine == "propeller"){
+        Airplane::height -= 500;
+    }
+}
+
+vector<string> Airplane::getTaxiInstructions(){
+    vector<string> instructions;
+    return instructions;
+}

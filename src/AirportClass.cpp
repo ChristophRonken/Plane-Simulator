@@ -244,6 +244,21 @@ string Airport::graphicRepresentation() {
     return std::__cxx11::string();
 }
 
+Airplane* Airport::getWait5000(){
+    return Airport::wait5000;
+}
+
+Airplane* Airport::getWait3000(){
+    return Airport::wait3000;
+}
+
+void Airport::setWait5000(Airplane* plane){
+    Airport::wait5000 = plane;
+}
+
+void Airport::setWait3000(Airplane* plane){
+    Airport::wait3000 = plane;
+}
 
 
 

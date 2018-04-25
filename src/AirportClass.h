@@ -29,6 +29,9 @@ class Airport {
 
     vector<bool> GatesOccupied;
 
+    Airplane* wait5000;
+    Airplane* wait3000;
+
 public:
     vector<Runway*> Runways;
 
@@ -185,6 +188,13 @@ public:
      */
     bool validGateIndex(int i);
     bool runwayExists(string name);
+
+
+    Airplane* getWait5000();
+    Airplane* getWait3000();
+    void setWait5000(Airplane* plane);
+    void setWait3000(Airplane* plane);
+
 
 };
 

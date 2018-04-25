@@ -289,6 +289,11 @@ public:
 
     FlightPlan * getFlightPlan();
 
+    bool permissionToDescend(int height, Airport* Port, Runway* Runway);
+
+    void descend();
+
+    vector<string> getTaxiInstructions();
 };
 
 
