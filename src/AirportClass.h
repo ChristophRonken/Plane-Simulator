@@ -11,7 +11,7 @@
 #include "RunwayClass.h"
 #include "MessageSystem.h"
 #include <vector>
-#include <typeinfo>
+
 
 using namespace std;
 

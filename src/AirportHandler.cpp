@@ -162,7 +162,7 @@ void AirportHandler::addXmlData(string fileName) {
                     string AttValue = elemAtt->GetText();
                     Plane->setVar(AttName, string(AttValue));
                 }
-
+                Plane->setSquawkCode();
                 Airplanes.push_back(Plane);
 
                 succesMessage("Plane added (" + Plane->getCallsign() + ")");

@@ -63,3 +63,57 @@ ofstream * getText(){
 
     return &OutputStream;
 };
+
+
+void initialCommunicationMessage(Airplane* Plane, Airport* Port, string time){
+
+    OutputStream << "[" << time << "][AIR]\n"
+                 << "$ " << Port->getCallsign() << ", " << Plane->getCallsign() << ", arriving at " << Port->getName() << ".\n";
+
+};
+
+void waitBeforeDescendMessage(Airplane* Plane, string time){
+
+    OutputStream << "[" << time << "][ATC]\n"
+                 << "$ " << Plane->getCallsign() << ", hold south on the one eighty radial, expect further clearance at " << time << ".\n"
+                 << "[" << time << "][AIR]\n"
+                 << "$ Holding south on the one eighty radial, " << Plane->getCallsign() << ".\n";
+
+
+
+};
+
+void descendTo5000ftMessage(Airplane* Plane, string time){
+
+    OutputStream << "[" << time << "][ATC]\n"
+                 << "$" << Plane->getCallsign() << ", radar contact, descend and maintain five thousand feet, squawk " << Plane->getSquawkCode() << ".\n"
+                 << "[" << time << "][AIR]\n"
+                 << "$ Descend and maintain five thousand feet, squawking " << Plane->getSquawkCode() << ", " << Plane->getCallsign() << ".\n";
+
+};
+
+void descendTo3000ftMessage(Airplane* Plane, string time){
+
+    OutputStream << "[" << time << "][ATC]\n"
+                 << "$" << Plane->getCallsign() << ", radar contact, descend and maintain three thousand feet.\n"
+                 << "[" << time << "][AIR]\n"
+                 << "$ Descend and maintain five thousand feet, " << Plane->getCallsign() << ".\n";
+
+};
+
+void finalApproachMessage(Airplane* Plane, Runway* Runw, string time){
+
+    OutputStream << "[" << time << "][ATC]\n"
+                 << "$" << Plane->getCallsign() << ", cleared ILS approach runway" << Runw->getName() << ".\n"
+                 << "[" << time << "][AIR]\n"
+                 << "$ Cleared ILS approach runway " << Runw->getName() << ", " << Plane->getCallsign() << ".\n";
+
+};
+
+void afterLandingMessage(Airplane* Plane, Airport* Port, Runway* Runw, string time){
+
+    OutputStream << "[" << time << "][AIR]\n"
+                 << "$ " << Port->getCallsign() << ", " << Plane->getCallsign() << ", runway " << Runw->getName() << "vacated.\n";
+    // send taxi instructions afterwards.
+
+};

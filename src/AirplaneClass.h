@@ -28,8 +28,7 @@ class Airplane {
     string type;
     string engine;
     string size;
-
-    string task;
+    string squawkCode;
 
     Airport* airPort;
     Runway* runway;
@@ -284,6 +283,10 @@ public:
     bool atAirport();
     bool atGate();
     bool readyForTakeOff();
+
+    void setSquawkCode(string code = "");
+
+    const string &getSquawkCode() const;
 
     void setFlightPlan(FlightPlan *Flight);
 
