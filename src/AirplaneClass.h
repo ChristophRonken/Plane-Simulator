@@ -33,6 +33,7 @@ class Airplane {
 
     Airport* airPort;
     Runway* runway;
+    Runway* attemptrunway;
 
     int gate;
     int fuel;
@@ -45,6 +46,10 @@ class Airplane {
     bool ReadyForDeparture;
 
     FlightPlan* Route;
+
+    bool requestwait;
+    bool request;
+    bool confirmation;
 
     /**
      * sets if the plane is ready for departure
@@ -263,7 +268,6 @@ public:
     void useFuel();
 
     bool notFinished(Airport* Port);
-    int getTime();
     void execTask(Airport* Port);
     void finishtask(Airport* Port);
     void nextTask(Airport* Port);

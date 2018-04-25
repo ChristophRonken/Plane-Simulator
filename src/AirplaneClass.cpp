@@ -348,31 +348,116 @@ void Airplane::prepareForDeparture() {
 }
 
 void Airplane::land(Airport *Port, Runway* Runw) {
-    REQUIRE(state == "Airborne", "Plane is not airborne");
-    REQUIRE(validLandingSpot(Port, Runw), "Valid landing spot");
+    string tijd = getTime();
+    if (state != "Approaching") {
+        REQUIRE(state == "Airborne", "Plane is not airborne");
+        REQUIRE(validLandingSpot(Port, Runw), "Valid landing spot");
 
-    Airplane::setState("Approaching");
+        Airplane::setState("Approaching");
 
-    if (Runw == NULL) {
-        inputMessage("Preparing airplane (" + Airplane::number + ") for landing in " + Port->getName());
+        if (Runw == NULL) {
+            inputMessage("Preparing airplane (" + Airplane::number + ") for landing in " + Port->getName());
 
-        vector<Runway *> runw = Port->getRunways();
+            vector<Runway *> runw = Port->getRunways();
 
-        for (unsigned int i = 0; i < runw.size(); i++) {
-            if (!runw[i]->isOccupied()) {
-                Runw =  runw[i];
+            for (unsigned int i = 0; i < runw.size(); i++) {
+                if (!runw[i]->isOccupied()) {
+                    Runw = runw[i];
+                    attemptrunway = runw[i];
+                    break;
+                }
+            }
+        }
 
-                break;
+        initialCommunicationMessage(this, Port, tijd);
+    }
+    else if (Runw == NULL){
+        Runw = attemptrunway;
+    }
+
+    notificationMessage(
+            Airplane::number + " is approaching " + Port->getName() + " at " + intToString(height) + "ft.");
+    if (height == 10000){
+        if (!request) {
+            request = true;
+            if (permissionToDescend(height, Port, Runw)){
+                descendTo5000ftMessage(this, tijd);
+                requestwait = false;
+                return;
+            }
+            else {
+                waitBeforeDescendMessage(this, tijd);
+                requestwait = true;
+                return;
+            }
+        }
+        else {
+            request = false;
+            if (requestwait){
+                waitBeforeDescendConfirmation(this, tijd);
+                return;
+            }
+            else{
+                descendTo5000ftConfirmation(this, tijd);
+                descend();
+                return;
             }
         }
     }
-
-    notificationMessage(Airplane::number + " is approaching " + Port->getName() + " at " + intToString(height) + "ft.");
-
-    if (height == 10000 || height == 5000 || height == 3000){
-        if (!permissionToDescend(height, Port, Runw)) {
-            actionMessage(Airplane::number + " is waiting at a height of " + intToString(height));
-            return;
+    if (height == 5000){
+        if (!request) {
+            request = true;
+            if (permissionToDescend(height, Port, Runw)){
+                descendTo3000ftMessage(this, tijd);
+                requestwait = false;
+                return;
+            }
+            else {
+                waitBeforeDescendMessage(this, tijd);
+                requestwait = true;
+                return;
+            }
+        }
+        else {
+            request = false;
+            if (requestwait){
+                waitBeforeDescendConfirmation(this, tijd);
+                actionMessage(Airplane::number + " is waiting at a height of " + intToString(height));
+                return;
+            }
+            else{
+                descendTo3000ftConfirmation(this, tijd);
+                descend();
+                return;
+            }
+        }
+    }
+    if (height == 3000){
+        if (!request) {
+            request = true;
+            if (permissionToDescend(height, Port, Runw)){
+                finalApproachMessage(this, Runw, tijd);
+                requestwait = false;
+                return;
+            }
+            else {
+                waitBeforeDescendMessage(this, tijd);
+                requestwait = true;
+                return;
+            }
+        }
+        else {
+            request = false;
+            if (requestwait){
+                waitBeforeDescendConfirmation(this, tijd);
+                actionMessage(Airplane::number + " is waiting at a height of " + intToString(height));
+                return;
+            }
+            else{
+                finalApproachConfirmation(this, Runw, tijd);
+                descend();
+                return;
+            }
         }
     }
     else if (height != 0){
@@ -393,6 +478,8 @@ void Airplane::land(Airport *Port, Runway* Runw) {
         Airplane::setState("At runway");
 
         ENSURE(Runw == Airplane::getRunway(), "Landed" );
+
+        afterLandingMessage(this, Port, Runw, tijd);
         return;
     }
 }
