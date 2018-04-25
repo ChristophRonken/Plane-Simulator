@@ -47,9 +47,14 @@ class Airplane {
 
     FlightPlan* Route;
 
+    bool initialIFR;
+    bool requestIFR;
+    bool confirmIFR;
+    bool initialpb;
+    bool requestpb;
+    bool confirmpb;
     bool requestwait;
     bool request;
-    bool confirmation;
 
     /**
      * sets if the plane is ready for departure
