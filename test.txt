@@ -1,0 +1,17 @@
+
+Airport:	Antwerp International Airport (ANR)
+->callsign:	Antwerp Tower
+->gates:	10
+->runways:	1
+
+Airplane:	Cessna 842 (N11842)
+->model:	Cessna 340
+->type:	
+->engine:	
+->size:	
+
+Airplane:	Cessna 843 (N11843)
+->model:	Cessna 340
+->type:	
+->engine:	
+->size:	
