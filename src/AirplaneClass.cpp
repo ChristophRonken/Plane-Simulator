@@ -707,9 +707,6 @@ void Airplane::useFuel() {
     }
 }
 
-int Airplane::getTime() {
-    return opperationTime;
-}
 
 string Airplane::getDestination() {
     return Route->getDestination();
