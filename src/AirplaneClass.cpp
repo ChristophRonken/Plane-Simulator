@@ -151,21 +151,56 @@ void Airplane::setRunway(Runway *runway) {
 }
 
 void Airplane::toRunway(Runway *runway ) {
+    string tijd = getTime();
+    if (!initialIFR) {
+        REQUIRE(atAirport(), "At airport");
+        REQUIRE(validRunway(runway), "Valid runway");
+        REQUIRE(appropriateRunway(runway), "Appropriate runway");
 
-    REQUIRE(atAirport(), "At airport" );
-    REQUIRE(validRunway(runway), "Valid runway");
-    REQUIRE(appropriateRunway(runway), "Appropriate runway");
-
-    if (runway == NULL){
-        vector<int> runw = airPort->getFreeRunways();
-        for (int i = 0; (unsigned)i<runw.size(); i++){
-            Runway* runwaycpy = airPort->getRunways()[i];
-            if (appropriateRunway(runwaycpy)){
-                runway = runwaycpy;
-                break;
+        if (runway == NULL) {
+            vector<int> runw = airPort->getFreeRunways();
+            for (int i = 0; (unsigned) i < runw.size(); i++) {
+                Runway *runwaycpy = airPort->getRunways()[i];
+                if (appropriateRunway(runwaycpy)) {
+                    runway = runwaycpy;
+                    attemptrunway = runway;
+                    break;
+                }
             }
         }
+        IFRRequest(this, tijd);
+        initialIFR = true;
+        return;
     }
+    else if (runway == NULL){
+        runway = attemptrunway;
+    }
+    if (!requestIFR){
+        IFRMessage(this, tijd);
+        requestIFR = true;
+        return;
+    }
+    if (!confirmIFR){
+        IFRConfirmation(this, tijd);
+        confirmIFR = true;
+        return;
+    }
+    if (!initialpb){
+        pushbackRequest(this, tijd);
+        initialpb = true;
+        return;
+    }
+    if (!requestpb){
+        pushbackMessage(this, tijd);
+        requestpb = true;
+        return;
+    }
+    if (!confirmpb){
+        pushbackConfirmation(this, tijd);
+        confirmpb = true;
+        return;
+    }
+    readyToTaxiMessage(this, tijd);
 
     inputMessage("Sending airplane (" + getNumber() + ") to runway (" + runway->getName() + ")");
 
@@ -332,7 +367,6 @@ string Airplane::getInfo() {
 }
 
 void Airplane::prepareForDeparture() {
-
     REQUIRE(atGate(), "Standing at gate");
 
     inputMessage("Preparing airplane (" + getNumber() + ") for departure.");
@@ -370,6 +404,7 @@ void Airplane::land(Airport *Port, Runway* Runw) {
         }
 
         initialCommunicationMessage(this, Port, tijd);
+        return;
     }
     else if (Runw == NULL){
         Runw = attemptrunway;
