@@ -769,3 +769,58 @@ void Airplane::execTask(Airport* Port) {
 
 }
 
+void Airplane::setSquawkCode(string code){
+
+    int index;
+
+    if (code == ""){
+        if (type == "private"){
+            if (size == "small"){
+                index = 0;
+
+            }else{
+                index = 1;
+
+            }
+        }
+        if (type == "airline"){
+            if (size == "medium"){
+                if (engine == "propeller"){
+                    index = 2;
+
+                }else{
+                    index = 3;
+
+                }
+
+            }else{
+                index = 4;
+
+            }
+        }
+        if (type == "military"){
+            index = 5;
+
+        }
+        if (type == "emergency"){
+            index = 6;
+
+        }
+
+        if (index == 0) {
+            squawkCode == "0001-0777";
+
+        }else{
+            squawkCode == intToString(index) + "000-" + intToString(index) + "777";
+
+        }
+
+    }else{
+        squawkCode = code;
+
+    }
+}
+
+const string &Airplane::getSquawkCode() const {
+    return squawkCode;
+};

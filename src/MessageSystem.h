@@ -9,7 +9,14 @@
 #include <sstream>
 #include <fstream>
 #include <ctime>
+#include "AirplaneClass.h"
+#include "AirportClass.h"
+#include "RunwayClass.h"
 #include "DesignByContract.h"
+
+class Airplane;
+class Runway;
+class Airport;
 
 using namespace std;
 
@@ -56,5 +63,16 @@ string intToString(int i);
  */
 ofstream* getText();
 
+void initialCommunicationMessage(Airplane* Plane, Airport* Port, string time);
+
+void waitBeforeDescendMessage(Airplane* Plane, string time);
+
+void descendTo5000ftMessage(Airplane* Plane, string time);
+
+void descendTo3000ftMessage(Airplane* Plane, string time);
+
+void finalApproachMessage(Airplane* Plane, Runway* Runw, string time);
+
+void afterLandingMessage(Airplane* Plane, Airport* Port, Runway* Runw, string time);
 
 #endif //PSE_V1_MESSAGESYSTEM_H
