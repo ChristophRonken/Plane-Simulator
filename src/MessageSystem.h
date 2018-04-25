@@ -134,4 +134,32 @@ void clearedForTakeOffMessage(Airplane* Plane, Runway* Runw, string time);
 void clearedForTakeOffConfirmation(Airplane* Plane, Runway* Runw, string time);
 
 
+// Taxiing
+void toHoldingPointMessage(Airplane* Plane, Runway* Runw, string taxiPoint, string time);
+
+void toHoldingPointConfirmation(Airplane* Plane, Runway* Runw, string taxiPoint, string time);
+
+void toRunwayMessage(Airplane* Plane, Runway* Runw, string taxiPoint, string time);
+
+void toRunwayConfirmation(Airplane* Plane, Runway* Runw, string taxiPoint, string time);
+
+void toGateMessage(Airplane* Plane, int gateIndex,  string taxiPoint, string time);
+
+void toGateConfirmation(Airplane* Plane, int gateIndex,  string taxiPoint, string time);
+
+void clearedToCrossMessage(Airplane* Plane, Runway* Runw, string time );
+
+void clearedToCrossConfirmation(Airplane* Plane, Runway* Runw, string time );
+
+
+// Emergency
+void EmergencyAbove3000ftRequest(Airplane* Plane, string time);
+
+void EmergencyAbove3000ftMessage(Airplane* Plane, Runway* Runw, string time);
+
+void EmergencyBelow3000ftRequest(Airplane* Plane, string time);
+
+void EmergencyBelow3000ftMessage(Airplane* Plane, string time);
+
+
 #endif //PSE_V1_MESSAGESYSTEM_H
