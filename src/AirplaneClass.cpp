@@ -367,9 +367,11 @@ void Airplane::land(Airport *Port, Runway* Runw) {
 
     notificationMessage(Airplane::number + " is approaching " + Port->getName() + " at " + intToString(height) + "ft.");
 
-    if (!permissionToDescend(height, Port, Runw)){
-        actionMessage(Airplane::number + " is waiting at a height of " + intToString(height));
-        return;
+    if (height == 10000 || height == 5000 || height == 3000){
+        if (!permissionToDescend(height, Port, Runw)) {
+            actionMessage(Airplane::number + " is waiting at a height of " + intToString(height));
+            return;
+        }
     }
     else if (height != 0){
         descend();
@@ -805,7 +807,7 @@ bool Airplane::permissionToDescend(int height, Airport* Port, Runway* Runway){
 
 }
 
-void Airplane:: descend(){
+void Airplane::descend(){
     if (Airplane::engine == "jet"){
         Airplane::height -= 1000;
     }
