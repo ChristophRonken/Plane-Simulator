@@ -263,7 +263,6 @@ public:
     void useFuel();
 
     bool notFinished(Airport* Port);
-    int getTime();
     void execTask(Airport* Port);
     void finishtask(Airport* Port);
     void nextTask(Airport* Port);
