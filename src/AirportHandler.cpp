@@ -435,7 +435,7 @@ void AirportHandler::runSimulation(string name) {
 
             now = later;
 
-            double passedTime = now - startTime;
+            //double passedTime = now - startTime;
 
             for (unsigned int i = 0; i < Airplanes.size(); i++) {
                 Airplane *Plane = Airplanes[i];
