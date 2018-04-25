@@ -75,6 +75,22 @@ void initialCommunicationMessage(Airplane* Plane, Airport* Port, string time){
 
 };
 
+void descendTo5000ftMessage(Airplane* Plane, string time){
+
+    OutputStream << "[" << time << "][ATC]\n"
+                 << "$" << Plane->getCallsign() << ", radar contact, descend and maintain five thousand feet, squawk " << Plane->getSquawkCode() << ".\n";
+
+
+};
+
+void descendTo5000ftConfirmation(Airplane* Plane, string time){
+
+    OutputStream << "[" << time << "][AIR]\n"
+                 << "$ Descend and maintain five thousand feet, squawking " << Plane->getSquawkCode() << ", " << Plane->getCallsign() << ".\n";
+
+};
+
+
 void waitBeforeDescendMessage(Airplane* Plane, string time){
 
     OutputStream << "[" << time << "][ATC]\n"
@@ -93,20 +109,6 @@ void waitBeforeDescendConfirmation(Airplane* Plane, string time){
 
 };
 
-void descendTo5000ftMessage(Airplane* Plane, string time){
-
-    OutputStream << "[" << time << "][ATC]\n"
-                 << "$" << Plane->getCallsign() << ", radar contact, descend and maintain five thousand feet, squawk " << Plane->getSquawkCode() << ".\n";
-
-
-};
-
-void descendTo5000ftConfirmation(Airplane* Plane, string time){
-
-    OutputStream << "[" << time << "][AIR]\n"
-                 << "$ Descend and maintain five thousand feet, squawking " << Plane->getSquawkCode() << ", " << Plane->getCallsign() << ".\n";
-
-};
 
 void descendTo3000ftMessage(Airplane* Plane, string time){
 
@@ -123,6 +125,7 @@ void descendTo3000ftConfirmation(Airplane* Plane, string time){
 
 };
 
+
 void finalApproachMessage(Airplane* Plane, Runway* Runw, string time){
 
     OutputStream << "[" << time << "][ATC]\n"
@@ -137,6 +140,7 @@ void finalApproachConfirmation(Airplane* Plane, Runway* Runw, string time){
                  << "$ Cleared ILS approach runway " << Runw->getName() << ", " << Plane->getCallsign() << ".\n";
 
 };
+
 
 void afterLandingMessage(Airplane* Plane, Airport* Port, Runway* Runw, string time){
 
@@ -175,7 +179,85 @@ void IFRConfirmation(Airplane* Plane, string time){
 };
 
 
+void pushbackRequest(Airplane* Plane, string time){
+
+    OutputStream << "[" << time << "][AIR]\n"
+                 << "$ " << Plane->getAirport()->getCallsign() << ", " << Plane->getCallsign() << " at gate " << Plane->getGate() << ", requesting pushback.\n";
+
+};
+
+void pushbackMessage(Airplane* Plane, string time){
+
+    OutputStream << "[" << time << "][ATC]\n"
+                 << "$ " << Plane->getCallsign() << ", " << Plane->getAirport()->getCallsign() << ", pushback approved.\n";
+
+};
+
+void pushbackConfirmation(Airplane* Plane, string time){
+
+    OutputStream << "[" << time << "][AIR]\n"
+                 << "$ Pushback approved, " << Plane->getCallsign() << ".\n";
+
+};
 
 
+void readyToTaxiMessage(Airplane* Plane, string time){
 
+    OutputStream << "[" << time << "][AIR]\n"
+                 << "$ " << Plane->getCallsign() << " is ready to taxi.\n";
+
+    // Taxi instructions afterwards
+
+};
+
+
+void holdingShortAtRunway(Airplane* Plane, Runway* Runw, string time){
+
+    OutputStream << "[" << time << "][AIR]\n"
+                 << "$ " << Plane->getAirport()->getCallsign() << ", " << Plane->getCallsign() << ", holding short at " << Runw->getName() << ".\n";
+
+};
+
+
+void waitAtRunwayMessage(Airplane* Plane, string time){
+
+    OutputStream << "[" << time << "][ATC]\n"
+                 << "$ " << Plane->getCallsign() << ", hold position.\n";
+};
+
+void waitAtRunwayConfirmation(Airplane* Plane, string time){
+
+    OutputStream << "[" << time << "][AIR]\n"
+                 << "$ Holding position, " << Plane->getCallsign() << ".\n";
+
+};
+
+
+void lineUpRunwayMessage(Airplane* Plane, Runway* Runw, string time){
+
+    OutputStream << "[" << time << "][ATC]\n"
+                 << "$ " << Plane->getCallsign() << ", line-up runway " << Runw->getName() << " and wait.\n";
+
+};
+
+void lineUpRunwayConfirmation(Airplane* Plane, Runway* Runw, string time){
+
+    OutputStream << "[" << time << "][AIR]\n"
+                 << "$ Lining up runway " << Runw->getName() << " and wait" << Plane->getCallsign();
+
+};
+
+
+void clearedForTakeOffMessage(Airplane* Plane, Runway* Runw, string time){
+
+    OutputStream << "[" << time << "][ATC]\n"
+                 << "$ " << Plane->getCallsign() << ", runway " << Runw->getName() << " cleared for take-off.\n";
+};
+
+void clearedForTakeOffConfirmation(Airplane* Plane, Runway* Runw, string time){
+
+    OutputStream << "[" << time << "][AIC]\n"
+                 << "$ Runway " << Runw->getName() << "cleared for take-off, " << Plane->getCallsign() << ".\n";
+
+};
 

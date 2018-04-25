@@ -844,6 +844,7 @@ void Airplane::initSimulation(Airport *Port) {
 
 void Airplane::execTask(Airport* Port) {
     opperationTime -= 1;
+
     if (getState() == "Approaching"){
 
 
@@ -968,6 +969,7 @@ void setTime(string time){
 
 
 };
+
 string getTime(){
 
     return globalTime;
