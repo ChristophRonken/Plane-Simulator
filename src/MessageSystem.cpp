@@ -256,8 +256,106 @@ void clearedForTakeOffMessage(Airplane* Plane, Runway* Runw, string time){
 
 void clearedForTakeOffConfirmation(Airplane* Plane, Runway* Runw, string time){
 
-    OutputStream << "[" << time << "][AIC]\n"
+    OutputStream << "[" << time << "][AIR]\n"
                  << "$ Runway " << Runw->getName() << "cleared for take-off, " << Plane->getCallsign() << ".\n";
 
 };
 
+
+/*
+ * Taxiing
+ */
+
+void toHoldingPointMessage(Airplane* Plane, Runway* Runw, string taxiPoint, string time){
+
+    OutputStream << "[" << time << "][ATC]\n"
+                 << "$ " << Plane->getCallsign() << ", taxi to holding point " << Runw->getName() << " via " << taxiPoint << ".\n";
+
+};
+
+void toHoldingPointConfirmation(Airplane* Plane, Runway* Runw, string taxiPoint, string time){
+
+    OutputStream << "[" << time << "][AIR]\n"
+                 << "$ Taxi to holding point " << Runw->getName() << " via " << taxiPoint << ", " << Plane->getCallsign() << ".\n";
+
+};
+
+
+void toRunwayMessage(Airplane* Plane, Runway* Runw, string taxiPoint, string time){
+
+    OutputStream << "[" << time << "][ATC]\n"
+                 << "$ " << Plane->getCallsign() << ", taxi to runway " << Runw->getName() << " via " << taxiPoint << ".\n";
+};
+
+void toRunwayConfirmation(Airplane* Plane, Runway* Runw, string taxiPoint, string time){
+
+    OutputStream << "[" << time << "][AIR]\n"
+                 << "$ Taxi to runway " << Runw->getName() << " via " << taxiPoint << ", " << Plane->getCallsign() << ".\n";
+
+};
+
+
+void toGateMessage(Airplane* Plane, int gateIndex,  string taxiPoint, string time){
+
+    OutputStream << "[" << time << "][ATC]\n"
+                 << "$ " << Plane->getCallsign() << ", taxi to gate " << gateIndex << " via " << taxiPoint << ".\n";
+
+};
+
+void toGateConfirmation(Airplane* Plane, int gateIndex,  string taxiPoint, string time){
+
+    OutputStream << "[" << time << "][AIR]\n"
+                 << "$ Taxi to gate " << gateIndex << " via " << taxiPoint << ", " << Plane->getCallsign() << ".\n";
+
+};
+
+
+void clearedToCrossMessage(Airplane* Plane, Runway* Runw, string time ){
+
+    OutputStream << "[" << time << "][ATC]\n"
+                 << "$ " << Plane->getCallsign() << ", cleared to cross " << Runw->getName() << ".\n";
+
+};
+
+void clearedToCrossConfirmation(Airplane* Plane, Runway* Runw, string time ){
+
+    OutputStream << "[" << time << "][ATC]\n"
+                 << "$ Cleared to cross runway " << Runw->getName() << ".\n" ;
+
+};
+
+
+/*
+ * Emergency
+ */
+
+void EmergencyAbove3000ftRequest(Airplane* Plane, Airport* Port, string time){
+
+    OutputStream << "[" << time << "][AIR]"
+                 << "$ Mayday, mayday, mayday, " << Port->getCallsign() << ", " << Plane->getCallsign() << ", out of fuel, request immidiate landing, "
+                 << Plane->getPassengers() << " passengers on board.\n";
+
+};
+
+void EmergencyAbove3000ftMessage(Airplane* Plane, Runway* Runw, string time){
+
+    OutputStream << "[" << time << "][ATC]"
+                 << "$ " << Plane->getCallsign() << ", roger mayday, squawk seven seven zero zero, cleared ILS landing runway " << Runw->getName() << ".\n";
+
+};
+
+
+void EmergencyBelow3000ftRequest(Airplane* Plane, Airport* Port, string time){
+
+    OutputStream << "[" << time << "][AIR]"
+                 << "$ Mayday, mayday, mayday, " << Port->getCallsign() << ", " << Plane->getCallsign() << ", out of fuel, performing emergency landing, "
+                 << Plane->getPassengers() << " passengers on board.\n";
+
+};
+
+void EmergencyBelow3000ftMessage(Airplane* Plane, string time){
+
+    OutputStream << "[" << time << "][ATC]"
+                 << "$ " << Plane->getCallsign() << ", roger mayday, squawk seven seven zero zero, emergency personal on standby, good luck!\n";
+
+};
