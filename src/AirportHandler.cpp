@@ -424,7 +424,7 @@ void AirportHandler::runSimulation(string name) {
     }
 
     double now = time(NULL);
-    double startTime = now;
+    //double startTime = now;
 
     Airport* Port = getAirport(name);
 
