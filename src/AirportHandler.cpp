@@ -439,7 +439,7 @@ void AirportHandler::runSimulation(string name) {
 
             double passedTimeUnits = (nowtime - startTime)/TimeUnit;
 
-            cout << timeToString(passedTimeUnits);
+            setTime(timeToString(passedTimeUnits));
 
             for (unsigned int i = 0; i < Airplanes.size(); i++) {
                 Airplane *Plane = Airplanes[i];
