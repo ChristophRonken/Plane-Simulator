@@ -63,6 +63,7 @@ string intToString(int i);
  */
 ofstream* getText();
 
+void closeFile();
 
 /*
  * Landing messages
