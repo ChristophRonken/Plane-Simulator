@@ -50,32 +50,17 @@ class Airplane {
     string taxipoint;
     string taxicrossing;
 
-    bool initialIFR;
-    bool requestIFR;
-    bool confirmIFR;
+    bool IFR;
+    bool pushback;
 
-    bool initialpb;
-    bool requestpb;
-    bool confirmpb;
-
-    bool togatemessage;
-    bool togateconfirm;
+    bool requestmessage;
+    bool messagemessage;
+    bool confirmmessage;
 
     bool taxirequest;
-    bool atcrossing;
 
     bool request;
     bool requestwait;
-
-    bool toholdingpointmessage;
-    bool toholdingpointconfirm;
-
-    bool crossrequest;
-    bool crossmessage;
-    bool crossconfirm;
-
-    bool torunwaymessage;
-    bool torunwayconfirm;
 
     /**
      * sets if the plane is ready for departure

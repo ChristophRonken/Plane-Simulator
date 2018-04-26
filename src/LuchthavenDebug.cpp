@@ -1019,7 +1019,6 @@ TEST_F(CommunicationTests, taxiToRunway) {
         cout << i << endl;
     }
 
-    plane.t
     cout << "i is nu " << i << endl;
 
     while (plane->getGate() != 3){
