@@ -296,7 +296,90 @@ void Airplane::taxiToRunway(Runway* Runway){
 }
 
 void Airplane::taxiToGate(int gate){
-    return;
+    string tijd = getTime();
+    if (runway != NULL){
+        taxiroute = runway->getTaxiRoute();
+        runway->setOccupied(false);
+        runway = NULL;
+    }
+
+    inputMessage("Taxiing airplane (" + getNumber() + ") to gate (" + intToString(gate) + ")");
+    if (taxipoint == "" && taxicrossing == ""){
+        taxipoint = taxiroute->getTaxiPoints()[taxiroute->getTaxiPoints().size()-1];
+        return;
+    }
+    if (taxipoint != ""){
+        for (unsigned int i=0; i < taxiroute->getTaxiPoints().size(); i++){
+            if (taxipoint == taxiroute->getTaxiPoints()[i]){
+                if (i == 0){
+                    if (!togatemessage){
+                        toGateMessage(this, gate, taxipoint, tijd);
+                        togatemessage = true;
+                        return;
+                    }
+                    else if (!togateconfirm){
+                        toGateConfirmation(this, gate, taxipoint, tijd);
+                        togateconfirm = true;
+                        return;
+                    }
+                    else{
+                        togatemessage = false;
+                        togateconfirm = false;
+                        setGate(gate);
+                        airPort->setGateOccupied(gate, true);
+                        return;
+                    }
+                }
+                else if (!toholdingpointmessage) {
+                    toHoldingPointMessage(this, taxiroute->getTaxiCrossings()[i-1], taxipoint, tijd);
+                    toholdingpointmessage = true;
+                    return;
+                }
+                else  if (!toholdingpointconfirm) {
+                    toHoldingPointConfirmation(this, taxiroute->getTaxiCrossings()[i-1], taxipoint, tijd);
+                    toholdingpointconfirm = true;
+                    return;
+                }
+                else{
+                    taxipoint = "";
+                    taxicrossing = taxiroute->getTaxiCrossings()[i-1];
+                    toholdingpointmessage = false;
+                    toholdingpointconfirm = false;
+                    return;
+                }
+            }
+        }
+    }
+    else if (taxicrossing != ""){
+        for (unsigned int i=0; i < taxiroute->getTaxiCrossings().size(); i++){
+            if (taxicrossing == taxiroute->getTaxiCrossings()[i]){
+                if (!crossrequest) {
+                    clearedToCrossRequest(this, taxiroute->getTaxiCrossings()[i], tijd);
+                    crossrequest = true;
+                    return;
+                }
+                else  if (!crossmessage) {
+                    clearedToCrossMessage(this, taxiroute->getTaxiCrossings()[i], tijd);
+                    crossmessage = true;
+                    return;
+                }
+                else  if (!crossconfirm) {
+                    clearedToCrossConfirmation(this, taxiroute->getTaxiCrossings()[i], tijd);
+                    crossconfirm = true;
+                    return;
+                }
+                else{
+                    taxicrossing = "";
+                    taxipoint = taxiroute->getTaxiPoints()[i];
+                    crossrequest = false;
+                    crossmessage = false;
+                    crossconfirm = false;
+                    return;
+                }
+            }
+
+        }
+    }
 }
 
 int Airplane::getGate() const {

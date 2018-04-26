@@ -336,7 +336,7 @@ void clearedToCrossMessage(Airplane* Plane, string taxiCrossing, string time ){
 
 void clearedToCrossConfirmation(Airplane* Plane, string taxiCrossing, string time ){
 
-    OutputStream << "[" << time << "][ATC]\n"
+    OutputStream << "[" << time << "][AIR]\n"
                  << "$ Cleared to cross runway " << taxiCrossing << ".\n" ;
 
 };

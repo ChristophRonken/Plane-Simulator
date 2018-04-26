@@ -963,33 +963,32 @@ TEST_F(CommunicationTests, taxiToRunway) {
     airport = new Airport;
     taxi = new TaxiRoute();
 
-    string alpha = "A";
+    string alpha = "runway1cross";
     taxi->addCrossing(alpha);
-    alpha = "B";
+    alpha = "runway2cross";
     taxi->addCrossing(alpha);
-    alpha = "C";
+    alpha = "runway3cross";
     taxi->addCrossing(alpha);
-    alpha = "D";
+    alpha = "runway4cross";
     taxi->addCrossing(alpha);
-    alpha = "E";
+    alpha = "runway5cross";
     taxi->addCrossing(alpha);
-    alpha = "F";
+    alpha = "runway6cross";
     taxi->addCrossing(alpha);
 
-    alpha = "1";
+    alpha = "alpha";
     taxi->addTaxiPoint(alpha);
-    alpha = "2";
+    alpha = "bravo";
     taxi->addTaxiPoint(alpha);
-    alpha = "3";
+    alpha = "charlie";
     taxi->addTaxiPoint(alpha);
-    alpha = "4";
+    alpha = "delta";
     taxi->addTaxiPoint(alpha);
-    alpha = "5";
+    alpha = "epsilon";
     taxi->addTaxiPoint(alpha);
-    alpha = "6";
+    alpha = "franko";
     taxi->addTaxiPoint(alpha);
 
-    taxi->addCrossing(alpha);
 
     runway = new Runway;
     runway->setType("asphalt");
@@ -1017,6 +1016,15 @@ TEST_F(CommunicationTests, taxiToRunway) {
     while (plane->getRunway()!= runway){
         i+=1;
         plane->taxiToRunway(runway);
+        cout << i << endl;
+    }
+
+    plane.t
+    cout << "i is nu " << i << endl;
+
+    while (plane->getGate() != 3){
+        i-=1;
+        plane->taxiToGate(3);
         cout << i << endl;
     }
 

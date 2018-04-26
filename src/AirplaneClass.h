@@ -58,11 +58,14 @@ class Airplane {
     bool requestpb;
     bool confirmpb;
 
-    bool requestwait;
-    bool request;
+    bool togatemessage;
+    bool togateconfirm;
 
     bool taxirequest;
     bool atcrossing;
+
+    bool request;
+    bool requestwait;
 
     bool toholdingpointmessage;
     bool toholdingpointconfirm;
