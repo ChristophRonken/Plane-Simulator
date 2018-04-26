@@ -64,6 +64,12 @@ ofstream * getText(){
     return &OutputStream;
 };
 
+void closeFile(){
+    OutputStream.close();
+
+};
+
+
 /*
  * Landing messages
  */
@@ -365,3 +371,10 @@ void EmergencyBelow3000ftMessage(Airplane* Plane, string time){
                  << "$ " << Plane->getCallsign() << ", roger mayday, squawk seven seven zero zero, emergency personal on standby, good luck!\n";
 
 };
+
+
+
+
+
+
+
