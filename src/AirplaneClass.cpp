@@ -685,31 +685,31 @@ void Airplane::takeOff() {
 
     REQUIRE(readyForTakeOff(), "Ready for take off");
 
-    if (!requestmessage){
+    if (!requestMessageSend){
         holdingShortAtRunway(this, runway, tijd);
-        requestmessage = true;
+        requestMessageSend = true;
         return;
     }
 
-    if (!messagemessage){
+    if (!messageMessageSend){
         if (!runway->isOccupied()){
             clearedForTakeOffMessage(this, runway, tijd);
             permissiontotakeoff = true;
-            messagemessage = true;
+            messageMessageSend = true;
             return;
         }
         else if (!runway->getWachtopRunway()){
             lineUpRunwayMessage(this, runway, tijd);
-            messagemessage = true;
+            messageMessageSend = true;
             waitonrunway = true;
             return;
         }
 
     }
-    if (!confirmmessage){
+    if (!confirmMessageSend){
         if (permissiontotakeoff){
             clearedForTakeOffConfirmation(this, runway, tijd);
-            confirmmessage = true;
+            confirmMessageSend = true;
         }
         if (!waitonrunway){}
     }
