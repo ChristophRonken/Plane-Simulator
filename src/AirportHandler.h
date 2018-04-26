@@ -112,27 +112,89 @@ public:
      */
     void fileOutput();;
 
-
+    /**
+     * Run a simultaion of an airport
+     * @param name of the airport to run a simulation on
+     */
     void runSimulation(string name);
 
+    /**
+     * Get the pointer to the airportwith the given name.
+     * @param name of the airport
+     * @return Airport*
+     */
     Airport* getAirport(string name);
 
-
-
-    /** Input controle
+    /**
+     * Check if an airplane exists
+     * @param callsign
+     * @return bool
      */
     bool airplaneExists(string callsign);
+
+    /**
+     * Check if an airport already exists.
+     * @param callsign
+     * @return bool
+     */
     bool airportExists(string callsign);
 
+    /**
+     * Check if a filename is valid
+     * @param name
+     * @return bool
+     */
     bool validFileName(string name);
+
+    /**
+     * Check if the vector of airplanes is valid (no duplicates or faulty initialized airplanes)
+     * @param Planes
+     * @return bool
+     */
     bool validAirplanes(vector<Airplane*> Planes);
+
+    /**
+     * Check if the vector of airports is valid (no duplicates or faulty initialized airports)
+     * @param Ports
+     * @return bool
+     */
     bool validAirports(vector<Airport*> Ports);
+
+    /**
+     * Check if an airplane is valid to add to the system (no duplicate or faulty initialized)
+     * @param Plane
+     * @return bool
+     */
     bool validAiplane(Airplane* Plane);
+
+    /**
+     * Check if an airport is valid to add to the system (no duplicate or faulty initialized)
+     * @param Port
+     * @return bool
+     */
     bool validAirport(Airport* Port);
+
+    /**
+     * Check if an airport is empty (no airplanes in or around the airport)
+     * @param Port
+     * @return bool
+     */
     bool airportEmpty(Airport *Port);
 
-    void printAirport(string & AirportIata);
+    /**
+     * Outputs a file with the given airports iata as file name,
+     * containing a 2D graphical representation of the Airport in it's current state
+     * Preconditions: airportExists(string AirportIata);
+     * @param AirportIata
+     */
+    void GraphicalAirport2D(string & AirportIata);
 
+    /**'
+     * Changes a double to it's corresponding time in string format (hh:mm)
+     * Time is relative to the starting time of the simulation (default = 12:00)
+     * @param passedTimeUnits
+     * @return string
+     */
     string timeToString(double passedTimeUnits);
 
 };

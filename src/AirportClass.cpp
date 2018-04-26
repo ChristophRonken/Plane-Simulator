@@ -232,18 +232,6 @@ bool Airport::runwayExists(string name) {
    return false;
 }
 
-string Airport::graphicRepresentation() {
-
-
-    for (unsigned  int i = 0; i< Runways.size(); i++ ){
-
-
-
-    }
-
-    return std::__cxx11::string();
-}
-
 Airplane* Airport::getWait5000(){
     return Airport::wait5000;
 }

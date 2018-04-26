@@ -15,8 +15,6 @@
 
 using namespace std;
 
-
-
 class Airport;
 class Runway;
 
@@ -33,7 +31,7 @@ class Airplane {
 
     Airport* airPort;
     Runway* runway;
-    Runway* attemptrunway;
+    Runway* attemptRunway;
 
     int gate;
     int fuel;
@@ -45,22 +43,22 @@ class Airplane {
 
     bool ReadyForDeparture;
 
-    FlightPlan* Route;
-    TaxiRoute* taxiroute;
-    string taxipoint;
-    string taxicrossing;
+    FlightPlan* flightPlan;
+    TaxiRoute* taxiRoute;
+    string taxiPoint;
+    string taxiCrossing;
 
-    bool IFR;
+    bool IFRAuthorized;
     bool pushback;
 
-    bool requestmessage;
-    bool messagemessage;
-    bool confirmmessage;
+    bool requestMessageSend;
+    bool messageMessageSend;
+    bool confirmMessageSend;
 
-    bool taxirequest;
+    bool taxiRequest;
 
     bool request;
-    bool requestwait;
+    bool requestWait;
 
     bool emergencyInAirport;
 
@@ -170,7 +168,6 @@ public:
 
     void setFuelCapacity(int fuelCapacity);
 
-
     /**
      * get the amount of passengers
      * @return passengers
@@ -195,13 +192,29 @@ public:
      */
     void setPassengerCapacity(int passengerCapacity);
 
-
+    /**
+     * Get the current flying height of the airplane
+     * @return int
+     */
     int getHeight() const;
 
+    /**
+     * Set the current flying height of the airplane
+     * @param height
+     */
     void setHeight(int height);
 
+    /**
+     * Get the type of airplane
+     * @return aiplane type
+     */
     const string &getType() const;
 
+    /**
+     * Set the type of the airplane
+     * Preconditions:
+     * @param type
+     */
     void setType(const string &type);
 
     const string &getEngine() const;
@@ -278,50 +291,324 @@ public:
      */
     void takeOff();
 
+    /**
+     * Use x amount of fuel depending on the airplane type, size and engine
+     */
     void useFuel();
 
+    /**
+     * Check if the plane finished all it's tasks
+     * @param Port
+     * @return bool
+     */
     bool notFinished(Airport* Port);
+
+    /**
+     * execute a task
+     * @param Port
+     */
     void execTask(Airport* Port);
+
+    /**
+     * Finish the current task
+     * @param Port
+     */
     void finishtask(Airport* Port);
+
+    /**
+     * Initialize the next task
+     * @param Port
+     */
     void nextTask(Airport* Port);
+
+    /**
+     * Get the destination of this airplane
+     * @return string
+     */
     string getDestination();
+
+    /**
+     * Initialize the plane's variables to start a simulation
+     * @param Port
+     */
     void initSimulation(Airport *Port);
 
     /**
-     * Input Controle
+     * Check if the string type would be a valid airplane type
+     * @param type
+     * @return bool
      */
-    bool validGate(int gate = -1);
-    bool validRunway(Runway* Runw = NULL);
-    bool validLandingSpot(Airport* Port, Runway* Runw = NULL );
-    bool appropriateRunway(Runway* Runw);
+    bool validPlaneType(string type);
 
     /**
-     * State Controle
+     * Check if the gate index is both valid and unoccupied
+     * @param gate
+     * @return bool
+     */
+    bool validGate(int gate = -1);
+
+    /**
+     * Check if this airplane can take off/land on the given Runway.
+     * If no runway is given, it will see if a Runway exists with the same requirements
+     * @param Runw
+     * @return bool
+     */
+    bool validRunway(Runway* Runw = NULL);
+
+    /**
+     * Check if the location to land is valid
+     * @param Port
+     * @param Runw
+     * @return bool
+     */
+    bool validLandingSpot(Airport* Port, Runway* Runw = NULL );
+
+    /**
+     * Check if the airplane is at an airport
+     * @return bool
      */
     bool atAirport();
+
+    /**
+     * Check if the airplane is at a gate
+     * @return bool
+     */
     bool atGate();
+
+    /**
+     * Check if the airplane is ready for take-off
+     * @return bool
+     */
     bool readyForTakeOff();
 
+    /**
+     * Set the squawk code of this plane
+     * If none was given, it will generate an appropriate code
+     * @param code
+     */
     void setSquawkCode(string code = "");
 
+    /**
+     * Get the current squawk code
+     * @return bool
+     */
     const string &getSquawkCode() const;
 
+    /**
+     * Set the flight plan of this airplane
+     * @param Flight
+     */
     void setFlightPlan(FlightPlan *Flight);
 
-    FlightPlan * getFlightPlan();
+    /**
+     * Get the flightplane of this plane
+     * @return FlightPlan*
+     */
+    FlightPlan * getFlightPlan() const;
 
+    /**
+     * Get the airport the plane is currently in
+     * @return Airport*
+     */
+    Airport *getAirPort() const;
 
+    /**
+     * Set the airport the plane is in
+     * @param airPort
+     */
+    void setAirPort(Airport *airPort);
 
+    /**
+     * Get the runway the airplane is trying to go to.
+     * @return Runway
+     */
+    Runway *getAttemptRunway() const;
+
+    /**
+     * Set the runway the airplane is trying to go to.
+     * @param attemptRunway
+     */
+    void setAttemptRunway(Runway *attemptRunway);
+
+    /**
+     * Get the taxiRoute the plane is taking
+     * @return TaxiRoute*
+     */
+    TaxiRoute *getTaxiRoute() const;
+
+    /**
+     * Set the taxiRoute the plane is taking
+     * @param taxiRoute
+     */
+    void setTaxiRoute(TaxiRoute *taxiRoute);
+
+    /**
+     * Get the taxipoint the plane is on
+     * @return string
+     */
+    const string &getTaxiPoint() const;
+
+    /**
+     * set the taxipoint the plane is on
+     * @param taxiPoint
+     */
+    void setTaxiPoint(const string &taxiPoint);
+
+    /**
+     * Get the taxiCrossing the plane is on
+     * @return string
+     */
+    const string &getTaxiCrossing() const;
+
+    /**
+     * Set the taxiCrossing the plane is on
+     * @param taxiCrossing
+     */
+    void setTaxiCrossing(const string &taxiCrossing);
+
+    /**
+     * Check if the IFR authorized the plane to initialize the departure procedure 
+     * @return bool
+     */
+    bool isIFRAuthorized() const;
+
+    /**
+     * Set if the IFR authorized the plane to initialize the departure procedure
+     * @param IFRAuthorized 
+     */
+    void setIFRAuthorized(bool IFRAuthorized);
+
+    /**
+     * Checl if pushback from gate is allowed
+     * @return bool
+     */
+    bool isPushback() const;
+
+    /**
+     * Set if pushnack from gate is allowed
+     * @param pushback 
+     */
+    void setPushback(bool pushback);
+
+    /**
+     * Check if a request message is send for the next task
+     * @return bool
+     */
+    bool isRequestMessageSend() const;
+
+    /**
+     * Set if a request message was send for the upcoming task
+     * @param requestMessageSend
+     */
+    void setRequestMessageSend(bool requestMessageSend);
+
+    /**
+     * Check if the ATC send the airplane an instruction message for the upcoming task
+     * @return bool
+     */
+    bool isMessageMessageSend() const;
+
+    /**
+     * Set if the ATC send the airplane an instruction message for the upcoming task
+     * @param messageMessageSend
+     */
+    void setMessageMessageSend(bool messageMessageSend);
+
+    /**
+     * Check if the airplane send a confirmation message notifying the ATC it will perfor it's instructions
+     * @return bool
+     */
+    bool isConfirmMessageSend() const;
+
+    /**
+     * Set if the airplane send a confirmation message notifying the ATC it will perfor it's instructions
+     * @param confirmMessageSend
+     */
+    void setConfirmMessageSend(bool confirmMessageSend);
+
+    /**
+     * Geen idee waar deze voor is
+     * @return bool
+     */
+    bool isEmergencyInAirport() const;
+
+    /**
+     * zie hierboven
+     * @param emergencyInAirport
+     */
+    void setEmergencyInAirport(bool emergencyInAirport);
+
+    /**
+     * Check if the current task is a waiting for taxi instructions
+     * @return
+     */
+    bool isTaxiRequest() const;
+
+    /**
+     * Set if the current task is waiting for taxi instructions
+     * @param taxiRequest
+     */
+    void setTaxiRequest(bool taxiRequest);
+
+    /**
+     * geen idee waar deze voor is... beter benamingen nodig
+     * @return bool
+     */
+    bool isRequest() const;
+
+    /**
+     * Zie hierboven
+     * @param request
+     */
+    void setRequest(bool request);
+
+    /**
+     * Check if the task is Waiting
+     * @return bool
+     */
+    bool isRequestWait() const;
+
+    /**
+     * Set if the task is waiting
+     * @param requestWait
+     */
+    void setRequestWait(bool requestWait);
+
+    /**
+     * Check if the airplane has permission to descend
+     * @param height
+     * @param Port
+     * @param Runway
+     * @return bool
+     */
     bool permissionToDescend(int height, Airport* Port, Runway* Runway);
 
+    /**
+     * Make the airplane descend
+     */
     void descend();
 
+    /**
+     * Make the airplane taxi to a (given) runway if possible
+     */
     void taxiToRunway(Runway* = NULL);
 
+    /**
+     * Make the airplane taxi to a given gate
+     * @param gate
+     */
     void taxiToGate(int gate);
 
+    /**
+     * Get taxi instructions
+     * @return vector<string>
+     */
     vector<string> getTaxiInstructions();
 
+    /**
+     * Perform an emergency landing
+     * @param Port
+     */
     void emergencyLanding(Airport* Port);
 };
 
