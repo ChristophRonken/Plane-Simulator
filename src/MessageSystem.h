@@ -135,9 +135,9 @@ void clearedForTakeOffConfirmation(Airplane* Plane, Runway* Runw, string time);
 
 
 // Taxiing
-void toHoldingPointMessage(Airplane* Plane, Runway* Runw, string taxiPoint, string time);
+void toHoldingPointMessage(Airplane* Plane, string taxiCrossing, string taxiPoint, string time);
 
-void toHoldingPointConfirmation(Airplane* Plane, Runway* Runw, string taxiPoint, string time);
+void toHoldingPointConfirmation(Airplane* Plane, string taxiCrossing, string taxiPoint, string time);
 
 void toRunwayMessage(Airplane* Plane, Runway* Runw, string taxiPoint, string time);
 
@@ -147,11 +147,11 @@ void toGateMessage(Airplane* Plane, int gateIndex,  string taxiPoint, string tim
 
 void toGateConfirmation(Airplane* Plane, int gateIndex,  string taxiPoint, string time);
 
-void clearedToCrossRequest(Airplane* Plane, Runway* Runw, string time );
+void clearedToCrossRequest(Airplane* Plane, string taxiCrossing, string time );
 
-void clearedToCrossMessage(Airplane* Plane, Runway* Runw, string time );
+void clearedToCrossMessage(Airplane* Plane, string taxiCrossing, string time );
 
-void clearedToCrossConfirmation(Airplane* Plane, Runway* Runw, string time );
+void clearedToCrossConfirmation(Airplane* Plane, string taxiCrossing, string time );
 
 
 // Emergency

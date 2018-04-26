@@ -53,17 +53,26 @@ class Airplane {
     bool initialIFR;
     bool requestIFR;
     bool confirmIFR;
+
     bool initialpb;
     bool requestpb;
     bool confirmpb;
+
     bool requestwait;
     bool request;
 
     bool taxirequest;
-    bool atcrossing
+    bool atcrossing;
+
+    bool toholdingpointmessage;
+    bool toholdingpointconfirm;
 
     bool crossrequest;
+    bool crossmessage;
     bool crossconfirm;
+
+    bool torunwaymessage;
+    bool torunwayconfirm;
 
     /**
      * sets if the plane is ready for departure
@@ -318,6 +327,8 @@ public:
     void descend();
 
     void taxiToRunway(Runway* = NULL);
+
+    void taxiToGate(int gate);
 
     vector<string> getTaxiInstructions();
 };

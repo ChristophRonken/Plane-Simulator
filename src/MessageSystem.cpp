@@ -266,17 +266,17 @@ void clearedForTakeOffConfirmation(Airplane* Plane, Runway* Runw, string time){
  * Taxiing
  */
 
-void toHoldingPointMessage(Airplane* Plane, Runway* Runw, string taxiPoint, string time){
+void toHoldingPointMessage(Airplane* Plane, string taxiCrossing, string taxiPoint, string time){
 
     OutputStream << "[" << time << "][ATC]\n"
-                 << "$ " << Plane->getCallsign() << ", taxi to holding point " << Runw->getName() << " via " << taxiPoint << ".\n";
+                 << "$ " << Plane->getCallsign() << ", taxi to holding point " << taxiCrossing  << " via " << taxiPoint << ".\n";
 
 };
 
-void toHoldingPointConfirmation(Airplane* Plane, Runway* Runw, string taxiPoint, string time){
+void toHoldingPointConfirmation(Airplane* Plane, string taxiCrossing, string taxiPoint, string time){
 
     OutputStream << "[" << time << "][AIR]\n"
-                 << "$ Taxi to holding point " << Runw->getName() << " via " << taxiPoint << ", " << Plane->getCallsign() << ".\n";
+                 << "$ Taxi to holding point " << taxiCrossing << " via " << taxiPoint << ", " << Plane->getCallsign() << ".\n";
 
 };
 
@@ -309,24 +309,24 @@ void toGateConfirmation(Airplane* Plane, int gateIndex,  string taxiPoint, strin
 
 };
 
-void clearedToCrossRequest(Airplane* Plane, Runway* Runw, string time ){
+void clearedToCrossRequest(Airplane* Plane, string taxiCrossing, string time ){
 
     OutputStream << "[" << time << "][AIR]\n"
-                 << "$ " << Plane->getAirport()->getCallsign() << ", " << Plane->getCallsign() << ", holding short at  " << Runw->getName() << ".\n";
+                 << "$ " << Plane->getAirport()->getCallsign() << ", " << Plane->getCallsign() << ", holding short at  " << taxiCrossing << ".\n";
 
 };
 
-void clearedToCrossMessage(Airplane* Plane, Runway* Runw, string time ){
+void clearedToCrossMessage(Airplane* Plane, string taxiCrossing, string time ){
 
     OutputStream << "[" << time << "][ATC]\n"
-                 << "$ " << Plane->getCallsign() << ", cleared to cross " << Runw->getName() << ".\n";
+                 << "$ " << Plane->getCallsign() << ", cleared to cross " << taxiCrossing << ".\n";
 
 };
 
-void clearedToCrossConfirmation(Airplane* Plane, Runway* Runw, string time ){
+void clearedToCrossConfirmation(Airplane* Plane, string taxiCrossing, string time ){
 
     OutputStream << "[" << time << "][ATC]\n"
-                 << "$ Cleared to cross runway " << Runw->getName() << ".\n" ;
+                 << "$ Cleared to cross runway " << taxiCrossing << ".\n" ;
 
 };
 
