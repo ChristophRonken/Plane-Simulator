@@ -62,6 +62,8 @@ class Airplane {
     bool request;
     bool requestwait;
 
+    bool emergencyInAirport;
+
     /**
      * sets if the plane is ready for departure
      * Precondition: Plane must be at gate
@@ -319,6 +321,8 @@ public:
     void taxiToGate(int gate);
 
     vector<string> getTaxiInstructions();
+
+    void emergencyLanding(Airport* Port);
 };
 
 void setTime(string time);

@@ -158,11 +158,11 @@ void clearedToCrossConfirmation(Airplane* Plane, string taxiCrossing, string tim
 
 
 // Emergency
-void EmergencyAbove3000ftRequest(Airplane* Plane, string time);
+void EmergencyAbove3000ftRequest(Airplane* Plane, Airport* Port, string time);
 
 void EmergencyAbove3000ftMessage(Airplane* Plane, Runway* Runw, string time);
 
-void EmergencyBelow3000ftRequest(Airplane* Plane, string time);
+void EmergencyBelow3000ftRequest(Airplane* Plane, Airport* Port, string time);
 
 void EmergencyBelow3000ftMessage(Airplane* Plane, string time);
 

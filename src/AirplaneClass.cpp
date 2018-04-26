@@ -992,6 +992,54 @@ void Airplane::useFuel() {
     }
 }
 
+void Airplane::emergencyLanding(Airport* Port){
+    string tijd = getTime();
+    if (!requestmessage){
+        if (height >= 3000){
+            EmergencyAbove3000ftRequest(this, Port, tijd);
+            emergencyInAirport = true;
+            requestmessage = true;
+            descend();
+            return;
+        }
+        else{
+            EmergencyBelow3000ftRequest(this, Port, tijd);
+            emergencyInAirport = false;
+            requestmessage = true;
+            descend();
+            if (height == 0){
+                requestmessage = false;
+            }
+            return;
+        }
+    }
+    else if (!messagemessage){
+        if (emergencyInAirport){
+            EmergencyAbove3000ftMessage(this, runway, tijd);
+            runway = Port->getRunways()[Port->getFreeRunways()[0]];
+            Port->setGateOccupied(Port->getFreeRunways()[0], true);
+            descend();
+            messagemessage = true;
+            return;
+        } else{
+            EmergencyBelow3000ftMessage(this, tijd);
+            messagemessage = true;
+            descend();
+            if (height == 0){
+                requestmessage = false;
+            }
+            return;
+        }
+    }
+    else{
+        if (height != 0) {
+            descend();
+            if (height == 0) {
+                requestmessage = false;
+            }
+        }
+    }
+};
 
 string Airplane::getDestination() {
     return Route->getDestination();

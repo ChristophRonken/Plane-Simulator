@@ -361,7 +361,6 @@ void EmergencyAbove3000ftMessage(Airplane* Plane, Runway* Runw, string time){
 
 };
 
-
 void EmergencyBelow3000ftRequest(Airplane* Plane, Airport* Port, string time){
 
     OutputStream << "[" << time << "][AIR]"
