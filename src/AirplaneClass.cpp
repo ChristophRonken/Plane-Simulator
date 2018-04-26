@@ -12,7 +12,8 @@ Airplane::Airplane() {
     runway = NULL;
     passengers = 125;
     passengerCapacity = 125;
-
+    taxipoint = "";
+    taxicrossing = "";
     Route = new FlightPlan();
 
 }
@@ -205,16 +206,21 @@ void Airplane::toRunway(Runway *runway ) {
 }
 
 void Airplane::taxiToRunway(Runway* Runway){
+    if (gate != -1){
+        airPort->setGateOccupied(gate, false);
+        gate = -1;
+    }
     string tijd = getTime();
     if (Runway == NULL){
-        Runway = attemptrunway;
+        Runway = Airplane::attemptrunway;
     }
     inputMessage("Taxiing airplane (" + getNumber() + ") to runway (" + Runway->getName() + ")");
     taxiroute = Runway->getTaxiRoute();
-    if (taxipoint == NULL && taxicrossing == NULL){
+    if (taxipoint == "" && taxicrossing == ""){
         taxipoint = taxiroute->getTaxiPoints()[0];
+        return;
     }
-    if (taxipoint != NULL){
+    if (taxipoint != ""){
         for (unsigned int i=0; i < taxiroute->getTaxiPoints().size(); i++){
             if (taxipoint == taxiroute->getTaxiPoints()[i]){
                 if (i == taxiroute->getTaxiPoints().size()-1){
@@ -247,7 +253,7 @@ void Airplane::taxiToRunway(Runway* Runway){
                     return;
                 }
                 else{
-                    taxipoint = NULL;
+                    taxipoint = "";
                     taxicrossing = taxiroute->getTaxiCrossings()[i];
                     toholdingpointmessage = false;
                     toholdingpointconfirm = false;
@@ -256,7 +262,7 @@ void Airplane::taxiToRunway(Runway* Runway){
             }
         }
     }
-    else if (taxicrossing != NULL){
+    else if (taxicrossing != ""){
         for (unsigned int i=0; i < taxiroute->getTaxiCrossings().size(); i++){
             if (taxicrossing == taxiroute->getTaxiCrossings()[i]){
                 if (!crossrequest) {
@@ -275,7 +281,7 @@ void Airplane::taxiToRunway(Runway* Runway){
                     return;
                 }
                 else{
-                    taxicrossing = NULL;
+                    taxicrossing = "";
                     taxipoint = taxiroute->getTaxiPoints()[i+1];
                     crossrequest = false;
                     crossmessage = false;
