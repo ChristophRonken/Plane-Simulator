@@ -247,7 +247,6 @@ void Airplane::taxiToRunway(Runway* Runway){
                         messagemessage = false;
                         confirmmessage = false;
                         runway = Runway;
-                        Runway->setOccupied(true);
                         return;
                     }
                 }
@@ -683,8 +682,38 @@ void Airplane::land(Airport *Port, Runway* Runw) {
 }
 
 void Airplane::takeOff() {
+    string tijd = getTime();
 
     REQUIRE(readyForTakeOff(), "Ready for take off");
+
+    if (!requestmessage){
+        holdingShortAtRunway(this, runway, tijd);
+        requestmessage = true;
+        return;
+    }
+
+    if (!messagemessage){
+        if (!runway->isOccupied()){
+            clearedForTakeOffMessage(this, runway, tijd);
+            permissiontotakeoff = true;
+            messagemessage = true;
+            return;
+        }
+        else if (!runway->getWachtopRunway()){
+            lineUpRunwayMessage(this, runway, tijd);
+            messagemessage = true;
+            waitonrunway = true;
+            return;
+        }
+
+    }
+    if (!confirmmessage){
+        if (permissiontotakeoff){
+            clearedForTakeOffConfirmation(this, runway, tijd);
+            confirmmessage = true;
+        }
+        if (!waitonrunway){}
+    }
 
     inputMessage("Sending airplane " + Airplane::getNumber() + " for departure");
 

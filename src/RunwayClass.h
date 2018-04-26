@@ -25,6 +25,9 @@ class Runway {
 
     TaxiRoute * taxiroute;
 
+    bool wachtaanrunway;
+    bool wachtoprunway;
+
 public:
     /**
       * Construct a runway with parameters
@@ -88,6 +91,13 @@ public:
 
     TaxiRoute* getTaxiRoute();
 
+    void setWachtaanRunway(bool);
+
+    void setWachtopRunway(bool);
+
+    bool getWachtaanRunway();
+
+    bool getWachtopRunway();
 };
 
 

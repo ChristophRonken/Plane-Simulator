@@ -64,6 +64,12 @@ class Airplane {
 
     bool emergencyInAirport;
 
+    bool needtowait;
+    bool permissiontotakeoff;
+    bool takingoff;
+    bool waitatrunway;
+    bool waitonrunway;
+
     /**
      * sets if the plane is ready for departure
      * Precondition: Plane must be at gate

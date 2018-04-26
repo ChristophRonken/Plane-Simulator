@@ -94,3 +94,18 @@ TaxiRoute* Runway::getTaxiRoute(){
     return Runway::taxiroute;
 }
 
+void Runway::setWachtaanRunway(bool boolean){
+    Runway::wachtaanrunway = boolean;
+}
+
+void Runway::setWachtopRunway(bool boolean){
+    Runway::wachtoprunway = boolean;
+}
+
+bool Runway::getWachtaanRunway(){
+    return Runway::wachtaanrunway;
+}
+
+bool Runway::getWachtopRunway(){
+    return Runway::wachtoprunway;
+}
