@@ -64,6 +64,11 @@ ofstream * getText(){
     return &OutputStream;
 };
 
+void openFile(string name){
+    OutputStream.open(name.c_str());
+
+};
+
 void closeFile(){
     OutputStream.close();
 

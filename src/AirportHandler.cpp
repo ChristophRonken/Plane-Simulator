@@ -444,7 +444,7 @@ void AirportHandler::runSimulation(string name) {
             for (unsigned int i = 0; i < Airplanes.size(); i++) {
                 Airplane *Plane = Airplanes[i];
                 if (Plane->notFinished(Port)) {
-                    if (Plane->getTime() > 0) {
+                    if (Plane->getOpperationTime() > 0) {
 
                         Plane->execTask(Port);
 

@@ -63,6 +63,8 @@ string intToString(int i);
  */
 ofstream* getText();
 
+void openFile(string name);
+
 void closeFile();
 
 /*

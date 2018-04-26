@@ -959,7 +959,6 @@ protected:
 };
 
 TEST_F(CommunicationTests, taxiToRunway) {
-    std::ofstream OutputStream("Log.txt");
 
     airport = new Airport;
     taxi = new TaxiRoute();
@@ -990,7 +989,6 @@ TEST_F(CommunicationTests, taxiToRunway) {
     alpha = "6";
     taxi->addTaxiPoint(alpha);
 
-
     taxi->addCrossing(alpha);
 
     runway = new Runway;
@@ -1015,12 +1013,15 @@ TEST_F(CommunicationTests, taxiToRunway) {
     plane->toGate(3);
     cout << "ok" << endl;
     int i= 0;
+
     while (plane->getRunway()!= runway){
         i+=1;
         plane->taxiToRunway(runway);
         cout << i << endl;
     }
+
     closeFile();
+
 }
 
 

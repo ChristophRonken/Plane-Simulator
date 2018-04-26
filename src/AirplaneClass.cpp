@@ -214,6 +214,7 @@ void Airplane::taxiToRunway(Runway* Runway){
     if (Runway == NULL){
         Runway = Airplane::attemptrunway;
     }
+
     inputMessage("Taxiing airplane (" + getNumber() + ") to runway (" + Runway->getName() + ")");
     taxiroute = Runway->getTaxiRoute();
     if (taxipoint == "" && taxicrossing == ""){
