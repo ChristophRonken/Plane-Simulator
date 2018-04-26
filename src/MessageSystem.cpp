@@ -6,46 +6,46 @@
 
 #include "MessageSystem.h"
 
-std::ofstream OutputStream("Log.txt");
+std::ofstream gOutputStream("Log.txt");
 
 void actionMessage(string s){
-    REQUIRE(OutputStream != NULL, "Outputstream exists?");
+    REQUIRE(gOutputStream != NULL, "Outputstream exists?");
     //cout << "\033[;m--Action:\t\033[0m\033[0;m " << s << "\033[0m" << endl;
-    OutputStream << s << "\n";
+    gOutputStream << s << "\n";
 
     ENSURE(true, "No postconditions");
 
 }
 
 void notificationMessage(string s){
-    REQUIRE(OutputStream != NULL, "Outputstream exists?");
+    REQUIRE(gOutputStream != NULL, "Outputstream exists?");
     //cout << "\033[1;4;34m--Note:\t\t\033[0m\033[1;34m " << s << "\033[0m" << endl;
-    OutputStream << s << "\n";
+    gOutputStream << s << "\n";
 
     ENSURE(true, "No postconditions");
 }
 
 void errorMessage(string s){
-    REQUIRE(OutputStream != NULL, "Outputstream exists?");
+    REQUIRE(gOutputStream != NULL, "Outputstream exists?");
     //cout << "\033[1;4;31m--Error:\t\033[0m\033[1;31m " << s << "\033[0m" << endl;
-    OutputStream << s << "\n";
+    gOutputStream << s << "\n";
 
     ENSURE(true, "No postconditions");
 
 };
 
 void succesMessage(string s){
-    REQUIRE(OutputStream != NULL, "Outputstream exists?");
+    REQUIRE(gOutputStream != NULL, "Outputstream exists?");
     //cout << "\033[1;4;33m--Succes:\t\033[0m\033[1;33m " << s << "\033[0m" << endl;
-    OutputStream << s << "\n";
+    gOutputStream << s << "\n";
 
     ENSURE(true, "No postconditions");
 }
 
 void inputMessage(string s){
-    REQUIRE(OutputStream != NULL, "Outputstream exists?");
+    REQUIRE(gOutputStream != NULL, "Outputstream exists?");
     //cout << "\033[1;4;32m--Input:\t\033[0m\033[1;32m " << s << "\033[0m" << endl;
-    OutputStream << s << "\n";
+    gOutputStream << s << "\n";
 
     ENSURE(true, "No postconditions");
 }
@@ -61,16 +61,16 @@ string intToString(int i){
 
 ofstream * getText(){
 
-    return &OutputStream;
+    return &gOutputStream;
 };
 
 void openFile(string name){
-    OutputStream.open(name.c_str());
+    gOutputStream.open(name.c_str());
 
 };
 
 void closeFile(){
-    OutputStream.close();
+    gOutputStream.close();
 
 };
 
@@ -81,14 +81,14 @@ void closeFile(){
 
 void initialCommunicationMessage(Airplane* Plane, Airport* Port, string time){
 
-    OutputStream << "[" << time << "][AIR]\n"
+    gOutputStream << "[" << time << "][AIR]\n"
                  << "$ " << Port->getCallsign() << ", " << Plane->getCallsign() << ", arriving at " << Port->getName() << ".\n";
 
 };
 
 void descendTo5000ftMessage(Airplane* Plane, string time){
 
-    OutputStream << "[" << time << "][ATC]\n"
+    gOutputStream << "[" << time << "][ATC]\n"
                  << "$" << Plane->getCallsign() << ", radar contact, descend and maintain five thousand feet, squawk " << Plane->getSquawkCode() << ".\n";
 
 
@@ -96,7 +96,7 @@ void descendTo5000ftMessage(Airplane* Plane, string time){
 
 void descendTo5000ftConfirmation(Airplane* Plane, string time){
 
-    OutputStream << "[" << time << "][AIR]\n"
+    gOutputStream << "[" << time << "][AIR]\n"
                  << "$ Descend and maintain five thousand feet, squawking " << Plane->getSquawkCode() << ", " << Plane->getCallsign() << ".\n";
 
 };
@@ -104,7 +104,7 @@ void descendTo5000ftConfirmation(Airplane* Plane, string time){
 
 void waitBeforeDescendMessage(Airplane* Plane, string time){
 
-    OutputStream << "[" << time << "][ATC]\n"
+    gOutputStream << "[" << time << "][ATC]\n"
                  << "$ " << Plane->getCallsign() << ", hold south on the one eighty radial, expect further clearance at " << time << ".\n";
 
 
@@ -114,7 +114,7 @@ void waitBeforeDescendMessage(Airplane* Plane, string time){
 
 void waitBeforeDescendConfirmation(Airplane* Plane, string time){
 
-    OutputStream << "[" << time << "][AIR]\n"
+    gOutputStream << "[" << time << "][AIR]\n"
                  << "$ Holding south on the one eighty radial, " << Plane->getCallsign() << ".\n";
 
 
@@ -123,7 +123,7 @@ void waitBeforeDescendConfirmation(Airplane* Plane, string time){
 
 void descendTo3000ftMessage(Airplane* Plane, string time){
 
-    OutputStream << "[" << time << "][ATC]\n"
+    gOutputStream << "[" << time << "][ATC]\n"
                  << "$" << Plane->getCallsign() << ", radar contact, descend and maintain three thousand feet.\n";
 
 
@@ -131,7 +131,7 @@ void descendTo3000ftMessage(Airplane* Plane, string time){
 
 void descendTo3000ftConfirmation(Airplane* Plane, string time){
 
-    OutputStream << "[" << time << "][AIR]\n"
+    gOutputStream << "[" << time << "][AIR]\n"
                  << "$ Descend and maintain five thousand feet, " << Plane->getCallsign() << ".\n";
 
 };
@@ -139,7 +139,7 @@ void descendTo3000ftConfirmation(Airplane* Plane, string time){
 
 void finalApproachMessage(Airplane* Plane, Runway* Runw, string time){
 
-    OutputStream << "[" << time << "][ATC]\n"
+    gOutputStream << "[" << time << "][ATC]\n"
                  << "$" << Plane->getCallsign() << ", cleared ILS approach runway" << Runw->getName() << ".\n";
 
 
@@ -147,7 +147,7 @@ void finalApproachMessage(Airplane* Plane, Runway* Runw, string time){
 
 void finalApproachConfirmation(Airplane* Plane, Runway* Runw, string time){
 
-    OutputStream << "[" << time << "][AIR]\n"
+    gOutputStream << "[" << time << "][AIR]\n"
                  << "$ Cleared ILS approach runway " << Runw->getName() << ", " << Plane->getCallsign() << ".\n";
 
 };
@@ -155,7 +155,7 @@ void finalApproachConfirmation(Airplane* Plane, Runway* Runw, string time){
 
 void afterLandingMessage(Airplane* Plane, Airport* Port, Runway* Runw, string time){
 
-    OutputStream << "[" << time << "][AIR]\n"
+    gOutputStream << "[" << time << "][AIR]\n"
                  << "$ " << Port->getCallsign() << ", " << Plane->getCallsign() << ", runway " << Runw->getName() << "vacated.\n";
     // send taxi instructions afterwards.
 
@@ -167,7 +167,7 @@ void afterLandingMessage(Airplane* Plane, Airport* Port, Runway* Runw, string ti
 
 void IFRRequest(Airplane* Plane, string time){
 
-    OutputStream << "[" << time << "][AIR]\n"
+    gOutputStream << "[" << time << "][AIR]\n"
                  << "$ " << Plane->getAirport()->getCallsign() << ", " << Plane->getCallsign() << ", requesting IFR clearancy to " << Plane->getDestination() << ".\n";
 
 
@@ -175,7 +175,7 @@ void IFRRequest(Airplane* Plane, string time){
 
 void IFRMessage(Airplane* Plane, string time){
 
-    OutputStream << "[" << time << "][ATC]\n"
+    gOutputStream << "[" << time << "][ATC]\n"
                  << "$ " << Plane->getCallsign() << ", " << Plane->getAirport()->getCallsign() << ", cleared to " << Plane->getDestination() << ", maintain five thousand, "
                     "expect flight level one zero zero - ten minutes after departure, squawk " << Plane->getSquawkCode() << ".\n";
 
@@ -183,7 +183,7 @@ void IFRMessage(Airplane* Plane, string time){
 
 void IFRConfirmation(Airplane* Plane, string time){
 
-    OutputStream << "[" << time << "][AIR]\n"
+    gOutputStream << "[" << time << "][AIR]\n"
                  << "Cleared to " << Plane->getDestination() << ", initial altitude five thousand, expecting one zero zero in ten, squawking "
                  << Plane->getSquawkCode() << ", " << Plane->getCallsign() << ".\n";
 
@@ -192,21 +192,21 @@ void IFRConfirmation(Airplane* Plane, string time){
 
 void pushbackRequest(Airplane* Plane, string time){
 
-    OutputStream << "[" << time << "][AIR]\n"
+    gOutputStream << "[" << time << "][AIR]\n"
                  << "$ " << Plane->getAirport()->getCallsign() << ", " << Plane->getCallsign() << " at gate " << Plane->getGate() << ", requesting pushback.\n";
 
 };
 
 void pushbackMessage(Airplane* Plane, string time){
 
-    OutputStream << "[" << time << "][ATC]\n"
+    gOutputStream << "[" << time << "][ATC]\n"
                  << "$ " << Plane->getCallsign() << ", " << Plane->getAirport()->getCallsign() << ", pushback approved.\n";
 
 };
 
 void pushbackConfirmation(Airplane* Plane, string time){
 
-    OutputStream << "[" << time << "][AIR]\n"
+    gOutputStream << "[" << time << "][AIR]\n"
                  << "$ Pushback approved, " << Plane->getCallsign() << ".\n";
 
 };
@@ -214,7 +214,7 @@ void pushbackConfirmation(Airplane* Plane, string time){
 
 void readyToTaxiMessage(Airplane* Plane, string time){
 
-    OutputStream << "[" << time << "][AIR]\n"
+    gOutputStream << "[" << time << "][AIR]\n"
                  << "$ " << Plane->getCallsign() << " is ready to taxi.\n";
 
     // Taxi instructions afterwards
@@ -224,7 +224,7 @@ void readyToTaxiMessage(Airplane* Plane, string time){
 
 void holdingShortAtRunway(Airplane* Plane, Runway* Runw, string time){
 
-    OutputStream << "[" << time << "][AIR]\n"
+    gOutputStream << "[" << time << "][AIR]\n"
                  << "$ " << Plane->getAirport()->getCallsign() << ", " << Plane->getCallsign() << ", holding short at " << Runw->getName() << ".\n";
 
 };
@@ -232,13 +232,13 @@ void holdingShortAtRunway(Airplane* Plane, Runway* Runw, string time){
 
 void waitAtRunwayMessage(Airplane* Plane, string time){
 
-    OutputStream << "[" << time << "][ATC]\n"
+    gOutputStream << "[" << time << "][ATC]\n"
                  << "$ " << Plane->getCallsign() << ", hold position.\n";
 };
 
 void waitAtRunwayConfirmation(Airplane* Plane, string time){
 
-    OutputStream << "[" << time << "][AIR]\n"
+    gOutputStream << "[" << time << "][AIR]\n"
                  << "$ Holding position, " << Plane->getCallsign() << ".\n";
 
 };
@@ -246,14 +246,14 @@ void waitAtRunwayConfirmation(Airplane* Plane, string time){
 
 void lineUpRunwayMessage(Airplane* Plane, Runway* Runw, string time){
 
-    OutputStream << "[" << time << "][ATC]\n"
+    gOutputStream << "[" << time << "][ATC]\n"
                  << "$ " << Plane->getCallsign() << ", line-up runway " << Runw->getName() << " and wait.\n";
 
 };
 
 void lineUpRunwayConfirmation(Airplane* Plane, Runway* Runw, string time){
 
-    OutputStream << "[" << time << "][AIR]\n"
+    gOutputStream << "[" << time << "][AIR]\n"
                  << "$ Lining up runway " << Runw->getName() << " and wait" << Plane->getCallsign();
 
 };
@@ -261,13 +261,13 @@ void lineUpRunwayConfirmation(Airplane* Plane, Runway* Runw, string time){
 
 void clearedForTakeOffMessage(Airplane* Plane, Runway* Runw, string time){
 
-    OutputStream << "[" << time << "][ATC]\n"
+    gOutputStream << "[" << time << "][ATC]\n"
                  << "$ " << Plane->getCallsign() << ", runway " << Runw->getName() << " cleared for take-off.\n";
 };
 
 void clearedForTakeOffConfirmation(Airplane* Plane, Runway* Runw, string time){
 
-    OutputStream << "[" << time << "][AIR]\n"
+    gOutputStream << "[" << time << "][AIR]\n"
                  << "$ Runway " << Runw->getName() << "cleared for take-off, " << Plane->getCallsign() << ".\n";
 
 };
@@ -279,14 +279,14 @@ void clearedForTakeOffConfirmation(Airplane* Plane, Runway* Runw, string time){
 
 void toHoldingPointMessage(Airplane* Plane, string taxiCrossing, string taxiPoint, string time){
 
-    OutputStream << "[" << time << "][ATC]\n"
+    gOutputStream << "[" << time << "][ATC]\n"
                  << "$ " << Plane->getCallsign() << ", taxi to holding point " << taxiCrossing  << " via " << taxiPoint << ".\n";
 
 };
 
 void toHoldingPointConfirmation(Airplane* Plane, string taxiCrossing, string taxiPoint, string time){
 
-    OutputStream << "[" << time << "][AIR]\n"
+    gOutputStream << "[" << time << "][AIR]\n"
                  << "$ Taxi to holding point " << taxiCrossing << " via " << taxiPoint << ", " << Plane->getCallsign() << ".\n";
 
 };
@@ -294,13 +294,13 @@ void toHoldingPointConfirmation(Airplane* Plane, string taxiCrossing, string tax
 
 void toRunwayMessage(Airplane* Plane, Runway* Runw, string taxiPoint, string time){
 
-    OutputStream << "[" << time << "][ATC]\n"
+    gOutputStream << "[" << time << "][ATC]\n"
                  << "$ " << Plane->getCallsign() << ", taxi to runway " << Runw->getName() << " via " << taxiPoint << ".\n";
 };
 
 void toRunwayConfirmation(Airplane* Plane, Runway* Runw, string taxiPoint, string time){
 
-    OutputStream << "[" << time << "][AIR]\n"
+    gOutputStream << "[" << time << "][AIR]\n"
                  << "$ Taxi to runway " << Runw->getName() << " via " << taxiPoint << ", " << Plane->getCallsign() << ".\n";
 
 };
@@ -308,35 +308,35 @@ void toRunwayConfirmation(Airplane* Plane, Runway* Runw, string taxiPoint, strin
 
 void toGateMessage(Airplane* Plane, int gateIndex,  string taxiPoint, string time){
 
-    OutputStream << "[" << time << "][ATC]\n"
+    gOutputStream << "[" << time << "][ATC]\n"
                  << "$ " << Plane->getCallsign() << ", taxi to gate " << gateIndex << " via " << taxiPoint << ".\n";
 
 };
 
 void toGateConfirmation(Airplane* Plane, int gateIndex,  string taxiPoint, string time){
 
-    OutputStream << "[" << time << "][AIR]\n"
+    gOutputStream << "[" << time << "][AIR]\n"
                  << "$ Taxi to gate " << gateIndex << " via " << taxiPoint << ", " << Plane->getCallsign() << ".\n";
 
 };
 
 void clearedToCrossRequest(Airplane* Plane, string taxiCrossing, string time ){
 
-    OutputStream << "[" << time << "][AIR]\n"
+    gOutputStream << "[" << time << "][AIR]\n"
                  << "$ " << Plane->getAirport()->getCallsign() << ", " << Plane->getCallsign() << ", holding short at  " << taxiCrossing << ".\n";
 
 };
 
 void clearedToCrossMessage(Airplane* Plane, string taxiCrossing, string time ){
 
-    OutputStream << "[" << time << "][ATC]\n"
+    gOutputStream << "[" << time << "][ATC]\n"
                  << "$ " << Plane->getCallsign() << ", cleared to cross " << taxiCrossing << ".\n";
 
 };
 
 void clearedToCrossConfirmation(Airplane* Plane, string taxiCrossing, string time ){
 
-    OutputStream << "[" << time << "][AIR]\n"
+    gOutputStream << "[" << time << "][AIR]\n"
                  << "$ Cleared to cross runway " << taxiCrossing << ".\n" ;
 
 };
@@ -348,7 +348,7 @@ void clearedToCrossConfirmation(Airplane* Plane, string taxiCrossing, string tim
 
 void EmergencyAbove3000ftRequest(Airplane* Plane, Airport* Port, string time){
 
-    OutputStream << "[" << time << "][AIR]"
+    gOutputStream << "[" << time << "][AIR]"
                  << "$ Mayday, mayday, mayday, " << Port->getCallsign() << ", " << Plane->getCallsign() << ", out of fuel, request immidiate landing, "
                  << Plane->getPassengers() << " passengers on board.\n";
 
@@ -356,14 +356,14 @@ void EmergencyAbove3000ftRequest(Airplane* Plane, Airport* Port, string time){
 
 void EmergencyAbove3000ftMessage(Airplane* Plane, Runway* Runw, string time){
 
-    OutputStream << "[" << time << "][ATC]"
+    gOutputStream << "[" << time << "][ATC]"
                  << "$ " << Plane->getCallsign() << ", roger mayday, squawk seven seven zero zero, cleared ILS landing runway " << Runw->getName() << ".\n";
 
 };
 
 void EmergencyBelow3000ftRequest(Airplane* Plane, Airport* Port, string time){
 
-    OutputStream << "[" << time << "][AIR]"
+    gOutputStream << "[" << time << "][AIR]"
                  << "$ Mayday, mayday, mayday, " << Port->getCallsign() << ", " << Plane->getCallsign() << ", out of fuel, performing emergency landing, "
                  << Plane->getPassengers() << " passengers on board.\n";
 
@@ -371,7 +371,7 @@ void EmergencyBelow3000ftRequest(Airplane* Plane, Airport* Port, string time){
 
 void EmergencyBelow3000ftMessage(Airplane* Plane, string time){
 
-    OutputStream << "[" << time << "][ATC]"
+    gOutputStream << "[" << time << "][ATC]"
                  << "$ " << Plane->getCallsign() << ", roger mayday, squawk seven seven zero zero, emergency personal on standby, good luck!\n";
 
 };

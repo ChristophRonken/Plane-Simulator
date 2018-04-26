@@ -329,7 +329,7 @@ namespace {
 
         //plane not on a runway
         EXPECT_DEATH(plane->takeOff(), "Assertion.*failed");
-        plane->toRunway();
+        plane->setRunway(runway);
 
         //plane is ready for takeoff
         EXPECT_NO_FATAL_FAILURE(plane->takeOff());
@@ -1130,13 +1130,13 @@ TEST_F(CommunicationTests, taxiToRunway) {
         EXPECT_EQ(1,flight->getInterval());
     }
 
-    TEST_F(XMLReaderTest, printAirport) {
+    TEST_F(XMLReaderTest, GraphicalAirport2D) {
         D = new AirportHandler();
         D->addXmlData("TestVolledigeLuchthaven.xml");
         string iata = D->getAirports()[0]->getIata();
         D->getAirplanes()[0]->setAirport(D->getAirports()[0]);
         D->getAirplanes()[0]->toGate(6);
-        D->printAirport(iata);
+        D->GraphicalAirport2D(iata);
     }
 
     TEST_F(XMLReaderTest, xmlOutput) {

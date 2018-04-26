@@ -474,7 +474,9 @@ bool AirportHandler::airportEmpty(Airport *Port) {
 
 }
 
-void AirportHandler::printAirport(string & AirportIata) {
+void AirportHandler::GraphicalAirport2D(string & AirportIata) {
+
+    REQUIRE(airportExists(AirportIata), "Airport exists");
 
     string document = AirportIata;
     document += ".txt";
@@ -522,7 +524,7 @@ string AirportHandler::timeToString(double passedTimeUnits){
 
     passedTimeUnits += simulationStartTime*60;
 
-    double hour = floor(passedTimeUnits/60);
+    double hour = int(floor(passedTimeUnits/60))%24;
     double minutes = int(passedTimeUnits)%60;
 
     stringstream ss;

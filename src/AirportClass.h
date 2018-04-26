@@ -46,6 +46,9 @@ public:
      */
     Airport(const string &name, const string &iata, const string &callsign, int gates);
 
+    /**
+     * Airport destructor
+     */
     virtual ~Airport();
 
     /**
@@ -129,14 +132,14 @@ public:
 
     /**
      * adds a runway to the airport
-     * Precondition: !runwayExists(string)
+     * Precondition: !runwayExists(string runway)
      * @param runway
      */
     void addRunway(Runway* runway);
 
     /**
      * removes a runway from the airport
-     * Precontition: runwayExists(string)
+     * Precontition: runwayExists(string name)
      * @param name
      */
     void removeRunway(string name);
@@ -154,7 +157,7 @@ public:
 
     /**
      * set a certain gate to occ
-     * Precondition: validGateIndex(int)
+     * Precondition: validGateIndex(int i)
      * @param int i : index of the gate
      * @param bool occ : occupied or not
      */
@@ -169,30 +172,53 @@ public:
     bool getGateOccupied(int i);
 
     /**
-     * returns a vector with the indexes of all the free gates
+     * Returns a vector with the indexes of all the free gates
      * @return FreeGates
      */
     vector<int> getFreeGates();
 
     /**
-     * returns a vector with the indexes of all the free Runways
+     * Returns a vector with the indexes of all the free Runways
      * @return FreeRunways
      */
     vector<int> getFreeRunways();
 
-
-
-    string graphicRepresentation();
-
-    /** Input controle
+    /**
+     * Check if the gate index is valid and unoccupied
+     * @param i
+     * @return bool
      */
     bool validGateIndex(int i);
+
+    /**
+     * Check if the runway with the given name exists
+     * @param name
+     * @return bool
+     */
     bool runwayExists(string name);
 
-
+    /**
+     * Get the Airplane that is currentle waiting at height 5000.
+     * @return
+     */
     Airplane* getWait5000();
+
+    /**
+     * Get the Airplane that is currently waiting at height 3000.
+     * @return
+     */
     Airplane* getWait3000();
+
+    /**
+     * Set the Airplane that is currently waiting at height 5000.
+     * @param plane
+     */
     void setWait5000(Airplane* plane);
+
+    /**
+     * Set the Airplane that is currently waiting at height 3000.
+     * @param plane
+     */
     void setWait3000(Airplane* plane);
 
 
