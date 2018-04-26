@@ -692,26 +692,46 @@ void Airplane::takeOff() {
     }
 
     if (!messageMessageSend){
-        if (!runway->isOccupied()){
+        if (!runway->isOccupied() && !runway->getWachtopRunway() && !runway->getWachtaanRunway()){
             clearedForTakeOffMessage(this, runway, tijd);
             permissiontotakeoff = true;
             messageMessageSend = true;
+            runway->setOccupied(true);
             return;
         }
-        else if (!runway->getWachtopRunway()){
+        else if (!runway->getWachtopRunway() && !runway->getWachtaanRunway()){
             lineUpRunwayMessage(this, runway, tijd);
             messageMessageSend = true;
             waitonrunway = true;
+            runway->setWachtopRunway(true);
             return;
         }
-
+        else if (!runway->getWachtaanRunway()){
+            waitAtRunwayMessage(this, tijd);
+            messageMessageSend = true;
+            waitatrunway = true;
+            runway->setWachtaanRunway(true);
+            return;
+        }
     }
     if (!confirmMessageSend){
         if (permissiontotakeoff){
             clearedForTakeOffConfirmation(this, runway, tijd);
             confirmMessageSend = true;
+            return;
         }
-        if (!waitonrunway){}
+        if (waitonrunway){
+            lineUpRunwayConfirmation(this, runway, tijd);
+            confirmMessageSend = true;
+            waitonrunway = false;
+            return;
+        }
+        if (waitatrunway){
+            waitAtRunwayConfirmation(this, tijd);
+            confirmMessageSend = true;
+            waitatrunway = false;
+            return;
+        }
     }
 
     inputMessage("Sending airplane " + Airplane::getNumber() + " for departure");
@@ -1296,6 +1316,58 @@ bool Airplane::isEmergencyInAirport() const {
 void Airplane::setEmergencyInAirport(bool emergencyInAirport) {
     Airplane::emergencyInAirport = emergencyInAirport;
 }
+
+void Airplane::emergencyLanding(Airport* Port){
+    string tijd = getTime();
+    if (height == 0){
+        return;
+    }
+    if (!requestMessageSend){
+        if (height >= 3000){
+            EmergencyAbove3000ftRequest(this, Port, tijd);
+            emergencyInAirport = true;
+            requestMessageSend = true;
+            descend();
+            return;
+        }
+        else{
+            EmergencyBelow3000ftRequest(this, Port, tijd);
+            emergencyInAirport = false;
+            requestMessageSend = true;
+            descend();
+            if (height == 0){
+                requestMessageSend = false;
+            }
+            return;
+        }
+    }
+    else if (!messageMessageSend){
+        if (emergencyInAirport){
+            EmergencyAbove3000ftMessage(this, runway, tijd);
+            runway = Port->getRunways()[Port->getFreeRunways()[0]];
+            Port->setGateOccupied(Port->getFreeRunways()[0], true);
+            descend();
+            messageMessageSend = true;
+            return;
+        } else{
+            EmergencyBelow3000ftMessage(this, tijd);
+            messageMessageSend = true;
+            descend();
+            if (height == 0){
+                messageMessageSend = false;
+            }
+            return;
+        }
+    }
+    else{
+        if (height != 0) {
+            descend();
+            if (height == 0) {
+                requestMessageSend = false;
+            }
+        }
+    }
+};
 
 void setTime(string time){
     gTime = time;
