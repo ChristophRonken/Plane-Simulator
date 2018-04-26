@@ -920,6 +920,110 @@ namespace {
     }
 
 
+
+
+class CommunicationTests : public ::testing::Test {
+protected:
+    // You should make the members protected s.t. they can be
+    // accessed from sub-classes.
+
+    CommunicationTests() {
+
+    }
+
+    // virtual void SetUp() will be called before each test is run.  You
+    // should define it if you need to initialize the variables.
+    // Otherwise, this can be skipped.
+    virtual void SetUp() {
+
+
+    }
+
+    // virtual void TearDown() will be called after each test is run.
+    // You should define it if there is cleanup work to do.  Otherwise,
+    // you don't have to provide it.
+    virtual void TearDown() {
+    }
+
+    // Declares the variables your tests want to use.
+    Airport *airport;
+    Airplane *plane;
+    Airplane *plane1;
+    Airplane *plane2;
+    Runway *runway;
+    Runway *runway1;
+    AirportHandler *D;
+    TaxiRoute* taxi;
+    TaxiRoute* taxi1;
+    FlightPlan* flight;
+};
+
+TEST_F(CommunicationTests, taxiToRunway) {
+    std::ofstream OutputStream("Log.txt");
+
+    airport = new Airport;
+    taxi = new TaxiRoute();
+
+    string alpha = "A";
+    taxi->addCrossing(alpha);
+    alpha = "B";
+    taxi->addCrossing(alpha);
+    alpha = "C";
+    taxi->addCrossing(alpha);
+    alpha = "D";
+    taxi->addCrossing(alpha);
+    alpha = "E";
+    taxi->addCrossing(alpha);
+    alpha = "F";
+    taxi->addCrossing(alpha);
+
+    alpha = "1";
+    taxi->addTaxiPoint(alpha);
+    alpha = "2";
+    taxi->addTaxiPoint(alpha);
+    alpha = "3";
+    taxi->addTaxiPoint(alpha);
+    alpha = "4";
+    taxi->addTaxiPoint(alpha);
+    alpha = "5";
+    taxi->addTaxiPoint(alpha);
+    alpha = "6";
+    taxi->addTaxiPoint(alpha);
+
+
+    taxi->addCrossing(alpha);
+
+    runway = new Runway;
+    runway->setType("asphalt");
+    runway->setLength(2000);
+    runway->setName("dezeRunway");
+    runway->setTaxiRoute(taxi);
+    plane = new Airplane();
+
+    airport->addRunway(runway);
+    airport->setGates(5);
+    Runway* attemptrunway = runway;
+    attemptrunway->setTaxiRoute(taxi);
+
+    plane->setAirport(airport);
+    plane->setEngine("propeller");
+    plane->setSize("medium");
+    plane->setCallsign("callsign");
+    plane->setNumber("87");
+    plane->setState("at Gate");
+    plane->setModel("model");
+    plane->toGate(3);
+    cout << "ok" << endl;
+    int i= 0;
+    while (plane->getRunway()!= runway){
+        i+=1;
+        plane->taxiToRunway(runway);
+        cout << i << endl;
+    }
+    closeFile();
+}
+
+
     class XMLReaderTest : public ::testing::Test {
     protected:
         // You should make the members protected s.t. they can be
@@ -1045,7 +1149,6 @@ namespace {
         delete D;
     }
 }
-
 
 
 int main(int argc, char **argv) {
