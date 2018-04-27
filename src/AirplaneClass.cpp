@@ -1017,8 +1017,8 @@ void Airplane::toRunway(Runway* Runw) {
 
 }
 
-void Airplane::taxiToRunway(Runway* Runway){
-    REQUIRE(!Runway->getWachtaanRunway(), "Runway fully occupied.");
+void Airplane::taxiToRunway(Runway* runw){
+    REQUIRE(!runw->getWachtaanRunway(), "Runway fully occupied.");
     if (gate != -1){
         airPort->setGateOccupied(gate, false);
         gate = -1;
