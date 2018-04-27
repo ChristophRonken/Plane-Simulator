@@ -115,17 +115,17 @@ void Airport::setGateOccupied(int i, bool occ) {
 }
 
 vector<int> Airport::getFreeGates() {
-    vector<int> Gates;
+    vector<int> gates;
 
     for (unsigned int i = 0; i < GatesOccupied.size(); i++){
         if (!GatesOccupied[i]){
-            Gates.push_back(i);
+            gates.push_back(i);
         }
     }
 
-    ENSURE(&Gates != NULL, "Gates exists");
+    ENSURE(&gates != NULL, "Gates exists");
 
-    return Gates;
+    return gates;
 }
 
 vector<int> Airport::getFreeRunways() {

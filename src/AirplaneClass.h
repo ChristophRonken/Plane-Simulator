@@ -6,6 +6,8 @@
 #define PSE_V1_AirplaneCLASS_H
 
 #include <iostream>
+#include <cmath>
+#include <map>
 
 #include "AirportClass.h"
 #include "RunwayClass.h"
@@ -41,7 +43,7 @@ class Airplane {
     int height;
     int opperationTime;
 
-    bool ReadyForDeparture;
+   string currentTask;
 
     FlightPlan* flightPlan;
     TaxiRoute* taxiRoute;
@@ -68,14 +70,16 @@ class Airplane {
     bool waitatrunway;
     bool waitonrunway;
 
+
+public:
+
     /**
      * sets if the plane is ready for departure
      * Precondition: Plane must be at gate
      * @param ReadyForDeparture
      */
-public:
-
     void setReadyForDeparture(bool ReadyForDeparture);
+
 
     Airplane();
 
@@ -219,17 +223,35 @@ public:
 
     /**
      * Set the type of the airplane
-     * Preconditions:
+     * Preconditions: validPlaneType(type)
      * @param type
      */
     void setType(const string &type);
 
+    /**
+     * Get the engine of the airplane
+     * @return engine
+     */
     const string &getEngine() const;
 
+    /**
+     * Sets the engine of the airplane
+     * Preconditions: validEngine()
+     * @param engine
+     */
     void setEngine(const string &engine);
 
+    /**
+     * Get the size of the plane
+     * @return size
+     */
     const string &getSize() const;
 
+    /**
+     * Sets the size of the airplane
+     * Preconditions: validSize(size)
+     * @param size
+     */
     void setSize(const string &size);
 
     int getOpperationTime() const;
@@ -258,7 +280,7 @@ public:
      * retursn true if the plane is ready for departure
      * @return readyForDeparture
      */
-    bool getReadyForDeparture() const;
+    bool isReadyForDeparture() const;
 
     /**
      * prepares the plane for departure
@@ -598,7 +620,7 @@ public:
     /**
      * Make the airplane taxi to a (given) runway if possible
      */
-    void taxiToRunway(Runway* = NULL);
+    void taxiToRunway(Runway* Runw = NULL);
 
     /**
      * Make the airplane taxi to a given gate
@@ -611,9 +633,33 @@ public:
      * @param Port
      */
     void emergencyLanding(Airport*);
+
+
+    void afterLanding();
+
+    /**
+     * Check if the input value would be a valid engine type for the airplane.
+     * @param engine
+     * @return bool
+     */
+    bool validEngineType(string engine);
+
+    /**
+     * check if the input value would be a valid size for the airplane
+     * @param size
+     * @return bool
+     */
+    bool validSize(string size);
+
 };
 
 void setTime(string);
 string getTime();
+
+void setTimePassed(int time);
+int getTimePassed();
+
+void setStartingTime(int time);
+int getStartingTime();
 
 #endif //PSE_V1_AirplaneCLASS_H

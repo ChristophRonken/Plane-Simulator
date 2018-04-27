@@ -208,13 +208,13 @@ namespace {
         plane->toGate();
 
         //plane1 has no valid gate
-        EXPECT_FALSE(plane1->getReadyForDeparture());
+        EXPECT_FALSE(plane1->isReadyForDeparture());
         EXPECT_DEATH(plane1->prepareForDeparture(), "Assertion.*failed");
 
         //has a valid gate
-        EXPECT_FALSE(plane->getReadyForDeparture());
+        EXPECT_FALSE(plane->isReadyForDeparture());
         plane->prepareForDeparture();
-        EXPECT_TRUE(plane->getReadyForDeparture());
+        EXPECT_TRUE(plane->isReadyForDeparture());
     }
 
     TEST_F(AirplaneTest, toGate) {
@@ -264,18 +264,15 @@ namespace {
     }
 
     TEST_F(AirplaneTest, toRunway){
-        plane = new Airplane();
-        plane1 = new Airplane();
-        plane2 = new Airplane();
 
         D = new AirportHandler();
         D->addXmlData("TestVolledigeLuchthaven.xml");
         airport = D->getAirports()[0];
 
-        runway = new Runway;
         runway = airport->getRunways()[0];
+        runway->setLength(10000);
+        runway->setType("asphalt");
 
-        runway1 = new Runway;
         runway1 = airport->getRunways()[1];
 
         plane = D->getAirplanes()[0];
@@ -310,26 +307,26 @@ namespace {
         D = new AirportHandler();
         D->addXmlData("TestVolledigeLuchthaven.xml");
 
-        airport = new Airport();
         airport = D->getAirports()[0];
 
-        runway = new Runway();
         runway = airport->getRunways()[0];
 
-        plane = new Airplane();
         plane = D->getAirplanes()[0];
         plane->setAirport(airport);
 
         // plane goes to gate 0
         plane->toGate();
 
+
         //plane not ready for departure
         EXPECT_DEATH(plane->takeOff(), "Assertion.*failed");
-        plane->prepareForDeparture();
+        plane->setPassengers(plane->getPassengerCapacity());
+        plane->setFuel(plane->getFuelCapacity());
 
         //plane not on a runway
         EXPECT_DEATH(plane->takeOff(), "Assertion.*failed");
         plane->setRunway(runway);
+        plane->setState("At runway");
 
         //plane is ready for takeoff
         EXPECT_NO_FATAL_FAILURE(plane->takeOff());
@@ -811,19 +808,19 @@ namespace {
         plane = new Airplane();
         plane1 = new Airplane();
 
-        //plane has no callsign
+        //plane has no number
         EXPECT_DEATH(D->addAirplane(plane), "Assertion.*failed");
 
-        //plane has a callsign
-        plane->setCallsign("original");
-        plane1->setCallsign("original");
+        //plane has a number
+        plane->setNumber("original");
+        plane1->setNumber("original");
         EXPECT_NO_FATAL_FAILURE(D->addAirplane(plane));
 
-        //plane1's callsign is a duplicate
+        //plane1's number is a duplicate
         EXPECT_DEATH(D->addAirplane(plane1), "Assertion.*failed");
 
-        //plane's callsign is no duplicate
-        plane1->setCallsign("different");
+        //plane's number is no duplicate
+        plane1->setNumber("different");
         EXPECT_NO_FATAL_FAILURE(D->addAirplane(plane1));
 
         //removeplane
@@ -874,15 +871,15 @@ namespace {
         EXPECT_DEATH(D->addAirport(airport), "Assertion.*failed");
 
         //airport has a callsign
-        airport->setCallsign("original");
+        airport->setIata("original");
         EXPECT_NO_FATAL_FAILURE(D->addAirport(airport));
 
         //airport1's callsign is a duplicate
-        airport1->setCallsign("original");
+        airport1->setIata("original");
         EXPECT_DEATH(D->addAirport(airport1), "Assertion.*failed");
 
         //airport1's callsign is no duplicate
-        airport->setCallsign("different");
+        airport->setIata("different");
         EXPECT_NO_FATAL_FAILURE(D->addAirport(airport1));
 
         //removeAirport
@@ -1072,6 +1069,8 @@ TEST_F(CommunicationTests, taxiToRunway) {
     }
 
     closeFile();
+        openFile("LogP2.txt");
+
 
 }
 

@@ -60,7 +60,7 @@ Airport *AirportHandler::getAirport(string iata) {
 //add remove
 void AirportHandler::addAirplane(Airplane *Plane) {
 
-    REQUIRE(validAiplane(Plane), "Valid airplane");
+    REQUIRE(validAirplane(Plane), "Valid airplane");
 
     Airplanes.push_back(Plane);
     ENSURE(Airplanes[Airplanes.size()-1] == Plane, "Plane added");
@@ -347,15 +347,15 @@ bool AirportHandler::validAirports(vector<Airport *> Ports) {
     return true;
 
 }
-bool AirportHandler::validAiplane(Airplane *Plane) {
+bool AirportHandler::validAirplane(Airplane *Plane) {
 
-    if (Plane->getCallsign() == ""){
+    if (Plane->getNumber() == ""){
         return false;
 
     }
 
     for (unsigned int i = 0; i < Airplanes.size(); i++) {
-        if (Airplanes[i]->getCallsign() == Plane->getCallsign()){
+        if (Airplanes[i]->getNumber() == Plane->getNumber()){
             return false;
         }
     }
@@ -365,12 +365,12 @@ bool AirportHandler::validAiplane(Airplane *Plane) {
 }
 bool AirportHandler::validAirport(Airport* Port) {
 
-    if (Port->getCallsign() == ""){
+    if (Port->getIata() == ""){
         return false;
 
     }
     for (unsigned int i = 0; i < Airports.size(); i++) {
-        if (Airports[i]->getCallsign() == Port->getCallsign()){
+        if (Airports[i]->getIata() == Port->getIata()){
             return false;
 
         }
@@ -416,6 +416,7 @@ void AirportHandler::runSimulation(string name) {
 
     }
 
+    setStartingTime(simulationStartTime);
     double nowtime = time(NULL);
     double startTime = nowtime;
 
@@ -433,6 +434,7 @@ void AirportHandler::runSimulation(string name) {
             double passedTimeUnits = (nowtime - startTime)/TimeUnit;
 
             setTime(timeToString(passedTimeUnits));
+            setTimePassed(passedTimeUnits);
 
             for (unsigned int i = 0; i < Airplanes.size(); i++) {
                 Airplane *Plane = Airplanes[i];
