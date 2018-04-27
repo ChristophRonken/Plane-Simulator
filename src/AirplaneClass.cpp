@@ -6,6 +6,9 @@
 #include <string>
 
 string gTime;
+int gTimePassed;
+int gStartingTime;
+
 
 Airplane::Airplane() {
     gate = -1;
@@ -92,13 +95,6 @@ void Airplane::setAirport(Airport *airPort){
 
 }
 
-bool Airplane::getReadyForDeparture() const {
-    return ReadyForDeparture;
-}
-void Airplane::setReadyForDeparture(bool ReadyForDeparture) {
-    Airplane::ReadyForDeparture = ReadyForDeparture;
-}
-
 const string &Airplane::getType() const {
     return type;
 }
@@ -111,6 +107,7 @@ const string &Airplane::getEngine() const {
     return engine;
 }
 void Airplane::setEngine(const string &engine) {
+    REQUIRE(validEngineType(engine), "valid Engine");
     Airplane::engine = engine;
 }
 
@@ -118,7 +115,9 @@ const string &Airplane::getSize() const {
     return size;
 }
 void Airplane::setSize(const string &size) {
+    REQUIRE(validSize(size), "valid size");
     Airplane::size = size;
+
 }
 
 int Airplane::getOpperationTime() const {
@@ -313,6 +312,24 @@ string getTime(){
 
 };
 
+void setTimePassed(int time){
+    gTimePassed = time;
+
+}
+int getTimePassed(){
+    return gTimePassed;
+
+}
+
+void setStartingTime(int time){
+    gStartingTime = time;
+
+}
+int getStartingTime(){
+    return gStartingTime;
+
+}
+
 string Airplane::getDestination() {
     return flightPlan->getDestination();
 }
@@ -340,18 +357,24 @@ void Airplane::setVar(string Type, string Value) {
     }
 
     else if (Type == "type"){
-        Airplane::setType(Value);
+        if (validPlaneType(Value)){
+            Airplane::setType(Value);
+        }
         return;
     }
 
     else if (Type == "engine"){
-        Airplane::setEngine(Value);
-        return;
+        if (validEngineType(Value)) {
+            Airplane::setEngine(Value);
+            return;
+        }
     }
 
     else if (Type == "size"){
-        Airplane::setSize(Value);
-        return;
+        if (validSize(Value)) {
+            Airplane::setSize(Value);
+            return;
+        }
     }
 
     else if (Type == "passengers"){
@@ -516,6 +539,7 @@ bool Airplane::validLandingSpot(Airport *Port, Runway *Runw) {
     }
     return false;
 }
+
 bool Airplane::validGate(int gate) {
 
     if (gate == -1){
@@ -523,7 +547,8 @@ bool Airplane::validGate(int gate) {
         if (t.size() == 0){
             return false;
         }
-        gate = t[0];
+        return true;
+
     }
 
     if (!(gate >= 0 && gate < airPort->getGates())){
@@ -536,6 +561,7 @@ bool Airplane::validGate(int gate) {
     return true;
 
 }
+
 bool Airplane::validRunway(Runway* Runw){
     if (Runw == NULL){
         vector<int> runw = airPort->getFreeRunways();
@@ -642,29 +668,203 @@ bool Airplane::validRunway(Runway* Runw){
     }
     return false;
 }
+
 bool Airplane::validPlaneType(string type) {
 
-    if (type == "private" || type == "airline" || type == "military" || "emergency"){
+    if (type != "private" && type != "airline" && type != "military" && type != "emergency"){
+        return false;
+
+    }
+
+    if (size == "small"){
+
+        if (type == "airline"){
+            return false;
+
+        }
+
+        if (engine == "propeller"){
+            if (type == "military"){
+                return false;
+
+            }
+        }
+
+        if (engine == "jet"){
+            if (type == "emergency"){
+                return false;
+
+            }
+        }
+    }
+
+    if (size == "medium"){
+        if (type == "military" || type == "emergency"){
+            return false;
+
+        }
+
+        if (engine == "propeller"){
+            if (type == "private"){
+                return false;
+
+            }
+        }
+    }
+
+    if (size == "large") {
+        if (type == "emergency" || type == "private"){
+            return false;
+
+        }
+
+        if (engine == "jet"){
+            if (type == "military"){
+                return false;
+
+            }
+        }
+
+        if (engine == "propeller" ){
+            if (type == "airline"){
+                return false;
+
+            }
+        }
+    }
+
+    return true;
+}
+
+bool Airplane::validEngineType(string engine) {
+
+    if (engine != "propeller" && engine != "jet"){
+        return false;
+    }
+
+    if (type == "private"){
+
+        if (size == "medium"){
+            if (engine == "propeller"){
+                return false;
+
+            }
+        }
+
+        return true;
+    }
+
+    if (type == "airline"){
+
+        if (size == "large"){
+            if (engine == "propeller"){
+                return false;
+
+            }
+        }
+
         return true;
 
     }
 
-    return false;
+    if (type == "military"){
+        if (size == "small"){
+            return (engine == "jet");
+        }
+
+        if (size == "large") {
+            return (engine == "propeller");
+        }
+    }
+
+    if (type == "emergency"){
+        return (engine == "propeller");
+
+    }
+
+    return true;
+
 }
+
+bool Airplane::validSize(string size) {
+
+    if (type == "private"){
+        if (size == "large"){
+            return false;
+
+        }
+
+        if (engine == "propeller"){
+            if (size == "medium"){
+                return false;
+
+            }
+        }
+    }
+
+    if (type == "airline"){
+        if (size == "small"){
+            return false;
+
+        }
+
+        if (engine == "propeller"){
+            if (size == "large"){
+                return false;
+
+            }
+        }
+    }
+
+    if (type == "military"){
+        if (size == "medium"){
+            return false;
+
+        }
+
+        if (engine == "jet"){
+            if (size == "large"){
+                return false;
+
+            }
+        }
+
+        if (engine == "propeller"){
+            if (size == "small"){
+                return false;
+
+            }
+        }
+    }
+
+    if (type == "emergency"){
+        if (size == "large" || size == "medium"){
+            return false;
+
+        }
+    }
+
+    return true;
+
+}
+
 bool Airplane::atAirport() {
 
     return (airPort != NULL);
 
 }
+
 bool Airplane::atGate() {
 
     return state == "Standing at gate" && gate >= 0;
 
 
 }
+
 bool Airplane::readyForTakeOff() {
-    return (getReadyForDeparture() && airPort != NULL && Airplane::runway != NULL && Airplane::state == "At runway");
+    return (isReadyForDeparture() && Airplane::airPort != NULL && Airplane::runway != NULL && Airplane::state == "At runway");
 }
+
 bool Airplane::permissionToDescend(int height, Airport* Port, Runway* Runway){
     if (height == 10000){
         if (Port->getWait5000() == NULL){
@@ -699,22 +899,21 @@ bool Airplane::permissionToDescend(int height, Airport* Port, Runway* Runway){
     }
 }
 
+bool Airplane::isReadyForDeparture() const {
 
-// functies
-void Airplane::prepareForDeparture() {
-    REQUIRE(atGate(), "Standing at gate");
+    if (passengers == passengerCapacity){
+        if (fuel == fuelCapacity){
+            return true;
+        }
+    }
 
-    inputMessage("Preparing airplane (" + getNumber() + ") for departure.");
-
-
-    notificationMessage(intToString(passengers) + " exited airplane " + getNumber() + " at gate " + intToString(gate) + " of " + airPort->getName() );
-    notificationMessage(getNumber() + " has been checked for technical malfunction");
-    notificationMessage(getNumber() + " has been refueled");
-    notificationMessage(intToString(passengers) + " boarded airplane " + getNumber() + " at gate " + intToString(gate) + " of " + airPort->getName() + "\n" );
-
-    setReadyForDeparture(true);
+    return false;
 
 }
+
+
+
+// functies
 
 void Airplane::toGate(int gate) {
 
@@ -723,7 +922,9 @@ void Airplane::toGate(int gate) {
 
     if (gate == -1){
         vector<int> t = Airplane::getAirport()->getFreeGates();
+
         gate = t[0];
+
     }
 
     if (Airplane::getGate() != -1){  // if the plane was at another gate...
@@ -739,20 +940,26 @@ void Airplane::toGate(int gate) {
     // Set new gate
     Airplane::setGate(gate);
     Airplane::getAirport()->setGateOccupied(Airplane::getGate(), true);
+
+    state = "Standing at gate";
+
 }
 
-void Airplane::toRunway(Runway *runway ) {
+void Airplane::toRunway(Runway* Runw) {
+
     string tijd = getTime();
+
+    REQUIRE(atAirport(), "At airport");
+    REQUIRE(validRunway(runway), "Valid runway");
+
     if (!IFRAuthorized && !requestMessageSend) {
-        REQUIRE(atAirport(), "At airport");
-        REQUIRE(validRunway(runway), "Valid runway");
 
         if (runway == NULL) {
             vector<int> runw = airPort->getFreeRunways();
             for (int i = 0; (unsigned) i < runw.size(); i++) {
                 Runway *runwaycpy = airPort->getRunways()[i];
                 if (validRunway(runwaycpy)) {
-                    runway = runwaycpy;
+                    //runway = runwaycpy;
                     attemptRunway = runway;
                     break;
                 }
@@ -778,41 +985,49 @@ void Airplane::toRunway(Runway *runway ) {
         IFRAuthorized = true;
         return;
     }
-    if (!pushback && !requestMessageSend){
-        pushbackRequest(this, tijd);
-        requestMessageSend = true;
-        return;
+
+    if (!pushback) {
+
+        if (!requestMessageSend) {
+            pushbackRequest(this, tijd);
+            requestMessageSend = true;
+            return;
+        }
+
+        if (!messageMessageSend) {
+            pushbackMessage(this, tijd);
+            messageMessageSend = true;
+            return;
+        }
+
+        if (!confirmMessageSend) {
+            pushbackConfirmation(this, tijd);
+            requestMessageSend = false;
+            messageMessageSend = false;
+            pushback = true;
+            return;
+        }
     }
-    if (!pushback && !messageMessageSend){
-        pushbackMessage(this, tijd);
-        messageMessageSend = true;
-        return;
-    }
-    if (!pushback && !confirmMessageSend){
-        pushbackConfirmation(this, tijd);
-        requestMessageSend = false;
-        messageMessageSend = false;
-        pushback = true;
-        return;
-    }
+
     if(!taxiRequest) {
         readyToTaxiMessage(this, tijd);
         taxiRequest = true;
         return;
     }
+
 }
 
-void Airplane::taxiToRunway(Runway* Runway){
+void Airplane::taxiToRunway(Runway* runw){
     if (gate != -1){
         airPort->setGateOccupied(gate, false);
         gate = -1;
     }
     string tijd = getTime();
-    if (Runway == NULL){
-        Runway = Airplane::attemptRunway;
+    if (runw == NULL){
+        runw = Airplane::attemptRunway;
     }
 
-    taxiRoute = Runway->getTaxiRoute();
+    taxiRoute = runw->getTaxiRoute();
     if (taxiPoint == "" && taxiCrossing == ""){
         taxiPoint = taxiRoute->getTaxiPoints()[0];
         return;
@@ -822,19 +1037,19 @@ void Airplane::taxiToRunway(Runway* Runway){
             if (taxiPoint == taxiRoute->getTaxiPoints()[i]){
                 if (i == taxiRoute->getTaxiPoints().size()-1){
                     if (!messageMessageSend){
-                        toRunwayMessage(this, Runway, taxiPoint, tijd);
+                        toRunwayMessage(this, runw, taxiPoint, tijd);
                         messageMessageSend = true;
                         return;
                     }
                     else if (!confirmMessageSend){
-                        toRunwayConfirmation(this, Runway, taxiPoint, tijd);
+                        toRunwayConfirmation(this, runw, taxiPoint, tijd);
                         confirmMessageSend = true;
                         return;
                     }
                     else{
                         messageMessageSend = false;
                         confirmMessageSend = false;
-                        runway = Runway;
+                        runway = runw;
                         return;
                     }
                 }
@@ -1253,6 +1468,113 @@ void Airplane::takeOff() {
 
 }
 
+void Airplane::afterLanding() {
+    REQUIRE(atGate(), "Standing at gate");
+
+    if (currentTask == "taxied to gate"){
+        if (size == "small") {
+            opperationTime = 5;
+
+        }
+
+        if (size == "medium"){
+            opperationTime = 10;
+
+        }
+
+        if (size == "large"){
+            opperationTime = 15;
+
+        }
+
+        currentTask = "passengers exiting";
+        return;
+
+    }
+
+    if (currentTask == "passengers exiting"){
+
+        notificationMessage(passengerCapacity + " passengers exited " + callsign + " at gate "
+                            + intToString(gate) + " of " + airPort->getName());
+
+        passengers = 0;
+        currentTask = "technical check";
+
+        if (size == "small") {
+            opperationTime = 1;
+
+        }
+
+        if (size == "medium"){
+            opperationTime = 2;
+
+        }
+
+        if (size == "large"){
+            opperationTime = 3;
+
+        }
+
+        return;
+
+    }
+
+    if (currentTask == "technical check"){
+
+        notificationMessage(getNumber() + " has been checked for technical malfunction");
+        currentTask = "idle";
+        return;
+
+    }
+
+}
+
+void Airplane::prepareForDeparture() {
+
+    if (currentTask == "idle"){
+        opperationTime = ceil(fuelCapacity/10000);
+        currentTask = "refueling";
+
+        return;
+
+    }
+
+    if (currentTask == "refueling"){
+        notificationMessage(callsign + " has been refueled.");
+        currentTask = "passengers boarding";
+
+        if (size == "small") {
+            opperationTime = 5;
+
+        }
+        if (size == "medium"){
+            opperationTime = 10;
+
+        }
+        if (size == "large"){
+            opperationTime = 15;
+
+        }
+
+        return;
+
+    }
+
+    if (currentTask == "passengers boarding"){
+
+        notificationMessage(passengerCapacity + " passengers exited " + callsign + " at gate "
+                            + intToString(gate) + " of " + airPort->getName());
+
+        passengers = passengerCapacity;
+        currentTask = "IFR";
+
+        return;
+
+    }
+
+}
+
+
 
 //simulation
 void Airplane::finishtask(Airport* Port) {
@@ -1261,13 +1583,29 @@ void Airplane::finishtask(Airport* Port) {
     // ...
 
 }
+
 void Airplane::nextTask(Airport* Port) {
-    // Initialize the next task
-    // opperation time
-    // control tower message
-    //...
+
+    if (state == "Standing at gate"){
+        if (currentTask != "idle" && currentTask != "IFR"){
+            afterLanding();
+
+        }else{
+            if (currentTask != "IFR"){
+                prepareForDeparture();
+
+            }else{
+                if(currentTask == ""){
+
+
+                }
+
+            }
+        }
+    }
 
 }
+
 void Airplane::initSimulation(Airport *Port) {
     if (getState() == "Approaching"){
         if (flightPlan != NULL){
@@ -1288,15 +1626,19 @@ void Airplane::initSimulation(Airport *Port) {
     }
 
 }
+
 void Airplane::execTask(Airport* Port) {
     opperationTime -= 1;
 
     if (getState() == "Approaching"){
-
+        land(Port);
 
     }else{
         if (getState() == "Gate"){
+            if (isReadyForDeparture()){
 
+
+            }
 
         }//...
     }
@@ -1304,6 +1646,7 @@ void Airplane::execTask(Airport* Port) {
 
 
 }
+
 bool Airplane::notFinished(Airport* Port) {
     return false;
 }
@@ -1324,3 +1667,7 @@ string Airplane::getInfo() {
 
     return str;
 }
+
+
+
+

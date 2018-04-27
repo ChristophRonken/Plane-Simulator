@@ -91,7 +91,7 @@ public:
 
     /**
      * Adds an airplane to the list of planes
-     * Precondition: validAiplane(Airplane*)
+     * Precondition: validAirplane(Airplane*)
      * @param Plane
      */
     void addAirplane(Airplane* Plane);
@@ -165,7 +165,7 @@ public:
      * @param Plane
      * @return bool
      */
-    bool validAiplane(Airplane* Plane);
+    bool validAirplane(Airplane* Plane);
 
     /**
      * Check if an airport is valid to add to the system (no duplicate or faulty initialized)
