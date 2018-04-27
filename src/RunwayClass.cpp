@@ -28,11 +28,6 @@ bool Runway::isOccupied() const {
 
 void Runway::setOccupied(bool occupied) {
     Runway::occupied = occupied;
-    if (!occupied){
-        notificationMessage("Runway ("  + getName() + ") is now unoccupied");
-
-    }
-
 }
 
 Runway::Runway(const string &name, Airport *airPort) : name(name), airPort(airPort) {
@@ -110,10 +105,27 @@ bool Runway::getWachtopRunway(){
     return Runway::wachtoprunway;
 }
 
-bool Runway::getCross(){
-    return Runway::cross;
+bool Runway::getCrossing(){
+    return Runway::crossing;
 }
 
-void Runway::setCross(bool cross){
-    Runway::cross = cross;
+void Runway::setCrossing(bool cross){
+    Runway::crossing = cross;
+}
+
+bool Runway::getPermissionToCross(){
+    return Runway::permissiontocross;
+}
+
+void Runway::setPermissionToCross(bool cross){
+    Runway::permissiontocross = cross;
+}
+
+int Runway::getAantalVliegtuigen(){
+    return Runway::aantalvliegtuigen;
+}
+
+void Runway::setAantalVliegtuigen(int aantalvliegtuigen){
+    Runway::aantalvliegtuigen = aantalvliegtuigen;
+
 }

@@ -379,6 +379,50 @@ namespace {
         EXPECT_DEATH(plane1->land(airport), "Assertion.*failed");
     }
 
+    TEST_F(AirplaneTest, goinair){
+        airport = new Airport();
+        runway = new Runway;
+        runway->setType("asphalt");
+        runway->setLength(2000);
+        runway->setName("dezeRunway");
+        plane = new Airplane();
+        plane1 = new Airplane();
+
+        airport->addRunway(runway);
+        airport->setGates(5);
+
+        plane->setAirport(airport);
+        plane->setEngine("propeller");
+        plane->setSize("medium");
+        plane->setCallsign("plane1");
+        plane->setNumber("1");
+        plane->setState("At runway");
+        plane->setModel("model");
+        plane->setRunway(runway);
+        plane->setHeight(0);
+        plane->setReadyForDeparture(true);
+
+        plane1->setAirport(airport);
+        plane1->setEngine("propeller");
+        plane1->setSize("medium");
+        plane1->setCallsign("plane2");
+        plane1->setNumber("2");
+        plane1->setState("At runway");
+        plane1->setModel("model");
+        plane1->setRunway(runway);
+        plane1->setHeight(0);
+        plane1->setReadyForDeparture(true);
+        while(plane1->getHeight() == 0) {
+            cout << "ok" << endl;
+            if (plane->getHeight() ==0) {
+                EXPECT_NO_FATAL_FAILURE(plane->takeOff());
+            }
+            EXPECT_NO_FATAL_FAILURE(plane1->takeOff());
+        }
+        closeFile();
+    }
+
+
 
     class AirportTest : public ::testing::Test {
     protected:

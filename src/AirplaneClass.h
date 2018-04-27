@@ -73,9 +73,10 @@ class Airplane {
      * Precondition: Plane must be at gate
      * @param ReadyForDeparture
      */
+public:
+
     void setReadyForDeparture(bool ReadyForDeparture);
 
-public:
     Airplane();
 
     /**

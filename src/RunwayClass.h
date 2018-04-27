@@ -27,7 +27,10 @@ class Runway {
 
     bool wachtaanrunway;
     bool wachtoprunway;
-    bool cross;
+    bool permissiontocross;
+    bool crossing;
+
+    int aantalvliegtuigen;
 
 public:
     /**
@@ -100,9 +103,18 @@ public:
 
     bool getWachtopRunway();
 
-    bool getCross();
+    bool getCrossing();
 
-    void setCross(bool);
+    void setCrossing(bool);
+
+    bool getPermissionToCross();
+
+    void setPermissionToCross(bool);
+
+    int getAantalVliegtuigen();
+
+    void setAantalVliegtuigen(int);
+
 };
 
 

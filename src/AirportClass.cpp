@@ -144,6 +144,15 @@ vector<int> Airport::getFreeRunways() {
     return RW;
 }
 
+Runway* Airport::getRunway(string name){
+    for (unsigned int i=0; i<Airport::getRunways().size(); i++){
+        if (Airport::getRunways()[i]->getName() == name){
+            return Airport::getRunways()[i];
+        };
+    }
+    return NULL;
+
+}
 void Airport::setVar(string Type, string Value) {
     if (Type == "name"){
         Airport::setName(Value);

@@ -221,6 +221,7 @@ public:
      */
     void setWait3000(Airplane* plane);
 
+    Runway* getRunway(string);
 
 };
 
