@@ -27,6 +27,7 @@ class Runway {
 
     bool wachtaanrunway;
     bool wachtoprunway;
+    bool cross;
 
 public:
     /**
@@ -98,6 +99,10 @@ public:
     bool getWachtaanRunway();
 
     bool getWachtopRunway();
+
+    bool getCross();
+
+    void setCross(bool);
 };
 
 

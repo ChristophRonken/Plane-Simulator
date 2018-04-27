@@ -5,6 +5,118 @@
 #include "AirportHandler.h"
 #include <algorithm>
 
+
+
+AirportHandler::AirportHandler() {}
+
+AirportHandler::~AirportHandler() {
+
+    for (unsigned int i = 0; i < Airplanes.size(); i++){
+        delete Airplanes[i];
+
+    }
+
+    for (unsigned int i = 0; i < Airports.size(); i++) {
+        delete Airports[i];
+
+    }
+}
+
+
+//getters & setters
+const vector<Airport *> &AirportHandler::getAirports() const {
+    return Airports;
+}
+void AirportHandler::setAirports(const vector<Airport *> &Airports) {
+
+    REQUIRE(validAirports(Airports), "Valid airports");
+
+    AirportHandler::Airports = Airports;
+    ENSURE(Airports == AirportHandler::Airports, "Set Airports");
+
+}
+
+const vector<Airplane *> &AirportHandler::getAirplanes() const {
+    return Airplanes;
+}
+void AirportHandler::setAirplanes(const vector<Airplane *> &Airplanes) {
+
+    REQUIRE(validAirplanes(Airplanes), "Valid airplanes");
+
+    AirportHandler::Airplanes = Airplanes;
+
+}
+
+Airport *AirportHandler::getAirport(string iata) {
+    for (unsigned int i = 0; i < Airports.size(); i++){
+        if (Airports[i]->getIata() == iata){
+            return Airports[i];
+        }
+    }
+    return NULL;
+}
+
+
+//add remove
+void AirportHandler::addAirplane(Airplane *Plane) {
+
+    REQUIRE(validAiplane(Plane), "Valid airplane");
+
+    Airplanes.push_back(Plane);
+    ENSURE(Airplanes[Airplanes.size()-1] == Plane, "Plane added");
+
+}
+void AirportHandler::removeAirplane(string callsign){
+
+    REQUIRE(airplaneExists(callsign), "Airplane exists");
+
+    for (unsigned int i = 0; i < Airplanes.size(); i++) {
+        if (Airplanes[i]->getCallsign() == callsign) {
+            Airplanes[i]->setAirport(NULL);
+            delete Airplanes[i];
+            Airplanes[i] = Airplanes[Airplanes.size()-1];
+            Airplanes.resize(Airplanes.size()-1);
+
+            succesMessage("Airplane Deleted (" + callsign + ")" );
+            return;
+        }
+    }
+
+}
+
+void AirportHandler::addAirport(Airport *Port) {
+
+    REQUIRE(validAirport(Port), "Valid airport");
+
+    Airports.push_back(Port);
+    ENSURE(Airports[Airports.size()-1] == Port, "Airport added");
+
+}
+void AirportHandler::removeAirport(string callsign){
+
+    REQUIRE(airportExists(callsign), "Airport exists");
+
+    for (unsigned int i = 0; i < Airports.size(); i++) {
+        if (Airports[i]->getCallsign() == callsign) {
+
+            const vector<Runway *> Runways;
+            Airports[i]->setRunways(Runways);
+
+            const vector<bool> occup;
+            Airports[i]->setGatesOccupied(occup);
+
+            delete Airports[i];
+            Airports[i] = Airports[Airports.size()-1];
+            Airports.resize(Airports.size()-1);
+
+            succesMessage("Airplane Deleted (" + callsign + ")" );
+            return;
+
+        }
+    }
+
+}
+
 void AirportHandler::addXmlData(string fileName) {
 
     REQUIRE(validFileName(fileName), "Valid file name");
@@ -173,179 +285,34 @@ void AirportHandler::addXmlData(string fileName) {
     }
 }
 
-AirportHandler::AirportHandler() {}
 
-AirportHandler::~AirportHandler() {
+string AirportHandler::timeToString(double passedTimeUnits){
 
-    for (unsigned int i = 0; i < Airplanes.size(); i++){
-        delete Airplanes[i];
+    passedTimeUnits += simulationStartTime*60;
 
-    }
+    double hour = int(floor(passedTimeUnits/60))%24;
+    double minutes = int(passedTimeUnits)%60;
 
-    for (unsigned int i = 0; i < Airports.size(); i++) {
-        delete Airports[i];
+    stringstream ss;
 
-    }
-}
+    if (minutes < 10){
+        ss << hour << ":0" << minutes << endl;
 
-const vector<Airport *> &AirportHandler::getAirports() const {
-    return Airports;
-}
+    }else{
+        if (minutes == 0){
+            ss << hour << ":" << "00" << endl;
 
-void AirportHandler::setAirports(const vector<Airport *> &Airports) {
-
-    REQUIRE(validAirports(Airports), "Valid airports");
-
-    AirportHandler::Airports = Airports;
-    ENSURE(Airports == AirportHandler::Airports, "Set Airports");
-
-}
-
-const vector<Airplane *> &AirportHandler::getAirplanes() const {
-    return Airplanes;
-}
-
-void AirportHandler::setAirplanes(const vector<Airplane *> &Airplanes) {
-
-    REQUIRE(validAirplanes(Airplanes), "Valid airplanes");
-
-    AirportHandler::Airplanes = Airplanes;
-
-}
-
-void AirportHandler::printInfo() {
-
-    for (unsigned int i = 0; i < Airports.size() ; i++) {
-        Airports[i]->printInfo();
-
-    }
-
-    for (unsigned int i = 0; i < Airplanes.size(); i++) {
-        Airplanes[i]->printInfo();
-
-    }
-
-}
-
-string AirportHandler::getInfo() {
-
-    string s;
-
-    for (unsigned int i = 0; i< Airports.size(); i++ ){
-        s+= Airports[i]->getInfo();
-
-    }
-
-    for (unsigned int i = 0; i< Airplanes.size(); i++ ){
-        s+= Airplanes[i]->getInfo();
-
-    }
-
-    return s;
-
-}
-
-void AirportHandler::fileOutput() {
-
-    string str = AirportHandler::getInfo();
-
-    fstream file;
-    file.open("test.txt", fstream::out);
-    file << str;
-    file.close();
-
-}
-
-void AirportHandler::addAirplane(Airplane *Plane) {
-
-    REQUIRE(validAiplane(Plane), "Valid airplane");
-
-    Airplanes.push_back(Plane);
-    ENSURE(Airplanes[Airplanes.size()-1] == Plane, "Plane added");
-
-}
-
-void AirportHandler::removeAirplane(string callsign){
-
-    REQUIRE(airplaneExists(callsign), "Airplane exists");
-
-    for (unsigned int i = 0; i < Airplanes.size(); i++) {
-        if (Airplanes[i]->getCallsign() == callsign) {
-            Airplanes[i]->setAirport(NULL);
-            delete Airplanes[i];
-            Airplanes[i] = Airplanes[Airplanes.size()-1];
-            Airplanes.resize(Airplanes.size()-1);
-
-            succesMessage("Airplane Deleted (" + callsign + ")" );
-            return;
-        }
-    }
-
-}
-
-Airport *AirportHandler::getAirport(string iata) {
-    for (unsigned int i = 0; i < Airports.size(); i++){
-        if (Airports[i]->getIata() == iata){
-            return Airports[i];
-        }
-    }
-    return NULL;
-}
-
-void AirportHandler::addAirport(Airport *Port) {
-
-    REQUIRE(validAirport(Port), "Valid airport");
-
-    Airports.push_back(Port);
-    ENSURE(Airports[Airports.size()-1] == Port, "Airport added");
-
-}
-
-void AirportHandler::removeAirport(string callsign){
-
-    REQUIRE(airportExists(callsign), "Airport exists");
-
-    for (unsigned int i = 0; i < Airports.size(); i++) {
-        if (Airports[i]->getCallsign() == callsign) {
-
-            const vector<Runway *> Runways;
-            Airports[i]->setRunways(Runways);
-
-            const vector<bool> occup;
-            Airports[i]->setGatesOccupied(occup);
-
-            delete Airports[i];
-            Airports[i] = Airports[Airports.size()-1];
-            Airports.resize(Airports.size()-1);
-
-            succesMessage("Airplane Deleted (" + callsign + ")" );
-            return;
+        }else{
+            ss << hour << ":" << minutes << endl;
 
         }
     }
 
-}
-
-bool AirportHandler::airplaneExists(string callsign) {
-
-    for (unsigned int i = 0; i< Airplanes.size(); i++){
-        if (Airplanes[i]->getCallsign() == callsign){
-            return true;
-        }
-    }
-    return false;
+    return ss.str();
 
 }
 
-bool AirportHandler::airportExists(string callsign) {
-    for (unsigned int i = 0; i< Airports.size(); i++){
-        if (Airports[i]->getCallsign() == callsign){
-            return true;
-        }
-    }
-    return false;
-}
-
+//checks
 bool AirportHandler::validFileName(string name) {
     const char *cstr = name.c_str();
     TiXmlDocument doc(cstr);
@@ -353,7 +320,6 @@ bool AirportHandler::validFileName(string name) {
     return doc.LoadFile();
 
 }
-
 bool AirportHandler::validAirplanes(vector<Airplane *> Planes) {
 
     vector<string> names;
@@ -365,9 +331,8 @@ bool AirportHandler::validAirplanes(vector<Airplane *> Planes) {
         names.push_back(name);
     }
 
-   return true;
+    return true;
 }
-
 bool AirportHandler::validAirports(vector<Airport *> Ports) {
 
     vector<string> names;
@@ -382,7 +347,6 @@ bool AirportHandler::validAirports(vector<Airport *> Ports) {
     return true;
 
 }
-
 bool AirportHandler::validAiplane(Airplane *Plane) {
 
     if (Plane->getCallsign() == ""){
@@ -399,7 +363,6 @@ bool AirportHandler::validAiplane(Airplane *Plane) {
     return true;
 
 }
-
 bool AirportHandler::validAirport(Airport* Port) {
 
     if (Port->getCallsign() == ""){
@@ -415,7 +378,37 @@ bool AirportHandler::validAirport(Airport* Port) {
 
     return true;
 }
+bool AirportHandler::airportEmpty(Airport *Port) {
 
+    if (Port->getFreeRunways().size() == Port->getRunways().size()){
+        if (Port->getFreeGates().size() == unsigned (Port->getGates())){
+            return true;
+        }
+    }
+    return false;
+
+}
+bool AirportHandler::airplaneExists(string number) {
+
+    for (unsigned int i = 0; i< Airplanes.size(); i++){
+        if (Airplanes[i]->getNumber() == number){
+            return true;
+        }
+    }
+    return false;
+
+}
+bool AirportHandler::airportExists(string iata) {
+    for (unsigned int i = 0; i< Airports.size(); i++){
+        if (Airports[i]->getIata() == iata){
+            return true;
+        }
+    }
+    return false;
+}
+
+
+//simulation
 void AirportHandler::runSimulation(string name) {
 
     for (unsigned int i = 0; i < Airplanes.size(); i++) {
@@ -463,17 +456,48 @@ void AirportHandler::runSimulation(string name) {
 
 }
 
-bool AirportHandler::airportEmpty(Airport *Port) {
 
-    if (Port->getFreeRunways().size() == Port->getRunways().size()){
-        if (Port->getFreeGates().size() == unsigned (Port->getGates())){
-            return true;
-        }
+//output
+void AirportHandler::printInfo() {
+
+    for (unsigned int i = 0; i < Airports.size() ; i++) {
+        Airports[i]->printInfo();
+
     }
-    return false;
+
+    for (unsigned int i = 0; i < Airplanes.size(); i++) {
+        Airplanes[i]->printInfo();
+
+    }
 
 }
+string AirportHandler::getInfo() {
 
+    string s;
+
+    for (unsigned int i = 0; i< Airports.size(); i++ ){
+        s+= Airports[i]->getInfo();
+
+    }
+
+    for (unsigned int i = 0; i< Airplanes.size(); i++ ){
+        s+= Airplanes[i]->getInfo();
+
+    }
+
+    return s;
+
+}
+void AirportHandler::fileOutput() {
+
+    string str = AirportHandler::getInfo();
+
+    fstream file;
+    file.open("test.txt", fstream::out);
+    file << str;
+    file.close();
+
+}
 void AirportHandler::GraphicalAirport2D(string & AirportIata) {
 
     REQUIRE(airportExists(AirportIata), "Airport exists");
@@ -517,31 +541,5 @@ void AirportHandler::GraphicalAirport2D(string & AirportIata) {
     file.open(documentname, fstream::out);
     file << s;
     file.close();
-
-}
-
-string AirportHandler::timeToString(double passedTimeUnits){
-
-    passedTimeUnits += simulationStartTime*60;
-
-    double hour = int(floor(passedTimeUnits/60))%24;
-    double minutes = int(passedTimeUnits)%60;
-
-    stringstream ss;
-
-    if (minutes < 10){
-        ss << hour << ":0" << minutes << endl;
-
-    }else{
-        if (minutes == 0){
-            ss << hour << ":" << "00" << endl;
-
-        }else{
-            ss << hour << ":" << minutes << endl;
-
-        }
-    }
-
-    return ss.str();
 
 }

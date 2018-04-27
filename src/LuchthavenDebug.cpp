@@ -208,13 +208,13 @@ namespace {
         plane->toGate();
 
         //plane1 has no valid gate
-        EXPECT_FALSE(plane1->isReadyForDeparture());
+        EXPECT_FALSE(plane1->getReadyForDeparture());
         EXPECT_DEATH(plane1->prepareForDeparture(), "Assertion.*failed");
 
         //has a valid gate
-        EXPECT_FALSE(plane->isReadyForDeparture());
+        EXPECT_FALSE(plane->getReadyForDeparture());
         plane->prepareForDeparture();
-        EXPECT_TRUE(plane->isReadyForDeparture());
+        EXPECT_TRUE(plane->getReadyForDeparture());
     }
 
     TEST_F(AirplaneTest, toGate) {

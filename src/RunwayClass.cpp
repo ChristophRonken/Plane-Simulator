@@ -109,3 +109,11 @@ bool Runway::getWachtaanRunway(){
 bool Runway::getWachtopRunway(){
     return Runway::wachtoprunway;
 }
+
+bool Runway::getCross(){
+    return Runway::cross;
+}
+
+void Runway::setCross(bool cross){
+    Runway::cross = cross;
+}

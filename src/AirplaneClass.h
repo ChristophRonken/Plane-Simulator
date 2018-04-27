@@ -257,7 +257,7 @@ public:
      * retursn true if the plane is ready for departure
      * @return readyForDeparture
      */
-    bool isReadyForDeparture() const;
+    bool getReadyForDeparture() const;
 
     /**
      * prepares the plane for departure
@@ -587,7 +587,7 @@ public:
      * @param Runway
      * @return bool
      */
-    bool permissionToDescend(int height, Airport* Port, Runway* Runway);
+    bool permissionToDescend(int, Airport*, Runway*);
 
     /**
      * Make the airplane descend
@@ -603,22 +603,16 @@ public:
      * Make the airplane taxi to a given gate
      * @param gate
      */
-    void taxiToGate(int gate);
-
-    /**
-     * Get taxi instructions
-     * @return vector<string>
-     */
-    vector<string> getTaxiInstructions();
+    void taxiToGate(int);
 
     /**
      * Perform an emergency landing
      * @param Port
      */
-    void emergencyLanding(Airport* Port);
+    void emergencyLanding(Airport*);
 };
 
-void setTime(string time);
+void setTime(string);
 string getTime();
 
 #endif //PSE_V1_AirplaneCLASS_H
