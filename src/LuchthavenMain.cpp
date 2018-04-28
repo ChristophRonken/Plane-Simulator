@@ -12,11 +12,14 @@ using namespace std;
 int main(int argc, char **argv){
 
     AirportHandler* D = new AirportHandler();
-    D->addXmlData("LuchthavenV1.xml");
 
-    D->fileOutput();
+    if (D->addXmlData("LuchthavenV1.xml") != 0) { ;
 
-    D->runSimulation("ANR");
+        D->fileOutput();
+
+        D->runSimulation("ANR");
+
+    }
 
     delete D;
 

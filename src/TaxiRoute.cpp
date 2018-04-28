@@ -27,3 +27,11 @@ vector<string> TaxiRoute::getTaxiCrossings(){
 bool TaxiRoute::propperlyInitialized() {
     return (this == self);
 }
+
+bool TaxiRoute::isValid() {
+    if (propperlyInitialized()){
+        return !taxipoints.empty();
+
+    }
+    return false;
+}

@@ -25,7 +25,7 @@ class Runway {
 
     bool occupied;
 
-    TaxiRoute * taxiroute;
+    TaxiRoute * taxiRoute;
 
     bool wachtaanrunway;
     bool wachtoprunway;
@@ -118,6 +118,8 @@ public:
     void setAantalVliegtuigen(int);
 
     bool propperlyInitialized();
+    
+    bool isValid();
 
 };
 

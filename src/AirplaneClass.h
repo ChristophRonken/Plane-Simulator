@@ -71,6 +71,7 @@ class Airplane {
     bool takingoff;
     bool waitatrunway;
     bool waitonrunway;
+    int  waitabit;
 
 
 public:
@@ -673,6 +674,8 @@ public:
     void exitPassengers();
 
     bool propperlyInitialized();
+
+    bool isValid();
 
 };
 
