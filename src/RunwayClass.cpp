@@ -73,7 +73,7 @@ void Runway::setVar(string Type, string Value) {
     }
 
     else if (Type == "length"){
-        if (is_number(Value)) {
+        if (isNumber(Value)) {
             int i;
             istringstream(Value) >> i;
             Runway::setLength(i);
