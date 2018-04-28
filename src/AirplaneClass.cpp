@@ -1661,7 +1661,6 @@ void Airplane::refuel() {
         currentTask = "board passengers";
     }
 
-
     return;
 }
 
@@ -1680,11 +1679,9 @@ void Airplane::nextTask(Airport* Port) {
 
     if (currentTask == "flying"){
         if (currentTask != "idle" && currentTask != "IFR"){
-            afterLanding();
 
         }else{
             if (currentTask != "IFR"){
-                prepareForDeparture();
 
             }else{
                 if(currentTask == ""){

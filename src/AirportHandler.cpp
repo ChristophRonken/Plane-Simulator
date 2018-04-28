@@ -500,6 +500,7 @@ void AirportHandler::fileOutput() {
     file.close();
 
 }
+
 void AirportHandler::GraphicalAirport2D(string & AirportIata) {
 
     REQUIRE(airportExists(AirportIata), "Airport exists");
@@ -538,6 +539,47 @@ void AirportHandler::GraphicalAirport2D(string & AirportIata) {
         }
     }
     s += "]\n";
+
+    fstream file;
+    file.open(documentname, fstream::out);
+    file << s;
+    file.close();
+
+}
+
+void AirportHandler::GraphicalAirport3D(string & AirportIata) {
+
+    REQUIRE(airportExists(AirportIata), "Airport exists");
+
+    string document = "3Doutput.ini";
+    const char * documentname = document.c_str();
+
+    Airport* airport = AirportHandler::getAirport(AirportIata);
+    const vector<Runway *> runways = airport->getRunways();
+
+    int aantalfiguren = airport->getRunways().size() + airport->getGates();
+
+    string s;
+
+    s += "[General]\n";
+    s += "size = 1000\n";
+    s += "backgroundcolor = (0, 0, 0)\n";
+    s += "type = ZBufferedWireframe\n";
+    s += "eye = (-100, -50, 75)\n";
+    s += "nrFigures = " + intToString(aantalfiguren) + "\n";
+    s += "\n";
+
+    for (int i=0; i<aantalfiguren; i++){
+        s += "[Figure" + intToString(i) + "]\n";
+        s += "type = \"Cube\"\n";
+        s += "scale = 5\n";
+        s += "rotateX = 0\n";
+        s += "rotateY = 0\n";
+        s += "rotateZ = 0\n";
+        s += "center = (" + intToString(i*5) +", 0, 0)\n";
+        s += "color = (0, 1, 0)\n";
+        s += "\n";
+    }
 
     fstream file;
     file.open(documentname, fstream::out);

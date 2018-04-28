@@ -197,6 +197,7 @@ public:
      */
     string timeToString(double passedTimeUnits);
 
+    void GraphicalAirport3D(string & AirportIata);
 };
 
 

@@ -13,7 +13,7 @@
 #include "RunwayClass.h"
 
 namespace {
-
+/*
     class AirplaneTest : public ::testing::Test {
     protected:
         // You should make the members protected s.t. they can be
@@ -290,17 +290,18 @@ namespace {
 
 
         //plane2 gaat naar de eerste vrije (appropriate) runway (1)
-        EXPECT_NO_FATAL_FAILURE(plane2->toRunway());
+        EXPECT_NO_FATAL_FAILURE(plane2->pushBack());
         EXPECT_EQ(runway1, plane2->getRunway());
 
         //plane probeert te gaan naar occupied runway (0)
-        EXPECT_DEATH(plane->toRunway(runway1), "Assertion.*failed");
+        EXPECT_DEATH(plane->pushBack(runway1), "Assertion.*failed");
 
         //plane2 gaat naar de eerste vrije (appropriate) runway (0)
-        EXPECT_NO_FATAL_FAILURE(plane->toRunway());
+        EXPECT_NO_FATAL_FAILURE(plane->pushBack());
 
         //no free runways
-        EXPECT_DEATH(plane1->toRunway(), "Assertion.*failed");
+        EXPECT_DEATH(plane1->pushBack(), "Assertion.*failed");
+
     }
 
     TEST_F(AirplaneTest, takeOff){
@@ -411,11 +412,12 @@ namespace {
         plane1->setReadyForDeparture(true);
         while(plane1->getHeight() == 0) {
             cout << "ok" << endl;
-            if (plane->getHeight() ==0) {
+            if (plane->getHeight() == 0) {
                 EXPECT_NO_FATAL_FAILURE(plane->takeOff());
             }
             EXPECT_NO_FATAL_FAILURE(plane1->takeOff());
         }
+
         closeFile();
     }
 
@@ -642,7 +644,7 @@ namespace {
 
         //getFreeRunways
         EXPECT_EQ((unsigned) 2, airport->getFreeRunways().size());
-        plane->toRunway(runway1);
+        plane->pushBack(runway1);
         EXPECT_EQ((unsigned) 1, airport->getFreeRunways().size());
     }
 
@@ -1074,7 +1076,7 @@ TEST_F(CommunicationTests, taxiToRunway) {
 
 }
 
-
+*/
     class XMLReaderTest : public ::testing::Test {
     protected:
         // You should make the members protected s.t. they can be
@@ -1180,6 +1182,7 @@ TEST_F(CommunicationTests, taxiToRunway) {
         D->getAirplanes()[0]->setAirport(D->getAirports()[0]);
         D->getAirplanes()[0]->toGate(6);
         D->GraphicalAirport2D(iata);
+        D->GraphicalAirport3D(iata);
     }
 
     TEST_F(XMLReaderTest, xmlOutput) {

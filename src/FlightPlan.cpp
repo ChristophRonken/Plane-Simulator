@@ -10,33 +10,29 @@ FlightPlan::FlightPlan() {
 }
 
 const string &FlightPlan::getDestination() const {
-    return destination;
+    return FlightPlan::destination;
 }
-
 void FlightPlan::setDestination(const string &destination) {
     FlightPlan::destination = destination;
 }
 
 int FlightPlan::getDeparture() const {
-    return departure;
+    return FlightPlan::departure;
 }
-
 void FlightPlan::setDeparture(int departure) {
     FlightPlan::departure = departure;
 }
 
 int FlightPlan::getInterval() const {
-    return interval;
+    return FlightPlan::interval;
 }
-
 void FlightPlan::setInterval(int interval) {
     FlightPlan::interval = interval;
 }
 
 int FlightPlan::getArrival() const {
-    return arrival;
+    return FlightPlan::arrival;
 }
-
 void FlightPlan::setArrival(int arrival) {
     FlightPlan::arrival = arrival;
 }
