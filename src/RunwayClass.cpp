@@ -38,6 +38,7 @@ Runway::Runway(const string &name, Airport *airPort) : name(name), airPort(airPo
 Runway::Runway() {
     Runway::occupied = false;
     Runway::length = 0;
+    self = this;
 }
 
 const string &Runway::getType() const {
@@ -128,4 +129,8 @@ int Runway::getAantalVliegtuigen(){
 void Runway::setAantalVliegtuigen(int aantalvliegtuigen){
     Runway::aantalvliegtuigen = aantalvliegtuigen;
 
+}
+
+bool Runway::propperlyInitialized() {
+    return (this == self);
 }

@@ -438,6 +438,7 @@ void AirportHandler::runSimulation(string name) {
 
             for (unsigned int i = 0; i < Airplanes.size(); i++) {
                 Airplane *Plane = Airplanes[i];
+
                 if (Plane->notFinished(Port)) {
                     if (Plane->getOpperationTime() > 0) {
 
@@ -586,4 +587,8 @@ void AirportHandler::GraphicalAirport3D(string & AirportIata) {
     file << s;
     file.close();
 
+}
+
+bool AirportHandler::propperlyInitialized() {
+    return (this == self);
 }

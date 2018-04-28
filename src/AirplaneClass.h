@@ -22,6 +22,8 @@ class Runway;
 
 class Airplane {
 
+    Airplane* self;
+
     string number;
     string callsign;
     string model;
@@ -669,6 +671,8 @@ public:
     void boardPassengers();
 
     void exitPassengers();
+
+    bool propperlyInitialized();
 
 };
 

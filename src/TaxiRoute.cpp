@@ -5,6 +5,7 @@
 #include "TaxiRoute.h"
 
 TaxiRoute::TaxiRoute(){
+    self = this;
 }
 
 void TaxiRoute::addTaxiPoint(string taxipoint){
@@ -21,4 +22,8 @@ vector<string> TaxiRoute::getTaxiPoints(){
 
 vector<string> TaxiRoute::getTaxiCrossings(){
     return TaxiRoute::taxicrossings;
+}
+
+bool TaxiRoute::propperlyInitialized() {
+    return (this == self);
 }

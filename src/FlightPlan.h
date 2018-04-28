@@ -14,6 +14,7 @@ using namespace std;
 
 class FlightPlan {
 
+    FlightPlan* self;
     string destination;
     int departure;
     int interval;
@@ -39,6 +40,7 @@ public:
 
     void setArrival(int arrival);
 
+    bool propperlyInitialized();
 
 };
 
