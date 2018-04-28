@@ -558,29 +558,99 @@ void AirportHandler::GraphicalAirport3D(string & AirportIata) {
     Airport* airport = AirportHandler::getAirport(AirportIata);
     const vector<Runway *> runways = airport->getRunways();
 
-    int aantalfiguren = airport->getRunways().size() + airport->getGates();
 
+
+
+    int allplanes = 0;
+/*
+    for (unsigned int i=0; i< getAirplanes().size(); i++){
+        if (getAirplanes()[i]->getAirport() != NULL){
+            allplanes +=1;
+        }
+    }
+*/
+    for (int i=0; i<airport->getGates(); i++){
+        if (airport->getGateOccupied(i)){
+            allplanes += 1;
+        }
+    }
+    for (unsigned int i=0; i<airport->getRunways().size(); i++){
+        if (airport->getRunways()[i]->isOccupied()){
+            allplanes += 1;
+        }
+    }
+
+
+    int aantalfiguren = airport->getRunways().size() + airport->getGates()+ allplanes;
+    int planes=0;
     string s;
 
     s += "[General]\n";
     s += "size = 1000\n";
     s += "backgroundcolor = (0, 0, 0)\n";
     s += "type = ZBufferedWireframe\n";
-    s += "eye = (-100, -50, 75)\n";
+    s += "eye = (50, 100, 100)\n";
     s += "nrFigures = " + intToString(aantalfiguren) + "\n";
     s += "\n";
 
-    for (int i=0; i<aantalfiguren; i++){
-        s += "[Figure" + intToString(i) + "]\n";
+    for (int i=0; i<airport->getGates(); i++){
+        s += "[Figure" + intToString(i+planes) + "]\n";
+        s += "type = \"Cube\"\n";
+        s += "scale = 3\n";
+        s += "rotateX = 0\n";
+        s += "rotateY = 0\n";
+        s += "rotateZ = 0\n";
+        s += "center = (" + intToString(i*6) +", 0, 0)\n";
+        if (airport->getGateOccupied(i)){
+            s += "color = (1, 0, 0)\n";
+        }
+        else{
+            s += "color = (0, 1, 0)\n";
+        }
+        s += "\n";
+        if (airport->getGateOccupied(i)){
+            planes += 1;
+            s += "[Figure" + intToString(i+planes) + "]\n";
+            s += "type = \"Tetrahedron\"\n";
+            s += "scale = 2\n";
+            s += "rotateX = 0\n";
+            s += "rotateY = 0\n";
+            s += "rotateZ = 0\n";
+            s += "center = (" + intToString(i*6) +", 0, 0)\n";
+            s += "color = (0, 1, 1)\n";
+            s += "\n";
+        }
+    }
+
+    for (unsigned int i=0; i<airport->getRunways().size(); i++){
+        s += "[Figure" + intToString(i+airport->getGates()+planes) + "]\n";
         s += "type = \"Cube\"\n";
         s += "scale = 5\n";
         s += "rotateX = 0\n";
         s += "rotateY = 0\n";
         s += "rotateZ = 0\n";
-        s += "center = (" + intToString(i*5) +", 0, 0)\n";
-        s += "color = (0, 1, 0)\n";
+        s += "center = ("+ intToString((airport->getGates()-1)*6 /2) + ", " + intToString(20*(i+1)) + ", 0)\n";
+        if (airport->getRunways()[i]->isOccupied()){
+            s += "color = (1, 0, 0)\n";
+        }
+        else{
+            s += "color = (0, 1, 0)\n";
+        }
         s += "\n";
+        if (airport->getRunways()[i]->isOccupied()){
+            planes += 1;
+            s += "[Figure" + intToString(i+airport->getGates()+planes) + "]\n";
+            s += "type = \"Tetrahedron\"\n";
+            s += "scale = 2\n";
+            s += "rotateX = 0\n";
+            s += "rotateY = 0\n";
+            s += "rotateZ = 0\n";
+            s += "center = ("+ intToString((airport->getGates()-1)*6 /2) + ", " + intToString(20*(i+1)) + ", 0)\n";
+            s += "color = (0, 1, 1)\n";
+            s += "\n";
+        }
     }
+
 
     fstream file;
     file.open(documentname, fstream::out);

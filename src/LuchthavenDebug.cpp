@@ -1185,6 +1185,39 @@ TEST_F(CommunicationTests, taxiToRunway) {
         D->GraphicalAirport3D(iata);
     }
 
+    TEST_F(XMLReaderTest, GraphicalAirport3D) {
+        D = new AirportHandler();
+        D->addXmlData("TestVolledigeLuchthaven.xml");
+
+        airport = new Airport();
+        airport = D->getAirports()[0];
+
+        runway = new Runway();
+        runway = airport->getRunways()[0];
+
+        runway1 = new Runway();
+        runway1 = airport->getRunways()[1];
+        runway1->setOccupied(true);
+
+        plane = new Airplane();
+        plane = D->getAirplanes()[0];
+        plane->setAirport(D->getAirports()[0]);
+        plane->toGate(6);
+
+        plane1 = new Airplane();
+        plane1 = D->getAirplanes()[0];
+        plane1->setAirport(D->getAirports()[0]);
+        plane1->setRunway(runway1);
+
+
+
+        string iata = airport->getIata();
+
+        D->GraphicalAirport3D(iata);
+
+
+    }
+
     TEST_F(XMLReaderTest, xmlOutput) {
         D = new AirportHandler();
         EXPECT_DEATH(D->addXmlData("foutiefbestand.xml"), "Assertion.*failed");
