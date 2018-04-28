@@ -152,28 +152,28 @@ public:
     bool validFileName(string name);
 
     /**
-     * Check if the vector of airplanes is valid (no duplicates or faulty initialized airplanes)
+     * Check if the vector of airplanes is valid (no duplicates or faulty initialised airplanes)
      * @param Planes
      * @return bool
      */
     bool validAirplanes(vector<Airplane*> Planes);
 
     /**
-     * Check if the vector of airports is valid (no duplicates or faulty initialized airports)
+     * Check if the vector of airports is valid (no duplicates or faulty initialised airports)
      * @param Ports
      * @return bool
      */
     bool validAirports(vector<Airport*> Ports);
 
     /**
-     * Check if an airplane is valid to add to the system (no duplicate or faulty initialized)
+     * Check if an airplane is valid to add to the system (no duplicate or faulty initialised)
      * @param Plane
      * @return bool
      */
     bool validAirplane(Airplane* Plane);
 
     /**
-     * Check if an airport is valid to add to the system (no duplicate or faulty initialized)
+     * Check if an airport is valid to add to the system (no duplicate or faulty initialised)
      * @param Port
      * @return bool
      */
@@ -202,11 +202,19 @@ public:
      */
     string timeToString(double passedTimeUnits);
 
+    /**
+     * Outputs an ini file containg the data to be read in a graphical engine
+     * to represent the airport in a 3D environement
+     * @param AirportIata
+     */
     void GraphicalAirport3D(string & AirportIata);
 
-    bool propperlyInitialized();
+    /**
+     * Check if the Airporthandler was propperly initiallized and isn't NULL
+     * @return bool
+     */
+    bool propperlyInitialised();
 
-    bool isValid();
 
 };
 

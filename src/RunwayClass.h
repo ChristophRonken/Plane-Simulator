@@ -6,9 +6,11 @@
 #define PSE_V1_RUNWAYCLASS_H
 
 #include <iostream>
+#include <vector>
 #include "AirportClass.h"
 #include "TaxiRoute.h"
-#include<vector>
+#include "Utils.h"
+
 
 using namespace std;
 
@@ -27,12 +29,10 @@ class Runway {
 
     TaxiRoute * taxiRoute;
 
-    bool wachtaanrunway;
-    bool wachtoprunway;
+    bool holdingShortOccupied;
+    bool waitingOnRunway;
     bool permissiontocross;
     bool crossing;
-
-    int aantalvliegtuigen;
 
     bool onItsWay;
 
@@ -80,47 +80,110 @@ public:
     bool isOccupied() const;
 
     /**
-     * sets occupied to the given param
+     * Sets occupied to the given param
      * @param occupied
      */
     void setOccupied(bool occupied);
 
+    /**
+     * Returns the runway type
+     * @return string
+     */
     const string &getType() const;
 
+    /**
+     * sets the runway type
+     * Preconditions: type == "grass" || type == "asphalt"
+     * @param type
+     */
     void setType(const string &type);
 
+    /**
+     * get the length of the runway
+     * @return int
+     */
     int getLength() const;
 
+    /**
+     * set the length of the runway
+     * @param length
+     */
     void setLength(int length);
 
+    /**
+     * Set the value of the variable with name == Type
+     * If the type is invalid, nothing happens
+     * @param Type
+     * @param Value
+     */
     void setVar(string Type, string Value);
 
+    /**
+     *  Set the taxiRoute
+     * @param taxi
+     */
     void setTaxiRoute(TaxiRoute* taxi);
 
+    /**
+     * Returns the taxiRoute
+     * @return 
+     */
     TaxiRoute* getTaxiRoute();
+    
+    /**
+     * Set if a plane is in the holding short position
+     */
+    void setHoldingShortOccupied(bool);
 
-    void setWachtaanRunway(bool);
+    /**
+     * Set if a plane is already waiting for take off on the runway
+     */
+    void setWaitingOnRunway(bool);
 
-    void setWachtopRunway(bool);
+    /**
+     * Check if the holding position for planes is occupied
+     * @return bool
+     */
+    bool getHoldingShortOccupied();
 
-    bool getWachtaanRunway();
+    /**
+     * Check if a plane is waiting for take off on the runway
+     * @return bool
+     */
+    bool getWaitingOnRunway();
 
-    bool getWachtopRunway();
-
+    /**
+     * Check if a plane is crossing the runway
+     * @return bool
+     */
     bool getCrossing();
 
+    /**
+     * Set if a plane is crossing the runway
+     */
     void setCrossing(bool);
 
+    /**
+     * Check if a plane has permission to cross the runway
+     * @return bool
+     */
     bool getPermissionToCross();
 
+    /**
+     * Set if a plane has permission to cross te runway
+     */
     void setPermissionToCross(bool);
 
-    int getAantalVliegtuigen();
+    /**
+     * Check if the plane is propperly initialised
+     * @return bool
+     */
+    bool propperlyInitialised();
 
-    void setAantalVliegtuigen(int);
-
-    bool propperlyInitialized();
-    
+    /**
+     * Check if the Values of the runway are valid
+     * @return bool
+     */
     bool isValid();
 
     bool getonItsWay();

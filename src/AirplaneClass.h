@@ -624,19 +624,31 @@ public:
      */
     bool validSize(string size);
 
+    /**
+     * Let passengers exit the plane
+     */
     void exitPlane();
 
+    /**
+     * Let passengers enter the plane
+     */
     void enterPlane();
 
+    /**
+     * Perform a technical Check on the airplane
+     */
     void technicalCheck();
 
+    /**
+     * Refuel the airplane
+     */
     void refuel();
 
     void boardPassengers();
 
     void exitPassengers();
 
-    bool propperlyInitialized();
+    bool propperlyInitialised();
 
     bool isValid();
 

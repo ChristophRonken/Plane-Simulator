@@ -617,9 +617,6 @@ void AirportHandler::GraphicalAirport3D(string & AirportIata) {
     Airport* airport = AirportHandler::getAirport(AirportIata);
     const vector<Runway *> runways = airport->getRunways();
 
-
-
-
     int allplanes = 0;
 /*
     for (unsigned int i=0; i< getAirplanes().size(); i++){
@@ -710,16 +707,7 @@ void AirportHandler::GraphicalAirport3D(string & AirportIata) {
         }
     }
 
-    vector<Airplanes*> unfinishedAirplanes;
-    for (unsigned int i=0; i<getAirplanes().size(); i++){
-        if (getAirplanes()[i]->getsimulationFinished()){
-            unfinishedAirplanes.push_back(getAirplanes()[i]);
-        }
-    }
 
-    for (unsigned int i=0; i<unfinishedAirplanes.size(); i++){
-        unfinishedAirplanes[i].getcurrentTask();
-    }
 
 
 
@@ -731,10 +719,8 @@ void AirportHandler::GraphicalAirport3D(string & AirportIata) {
 
 }
 
-bool AirportHandler::propperlyInitialized() {
+bool AirportHandler::propperlyInitialised() {
     return (this == self);
 }
 
-bool AirportHandler::isValid() {
-    return false;
-}
+

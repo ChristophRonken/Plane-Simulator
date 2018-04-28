@@ -46,6 +46,7 @@ const string &Runway::getType() const {
 }
 
 void Runway::setType(const string &type) {
+    REQUIRE(type == "grass" || type == "asphalt", "valid runway type");
     Runway::type = type;
 }
 
@@ -59,6 +60,8 @@ void Runway::setLength(int length) {
 
 void Runway::setVar(string Type, string Value) {
 
+
+
     if (Type == "name"){
         Runway::setName(Value);
         return ;
@@ -70,15 +73,14 @@ void Runway::setVar(string Type, string Value) {
     }
 
     else if (Type == "length"){
+
         int i;
         istringstream(Value) >> i;
         Runway::setLength(i);
+
         return;
     }
 
-    else {
-        REQUIRE(false, "Valid Type");
-    }
 }
 
 void Runway::setTaxiRoute(TaxiRoute* taxi){
@@ -90,20 +92,20 @@ TaxiRoute* Runway::getTaxiRoute(){
     return Runway::taxiRoute;
 }
 
-void Runway::setWachtaanRunway(bool boolean){
-    Runway::wachtaanrunway = boolean;
+void Runway::setHoldingShortOccupied(bool boolean){
+    Runway::holdingShortOccupied = boolean;
 }
 
-void Runway::setWachtopRunway(bool boolean){
-    Runway::wachtoprunway = boolean;
+void Runway::setWaitingOnRunway(bool boolean){
+    Runway::waitingOnRunway = boolean;
 }
 
-bool Runway::getWachtaanRunway(){
-    return Runway::wachtaanrunway;
+bool Runway::getHoldingShortOccupied(){
+    return Runway::holdingShortOccupied;
 }
 
-bool Runway::getWachtopRunway(){
-    return Runway::wachtoprunway;
+bool Runway::getWaitingOnRunway(){
+    return Runway::waitingOnRunway;
 }
 
 bool Runway::getCrossing(){
@@ -122,16 +124,7 @@ void Runway::setPermissionToCross(bool cross){
     Runway::permissiontocross = cross;
 }
 
-int Runway::getAantalVliegtuigen(){
-    return Runway::aantalvliegtuigen;
-}
-
-void Runway::setAantalVliegtuigen(int aantalvliegtuigen){
-    Runway::aantalvliegtuigen = aantalvliegtuigen;
-
-}
-
-bool Runway::propperlyInitialized() {
+bool Runway::propperlyInitialised() {
     return (this == self);
 }
 
@@ -141,7 +134,7 @@ bool Runway::isValid() {
 
     }
 
-    return !(name.empty() || type.empty() || length == 0 || taxiRoute->isValid() || !propperlyInitialized());
+    return !(name.empty() || type.empty() || length == 0 || taxiRoute->isValid() || !propperlyInitialised());
 }
 
 bool Runway::getonItsWay(){

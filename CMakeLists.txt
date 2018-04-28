@@ -37,7 +37,7 @@ set(RELEASE_SOURCE_FILES
         src/FlightPlan.cpp
         src/FlightPlan.h
         src/TaxiRoute.cpp
-        src/TaxiRoute.h)
+        src/TaxiRoute.h src/Utils.cpp src/Utils.h)
 
 # Set source files for DEBUG target
 set(DEBUG_SOURCE_FILES

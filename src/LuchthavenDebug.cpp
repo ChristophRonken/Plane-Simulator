@@ -1180,7 +1180,6 @@ TEST_F(CommunicationTests, taxiToRunway) {
         D->addXmlData("TestVolledigeLuchthaven.xml");
         string iata = D->getAirports()[0]->getIata();
         D->getAirplanes()[0]->setAirport(D->getAirports()[0]);
-        D->getAirplanes()[0]->toGate(6);
         D->GraphicalAirport2D(iata);
         D->GraphicalAirport3D(iata);
     }
@@ -1202,7 +1201,6 @@ TEST_F(CommunicationTests, taxiToRunway) {
         plane = new Airplane();
         plane = D->getAirplanes()[0];
         plane->setAirport(D->getAirports()[0]);
-        plane->toGate(6);
 
         plane1 = new Airplane();
         plane1 = D->getAirplanes()[0];
@@ -1214,6 +1212,48 @@ TEST_F(CommunicationTests, taxiToRunway) {
         string iata = airport->getIata();
 
         D->GraphicalAirport3D(iata);
+
+
+    }
+
+    TEST_F(XMLReaderTest, goinair){
+        airport = new Airport();
+        runway = new Runway;
+        runway->setType("asphalt");
+        runway->setLength(2000);
+        runway->setName("dezeRunway");
+        plane = new Airplane();
+        plane1 = new Airplane();
+
+        airport->addRunway(runway);
+        airport->setGates(5);
+
+        plane->setAirport(airport);
+        plane->setEngine("propeller");
+        plane->setSize("medium");
+        plane->setCallsign("plane1");
+        plane->setNumber("1");
+        plane->setState("At runway");
+        plane->setModel("model");
+        plane->setRunway(runway);
+        plane->setHeight(0);
+
+        plane1->setAirport(airport);
+        plane1->setEngine("propeller");
+        plane1->setSize("medium");
+        plane1->setCallsign("plane2");
+        plane1->setNumber("2");
+        plane1->setState("At runway");
+        plane1->setModel("model");
+        plane1->setRunway(runway);
+        plane1->setHeight(0);
+        while(plane1->getHeight() == 0) {
+            cout << "ok" << endl;
+            if (plane->getHeight() == 0) {
+                EXPECT_NO_FATAL_FAILURE(plane->takeOff());
+            }
+            EXPECT_NO_FATAL_FAILURE(plane1->takeOff());
+        }
 
 
     }
