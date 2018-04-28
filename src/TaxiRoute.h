@@ -27,6 +27,9 @@ public:
 
     bool propperlyInitialized();
 
+    bool isValid();
+
+
 };
 
 

@@ -40,3 +40,7 @@ void FlightPlan::setArrival(int arrival) {
 bool FlightPlan::propperlyInitialized() {
     return (this == self);
 }
+
+bool FlightPlan::isValid() {
+    return (destination.empty() || interval == 0 || !propperlyInitialized());
+}

@@ -15,6 +15,8 @@
 #include "FlightPlan.h"
 #include "../xml/tinyxml.h"
 
+enum SuccessEnum {ImportAborted, PartialImport, Success};
+
 class AirportHandler {
 
     AirportHandler* self;
@@ -23,6 +25,7 @@ class AirportHandler {
     vector<Airplane*> Airplanes;
     const static double TimeUnit = 1;   // in seconds
     const static double simulationStartTime = 12; // in hours
+
 
 public:
     AirportHandler();
@@ -55,7 +58,7 @@ public:
      * Preconditions: validFileName(string)
      * @param fileName
      */
-    void addXmlData(string fileName);
+    SuccessEnum addXmlData(string fileName);
 
     /**
      * Returns a vector with the saved airports
@@ -112,7 +115,7 @@ public:
     /**
      * Outputs a file, with the info of the airplanes and airports, to the working directory
      */
-    void fileOutput();;
+    void fileOutput(string fileName = "AirportInfo.txt");;
 
     /**
      * Run a simultaion of an airport
@@ -202,6 +205,8 @@ public:
     void GraphicalAirport3D(string & AirportIata);
 
     bool propperlyInitialized();
+
+    bool isValid();
 
 };
 

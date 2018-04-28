@@ -117,172 +117,228 @@ void AirportHandler::removeAirport(string callsign){
 
 }
 
-void AirportHandler::addXmlData(string fileName) {
+SuccessEnum AirportHandler::addXmlData(string fileName) {
 
-    REQUIRE(validFileName(fileName), "Valid file name");
+    string errorFile = fileName.substr(0, fileName.size() - 4) + "Error.txt";
+
+    ofstream errStream(errorFile.c_str());
+    SuccessEnum endResult = Success;
 
     // Open XML
     const char *cstr = fileName.c_str();
     TiXmlDocument doc(cstr);
     doc.LoadFile();
 
+    if(!doc.LoadFile()) {
+        errStream << "XML IMPORT ABORTED: " << doc.ErrorDesc() << endl;
+        return ImportAborted;
+    };
+
+
     TiXmlElement* root = doc.FirstChildElement();
 
     // If Xml isn't empty
     if (root != NULL){
-        // Airports
-        for ( TiXmlElement* elem = root->FirstChildElement(); elem != NULL; elem = elem->NextSiblingElement() ){
-            string elemName = elem->Value();
-            if (elemName == "AIRPORT"){
-                Airport* Port = new Airport();
-                for (TiXmlElement* elemAtt = elem->FirstChildElement(); elemAtt!= NULL; elemAtt = elemAtt->NextSiblingElement()){
-                    string AttName = elemAtt->Value();
-                    string AttValue = elemAtt->GetText();
+        if (root->ValueTStr() != "AirportInfo"){
+            errStream << "XML PARTIAL IMPORT: Expected <AirportInfo> ... </AirportInfo> and got <"
+                      << root->Value() <<  "> ... </" << root->Value() << ">." << endl;
+            endResult = PartialImport;
 
-                    Port->setVar(AttName, string(AttValue));
+        }else {
+
+            // Airports
+            for (TiXmlElement *elem = root->FirstChildElement(); elem != NULL; elem = elem->NextSiblingElement()) {
+                string elemName = elem->Value();
+                if (elemName == "AIRPORT") {
+                    Airport *Port = new Airport();
+                    for (TiXmlElement *elemAtt = elem->FirstChildElement();
+                         elemAtt != NULL; elemAtt = elemAtt->NextSiblingElement()) {
+                        string AttName = elemAtt->Value();
+                        string AttValue = elemAtt->GetText();
+
+                        Port->setVar(AttName, string(AttValue));
+                    }
+
+                    Port->isValid();
+
+                    Airports.push_back(Port);
+
+                    continue;
                 }
-
-                Airports.push_back(Port);
-                succesMessage("Airport added (" + Port->getName() + ")");
-                //Port->printValues();
-                continue;
             }
-        }
-        // Runways
-        for ( TiXmlElement* elem = root->FirstChildElement(); elem != NULL; elem = elem->NextSiblingElement() ){
+            // Runways
+            for (TiXmlElement *elem = root->FirstChildElement(); elem != NULL; elem = elem->NextSiblingElement()) {
 
-            string elemName = elem->Value();
-            if (elemName == "RUNWAY"){
-                Runway* Runw = new Runway();
+                string elemName = elem->Value();
+                if (elemName == "RUNWAY") {
+                    Runway *Runw = new Runway();
 
-                // Loop over Variables
-                //attributes
-                for (TiXmlElement* elemAtt = elem->FirstChildElement(); elemAtt!= NULL; elemAtt = elemAtt->NextSiblingElement()){
+                    // Loop over Variables
+                    //attributes
+                    for (TiXmlElement *elemAtt = elem->FirstChildElement();
+                         elemAtt != NULL; elemAtt = elemAtt->NextSiblingElement()) {
 
-                    string AttName = elemAtt->Value();
-                    if (AttName != "airport" && AttName != "TAXIROUTE"){
-                        string AttValue = elemAtt->GetText();
-                        Runw->setVar(AttName, string(AttValue));
-                    }
-                    else{
-                        continue;
-                    }
-                }
-                //airport
-                for (TiXmlElement* elemAtt = elem->FirstChildElement(); elemAtt!= NULL; elemAtt = elemAtt->NextSiblingElement()){
-                    string AttName = elemAtt->Value();
-                    if (AttName == "airport"){
-                        string AttValue = elemAtt->GetText();
-                        for (unsigned int i = 0; i < Airports.size(); i++){
-                            if (Airports[i]->getIata() == AttValue){
-                                Airports[i]->addRunway(Runw);
-                                break;
-                            }
-
-                        }
-
-                        if (Runw->getAirport() == NULL){
-                            errorMessage("Failed to add runway, no such airport.");
-                            delete Runw;
+                        string AttName = elemAtt->Value();
+                        if (AttName != "airport" && AttName != "TAXIROUTE") {
+                            string AttValue = elemAtt->GetText();
+                            Runw->setVar(AttName, string(AttValue));
+                        } else {
+                            continue;
                         }
                     }
-                }
-                //taxipoint
-                for (TiXmlElement* elemAtt = elem->FirstChildElement(); elemAtt!= NULL; elemAtt = elemAtt->NextSiblingElement()){
-                    string AttName = elemAtt->Value();
-                    if (AttName == "TAXIROUTE"){
-                        TaxiRoute* Taxi = new TaxiRoute();
 
-                        for (TiXmlElement* SubelemAtt = elemAtt->FirstChildElement(); SubelemAtt!= NULL; SubelemAtt = SubelemAtt->NextSiblingElement()) {
+                    //airport
+                    for (TiXmlElement *elemAtt = elem->FirstChildElement();
+                         elemAtt != NULL; elemAtt = elemAtt->NextSiblingElement()) {
+                        string AttName = elemAtt->Value();
+                        if (AttName == "airport") {
+                            string AttValue = elemAtt->GetText();
+                            for (unsigned int i = 0; i < Airports.size(); i++) {
+                                if (Airports[i]->getIata() == AttValue) {
+                                    Airports[i]->addRunway(Runw);
+                                    break;
+                                }
 
-                            string SubAttName = SubelemAtt->Value();
-                            string SubAttValue = SubelemAtt->GetText();
-
-                            if (SubAttName == "taxipoint"){
-                                Taxi->addTaxiPoint(SubAttValue);
                             }
-                            else if (SubAttName == "crossing") {
-                                for (int i=0; i< (signed) Runw->getAirport()->Runways.size(); i++){
-                                    if (Runw->getAirport()->Runways[i]->getName() == SubAttValue){
-                                        Taxi->addCrossing(SubAttValue);
-                                        break;
+
+                            if (Runw->getAirport() == NULL) {
+                                errStream << "XML PARTIAL IMPORT: Invalid value for attribute airport at Runway.\n" ;
+                                endResult = PartialImport;
+                                delete Runw;
+
+                            }
+                        }
+                    }
+
+                    //taxipoint
+                    for (TiXmlElement *elemAtt = elem->FirstChildElement();
+                         elemAtt != NULL; elemAtt = elemAtt->NextSiblingElement()) {
+                        string AttName = elemAtt->Value();
+                        if (AttName == "TAXIROUTE") {
+                            TaxiRoute *Taxi = new TaxiRoute();
+
+                            for (TiXmlElement *SubelemAtt = elemAtt->FirstChildElement();
+                                 SubelemAtt != NULL; SubelemAtt = SubelemAtt->NextSiblingElement()) {
+
+                                string SubAttName = SubelemAtt->Value();
+                                string SubAttValue = SubelemAtt->GetText();
+
+                                if (SubAttName == "taxipoint") {
+                                    Taxi->addTaxiPoint(SubAttValue);
+                                } else if (SubAttName == "crossing") {
+                                    for (int i = 0; i < (signed) Runw->getAirport()->Runways.size(); i++) {
+                                        if (Runw->getAirport()->Runways[i]->getName() == SubAttValue) {
+                                            Taxi->addCrossing(SubAttValue);
+                                            break;
+                                        } else if (i == (signed) Runw->getAirport()->Runways.size() - 1) {
+                                            errStream << "XML PARTIAL IMPORT: failed to create taxipoint.\n";
+                                            endResult =  PartialImport;
+
+                                        }
                                     }
-                                    else if (i == (signed) Runw->getAirport()->Runways.size()-1){
-                                        errorMessage("Failed to create taxicrossing.");
-                                        delete Taxi;
-                                    }
+                                } else {
+                                    errStream << "XML PARTIAL IMPORT: failed to create taxiRoute.\n";
+                                    endResult =  PartialImport;
+
                                 }
                             }
-                            else {
-                                errorMessage("Failed to create taxiroute.");
-                                delete Taxi;
-                            }
+
+                            Runw->setTaxiRoute(Taxi);
+                            continue;
                         }
-                        Runw->setTaxiRoute(Taxi);
-                        continue;
                     }
+
+                    if (!Runw->isValid()) {
+                        errStream << "XML PARTIAL IMPORT: failed to create runway.\n";
+                        endResult = PartialImport;
+                        Runw->getAirport()->removeRunway(Runw->getName());
+
+                    }
+
+                    continue;
                 }
-
-                succesMessage("Runway added (" + Runw->getName() + ")");
-
-                continue;
             }
-        }
-        // Airplanes
-        for ( TiXmlElement* elem = root->FirstChildElement(); elem != NULL; elem = elem->NextSiblingElement() ){
-            string elemName = elem->Value();
+            // Airplanes
+            for (TiXmlElement *elem = root->FirstChildElement(); elem != NULL; elem = elem->NextSiblingElement()) {
+                string elemName = elem->Value();
 
-            if (elemName == "AIRPLANE") {
-                Airplane *Plane = new Airplane();
+                if (elemName == "AIRPLANE") {
+                    Airplane *Plane = new Airplane();
 
-                for (TiXmlElement* elemAtt = elem->FirstChildElement(); elemAtt!= NULL; elemAtt = elemAtt->NextSiblingElement()){
-                    string AttName = elemAtt->Value();
+                    for (TiXmlElement *elemAtt = elem->FirstChildElement();
+                         elemAtt != NULL; elemAtt = elemAtt->NextSiblingElement()) {
+                        string AttName = elemAtt->Value();
 
 
-                    if (AttName == "FLIGHTPLAN"){
-                        FlightPlan* Flight = new FlightPlan();
-                        for (TiXmlElement* SubelemAtt = elemAtt->FirstChildElement(); SubelemAtt!= NULL; SubelemAtt = SubelemAtt->NextSiblingElement()) {
-                            string SubAttName = SubelemAtt->Value();
-                            string SubAttValue = SubelemAtt->GetText();
+                        if (AttName == "FLIGHTPLAN") {
+                            FlightPlan *Flight = new FlightPlan();
+                            for (TiXmlElement *SubelemAtt = elemAtt->FirstChildElement();
+                                 SubelemAtt != NULL; SubelemAtt = SubelemAtt->NextSiblingElement()) {
+                                string SubAttName = SubelemAtt->Value();
+                                string SubAttValue = SubelemAtt->GetText();
 
-                            if (SubAttName == "destination"){
-                                Flight->setDestination(SubAttValue);
+                                if (SubAttName == "destination") {
+                                    Flight->setDestination(SubAttValue);
+                                } else if (SubAttName == "departure") {
+                                    int i;
+                                    istringstream(SubAttValue) >> i;
+                                    Flight->setDeparture(i);
+                                } else if (SubAttName == "arrival") {
+                                    int i;
+                                    istringstream(SubAttValue) >> i;
+                                    Flight->setArrival(i);
+                                } else if (SubAttName == "interval") {
+                                    int i;
+                                    istringstream(SubAttValue) >> i;
+                                    Flight->setInterval(i);
+                                } else {
+                                    errStream << "XML PARTIAL IMPORT: invalid value type at flightplan\n";
+                                    endResult = PartialImport;
+
+                                }
                             }
-                            else if (SubAttName == "departure") {
-                                int i;
-                                istringstream(SubAttValue) >> i;
-                                Flight->setDeparture(i);
+
+                            if (!Flight->isValid()){
+                                errStream << "XML PARTIAL IMPORT: invalid value of the flightplan\n";
+                                endResult = PartialImport;
+                                Flight = NULL;
+
                             }
-                            else if (SubAttName == "arrival") {
-                                int i;
-                                istringstream(SubAttValue) >> i;
-                                Flight->setArrival(i);
-                            }
-                            else if (SubAttName == "interval") {
-                                int i;
-                                istringstream(SubAttValue) >> i;
-                                Flight->setInterval(i);
-                            }
-                            else {
-                                errorMessage("Failed to create flightplan.");
-                                delete Flight;
-                            }
+
+                            Plane->setFlightPlan(Flight);
+                            continue;
+
                         }
-                        Plane->setFlightPlan(Flight);
-                        continue;
+
+                        string AttValue = elemAtt->GetText();
+                        Plane->setVar(AttName, string(AttValue));
+
                     }
-                    string AttValue = elemAtt->GetText();
-                    Plane->setVar(AttName, string(AttValue));
+
+                    if (Plane->isValid()) {
+                        Plane->setSquawkCode();
+                        if (validAirplane(Plane)) {
+                            Airplanes.push_back(Plane);
+
+                        } else {
+                            errStream << "XML PARTIAL IMPORT: double defined Airplane\n";
+                            endResult = PartialImport;
+                            delete Plane;
+                        }
+                    }else{
+                        errStream << "XML PARTIAL IMPORT: invalid or non defined Airplane values\n";
+                        endResult = PartialImport;
+                        delete Plane;
+                    }
+
+                    continue;
                 }
-                Plane->setSquawkCode();
-                Airplanes.push_back(Plane);
-
-                succesMessage("Plane added (" + Plane->getCallsign() + ")");
-
-                continue;
             }
         }
     }
+
+    return endResult;
+
 }
 
 
@@ -491,12 +547,12 @@ string AirportHandler::getInfo() {
     return s;
 
 }
-void AirportHandler::fileOutput() {
+void AirportHandler::fileOutput(string fileName) {
 
     string str = AirportHandler::getInfo();
 
     fstream file;
-    file.open("test.txt", fstream::out);
+    file.open(fileName.c_str(), fstream::out);
     file << str;
     file.close();
 
@@ -591,4 +647,8 @@ void AirportHandler::GraphicalAirport3D(string & AirportIata) {
 
 bool AirportHandler::propperlyInitialized() {
     return (this == self);
+}
+
+bool AirportHandler::isValid() {
+    return false;
 }

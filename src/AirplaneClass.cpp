@@ -251,7 +251,7 @@ void Airplane::setEmergencyInAirport(bool emergencyInAirport) {
 
 void Airplane::setSquawkCode(string code){
 
-    int index;
+    int index = 0;
 
     if (code == ""){
         if (type == "private"){
@@ -1798,6 +1798,18 @@ void Airplane::exitPassengers() {
 
 bool Airplane::propperlyInitialized() {
     return (self == this);
+}
+
+bool Airplane::isValid() {
+
+    if (size.empty() || fuel == 0 || type.empty() || model.empty() || number.empty()
+        || callsign.empty() || state.empty() || engine.empty() || flightPlan == NULL){
+
+        return false;
+    }
+
+    return (validSize(size) && validEngineType(engine) && validPlaneType(type) && propperlyInitialized());
+
 }
 
 

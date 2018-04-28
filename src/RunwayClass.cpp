@@ -82,12 +82,12 @@ void Runway::setVar(string Type, string Value) {
 }
 
 void Runway::setTaxiRoute(TaxiRoute* taxi){
-    Runway::taxiroute = taxi;
+    Runway::taxiRoute = taxi;
 }
 
 TaxiRoute* Runway::getTaxiRoute(){
 
-    return Runway::taxiroute;
+    return Runway::taxiRoute;
 }
 
 void Runway::setWachtaanRunway(bool boolean){
@@ -133,4 +133,13 @@ void Runway::setAantalVliegtuigen(int aantalvliegtuigen){
 
 bool Runway::propperlyInitialized() {
     return (this == self);
+}
+
+bool Runway::isValid() {
+    if (taxiRoute == NULL){
+        return false;
+
+    }
+
+    return !(name.empty() || type.empty() || length == 0 || taxiRoute->isValid() || !propperlyInitialized());
 }
