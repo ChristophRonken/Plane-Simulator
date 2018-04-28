@@ -24,12 +24,12 @@ vector<string> TaxiRoute::getTaxiCrossings(){
     return TaxiRoute::taxicrossings;
 }
 
-bool TaxiRoute::propperlyInitialized() {
+bool TaxiRoute::propperlyInitialised() {
     return (this == self);
 }
 
 bool TaxiRoute::isValid() {
-    if (propperlyInitialized()){
+    if (propperlyInitialised()){
         return !taxipoints.empty();
 
     }

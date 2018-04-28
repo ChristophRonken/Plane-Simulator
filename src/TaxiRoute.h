@@ -25,7 +25,7 @@ public:
     vector<string> getTaxiPoints();
     vector<string> getTaxiCrossings();
 
-    bool propperlyInitialized();
+    bool propperlyInitialised();
 
     bool isValid();
 

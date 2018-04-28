@@ -29,7 +29,6 @@ class Airport {
 
     int gates;
 
-
     vector<bool> GatesOccupied;
 
     Airplane* wait5000;
@@ -224,9 +223,19 @@ public:
      */
     void setWait3000(Airplane* plane);
 
-    Runway* getRunway(string);
+    /**
+     * Get the runway by name (string)
+     * @return Runway
+     */
+    Runway* getRunway(string name);
 
-    bool propperlyInitialized();
+    /**
+     * Check if the airport is propperly initialised
+     * @return
+     */
+    bool propperlyInitialised();
+
+    bool isValid();
 
 };
 

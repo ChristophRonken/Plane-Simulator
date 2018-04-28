@@ -253,6 +253,10 @@ string Airport::getInfo() {
     return s;
 }
 
-bool Airport::propperlyInitialized() {
+bool Airport::propperlyInitialised() {
     return (this == self);
+}
+
+bool Airport::isValid() {
+    return !(!propperlyInitialised() || name.empty() || iata.empty() || callsign.empty() || gates == 0);
 }

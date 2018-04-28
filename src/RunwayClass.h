@@ -117,7 +117,7 @@ public:
 
     void setAantalVliegtuigen(int);
 
-    bool propperlyInitialized();
+    bool propperlyInitialised();
     
     bool isValid();
 

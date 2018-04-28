@@ -40,7 +40,7 @@ public:
 
     void setArrival(int arrival);
 
-    bool propperlyInitialized();
+    bool propperlyInitialised();
 
     bool isValid();
 

@@ -131,7 +131,7 @@ void Runway::setAantalVliegtuigen(int aantalvliegtuigen){
 
 }
 
-bool Runway::propperlyInitialized() {
+bool Runway::propperlyInitialised() {
     return (this == self);
 }
 
@@ -141,5 +141,5 @@ bool Runway::isValid() {
 
     }
 
-    return !(name.empty() || type.empty() || length == 0 || taxiRoute->isValid() || !propperlyInitialized());
+    return !(name.empty() || type.empty() || length == 0 || taxiRoute->isValid() || !propperlyInitialised());
 }

@@ -37,10 +37,10 @@ void FlightPlan::setArrival(int arrival) {
     FlightPlan::arrival = arrival;
 }
 
-bool FlightPlan::propperlyInitialized() {
+bool FlightPlan::propperlyInitialised() {
     return (this == self);
 }
 
 bool FlightPlan::isValid() {
-    return (destination.empty() || interval == 0 || !propperlyInitialized());
+    return (destination.empty() || interval == 0 || !propperlyInitialised());
 }

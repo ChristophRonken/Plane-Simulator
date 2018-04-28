@@ -1787,7 +1787,7 @@ void Airplane::exitPassengers() {
     }
 }
 
-bool Airplane::propperlyInitialized() {
+bool Airplane::propperlyInitialised() {
     return (self == this);
 }
 
@@ -1799,7 +1799,7 @@ bool Airplane::isValid() {
         return false;
     }
 
-    return (validSize(size) && validEngineType(engine) && validPlaneType(type) && propperlyInitialized());
+    return (validSize(size) && validEngineType(engine) && validPlaneType(type) && propperlyInitialised());
 
 }
 
