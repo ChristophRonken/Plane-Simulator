@@ -46,6 +46,7 @@ const string &Runway::getType() const {
 }
 
 void Runway::setType(const string &type) {
+    REQUIRE(type == "grass" || type == "asphalt", "valid runway type");
     Runway::type = type;
 }
 
@@ -59,6 +60,8 @@ void Runway::setLength(int length) {
 
 void Runway::setVar(string Type, string Value) {
 
+
+
     if (Type == "name"){
         Runway::setName(Value);
         return ;
@@ -70,15 +73,14 @@ void Runway::setVar(string Type, string Value) {
     }
 
     else if (Type == "length"){
-        int i;
-        istringstream(Value) >> i;
-        Runway::setLength(i);
+        if (is_number(Value)) {
+            int i;
+            istringstream(Value) >> i;
+            Runway::setLength(i);
+        }
         return;
     }
 
-    else {
-        REQUIRE(false, "Valid Type");
-    }
 }
 
 void Runway::setTaxiRoute(TaxiRoute* taxi){
@@ -90,19 +92,19 @@ TaxiRoute* Runway::getTaxiRoute(){
     return Runway::taxiRoute;
 }
 
-void Runway::setWachtaanRunway(bool boolean){
-    Runway::wachtaanrunway = boolean;
+void Runway::setHoldingShortOccupied(bool boolean){
+    Runway::holdingShortOccupied = boolean;
 }
 
-void Runway::setWachtopRunway(bool boolean){
+void Runway::setWaitingOnRunway(bool boolean){
     Runway::wachtoprunway = boolean;
 }
 
-bool Runway::getWachtaanRunway(){
-    return Runway::wachtaanrunway;
+bool Runway::getHoldingShortOccupied(){
+    return Runway::holdingShortOccupied;
 }
 
-bool Runway::getWachtopRunway(){
+bool Runway::getWaitingOnRunway(){
     return Runway::wachtoprunway;
 }
 
@@ -120,15 +122,6 @@ bool Runway::getPermissionToCross(){
 
 void Runway::setPermissionToCross(bool cross){
     Runway::permissiontocross = cross;
-}
-
-int Runway::getAantalVliegtuigen(){
-    return Runway::aantalvliegtuigen;
-}
-
-void Runway::setAantalVliegtuigen(int aantalvliegtuigen){
-    Runway::aantalvliegtuigen = aantalvliegtuigen;
-
 }
 
 bool Runway::propperlyInitialised() {

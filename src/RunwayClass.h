@@ -6,9 +6,11 @@
 #define PSE_V1_RUNWAYCLASS_H
 
 #include <iostream>
+#include <vector>
 #include "AirportClass.h"
 #include "TaxiRoute.h"
-#include<vector>
+#include "Utils.cpp"
+
 
 using namespace std;
 
@@ -27,12 +29,10 @@ class Runway {
 
     TaxiRoute * taxiRoute;
 
-    bool wachtaanrunway;
+    bool holdingShortOccupied;
     bool wachtoprunway;
     bool permissiontocross;
     bool crossing;
-
-    int aantalvliegtuigen;
 
 public:
     /**
@@ -78,32 +78,63 @@ public:
     bool isOccupied() const;
 
     /**
-     * sets occupied to the given param
+     * Sets occupied to the given param
      * @param occupied
      */
     void setOccupied(bool occupied);
 
+    /**
+     * Returns the runway type
+     * @return string
+     */
     const string &getType() const;
 
+    /**
+     * sets the runway type
+     * Preconditions: type == "grass" || type == "asphalt"
+     * @param type
+     */
     void setType(const string &type);
 
+    /**
+     * get the length of the runway
+     * @return int
+     */
     int getLength() const;
 
+    /**
+     * set the length of the runway
+     * @param length
+     */
     void setLength(int length);
 
+    /**
+     * Set the value of the variable with name == Type
+     * If the type is invalid, nothing happens
+     * @param Type
+     * @param Value
+     */
     void setVar(string Type, string Value);
 
+    /**
+     *  Set the taxiRoute
+     * @param taxi
+     */
     void setTaxiRoute(TaxiRoute* taxi);
 
+    /**
+     * Returns the taxiRoute
+     * @return 
+     */
     TaxiRoute* getTaxiRoute();
+    
+    void setHoldingShortOccupied(bool);
 
-    void setWachtaanRunway(bool);
+    void setWaitingOnRunway(bool);
 
-    void setWachtopRunway(bool);
+    bool getHoldingShortOccupied();
 
-    bool getWachtaanRunway();
-
-    bool getWachtopRunway();
+    bool getWaitingOnRunway();
 
     bool getCrossing();
 
@@ -112,10 +143,6 @@ public:
     bool getPermissionToCross();
 
     void setPermissionToCross(bool);
-
-    int getAantalVliegtuigen();
-
-    void setAantalVliegtuigen(int);
 
     bool propperlyInitialised();
     
