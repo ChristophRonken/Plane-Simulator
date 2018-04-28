@@ -61,17 +61,14 @@ class Airplane {
 
     bool taxiRequest;
 
-    bool request;
-    bool requestWait;
-
     bool emergencyInAirport;
+    bool crossed;
 
     bool alreadylinedup;
     bool permissiontotakeoff;
-    bool takingoff;
+
     bool waitatrunway;
     bool waitonrunway;
-    int  waitabit;
 
 
 public:
