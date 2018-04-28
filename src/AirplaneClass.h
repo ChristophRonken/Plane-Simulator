@@ -64,7 +64,7 @@ class Airplane {
 
     bool emergencyInAirport;
 
-    bool needtowait;
+    bool alreadylinedup;
     bool permissiontotakeoff;
     bool takingoff;
     bool waitatrunway;
@@ -304,7 +304,7 @@ public:
      * Precondition: this->atAirport() && validRunway(Runway* )
      * @param runway
      */
-    void toRunway(Runway *runway = NULL);
+    void pushBack(Runway *runway = NULL);
 
     /**
      * send the plane to gate x
@@ -634,9 +634,6 @@ public:
      */
     void emergencyLanding(Airport*);
 
-
-    void afterLanding();
-
     /**
      * Check if the input value would be a valid engine type for the airplane.
      * @param engine
@@ -651,6 +648,14 @@ public:
      */
     bool validSize(string size);
 
+    void exitPlane();
+
+    void enterPlane();
+
+    void technicalCheck();
+
+    void refuel();
+
 };
 
 void setTime(string);
@@ -661,5 +666,9 @@ int getTimePassed();
 
 void setStartingTime(int time);
 int getStartingTime();
+
+
+
+
 
 #endif //PSE_V1_AirplaneCLASS_H
