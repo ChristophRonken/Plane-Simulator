@@ -1647,34 +1647,22 @@ void Airplane::technicalCheck(){
     return;
 }
 
-void Airplane::refuel(){
+void Airplane::refuel() {
     REQUIRE(currentTask == "refueling", "correct state");
 
-    opperationTime = ceil(fuelCapacity/10000);
+    opperationTime = ceil(fuelCapacity / 10000);
     notificationMessage(getNumber() + " has been refueled");
 
     if (emergencyInAirport) {
         Airplane::setState("Waiting for taxi to gate");
         currentTask = "taxi to gate";
-    }
-    else{
+    } else {
         Airplane::setState("Waiting for board passengers");
         currentTask = "board passengers";
     }
 
 
     return;
-}
-
-void Airplane::refuel() {
-    if (fuel + 10000 < fuelCapacity){
-        fuel += 10000;
-
-    }else{
-        fuel = fuelCapacity;
-
-    }
-
 }
 
 
