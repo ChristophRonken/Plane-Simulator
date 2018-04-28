@@ -1766,5 +1766,30 @@ string Airplane::getInfo() {
     return str;
 }
 
+void Airplane::boardPassengers() {
+
+    if (opperationTime){
+
+        passengers += (passengerCapacity - passengers)/opperationTime;
+
+    }else{
+        passengers = passengerCapacity;
+
+    }
+
+}
+
+void Airplane::exitPassengers() {
+
+    if (opperationTime){
+
+        passengers += (passengerCapacity - passengers)/opperationTime;
+
+    }else{
+        passengers = 0;
+
+    }
+}
+
 
 

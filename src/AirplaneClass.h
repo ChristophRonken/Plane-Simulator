@@ -319,7 +319,7 @@ public:
      * Precondition: this->atAirport() && validRunway(Runway* )
      * @param runway
      */
-    void pushBack(Runway *runway = NULL);
+    void pushBack(Runway* Runw = NULL);
 
     /**
      * send the plane to gate x
@@ -665,6 +665,10 @@ public:
     void technicalCheck();
 
     void refuel();
+
+    void boardPassengers();
+
+    void exitPassengers();
 
 };
 
