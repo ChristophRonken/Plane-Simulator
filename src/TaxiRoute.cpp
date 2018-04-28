@@ -30,7 +30,7 @@ bool TaxiRoute::propperlyInitialised() {
 
 bool TaxiRoute::isValid() {
     if (propperlyInitialised()){
-        return !taxipoints.empty();
+        return taxipoints.size() != 0;
 
     }
     return false;

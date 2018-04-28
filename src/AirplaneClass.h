@@ -652,13 +652,15 @@ public:
 
     bool isValid();
 
+
     bool getsimulationFinished();
 
     void setsimulationFinished(bool);
 
-    void setcurrentTask(string task);
+    const string &getCurrentTask() const;
 
-    string getcurrentTask();
+    void setCurrentTask(const string &currentTask);
+
 };
 
 void setTime(string);
