@@ -5,7 +5,9 @@
 #include "AirportClass.h"
 #include <algorithm>
 
-Airport::Airport() {}
+Airport::Airport() {
+    self = this;
+}
 
 Airport::Airport(const string &name, const string &iata, const string &callsign, int gates){
     Airport::name = name;
@@ -249,4 +251,8 @@ string Airport::getInfo() {
          + "->runways:\t" + intToString(static_cast<int>(Runways.size())) + "\n";
 
     return s;
+}
+
+bool Airport::propperlyInitialized() {
+    return (this == self);
 }

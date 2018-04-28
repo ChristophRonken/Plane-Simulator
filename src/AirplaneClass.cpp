@@ -11,6 +11,7 @@ int gStartingTime;
 
 
 Airplane::Airplane() {
+    self = this;
     gate = -1;
     runway = NULL;
     passengers = 125;
@@ -1018,21 +1019,25 @@ void Airplane::pushBack(Runway* Runw) {
 }
 
 void Airplane::taxiToRunway(Runway* runw){
+
     REQUIRE(currentTask == "going to runway", "correct state");
     if (runw == NULL){
         runw = Airplane::attemptRunway;
     }
+
     REQUIRE(!runw->getWachtaanRunway(), "Runway fully occupied.");
     if (gate != -1){
         airPort->setGateOccupied(gate, false);
         gate = -1;
     }
+
     string tijd = getTime();
     taxiRoute = runw->getTaxiRoute();
     if (taxiPoint == "" && taxiCrossing == ""){
         taxiPoint = taxiRoute->getTaxiPoints()[0];
         return;
     }
+
     if (taxiPoint != ""){
         for (unsigned int i=0; i < taxiRoute->getTaxiPoints().size(); i++){
             if (taxiPoint == taxiRoute->getTaxiPoints()[i]){
@@ -1789,6 +1794,10 @@ void Airplane::exitPassengers() {
         passengers = 0;
 
     }
+}
+
+bool Airplane::propperlyInitialized() {
+    return (self == this);
 }
 
 

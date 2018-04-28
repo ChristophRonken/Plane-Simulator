@@ -20,6 +20,9 @@ class Runway;
 class Airplane;
 
 class Airport {
+
+    Airport* self;
+
     string name;
     string iata;
     string callsign;
@@ -222,6 +225,8 @@ public:
     void setWait3000(Airplane* plane);
 
     Runway* getRunway(string);
+
+    bool propperlyInitialized();
 
 };
 

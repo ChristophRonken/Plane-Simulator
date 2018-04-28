@@ -12,7 +12,7 @@ using namespace std;
 class TaxiRoute {
     vector<string> taxipoints;
     vector<string> taxicrossings;
-
+    TaxiRoute* self;
 
 public:
 
@@ -24,6 +24,8 @@ public:
 
     vector<string> getTaxiPoints();
     vector<string> getTaxiCrossings();
+
+    bool propperlyInitialized();
 
 };
 

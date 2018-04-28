@@ -15,6 +15,8 @@ using namespace std;
 class Airport;
 
 class Runway {
+
+    Runway* self;
     string name;
     Airport* airPort;
 
@@ -114,6 +116,8 @@ public:
     int getAantalVliegtuigen();
 
     void setAantalVliegtuigen(int);
+
+    bool propperlyInitialized();
 
 };
 

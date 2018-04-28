@@ -17,6 +17,8 @@
 
 class AirportHandler {
 
+    AirportHandler* self;
+
     vector<Airport*> Airports;
     vector<Airplane*> Airplanes;
     const static double TimeUnit = 1;   // in seconds
@@ -198,6 +200,9 @@ public:
     string timeToString(double passedTimeUnits);
 
     void GraphicalAirport3D(string & AirportIata);
+
+    bool propperlyInitialized();
+
 };
 
 

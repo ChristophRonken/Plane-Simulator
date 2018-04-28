@@ -6,7 +6,7 @@
 
 
 FlightPlan::FlightPlan() {
-
+    self = this;
 }
 
 const string &FlightPlan::getDestination() const {
@@ -35,4 +35,8 @@ int FlightPlan::getArrival() const {
 }
 void FlightPlan::setArrival(int arrival) {
     FlightPlan::arrival = arrival;
+}
+
+bool FlightPlan::propperlyInitialized() {
+    return (this == self);
 }
