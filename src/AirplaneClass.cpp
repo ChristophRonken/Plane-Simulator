@@ -1068,12 +1068,17 @@ void Airplane::taxiToRunway(Runway* runw){
                     return;
                 }
                 else{
-                    taxiPoint = "";
-                    taxiCrossing = taxiRoute->getTaxiCrossings()[i];
-                    messageMessageSend = false;
-                    confirmMessageSend = false;
-                    opperationTime = 5;
-                    return;
+                    waitabit +=1;
+                    if (waitabit == 5){
+                        taxiPoint = "";
+                        taxiCrossing = taxiRoute->getTaxiCrossings()[i];
+                        messageMessageSend = false;
+                        confirmMessageSend = false;
+                        return;
+                    }
+                    else {
+                        return;
+                    }
                 }
             }
         }
