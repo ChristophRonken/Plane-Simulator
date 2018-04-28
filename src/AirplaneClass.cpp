@@ -408,13 +408,6 @@ void Airplane::setsimulationFinished(bool finished){
     Airplane::simulationFinished = finished;
 }
 
-void Airplane::setcurrentTask(string task){
-    Airplane::currentTask = task;
-};
-string Airplane::getcurrentTask(){
-    return Airplane::currentTask;
-};
-
 
 //checks
 bool Airplane::validLandingSpot(Airport *Port, Runway *Runw) {
@@ -991,6 +984,9 @@ void Airplane::pushBack(Runway* Runw) {
 }
 
 void Airplane::taxiToRunway(Runway* runw){
+    if (Airplane::getState() == "Waiting for taxi to runway") {
+        Airplane::setState("trying to taxi");
+    }
 
     REQUIRE(currentTask == "going to runway", "correct state");
     if (runw == NULL){
@@ -1003,15 +999,19 @@ void Airplane::taxiToRunway(Runway* runw){
         gate = -1;
     }
 
-    REQUIRE(!Airplane::onitsway && !runw->getonItsWay(), "no plane on its way");
-    REQUIRE(Airplane::onitsway && runw->getonItsWay(), "this plane on its way");
+    Airplane::onitsway = true;
+    runw->setonItsWay(true);
+
+    REQUIRE((!Airplane::onitsway && !runw->getonItsWay()) || (Airplane::onitsway && runw->getonItsWay()), "no plane on its way");
 
     Airplane::onitsway = true;
     runw->setonItsWay(true);
     string tijd = getTime();
     taxiRoute = runw->getTaxiRoute();
-    if (taxiPoint == "" && taxiCrossing == ""){
+
+    if (taxiPoint.empty() && taxiCrossing.empty()){
         taxiPoint = taxiRoute->getTaxiPoints()[0];
+        setOpperationTime(1);
         return;
     }
 
@@ -1022,41 +1022,46 @@ void Airplane::taxiToRunway(Runway* runw){
                     if (!messageMessageSend){
                         toRunwayMessage(this, runw, taxiPoint, tijd);
                         messageMessageSend = true;
+                        setOpperationTime(1);
                         return;
                     }
                     else if (!confirmMessageSend){
                         toRunwayConfirmation(this, runw, taxiPoint, tijd);
                         confirmMessageSend = true;
+                        setOpperationTime(1);
                         return;
                     }
                     else{
                         messageMessageSend = false;
                         confirmMessageSend = false;
                         runway = runw;
-                        opperationTime = 1;
                         Airplane::setState("Waiting for departure");
                         currentTask == "at holding point";
                         Airplane::onitsway = false;
                         runw->setonItsWay(false);
+                        setOpperationTime(1);
                         return;
                     }
                 }
                 else if (!messageMessageSend) {
                     toHoldingPointMessage(this, taxiRoute->getTaxiCrossings()[i], taxiPoint, tijd);
                     messageMessageSend = true;
+                    setOpperationTime(1);
                     return;
                 }
                 else  if (!confirmMessageSend) {
                     toHoldingPointConfirmation(this, taxiRoute->getTaxiCrossings()[i], taxiPoint, tijd);
                     confirmMessageSend = true;
+                    setOpperationTime(1);
                     return;
                 }
                 else{
                     taxiPoint = "";
                     taxiCrossing = taxiRoute->getTaxiCrossings()[i];
+                    Airplane::setState("at taxicrossing");
                     messageMessageSend = false;
                     confirmMessageSend = false;
-                    opperationTime = 5;
+                    setOpperationTime(5);
                     return;
                 }
             }
@@ -1068,49 +1073,58 @@ void Airplane::taxiToRunway(Runway* runw){
                 if (!requestMessageSend) {
                     clearedToCrossRequest(this, taxiRoute->getTaxiCrossings()[i], tijd);
                     requestMessageSend = true;
+                    setOpperationTime(1);
                     return;
                 }
                 else  if (!messageMessageSend) {
 
                     if (!Airplane::getAirport()->getRunway(taxiCrossing)->getPermissionToCross()){
+                        setOpperationTime(1);
+                        requestMessageSend = false;
                         return;
                     }
                     else {
                         clearedToCrossMessage(this, taxiRoute->getTaxiCrossings()[i], tijd);
                         messageMessageSend = true;
+                        setOpperationTime(1);
                         return;
                     }
                 }
                 else  if (!confirmMessageSend) {
                     clearedToCrossConfirmation(this, taxiRoute->getTaxiCrossings()[i], tijd);
                     confirmMessageSend = true;
+                    setOpperationTime(1);
                     return;
                 }
                 else{
                     if (crossed){
                         taxiCrossing = "";
-                        taxiPoint = taxiRoute->getTaxiPoints()[i];
+                        taxiPoint = taxiRoute->getTaxiPoints()[i+1];
                         requestMessageSend = false;
                         messageMessageSend = false;
                         confirmMessageSend = false;
-                        setOpperationTime(5);
                         crossed = false;
-                        runway->setPermissionToCross(true);
+                        runw->setPermissionToCross(true);
+                        Airplane::setState("at taxipoint");
+                        setOpperationTime(5);
                         return;
                     }
                     else {
-                        if (runway->getPermissionToCross()){
+                        if (runw->getPermissionToCross()){
                             crossed = true;
-                            runway->setPermissionToCross(false);
+                            runw->setPermissionToCross(false);
+                            Airplane::setState("crossing");
+                            setOpperationTime(1);
                             return;
                         }
                         else{
+                            Airplane::setState("waiting at taxicrossing");
+                            setOpperationTime(1);
                             return;
                         }
                     }
                 }
             }
-
         }
     }
 }
@@ -1301,14 +1315,17 @@ void Airplane::emergencyLanding(Airport* Port){
         if (emergencyInAirport){
             runway->setPermissionToCross(true);
             Airplane::setState("Waiting for exit passengers");
-            Airplane::setsimulationFinished(true);
+            requestMessageSend = false;
+            currentTask = "exit passengers";
+            return;
         }
         else{
-            Airplane::setState("Waiting for exit passengers");
+            Airplane::setState("Finished");
+            requestMessageSend = false;
+            currentTask = "Finished";
+            return;
         }
-        requestMessageSend = false;
-        currentTask = "exit passengers";
-        return;
+
     }
 }
 
@@ -1489,6 +1506,7 @@ void Airplane::takeOff() {
 
     REQUIRE(readyForTakeOff(), "Ready for take off");
     REQUIRE(Airplane::getHeight() == 0, "Plane not on ground");
+    cout << "done" << endl;
     if (currentTask == "at holding point") {
         if (!requestMessageSend) {
             holdingShortAtRunway(this, runway, tijd);
@@ -1611,7 +1629,7 @@ void Airplane::takeOff() {
 
     cout << "finished" << endl;
 
-    currentTask = "flying";
+    currentTask = "Finished";
     Airplane::setsimulationFinished(true);
 
 }
@@ -1622,12 +1640,9 @@ void Airplane::exitPlane(){
     opperationTime = ceil(Airplane::getPassengers()/2);
     passengers = 0;
 
-    if (emergencyInAirport) {
-        notificationMessage(passengerCapacity + " passengers exited " + callsign + " from the emergency exit");
-    }
-    else{
-        notificationMessage(passengerCapacity + " passengers exited " + callsign);
-    }
+
+    notificationMessage(passengerCapacity + " passengers exited " + callsign);
+
 
     Airplane::setState("Waiting for technical check");
     currentTask = "technical check";
@@ -1717,6 +1732,9 @@ void Airplane::nextTask(Airport* Port) {
 }
 
 void Airplane::initSimulation(Airport *Port) {
+    for (unsigned int i=0; i<Port->getRunways().size(); i++){
+        Port->getRunways()[i]->setPermissionToCross(true);
+    }
     if (getState() == "Approaching"){
         if (flightPlan != NULL){
             opperationTime = flightPlan->getArrival();
