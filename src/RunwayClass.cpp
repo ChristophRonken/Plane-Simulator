@@ -33,12 +33,18 @@ void Runway::setOccupied(bool occupied) {
 Runway::Runway(const string &name, Airport *airPort) : name(name), airPort(airPort) {
     occupied = false;
     Runway::length = 0;
+
+    holdingShortOccupied = false;
+    waitingOnRunway = false;
+
 }
 
 Runway::Runway() {
     Runway::occupied = false;
     Runway::length = 0;
     self = this;
+    holdingShortOccupied = false;
+    waitingOnRunway = false;
 }
 
 const string &Runway::getType() const {
@@ -134,5 +140,5 @@ bool Runway::isValid() {
 
     }
 
-    return !(name.empty() || type.empty() || length == 0 || taxiRoute->isValid() || !propperlyInitialised());
+    return !(name.empty() || type.empty() || length == 0 || !taxiRoute->isValid() || !propperlyInitialised());
 }

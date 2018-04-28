@@ -686,6 +686,10 @@ public:
 
     bool isValid();
 
+    const string &getCurrentTask() const;
+
+    void setCurrentTask(const string &currentTask);
+
 };
 
 void setTime(string);

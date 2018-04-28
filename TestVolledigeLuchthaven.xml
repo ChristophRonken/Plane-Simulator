@@ -1,23 +1,23 @@
 <AirportInfo>
-    <AIRPORT>
-        <name>Antwerp International Airport</name>
-        <iata>ANR</iata>
-        <callsign>Antwerp Tower</callsign>
-        <gates>10</gates>
-    </AIRPORT>
+	<AIRPORT>
+		<name>Antwerp International Airport</name>
+		<iata>ANR</iata>
+		<callsign>Antwerp Tower</callsign>
+		<gates>10</gates>
+	</AIRPORT>
 
-    <AIRPORT>
-        <name>Failliet Airlines</name>
-        <iata>FA</iata>
-        <callsign>Faille</callsign>
-        <gates>5</gates>
-    </AIRPORT>
+	<AIRPORT>
+		<name>Failliet Airlines</name>
+		<iata>FA</iata>
+		<callsign>Faille</callsign>
+		<gates>5</gates>
+	</AIRPORT>
 
-    <RUNWAY>
+	<RUNWAY>
 		<name>11R</name>
-        <airport>ANR</airport>
-        <length>1000</length>
-        <type>asphalt</type>
+		<airport>ANR</airport>
+		<length>1000</length>
+		<type>asphalt</type>
 		<TAXIROUTE>
 			<taxipoint>TPA</taxipoint>
 		</TAXIROUTE>
@@ -26,8 +26,8 @@
 	<RUNWAY>
 		<name>11L</name>
 		<airport>ANR</airport>
-        <length>2500</length>
-        <type>asphalt</type>
+		<length>2500</length>
+		<type>asphalt</type>
 		<TAXIROUTE>
 			<taxipoint>TPA</taxipoint>
 			<crossing>11R</crossing>
@@ -35,33 +35,33 @@
 		</TAXIROUTE>
 	</RUNWAY>
 
-    <AIRPLANE>
-        <number>N11842</number>
-        <callsign>Cessna 842</callsign>
-        <model>Cessna 340</model>
-        <status>Approaching</status>
-        <engine>propeller</engine>
-        <size>small</size>
-    </AIRPLANE>
+	<AIRPLANE>
+		<number>N11842</number>
+		<callsign>Cessna 842</callsign>
+		<model>Cessna 340</model>
+		<status>Approaching</status>
+		<engine>propeller</engine>
+		<size>small</size>
+	</AIRPLANE>
 
-    <AIRPLANE>
-        <number>N11843</number>
-        <callsign>Cessna 843</callsign>
-        <model>Cessna 340</model>
-        <status>Gate</status>
-        <engine>propeller</engine>
-        <size>small</size>
-    </AIRPLANE>
+	<AIRPLANE>
+		<number>N11843</number>
+		<callsign>Cessna 843</callsign>
+		<model>Cessna 340</model>
+		<status>Gate</status>
+		<engine>propeller</engine>
+		<size>small</size>
+	</AIRPLANE>
 
-    <AIRPLANE>
+	<AIRPLANE>
 		<number>BAW466</number>
 		<callsign>Speedbird 466</callsign>
 		<model>Boeing 737</model>
 		<type>airline</type>
-        	<status>broken</status>
+		<status>Gate</status>
 		<engine>jet</engine>
 		<size>medium</size>
-        	<passengers>60</passengers>
+		<passengers>60</passengers>
 		<fuel>100000</fuel>
 		<FLIGHTPLAN>
 			<destination>LCY</destination>

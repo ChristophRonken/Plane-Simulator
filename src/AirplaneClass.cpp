@@ -339,6 +339,7 @@ void Airplane::setVar(string Type, string Value) {
     }
 
     else if (Type == "status"){
+        if (Value == "Gate" || Value == "Approaching" )
         Airplane::setState(Value);
         return;
     }
@@ -967,7 +968,7 @@ void Airplane::pushBack(Runway* Runw) {
 
     else if(currentTask == "request taxi") {
         Airplane::setState("Waiting for taxi to runway");
-        currentTask = "taxi to runway";
+        currentTask = "going to runway";
         readyToTaxiMessage(this, tijd);
         return;
     }
@@ -1695,7 +1696,7 @@ void Airplane::initSimulation(Airport *Port) {
     if (getState() == "Approaching"){
         if (flightPlan != NULL){
             opperationTime = flightPlan->getArrival();
-
+            currentTask = "land";
         }
 
     }
@@ -1704,6 +1705,8 @@ void Airplane::initSimulation(Airport *Port) {
         if (flightPlan != NULL) {
             opperationTime = flightPlan->getDeparture();
         }
+
+        currentTask = "IFR";
 
         setAirport(Port);
         setGate(Port->getFreeGates()[0]);
@@ -1742,7 +1745,8 @@ void Airplane::execTask(Airport* Port) {
 }
 
 bool Airplane::notFinished(Airport* Port) {
-    return false;
+    return !(currentTask == "finished");
+
 }
 
 
@@ -1801,6 +1805,14 @@ bool Airplane::isValid() {
 
     return (validSize(size) && validEngineType(engine) && validPlaneType(type) && propperlyInitialised());
 
+}
+
+const string &Airplane::getCurrentTask() const {
+    return currentTask;
+}
+
+void Airplane::setCurrentTask(const string &currentTask) {
+    Airplane::currentTask = currentTask;
 }
 
 

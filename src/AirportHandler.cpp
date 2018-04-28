@@ -438,9 +438,19 @@ bool AirportHandler::airportEmpty(Airport *Port) {
 
     if (Port->getFreeRunways().size() == Port->getRunways().size()){
         if (Port->getFreeGates().size() == unsigned (Port->getGates())){
+            for (unsigned int i = 0; i < Airplanes.size(); i++){
+                if (Airplanes[i]->notFinished(Port)) {
+                    return false;
+
+                }
+            }
+
             return true;
+
         }
     }
+
+
     return false;
 
 }
@@ -496,6 +506,7 @@ void AirportHandler::runSimulation(string name) {
                 Airplane *Plane = Airplanes[i];
 
                 if (Plane->notFinished(Port)) {
+                    cout << Plane->getState() << endl;
                     if (Plane->getOpperationTime() > 0) {
 
                         Plane->execTask(Port);
