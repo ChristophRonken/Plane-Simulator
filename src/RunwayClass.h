@@ -34,6 +34,8 @@ class Runway {
 
     int aantalvliegtuigen;
 
+    bool onItsWay;
+
 public:
     /**
       * Construct a runway with parameters
@@ -120,6 +122,10 @@ public:
     bool propperlyInitialized();
     
     bool isValid();
+
+    bool getonItsWay();
+
+    void setonItsWay(bool onitsway);
 
 };
 

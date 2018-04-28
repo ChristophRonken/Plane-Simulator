@@ -3,7 +3,10 @@
 //
 
 #include "AirportHandler.h"
+#include "AirplaneClass.h"
 #include <algorithm>
+#include <vector>
+
 
 
 
@@ -159,7 +162,7 @@ SuccessEnum AirportHandler::addXmlData(string fileName) {
                         Port->setVar(AttName, string(AttValue));
                     }
 
-                    Port->isValid();
+                    //Port->isValid();
 
                     Airports.push_back(Port);
 
@@ -706,6 +709,19 @@ void AirportHandler::GraphicalAirport3D(string & AirportIata) {
             s += "\n";
         }
     }
+
+    vector<Airplanes*> unfinishedAirplanes;
+    for (unsigned int i=0; i<getAirplanes().size(); i++){
+        if (getAirplanes()[i]->getsimulationFinished()){
+            unfinishedAirplanes.push_back(getAirplanes()[i]);
+        }
+    }
+
+    for (unsigned int i=0; i<unfinishedAirplanes.size(); i++){
+        unfinishedAirplanes[i].getcurrentTask();
+    }
+
+
 
 
     fstream file;

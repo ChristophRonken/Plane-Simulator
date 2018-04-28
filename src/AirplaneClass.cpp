@@ -400,6 +400,20 @@ void Airplane::setVar(string Type, string Value) {
 
 }
 
+bool Airplane::getsimulationFinished(){
+    return Airplane::simulationFinished;
+}
+void Airplane::setsimulationFinished(bool finished){
+    Airplane::simulationFinished = finished;
+}
+
+void Airplane::setcurrentTask(string task){
+    Airplane::currentTask = task;
+};
+string Airplane::getcurrentTask(){
+    return Airplane::currentTask;
+};
+
 
 //checks
 bool Airplane::validLandingSpot(Airport *Port, Runway *Runw) {
@@ -888,6 +902,7 @@ bool Airplane::isReadyForDeparture() const {
 
 
 
+
 // functies
 
 void Airplane::pushBack(Runway* Runw) {
@@ -987,6 +1002,11 @@ void Airplane::taxiToRunway(Runway* runw){
         gate = -1;
     }
 
+    REQUIRE(!Airplane::onitsway && !runw->getonItsWay(), "no plane on its way");
+    REQUIRE(Airplane::onitsway && runw->getonItsWay(), "this plane on its way");
+
+    Airplane::onitsway = true;
+    runw->setonItsWay(true);
     string tijd = getTime();
     taxiRoute = runw->getTaxiRoute();
     if (taxiPoint == "" && taxiCrossing == ""){
@@ -1015,6 +1035,8 @@ void Airplane::taxiToRunway(Runway* runw){
                         opperationTime = 1;
                         Airplane::setState("Waiting for departure");
                         currentTask == "at holding point";
+                        Airplane::onitsway = false;
+                        runw->setonItsWay(false);
                         return;
                     }
                 }
@@ -1278,6 +1300,7 @@ void Airplane::emergencyLanding(Airport* Port){
         if (emergencyInAirport){
             runway->setPermissionToCross(true);
             Airplane::setState("Waiting for exit passengers");
+            Airplane::setsimulationFinished(true);
         }
         else{
             Airplane::setState("Waiting for exit passengers");
@@ -1588,6 +1611,7 @@ void Airplane::takeOff() {
     cout << "finished" << endl;
 
     currentTask = "flying";
+    Airplane::setsimulationFinished(true);
 
 }
 

@@ -70,16 +70,11 @@ class Airplane {
     bool waitatrunway;
     bool waitonrunway;
 
+    bool onitsway;
+    bool simulationFinished;
+
 
 public:
-
-    /**
-     * sets if the plane is ready for departure
-     * Precondition: Plane must be at gate
-     * @param ReadyForDeparture
-     */
-    void setReadyForDeparture(bool ReadyForDeparture);
-
 
     Airplane();
 
@@ -590,30 +585,6 @@ public:
     void setTaxiRequest(bool taxiRequest);
 
     /**
-     * geen idee waar deze voor is... beter benamingen nodig
-     * @return bool
-     */
-    bool isRequest() const;
-
-    /**
-     * Zie hierboven
-     * @param request
-     */
-    void setRequest(bool request);
-
-    /**
-     * Check if the task is Waiting
-     * @return bool
-     */
-    bool isRequestWait() const;
-
-    /**
-     * Set if the task is waiting
-     * @param requestWait
-     */
-    void setRequestWait(bool requestWait);
-
-    /**
      * Check if the airplane has permission to descend
      * @param height
      * @param Port
@@ -621,11 +592,6 @@ public:
      * @return bool
      */
     bool permissionToDescend(int, Airport*, Runway*);
-
-    /**
-     * Make the airplane descend
-     */
-    void descend();
 
     /**
      * Make the airplane taxi to a (given) runway if possible
@@ -674,6 +640,13 @@ public:
 
     bool isValid();
 
+    bool getsimulationFinished();
+
+    void setsimulationFinished(bool);
+
+    void setcurrentTask(string task);
+
+    string getcurrentTask();
 };
 
 void setTime(string);

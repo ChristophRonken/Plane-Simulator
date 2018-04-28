@@ -143,3 +143,11 @@ bool Runway::isValid() {
 
     return !(name.empty() || type.empty() || length == 0 || taxiRoute->isValid() || !propperlyInitialized());
 }
+
+bool Runway::getonItsWay(){
+    return Runway::onItsWay;
+}
+
+void Runway::setonItsWay(bool onitsway){
+    Runway::onItsWay = onitsway;
+}
