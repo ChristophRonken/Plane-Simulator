@@ -381,12 +381,6 @@ void Airplane::setVar(string Type, string Value) {
         int i;
         istringstream(Value) >> i;
         Airplane::setPassengers(i);
-        return;
-    }
-
-    else if (Type == "passengerCap"){
-        int i;
-        istringstream(Value) >> i;
         Airplane::setPassengerCapacity(i);
         return;
     }
@@ -402,12 +396,6 @@ void Airplane::setVar(string Type, string Value) {
         int i;
         istringstream(Value) >> i;
         Airplane::setFuel(i);
-        return;
-    }
-
-    else if (Type == "fuelCap"){
-        int i;
-        istringstream(Value) >> i;
         Airplane::setFuelCapacity(i);
         return;
     }
@@ -1471,6 +1459,7 @@ void Airplane::land(Airport *Port, Runway* Runw) {
             return;
 
     }
+
 }
 
 void Airplane::takeOff() {
@@ -1677,6 +1666,17 @@ void Airplane::refuel(){
     return;
 }
 
+void Airplane::refuel() {
+    if (fuel + 10000 < fuelCapacity){
+        fuel += 10000;
+
+    }else{
+        fuel = fuelCapacity;
+
+    }
+
+}
+
 
 
 
@@ -1780,7 +1780,6 @@ string Airplane::getInfo() {
 
     return str;
 }
-
 
 
 

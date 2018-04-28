@@ -1,0 +1,92 @@
+		State 		new State
+________________________________________
+
+LAND:
+		Airborne   	At runway
+
+	tasks:
+			descending to 5000ft.
+			descending to 3000ft.
+			descending to 0ft.
+			landing
+			taxi to gate
+
+________________________________________
+
+EMERGENCYLANDING:
+		Airborne   	Waiting for exit passengers
+					
+	tasks:
+		emergency landing
+		emergency crash
+		exit passengers
+
+________________________________________
+
+EXITPLANE:
+		Waiting for exit passengers		Waiting for technical check
+					
+	tasks:
+		technical check
+
+________________________________________
+
+TECHNICALCHECK:
+		Waiting for exit passengers		Waiting for refuel
+					
+	tasks:
+		refueling
+
+________________________________________
+
+REFUEL:
+		Waiting for refuel		Waiting for taxi to gate
+								Waiting for board passengers
+					
+	tasks:
+		taxi to gate
+		board passengers
+
+________________________________________
+
+ENTERPLANE:
+		Waiting for board passengers		Waiting for IFR
+					
+	tasks:
+		IFR
+
+________________________________________
+
+PUSHBACK:
+		Waiting for IFR		Waiting for taxi to runway
+					
+	tasks:
+		IFR
+		pushback
+		request taxi
+		taxi to runway
+
+________________________________________
+
+TAXITORUNWAY:
+		Waiting for taxi to runway		Waiting for departure
+					
+	tasks:
+		at holding point
+
+________________________________________
+
+TAXITORUNWAY:
+		Waiting for taxi to gate		Waiting for exit passengers
+					
+	tasks:
+		exit passengers
+
+________________________________________
+
+TAKEOFF:
+		Waiting for departure		AIRBORNE
+					
+	tasks:
+		taking off
+		flying

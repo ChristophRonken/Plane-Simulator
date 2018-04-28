@@ -170,13 +170,21 @@ public:
     int getFuel() const;
 
     /**
-     * sets the amount of fuel
+     * Sets the amount of fuel
      * @param fuel
      */
     void setFuel(int fuel);
 
+    /**
+     * Get the max fuel capacity
+     * @return int
+     */
     int getFuelCapacity() const;
 
+    /**
+     * Sets the max fuel capacity
+     * @param fuelCapacity
+     */
     void setFuelCapacity(int fuelCapacity);
 
     /**
@@ -254,8 +262,16 @@ public:
      */
     void setSize(const string &size);
 
+    /**
+     * Get the opperation time of the airplane
+     * @return int
+     */
     int getOpperationTime() const;
 
+    /**
+     * Sets the opperation time of the airplane
+     * @param opperationTime
+     */
     void setOpperationTime(int opperationTime);
 
     /**
@@ -297,7 +313,6 @@ public:
      */
     void land(Airport* Port , Runway* R = NULL);
 
-
     /**
      * sends the plane to the given runway
      * if no runway was given, it will choose the first free runway
@@ -319,11 +334,6 @@ public:
      * Precondition: this->readyForTakeOff()
      */
     void takeOff();
-
-    /**
-     * Use x amount of fuel depending on the airplane type, size and engine
-     */
-    void useFuel();
 
     /**
      * Check if the plane finished all it's tasks
