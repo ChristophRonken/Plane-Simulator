@@ -30,7 +30,7 @@ class Runway {
     TaxiRoute * taxiRoute;
 
     bool holdingShortOccupied;
-    bool wachtoprunway;
+    bool waitingOnRunway;
     bool permissiontocross;
     bool crossing;
 
@@ -128,24 +128,60 @@ public:
      */
     TaxiRoute* getTaxiRoute();
     
+    /**
+     * Set if a plane is in the holding short position
+     */
     void setHoldingShortOccupied(bool);
 
+    /**
+     * Set if a plane is already waiting for take off on the runway
+     */
     void setWaitingOnRunway(bool);
 
+    /**
+     * Check if the holding position for planes is occupied
+     * @return bool
+     */
     bool getHoldingShortOccupied();
 
+    /**
+     * Check if a plane is waiting for take off on the runway
+     * @return bool
+     */
     bool getWaitingOnRunway();
 
+    /**
+     * Check if a plane is crossing the runway
+     * @return bool
+     */
     bool getCrossing();
 
+    /**
+     * Set if a plane is crossing the runway
+     */
     void setCrossing(bool);
 
+    /**
+     * Check if a plane has permission to cross the runway
+     * @return bool
+     */
     bool getPermissionToCross();
 
+    /**
+     * Set if a plane has permission to cross te runway
+     */
     void setPermissionToCross(bool);
 
+    /**
+     * Check if the plane is propperly initialised
+     * @return bool
+     */
     bool propperlyInitialised();
-    
+
+    /**
+     * Check if the Values of the runway are valid
+     * @return bool
+     */
     bool isValid();
 
 };

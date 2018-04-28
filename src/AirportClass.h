@@ -235,6 +235,10 @@ public:
      */
     bool propperlyInitialised();
 
+    /**
+     * Check if the values of the airport are propperly initialised
+     * @return bool
+     */
     bool isValid();
 
 };

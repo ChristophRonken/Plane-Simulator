@@ -97,7 +97,7 @@ void Runway::setHoldingShortOccupied(bool boolean){
 }
 
 void Runway::setWaitingOnRunway(bool boolean){
-    Runway::wachtoprunway = boolean;
+    Runway::waitingOnRunway = boolean;
 }
 
 bool Runway::getHoldingShortOccupied(){
@@ -105,7 +105,7 @@ bool Runway::getHoldingShortOccupied(){
 }
 
 bool Runway::getWaitingOnRunway(){
-    return Runway::wachtoprunway;
+    return Runway::waitingOnRunway;
 }
 
 bool Runway::getCrossing(){

@@ -42,5 +42,5 @@ bool FlightPlan::propperlyInitialised() {
 }
 
 bool FlightPlan::isValid() {
-    return (destination.empty() || interval == 0 || !propperlyInitialised());
+    return !(destination.empty() || interval == 0 || !propperlyInitialised());
 }
