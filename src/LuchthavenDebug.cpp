@@ -1211,6 +1211,9 @@ TEST_F(CommunicationTests, taxiToRunway) {
 
         string iata = airport->getIata();
 
+        setTime("0");
+        D->GraphicalAirport3D(iata);
+        setTime("1");
         D->GraphicalAirport3D(iata);
 
 

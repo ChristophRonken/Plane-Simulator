@@ -622,34 +622,22 @@ void AirportHandler::GraphicalAirport3D(string & AirportIata) {
 
     REQUIRE(airportExists(AirportIata), "Airport exists");
 
-    string document = "3Doutput.ini";
+    string document = "3Doutput" + getTime() + ".ini";
     const char * documentname = document.c_str();
 
     Airport* airport = AirportHandler::getAirport(AirportIata);
     const vector<Runway *> runways = airport->getRunways();
 
-    int allplanes = 0;
-/*
-    for (unsigned int i=0; i< getAirplanes().size(); i++){
-        if (getAirplanes()[i]->getAirport() != NULL){
-            allplanes +=1;
-        }
-    }
-*/
-    for (int i=0; i<airport->getGates(); i++){
-        if (airport->getGateOccupied(i)){
-            allplanes += 1;
-        }
-    }
-    for (unsigned int i=0; i<airport->getRunways().size(); i++){
-        if (airport->getRunways()[i]->isOccupied()){
-            allplanes += 1;
+    // makes vector with all airplanes in the simulation
+    vector<Airplane*> unfinishedAirplanes;
+    for (unsigned int i=0; i<getAirplanes().size(); i++){
+        if (getAirplanes()[i]->getsimulationFinished()){
+            unfinishedAirplanes.push_back(getAirplanes()[i]);
         }
     }
 
 
-    int aantalfiguren = airport->getRunways().size() + airport->getGates()+ allplanes;
-    int planes=0;
+    int aantalfiguren = airport->getRunways().size() + airport->getGates()+ unfinishedAirplanes.size();
     string s;
 
     s += "[General]\n";
@@ -660,9 +648,9 @@ void AirportHandler::GraphicalAirport3D(string & AirportIata) {
     s += "nrFigures = " + intToString(aantalfiguren) + "\n";
     s += "\n";
 
-    // draws gates and planes in gates
+    // draws gates
     for (int i=0; i<airport->getGates(); i++){
-        s += "[Figure" + intToString(i+planes) + "]\n";
+        s += "[Figure" + intToString(i) + "]\n";
         s += "type = \"Cube\"\n";
         s += "scale = 3\n";
         s += "rotateX = 0\n";
@@ -676,24 +664,14 @@ void AirportHandler::GraphicalAirport3D(string & AirportIata) {
             s += "color = (0, 1, 0)\n";
         }
         s += "\n";
-        if (airport->getGateOccupied(i)){
-            planes += 1;
-            s += "[Figure" + intToString(i+planes) + "]\n";
-            s += "type = \"Tetrahedron\"\n";
-            s += "scale = 2\n";
-            s += "rotateX = 0\n";
-            s += "rotateY = 0\n";
-            s += "rotateZ = 0\n";
-            s += "center = (" + intToString(i*6) +", 0, 0)\n";
-            s += "color = (0, 1, 1)\n";
-            s += "\n";
-        }
     }
 
     // draws runways and planes on runways
     for (unsigned int i=0; i<airport->getRunways().size(); i++){
-        s += "[Figure" + intToString(i+airport->getGates()+planes) + "]\n";
-        s += "type = \"Cube\"\n";
+        s += "[Figure" + intToString(i+airport->getGates()) + "]\n";
+        s += "type = \"Cylinder\"\n";
+        s += "height = 1\n";
+        s += "n = 1\n";
         s += "scale = 5\n";
         s += "rotateX = 0\n";
         s += "rotateY = 0\n";
@@ -707,8 +685,8 @@ void AirportHandler::GraphicalAirport3D(string & AirportIata) {
         }
         s += "\n";
         if (airport->getRunways()[i]->isOccupied()){
-            planes += 1;
-            s += "[Figure" + intToString(i+airport->getGates()+planes) + "]\n";
+
+            s += "[Figure" + intToString(i+airport->getGates()) + "]\n";
             s += "type = \"Tetrahedron\"\n";
             s += "scale = 2\n";
             s += "rotateX = 0\n";
@@ -719,15 +697,7 @@ void AirportHandler::GraphicalAirport3D(string & AirportIata) {
             s += "\n";
         }
     }
-
-    // makes vector with all airplanes in the simulation
-    vector<Airplane*> unfinishedAirplanes;
-    for (unsigned int i=0; i<getAirplanes().size(); i++){
-        if (getAirplanes()[i]->getsimulationFinished()){
-            unfinishedAirplanes.push_back(getAirplanes()[i]);
-        }
-    }
-
+/*
     // draws all airplanes
     for (unsigned int i=0; i<unfinishedAirplanes.size(); i++){
         string task = unfinishedAirplanes[i]->getCurrentTask();
@@ -739,11 +709,23 @@ void AirportHandler::GraphicalAirport3D(string & AirportIata) {
         } else if(task == "taking off" || task == "at holding point"){
         } else if(task == "exit passengers"){
         } else if(task == "board passengers"){
+            unfinishedAirplanes[i]->getGate();
+
+            s += "[Figure" + intToString(i + airport->getRunways().size() + airport->getGates()) + "]\n";
+            s += "type = \"Tetrahedron\"\n";
+            s += "scale = 2\n";
+            s += "rotateX = 0\n";
+            s += "rotateY = 0\n";
+            s += "rotateZ = 0\n";
+            s += "center = (" + intToString(i*6) +", 0, 0)\n";
+            s += "color = (0, 1, 1)\n";
+            s += "\n";
+            }
         } else if(task == "technical check"){
         } else if(task == "refueling"){
         }
     }
-
+*/
 
 
 
