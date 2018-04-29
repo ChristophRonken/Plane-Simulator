@@ -1660,15 +1660,30 @@ void Airplane::exitPlane(){
 void Airplane::enterPlane(){
     REQUIRE(currentTask == "board passengers", "correct state");
 
-    opperationTime = ceil(Airplane::getPassengers()/2);
-    passengers = passengerCapacity;
+    if (passengers >= passengerCapacity) {
 
-    notificationMessage(passengerCapacity + " passengers exited " + callsign + " at gate "
-                        + intToString(gate) + " of " + airPort->getName());
+        passengers = passengerCapacity;
 
-    Airplane::setState("Waiting for IFR");
-    currentTask = "IFR";
-    return;
+        notificationMessage(passengerCapacity + " passengers exited " + callsign + " at gate "
+                            + intToString(gate) + " of " + airPort->getName());
+
+        Airplane::setState("Waiting for IFR");
+        currentTask = "IFR";
+        return;
+    }else{
+        if (size == "small"){
+            opperationTime = 1;
+        }else{
+            if (size == "medium"){
+                opperationTime = 2;
+
+            }else{
+                opperationTime = 3;
+
+            }
+        }
+    }
+
 }
 
 void Airplane::technicalCheck(){
@@ -1687,14 +1702,15 @@ void Airplane::technicalCheck(){
     }
     notificationMessage(getNumber() + " has been checked for technical malfunction");
     Airplane::setState("Waiting for refuel");
+    Airplane::setOpperationTime(ceil(fuelCapacity / 10000));
     currentTask = "refueling";
     return;
 }
 
 void Airplane::refuel() {
     REQUIRE(currentTask == "refueling", "correct state");
-    cout << fuelCapacity << endl;
-    cout << fuel << endl;
+    //cout << fuelCapacity << endl;
+    //cout << fuel << endl;
 
     notificationMessage(getNumber() + " has been refueled");
 
@@ -1704,43 +1720,18 @@ void Airplane::refuel() {
     } else {
         Airplane::setState("Waiting for board passengers");
         currentTask = "board passengers";
+
     }
-    Airplane::setFuel(100000);
-    cout << ceil(fuelCapacity / 10000) << endl;
-    Airplane::setOpperationTime(ceil(fuelCapacity / 10000));
+    Airplane::setFuel(Airplane::getFuelCapacity());
+
     return;
+
 }
 
 
 
 
 //simulation
-void Airplane::finishtask(Airport* Port) {
-    // Finilise the current task
-    // set Airport after landing
-    // ...
-
-}
-
-void Airplane::nextTask(Airport* Port) {
-
-    if (currentTask == "flying"){
-        if (currentTask != "idle" && currentTask != "IFR"){
-
-        }else{
-            if (currentTask != "IFR"){
-
-            }else{
-                if(currentTask == ""){
-
-
-                }
-
-            }
-        }
-    }
-
-}
 
 void Airplane::initSimulation(Airport *Port) {
     Airplane::onitsway = false;
@@ -1875,6 +1866,33 @@ const string &Airplane::getCurrentTask() const {
 
 void Airplane::setCurrentTask(const string &currentTask) {
     Airplane::currentTask = currentTask;
+}
+
+void Airplane::continueTask() {
+
+    if (currentTask == "refueling"){
+        if (fuel + fuelPerMinute < fuelCapacity) {
+            fuel += fuelPerMinute;
+
+        }else{
+            fuel = fuelCapacity;
+
+        }
+        return;
+    }
+
+    if (currentTask == "board passengers"){
+        if (passengers + (passengerCapacity - passengers)/opperationTime < passengerCapacity) {
+            passengers += ceil((passengerCapacity - passengers)/opperationTime);
+
+        }else{
+            passengers = passengerCapacity;
+
+        }
+        return;
+
+    }
+
 }
 
 

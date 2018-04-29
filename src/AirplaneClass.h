@@ -20,6 +20,11 @@ using namespace std;
 class Airport;
 class Runway;
 
+enum SqauwkCodeEnum {PrivateSmallSquawk, PrivateMediumSquawk, AirlineMediumPropellerSquawk, AirlineMediumJetSquawk,
+                    AirlineLargeSquawk, MilitarySmallSquawk, MilitaryLargeSquawk, EmegencySquawk};
+
+
+
 class Airplane {
 
     Airplane* self;
@@ -72,6 +77,8 @@ class Airplane {
 
     bool onitsway;
     bool simulationFinished;
+
+    const static int fuelPerMinute = 10000;
 
 
 public:
@@ -660,6 +667,8 @@ public:
     const string &getCurrentTask() const;
 
     void setCurrentTask(const string &currentTask);
+
+    void continueTask();
 
 };
 
