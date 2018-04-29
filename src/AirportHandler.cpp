@@ -509,16 +509,18 @@ void AirportHandler::runSimulation(string name) {
                 Airplane *Plane = Airplanes[i];
 
                 if (Plane->notFinished(Port)) {
-                    cout << Plane->getState() << endl;
+                    //cout << Plane->getState() << endl;
                     if (Plane->getOpperationTime() > 0) {
-
-                        Plane->execTask(Port);
+                        Plane->continueTask();
 
                     } else {
-                        Plane->finishtask(Port);
-                        Plane->nextTask(Port);
+                        Plane->execTask(Port);
 
                     }
+                    //cout << Plane->getOpperationTime();
+                    cout << Plane->getCurrentTask() << endl;
+                    Plane->setOpperationTime(Plane->getOpperationTime() - 1);
+
                 }
             }
         }

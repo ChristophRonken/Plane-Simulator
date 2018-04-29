@@ -23,7 +23,7 @@ class AirportHandler {
 
     vector<Airport*> Airports;
     vector<Airplane*> Airplanes;
-    const static double TimeUnit = 1;   // in seconds
+    const static double TimeUnit = 0.1;   // in seconds
     const static double simulationStartTime = 12; // in hours
 
 
