@@ -242,38 +242,38 @@ void Airplane::setSquawkCode(string code){
     if (code == ""){
         if (type == "private"){
             if (size == "small"){
-                index = 0;
+                index = PrivateSmallSquawk;
 
             }else{
-                index = 1;
+                index = PrivateMediumSquawk;
 
             }
         }
         if (type == "airline"){
             if (size == "medium"){
                 if (engine == "propeller"){
-                    index = 2;
+                    index = AirlineMediumPropellerSquawk;
 
                 }else{
-                    index = 3;
+                    index = AirlineMediumJetSquawk;
 
                 }
 
             }else{
-                index = 4;
+                index = AirlineLargeSquawk;
 
             }
         }
         if (type == "military"){
-            index = 5;
+            index = MilitarySquawk;
 
         }
         if (type == "emergency"){
-            index = 6;
+            index = EmegencySquawk;
 
         }
 
-        if (index == 0) {
+        if (index == PrivateSmallSquawk) {
             squawkCode == "0001-0777";
 
         }else{
@@ -1743,33 +1743,35 @@ void Airplane::initSimulation(Airport *Port) {
     Airplane::onitsway = false;
     Airplane::waitonrunway = false;
     Airplane::waitatrunway = false;
-    for (unsigned int i=0; i<Port->getRunways().size(); i++){
+    for (unsigned int i = 0; i < Port->getRunways().size(); i++) {
         Port->getRunways()[i]->setPermissionToCross(true);
         Port->getRunways()[i]->setonItsWay(false);
         Port->getRunways()[i]->setWaitingOnRunway(false);
         Port->getRunways()[i]->setHoldingShortOccupied(false);
     }
-    if (getState() == "Approaching"){
-        Airplane::setHeight(10000);
-        if (flightPlan != NULL){
+    if (flightPlan != NULL) {
+        if (getState() == "Approaching") {
+            Airplane::setHeight(10000);
             opperationTime = flightPlan->getArrival();
             currentTask = "try to land";
         }
+        if (getState() == "Gate") {
 
-    }
-    if (getState() == "Gate"){
-        Airplane::setHeight(0);
-        Airplane::setFuel(0);
-        Airplane::setPassengers(0);
-        if (flightPlan != NULL) {
+            Airplane::setHeight(0);
+            Airplane::setFuel(0);
+            Airplane::setPassengers(0);
+
             opperationTime = flightPlan->getDeparture();
+            currentTask = "technical check";
+
+            setAirport(Port);
+            setGate(Port->getFreeGates()[0]);
+            Port->setGateOccupied(0, true);
+
         }
+    }else{
+        currentTask = "finished";
 
-        currentTask = "technical check";
-
-        setAirport(Port);
-        setGate(Port->getFreeGates()[0]);
-        Port->setGateOccupied(0, true);
     }
 
 }
@@ -1857,7 +1859,7 @@ bool Airplane::propperlyInitialised() {
 bool Airplane::isValid() {
 
     if (size.empty() || fuel == 0 || type.empty() || model.empty() || number.empty()
-        || callsign.empty() || state.empty() || engine.empty() || flightPlan == NULL){
+        || callsign.empty() || state.empty() || engine.empty()){
 
         return false;
     }

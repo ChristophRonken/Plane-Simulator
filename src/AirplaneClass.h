@@ -21,7 +21,7 @@ class Airport;
 class Runway;
 
 enum SqauwkCodeEnum {PrivateSmallSquawk, PrivateMediumSquawk, AirlineMediumPropellerSquawk, AirlineMediumJetSquawk,
-                    AirlineLargeSquawk, MilitarySmallSquawk, MilitaryLargeSquawk, EmegencySquawk};
+                    AirlineLargeSquawk, MilitarySquawk, EmegencySquawk};
 
 
 

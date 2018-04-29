@@ -304,6 +304,7 @@ SuccessEnum AirportHandler::addXmlData(string fileName) {
                             if (!Flight->isValid()){
                                 errStream << "XML PARTIAL IMPORT: invalid value of the flightplan\n";
                                 endResult = PartialImport;
+                                delete Flight;
                                 Flight = NULL;
 
                             }
