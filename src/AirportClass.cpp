@@ -199,7 +199,7 @@ void Airport::addRunway(Runway *runway) {
 
     string s;
     s = "Runway added (" + runway->getName() + ") to airport (" + this->getName() + ")";
-    succesMessage(s);
+    //succesMessage(s);
 
 }
 void Airport::removeRunway(string name) {

@@ -80,7 +80,7 @@ void AirportHandler::removeAirplane(string callsign){
             Airplanes[i] = Airplanes[Airplanes.size()-1];
             Airplanes.resize(Airplanes.size()-1);
 
-            succesMessage("Airplane Deleted (" + callsign + ")" );
+            //succesMessage("Airplane Deleted (" + callsign + ")" );
             return;
         }
     }
@@ -112,7 +112,7 @@ void AirportHandler::removeAirport(string callsign){
             Airports[i] = Airports[Airports.size()-1];
             Airports.resize(Airports.size()-1);
 
-            succesMessage("Airplane Deleted (" + callsign + ")" );
+            //succesMessage("Airplane Deleted (" + callsign + ")" );
             return;
 
         }
@@ -355,14 +355,14 @@ string AirportHandler::timeToString(double passedTimeUnits){
     stringstream ss;
 
     if (minutes < 10){
-        ss << hour << ":0" << minutes << endl;
+        ss << hour << ":0" << minutes;
 
     }else{
         if (minutes == 0){
-            ss << hour << ":" << "00" << endl;
+            ss << hour << ":" << "00";
 
         }else{
-            ss << hour << ":" << minutes << endl;
+            ss << hour << ":" << minutes;
 
         }
     }
@@ -509,7 +509,6 @@ void AirportHandler::runSimulation(string name) {
                 Airplane *Plane = Airplanes[i];
 
                 if (Plane->notFinished(Port)) {
-                    //cout << Plane->getState() << endl;
                     if (Plane->getOpperationTime() > 0) {
                         Plane->continueTask();
 
@@ -517,8 +516,7 @@ void AirportHandler::runSimulation(string name) {
                         Plane->execTask(Port);
 
                     }
-                    //cout << Plane->getOpperationTime();
-                    cout << Plane->getCurrentTask() << endl;
+                    cout << Plane->getHeight() << endl;
                     Plane->setOpperationTime(Plane->getOpperationTime() - 1);
 
                 }

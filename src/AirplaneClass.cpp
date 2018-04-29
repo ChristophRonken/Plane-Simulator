@@ -1170,6 +1170,7 @@ void Airplane::taxiToGate(int gate){
                         return;
                     }
                 }
+
                 else if (!messageMessageSend) {
                     toHoldingPointMessage(this, taxiRoute->getTaxiCrossings()[i-1], taxiPoint, tijd);
                     messageMessageSend = true;
@@ -1606,14 +1607,6 @@ void Airplane::takeOff() {
 
     notificationMessage("Airplane (" + Airplane::getNumber() + ") is taking off at " + Airplane::getAirport()->getName());
 
-    while (height < 5000) {
-
-        actionMessage("Airplane (" + Airplane::getNumber() + ") ascended to " + intToString(height) + "ft");
-        height += 1000;
-
-    }
-
-    notificationMessage("Airplane (" + Airplane::getNumber() + ") has left " + Airplane::getAirport()->getName() + "\n");
     runway->setOccupied(false);
     runway->setWaitingOnRunway(false);
     runway->setPermissionToCross(true);
@@ -1624,19 +1617,18 @@ void Airplane::takeOff() {
     Airplane::setState("Airborne");
 
     if (Airplane::getEngine() == "propeller"){
-        opperationTime = 3;
+        opperationTime = 3000;
+        height += 500;
     }
     else if (Airplane::getEngine() == "jet"){
-        opperationTime = 2;
+        opperationTime = 3000;
+        height += 1000;
     }
 
-    ENSURE(runway == NULL && state == "Airborne" && airPort == NULL && height >= 5000, "Airborne");
+    ENSURE(runway == NULL && state == "Airborne" && airPort == NULL && height != 0, "Airborne");
 
-    cout << "takeoff started" << endl;
+    currentTask = "taking-Off";
 
-    cout << "finished" << endl;
-
-    currentTask = "finished";
     Airplane::setsimulationFinished(true);
     return;
 
@@ -1645,16 +1637,30 @@ void Airplane::takeOff() {
 void Airplane::exitPlane(){
     REQUIRE(currentTask == "exit passengers", "correct state");
 
-    opperationTime = ceil(Airplane::getPassengers()/2);
-    passengers = 0;
+    if (passengers <= 0) {
+
+        passengers = 0;
+
+        //notificationMessage(passengerCapacity + " passengers exited " + callsign);
 
 
-    notificationMessage(passengerCapacity + " passengers exited " + callsign);
+        Airplane::setState("Waiting for technical check");
+        currentTask = "technical check";
+        return;
+    }else{
+        if (size == "small"){
+            opperationTime = 1;
+        }else{
+            if (size == "medium"){
+                opperationTime = 2;
 
+            }else{
+                opperationTime = 3;
 
-    Airplane::setState("Waiting for technical check");
-    currentTask = "technical check";
-    return;
+            }
+        }
+
+    }
 }
 
 void Airplane::enterPlane(){
@@ -1664,8 +1670,8 @@ void Airplane::enterPlane(){
 
         passengers = passengerCapacity;
 
-        notificationMessage(passengerCapacity + " passengers exited " + callsign + " at gate "
-                            + intToString(gate) + " of " + airPort->getName());
+        //notificationMessage(passengerCapacity + " passengers exited " + callsign + " at gate "
+          //                  + intToString(gate) + " of " + airPort->getName());
 
         Airplane::setState("Waiting for IFR");
         currentTask = "IFR";
@@ -1700,7 +1706,7 @@ void Airplane::technicalCheck(){
     else if (Airplane::getSize() == "large"){
         opperationTime = 3;
     }
-    notificationMessage(getNumber() + " has been checked for technical malfunction");
+    //notificationMessage(getNumber() + " has been checked for technical malfunction");
     Airplane::setState("Waiting for refuel");
     Airplane::setOpperationTime(ceil(fuelCapacity / 10000));
     currentTask = "refueling";
@@ -1890,6 +1896,54 @@ void Airplane::continueTask() {
 
         }
         return;
+
+    }
+
+    if (currentTask == "exit passengers"){
+        if (passengers - (passengerCapacity - passengers)/opperationTime > 0) {
+            passengers -= ceil((passengerCapacity - passengers)/opperationTime);
+
+        }else{
+            passengers = 0;
+
+        }
+        return;
+
+    }
+
+    if (currentTask == "taking-Off"){
+        ascend();
+
+    }
+
+
+}
+
+void Airplane::descend() {
+
+    if (engine == "jet"){
+        height -= 1000;
+
+
+    }else{
+        height -= 500;
+
+    }
+
+}
+
+void Airplane::ascend() {
+    if (engine == "jet"){
+        height += 1000;
+
+
+    }else{
+        height += 500;
+
+    }
+
+    if (height >= 5000){
+        currentTask = "finished";
 
     }
 

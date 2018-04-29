@@ -670,6 +670,10 @@ public:
 
     void continueTask();
 
+    void descend();
+
+    void ascend();
+
 };
 
 void setTime(string);
