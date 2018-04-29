@@ -25,7 +25,8 @@ class AirportHandler {
     vector<Airplane*> Airplanes;
     const static double TimeUnit = 0.1;   // in seconds
     const static double simulationStartTime = 12; // in hours
-
+    vector<int> occupiedColor;
+    vector<int> freeColor;
 
 public:
     AirportHandler();

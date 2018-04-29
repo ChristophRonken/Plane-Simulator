@@ -633,20 +633,30 @@ void AirportHandler::GraphicalAirport3D(string & AirportIata) {
     // makes vector with all airplanes in the simulation
     vector<Airplane*> unfinishedAirplanes;
     for (unsigned int i=0; i<getAirplanes().size(); i++){
-        if (getAirplanes()[i]->getsimulationFinished()){
+        if (!getAirplanes()[i]->getsimulationFinished()){
             unfinishedAirplanes.push_back(getAirplanes()[i]);
         }
     }
 
+    TaxiRoute* longesttaxi = NULL;
+    for (unsigned int i=0; i<airport->getRunways().size(); i++){
+        if (longesttaxi == NULL){
+            longesttaxi = airport->getRunways()[i]->getTaxiRoute();
+        }
+        else if (airport->getRunways()[i]->getTaxiRoute()->getTaxiPoints().size() > longesttaxi->getTaxiPoints().size()){
+            longesttaxi = airport->getRunways()[i]->getTaxiRoute();
+        }
+    }
 
-    int aantalfiguren = airport->getRunways().size() + airport->getGates()+ unfinishedAirplanes.size();
+
+    int aantalfiguren = airport->getRunways().size() + airport->getGates() + unfinishedAirplanes.size() + longesttaxi->getTaxiPoints().size() + longesttaxi->getTaxiCrossings().size();
     string s;
 
     s += "[General]\n";
     s += "size = 1000\n";
     s += "backgroundcolor = (0, 0, 0)\n";
     s += "type = ZBufferedWireframe\n";
-    s += "eye = (50, 100, 100)\n";
+    s += "eye = (50, -100, 100)\n";
     s += "nrFigures = " + intToString(aantalfiguren) + "\n";
     s += "\n";
 
@@ -668,14 +678,14 @@ void AirportHandler::GraphicalAirport3D(string & AirportIata) {
         s += "\n";
     }
 
-    // draws runways and planes on runways
+    // draws runways
     for (unsigned int i=0; i<airport->getRunways().size(); i++){
         s += "[Figure" + intToString(i+airport->getGates()) + "]\n";
         s += "type = \"Cylinder\"\n";
-        s += "height = 1\n";
-        s += "n = 1\n";
-        s += "scale = 5\n";
-        s += "rotateX = 0\n";
+        s += "height = 0.2\n";
+        s += "n = 2\n";
+        s += "scale = 20\n";
+        s += "rotateX = 90\n";
         s += "rotateY = 0\n";
         s += "rotateZ = 0\n";
         s += "center = ("+ intToString((airport->getGates()-1)*6 /2) + ", " + intToString(20*(i+1)) + ", 0)\n";
@@ -686,48 +696,245 @@ void AirportHandler::GraphicalAirport3D(string & AirportIata) {
             s += "color = (0, 1, 0)\n";
         }
         s += "\n";
-        if (airport->getRunways()[i]->isOccupied()){
-
-            s += "[Figure" + intToString(i+airport->getGates()) + "]\n";
-            s += "type = \"Tetrahedron\"\n";
-            s += "scale = 2\n";
-            s += "rotateX = 0\n";
-            s += "rotateY = 0\n";
-            s += "rotateZ = 0\n";
-            s += "center = ("+ intToString((airport->getGates()-1)*6 /2) + ", " + intToString(20*(i+1)) + ", 0)\n";
-            s += "color = (0, 1, 1)\n";
-            s += "\n";
-        }
     }
-/*
+
+    // draws all taxipoints
+    for (unsigned int i=0; i<longesttaxi->getTaxiPoints().size(); i++){
+        s += "[Figure" + intToString(i + airport->getRunways().size() + airport->getGates()) + "]\n";
+        s += "type = \"Cylinder\"\n";
+        s += "height = 1\n";
+        s += "n = 2\n";
+        s += "scale = 3\n";
+        s += "rotateX = 90\n";
+        s += "rotateY = 0\n";
+        s += "rotateZ = 0\n";
+        s += "center = ("+ intToString((airport->getGates()-1)*6 /2 + 15) + ", " + intToString(20*(i+1)-5) + ", 0)\n";
+        if (airport->getRunways()[i]->getHoldingShortOccupied()){
+            s += "color = (1, 0, 0)\n";
+        }
+        else{
+            s += "color = (0, 1, 0)\n";
+        }
+        s += "\n";
+    }
+
+    // draws all taxicrossings
+    for (unsigned int i=0; i<longesttaxi->getTaxiCrossings().size(); i++){
+        s += "[Figure" + intToString(i + airport->getRunways().size() + airport->getGates() + longesttaxi->getTaxiPoints().size()) + "]\n";
+        s += "type = \"Cylinder\"\n";
+        s += "height = 1\n";
+        s += "n = 2\n";
+        s += "scale = 2\n";
+        s += "rotateX = 90\n";
+        s += "rotateY = 0\n";
+        s += "rotateZ = 90\n";
+        s += "center = ("+ intToString((airport->getGates()-1)*6 /2) + ", " + intToString(20*(i+1)-2) + ", 0)\n";
+        if (!airport->getRunways()[i]->getPermissionToCross()){
+            s += "color = (1, 0, 0)\n";
+        }
+        else{
+            s += "color = (0, 1, 0)\n";
+        }
+        s += "\n";
+    }
+
+
     // draws all airplanes
     for (unsigned int i=0; i<unfinishedAirplanes.size(); i++){
         string task = unfinishedAirplanes[i]->getCurrentTask();
         if (task == "try to land" || task == "descending to 5000ft." || task == "descending to 3000ft." || task == "descending to 0ft." || task == "landing"){
         } else if (task == "emergency crash" || task == "emergency landing" || task == "crash"){
+            if (unfinishedAirplanes[i]->getEmergencyInAirport()){
+            } else{
+                return;
+            }
         } else if(task == "IFR" || task == "pushback" || task == "request taxi"){
-        } else if(task == "going to runway"){
-        } else if(task == "going to gate"){
-        } else if(task == "taking off" || task == "at holding point"){
-        } else if(task == "exit passengers"){
-        } else if(task == "board passengers"){
             unfinishedAirplanes[i]->getGate();
-
-            s += "[Figure" + intToString(i + airport->getRunways().size() + airport->getGates()) + "]\n";
-            s += "type = \"Tetrahedron\"\n";
+            s += "[Figure" + intToString(i + airport->getRunways().size() + airport->getGates()+longesttaxi->getTaxiPoints().size() + longesttaxi->getTaxiCrossings().size()) + "]\n";
+            s += "type = \"Sphere\"\n";
+            s += "n = 2\n";
             s += "scale = 2\n";
             s += "rotateX = 0\n";
             s += "rotateY = 0\n";
             s += "rotateZ = 0\n";
-            s += "center = (" + intToString(i*6) +", 0, 0)\n";
+            s += "center = (" + intToString(unfinishedAirplanes[i]->getGate()*6) +", 0, 0)\n";
+            s += "color = (0.75, 0.25, 0)\n";
+            s += "\n";
+        } else if(task == "going to runway") {
+            for (unsigned int j = 0; j < longesttaxi->getTaxiCrossings().size(); j++) {
+                if (unfinishedAirplanes[i]->getTaxiCrossing() == longesttaxi->getTaxiCrossings()[j]) {
+                    if (unfinishedAirplanes[i]->getState() == "crossing") {
+                        s += "[Figure" + intToString(i + airport->getRunways().size() + airport->getGates()+longesttaxi->getTaxiPoints().size() + longesttaxi->getTaxiCrossings().size()) + "]\n";
+                        s += "type = \"Sphere\"\n";
+                        s += "n = 2\n";
+                        s += "scale = 2\n";
+                        s += "rotateX = 0\n";
+                        s += "rotateY = 0\n";
+                        s += "rotateZ = 0\n";
+                        s += "center = (" + intToString((airport->getGates() - 1) * 6 / 2) + ", " +
+                             intToString(20 * (j + 1)) + ", 0)\n";
+                        s += "color = (1, 1, 1)\n";
+                        s += "\n";
+                    }
+                    else{
+                        s += "[Figure" + intToString(i + airport->getRunways().size() + airport->getGates()+longesttaxi->getTaxiPoints().size() + longesttaxi->getTaxiCrossings().size()) + "]\n";
+                        s += "type = \"Sphere\"\n";
+                        s += "n = 2\n";
+                        s += "scale = 2\n";
+                        s += "rotateX = 0\n";
+                        s += "rotateY = 0\n";
+                        s += "rotateZ = 0\n";
+                        s += "center = (" + intToString((airport->getGates() - 1) * 6 / 2) + ", " +
+                             intToString(20 * (j + 1) - 5) + ", 0)\n";
+                        s += "color = (1, 1, 1)\n";
+                        s += "\n";
+                    }
+                }
+            }
+            for (unsigned int j = 0; j < longesttaxi->getTaxiPoints().size(); j++) {
+                if (unfinishedAirplanes[i]->getTaxiPoint() == longesttaxi->getTaxiPoints()[j]) {
+                    s += "[Figure" + intToString(i + airport->getRunways().size() + airport->getGates()+longesttaxi->getTaxiPoints().size() + longesttaxi->getTaxiCrossings().size()) + "]\n";
+                    s += "type = \"Sphere\"\n";
+                    s += "n = 2\n";
+                    s += "scale = 2\n";
+                    s += "rotateX = 0\n";
+                    s += "rotateY = 0\n";
+                    s += "rotateZ = 0\n";
+                    s += "center = (" + intToString((airport->getGates() - 1) * 6 / 2 + 15) + ", " +
+                         intToString(20 * (j + 1) - 5) + ", 0)\n";
+                    s += "color = (1, 1, 1)\n";
+                    s += "\n";
+                }
+            }
+        } else if(task == "going to gate"){
+            for (unsigned int j = 0; j < longesttaxi->getTaxiCrossings().size(); j++) {
+                if (unfinishedAirplanes[i]->getTaxiCrossing() == longesttaxi->getTaxiCrossings()[j]) {
+                    if (unfinishedAirplanes[i]->getState() == "crossing") {
+                        s += "[Figure" + intToString(i + airport->getRunways().size() + airport->getGates()+longesttaxi->getTaxiPoints().size() + longesttaxi->getTaxiCrossings().size()) + "]\n";
+                        s += "type = \"Sphere\"\n";
+                        s += "n = 2\n";
+                        s += "scale = 2\n";
+                        s += "rotateX = 0\n";
+                        s += "rotateY = 0\n";
+                        s += "rotateZ = 0\n";
+                        s += "center = (" + intToString((airport->getGates() - 1) * 6 / 2) + ", " +
+                             intToString(20 * (j + 1)) + ", 0)\n";
+                        s += "color = (1, 1, 1)\n";
+                        s += "\n";
+                    }
+                    else{
+                        s += "[Figure" + intToString(i + airport->getRunways().size() + airport->getGates()+longesttaxi->getTaxiPoints().size() + longesttaxi->getTaxiCrossings().size()) + "]\n";
+                        s += "type = \"Sphere\"\n";
+                        s += "n = 2\n";
+                        s += "scale = 2\n";
+                        s += "rotateX = 0\n";
+                        s += "rotateY = 0\n";
+                        s += "rotateZ = 0\n";
+                        s += "center = (" + intToString((airport->getGates() - 1) * 6 / 2) + ", " +
+                             intToString(20 * (j + 1) + 5) + ", 0)\n";
+                        s += "color = (1, 1, 1)\n";
+                        s += "\n";
+                    }
+                }
+            }
+            for (unsigned int j = 0; j < longesttaxi->getTaxiPoints().size(); j++) {
+                if (unfinishedAirplanes[i]->getTaxiPoint() == longesttaxi->getTaxiPoints()[j]) {
+                    s += "[Figure" + intToString(i + airport->getRunways().size() + airport->getGates()+longesttaxi->getTaxiPoints().size() + longesttaxi->getTaxiCrossings().size()) + "]\n";
+                    s += "type = \"Sphere\"\n";
+                    s += "n = 2\n";
+                    s += "scale = 2\n";
+                    s += "rotateX = 0\n";
+                    s += "rotateY = 0\n";
+                    s += "rotateZ = 0\n";
+                    s += "center = (" + intToString((airport->getGates() - 1) * 6 / 2 + 15) + ", " +
+                         intToString(20 * (j + 1) - 5) + ", 0)\n";
+                    s += "color = (1, 1, 1)\n";
+                    s += "\n";
+                }
+            }
+        } else if(task == "taking off" || task == "at holding point"){
+            s += "[Figure" + intToString(i + airport->getRunways().size() + airport->getGates()+longesttaxi->getTaxiPoints().size() + longesttaxi->getTaxiCrossings().size()) + "]\n";
+            s += "type = \"Sphere\"\n";
+            s += "n = 2\n";
+            s += "scale = 2\n";
+            s += "rotateX = 0\n";
+            s += "rotateY = 0\n";
+            s += "rotateZ = 0\n";
+            for (unsigned int j=0; j<airport->getRunways().size(); j++){
+                if (unfinishedAirplanes[i]->getRunway() == airport->getRunways()[j]){
+                    s += "center = ("+ intToString((airport->getGates()-1)*6 /2) + ", " + intToString(20*(j+1)) + ", 0)\n";
+                }
+            }
             s += "color = (0, 1, 1)\n";
             s += "\n";
+        } else if(task == "exit passengers"){
+            if (unfinishedAirplanes[i]->getEmergencyInAirport()){
+                s += "[Figure" + intToString(i + airport->getRunways().size() + airport->getGates()+longesttaxi->getTaxiPoints().size() + longesttaxi->getTaxiCrossings().size()) + "]\n";
+                s += "type = \"Sphere\"\n";
+                s += "n = 2\n";
+                s += "scale = 2\n";
+                s += "rotateX = 0\n";
+                s += "rotateY = 0\n";
+                s += "rotateZ = 0\n";
+                for (unsigned int j=0; j<airport->getRunways().size(); j++){
+                    if (unfinishedAirplanes[i]->getRunway() == airport->getRunways()[j]){
+                        s += "center = ("+ intToString((airport->getGates()-1)*6 /2  - 10) + ", " + intToString(20*(j+1)) + ", 0)\n";
+                    }
+                }
+                s += "color = (1, 1, 0)\n";
+                s += "\n";
+            } else {
+                unfinishedAirplanes[i]->getGate();
+                s += "[Figure" + intToString(i + airport->getRunways().size() + airport->getGates()+longesttaxi->getTaxiPoints().size() + longesttaxi->getTaxiCrossings().size()) + "]\n";
+                s += "type = \"Sphere\"\n";
+                s += "n = 2\n";
+                s += "scale = 2\n";
+                s += "rotateX = 0\n";
+                s += "rotateY = 0\n";
+                s += "rotateZ = 0\n";
+                s += "center = (" + intToString(unfinishedAirplanes[i]->getGate()*6) +", 0, 0)\n";
+                s += "color = (1, 1, 0)\n";
+                s += "\n";
             }
+
+        } else if(task == "board passengers"){
+            unfinishedAirplanes[i]->getGate();
+            s += "[Figure" + intToString(i + airport->getRunways().size() + airport->getGates()+longesttaxi->getTaxiPoints().size() + longesttaxi->getTaxiCrossings().size()) + "]\n";
+            s += "type = \"Sphere\"\n";
+            s += "n = 2\n";
+            s += "scale = 2\n";
+            s += "rotateX = 0\n";
+            s += "rotateY = 0\n";
+            s += "rotateZ = 0\n";
+            s += "center = (" + intToString(unfinishedAirplanes[i]->getGate()*6) +", 0, 0)\n";
+            s += "color = (1, 1, 0.5)\n";
+            s += "\n";
         } else if(task == "technical check"){
+            unfinishedAirplanes[i]->getGate();
+            s += "[Figure" + intToString(i + airport->getRunways().size() + airport->getGates()+longesttaxi->getTaxiPoints().size() + longesttaxi->getTaxiCrossings().size()) + "]\n";
+            s += "type = \"Sphere\"\n";
+            s += "n = 2\n";
+            s += "scale = 2\n";
+            s += "rotateX = 0\n";
+            s += "rotateY = 0\n";
+            s += "rotateZ = 0\n";
+            s += "center = (" + intToString(unfinishedAirplanes[i]->getGate()*6) +", 0, 0)\n";
+            s += "color = (1, 0, 1)\n";
+            s += "\n";
         } else if(task == "refueling"){
+            unfinishedAirplanes[i]->getGate();
+            s += "[Figure" + intToString(i + airport->getRunways().size() + airport->getGates()+longesttaxi->getTaxiPoints().size() + longesttaxi->getTaxiCrossings().size()) + "]\n";
+            s += "type = \"Sphere\"\n";
+            s += "n = 2\n";
+            s += "scale = 2\n";
+            s += "rotateX = 0\n";
+            s += "rotateY = 0\n";
+            s += "rotateZ = 0\n";
+            s += "center = (" + intToString(unfinishedAirplanes[i]->getGate()*6) +", 0, 0)\n";
+            s += "color = (1, 0.5, 1)\n";
+            s += "\n";
         }
     }
-*/
 
 
 

@@ -1118,7 +1118,7 @@ void Airplane::taxiToRunway(Runway* runw){
                             return;
                         }
                         else{
-                            Airplane::setState("waiting at taxicrossing");
+                            Airplane::setState("at taxicrossing");
                             setOpperationTime(1);
                             return;
                         }

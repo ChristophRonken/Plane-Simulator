@@ -1187,34 +1187,107 @@ TEST_F(CommunicationTests, taxiToRunway) {
     TEST_F(XMLReaderTest, GraphicalAirport3D) {
         D = new AirportHandler();
         D->addXmlData("TestVolledigeLuchthaven.xml");
-
         airport = new Airport();
         airport = D->getAirports()[0];
+        airport->setGateOccupied(3, true);
+        string iata = airport->getIata();
 
         runway = new Runway();
         runway = airport->getRunways()[0];
+        runway->setOccupied(false);
+        runway->setPermissionToCross(true);
+        runway->setCrossing(false);
+        runway->setHoldingShortOccupied(false);
 
         runway1 = new Runway();
         runway1 = airport->getRunways()[1];
-        runway1->setOccupied(true);
+        runway1->setOccupied(false);
+        runway1->setPermissionToCross(true);
+        runway1->setCrossing(false);
+        runway1->setHoldingShortOccupied(false);
 
         plane = new Airplane();
         plane = D->getAirplanes()[0];
         plane->setAirport(D->getAirports()[0]);
-
-        plane1 = new Airplane();
-        plane1 = D->getAirplanes()[0];
-        plane1->setAirport(D->getAirports()[0]);
-        plane1->setRunway(runway1);
+        plane->setEmergencyInAirport(false);
 
 
-
-        string iata = airport->getIata();
+        plane->setCurrentTask("exit passengers");
+        plane->setsimulationFinished(false);
+        plane->setGate(3);
 
         setTime("0");
         D->GraphicalAirport3D(iata);
+
+        plane->setCurrentTask("IFR");
+
         setTime("1");
         D->GraphicalAirport3D(iata);
+
+        plane->setCurrentTask("board passengers");
+
+        setTime("2");
+        D->GraphicalAirport3D(iata);
+
+        plane->setCurrentTask("technical check");
+
+        setTime("3");
+        D->GraphicalAirport3D(iata);
+
+        plane->setCurrentTask("refueling");
+
+        setTime("4");
+        D->GraphicalAirport3D(iata);
+
+        airport->setGateOccupied(plane->getGate(), false);
+        plane->setRunway(runway1);
+        plane->setCurrentTask("taking off");
+        runway1->setOccupied(true);
+
+        setTime("5");
+        D->GraphicalAirport3D(iata);
+
+        plane->setCurrentTask("exit passengers");
+        plane->setEmergencyInAirport(true);
+
+        setTime("6");
+        D->GraphicalAirport3D(iata);
+
+        string point = plane->getRunway()->getTaxiRoute()->getTaxiPoints()[1];
+        string crossing = plane->getRunway()->getTaxiRoute()->getTaxiCrossings()[0];
+
+        plane->setRunway(NULL);
+        plane->setCurrentTask("going to runway");
+        plane->setEmergencyInAirport(false);
+        plane->setTaxiPoint(point);
+        runway1->setOccupied(false);
+        runway1->setHoldingShortOccupied(true);
+
+        setTime("7");
+        D->GraphicalAirport3D(iata);
+
+        plane->setCurrentTask("going to gate");
+        setTime("8");
+        D->GraphicalAirport3D(iata);
+
+        plane->setTaxiPoint("");
+        plane->setTaxiCrossing(crossing);
+        runway1->setHoldingShortOccupied(false);
+        runway->setPermissionToCross(false);
+
+        setTime("9");
+        D->GraphicalAirport3D(iata);
+
+        plane->setCurrentTask("going to runway");
+        setTime("10");
+        D->GraphicalAirport3D(iata);
+
+        runway->setPermissionToCross(true);
+        plane->setState("crossing");
+        setTime("11");
+        D->GraphicalAirport3D(iata);
+
+
 
 
     }
