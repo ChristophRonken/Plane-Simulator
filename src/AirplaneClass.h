@@ -21,7 +21,7 @@ class Airport;
 class Runway;
 
 enum SqauwkCodeEnum {PrivateSmallSquawk, PrivateMediumSquawk, AirlineMediumPropellerSquawk, AirlineMediumJetSquawk,
-                    AirlineLargeSquawk, MilitarySmallSquawk, MilitaryLargeSquawk, EmegencySquawk};
+                    AirlineLargeSquawk, MilitarySquawk, EmegencySquawk};
 
 
 
@@ -78,8 +78,16 @@ class Airplane {
     bool onitsway;
     bool simulationFinished;
 
-    const static int fuelPerMinute = 10000;
+    const static int cFuelPerMinute = 10000;
 
+    const static int cProprellerDescentionSpeed = 500;
+    const static int cJetDescentionSpeed = 1000;
+    const static int cProprellerAscentionSpeed = 500;
+    const static int cJetAscentionSpeed = 1000;
+
+    const static int cHeightLevelA = 10000;
+    const static int cHeightLevelB = 5000;
+    const static int cHeightLevelC = 3000;
 
 public:
 
@@ -609,7 +617,7 @@ public:
      * Make the airplane taxi to a given gate
      * @param gate
      */
-    void taxiToGate(int);
+    void taxiToGate(int gate = -1);
 
     /**
      * Perform an emergency landing
@@ -669,6 +677,10 @@ public:
     void setCurrentTask(const string &currentTask);
 
     void continueTask();
+
+    void descend();
+
+    void ascend();
 
 };
 

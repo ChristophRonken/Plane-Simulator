@@ -20,35 +20,7 @@ class Airport;
 
 using namespace std;
 
-/**
- * Prints an action message in the console
- * @param s
- */
-void actionMessage(string s);
-
-/**
- * Prints a notification message
- * @param s
- */
-void notificationMessage(string s);
-
-/**
- * Prints an error message in the console
- * @param s
- */
-void errorMessage(string s);
-
-/**
- * Prints a succes messade in the console
- * @param s
- */
-void succesMessage(string s);
-
-/**
- * Prints a notification of an input in the console
- * @param s
- */
-void inputMessage(string s);
+void logMessage(string str);
 
 /**
  * Converts Ints to strings
@@ -61,11 +33,18 @@ string intToString(int i);
  * Returns the ofstream object containing all the text send to the Message functions
  * @return text
  */
-ofstream* getText();
 
-void openFile(string name);
+ofstream* getCommunicationLogFile();
 
-void closeFile();
+ofstream* getLogFile();
+
+ofstream* openNewLogFile(string name);
+
+ofstream* openNewCommunicationLogFile(string name);
+
+void closeLogFile();
+
+void closeCommunicationLogFile();
 
 /*
  * Landing messages

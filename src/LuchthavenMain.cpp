@@ -17,8 +17,6 @@ int main(int argc, char **argv){
 
         D->fileOutput();
 
-        cout << D->getAirplanes().size();
-
         D->runSimulation("ANR");
 
     }

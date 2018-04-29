@@ -7,6 +7,8 @@
 
 Airport::Airport() {
     self = this;
+    wait5000 = NULL;
+
 }
 
 Airport::Airport(const string &name, const string &iata, const string &callsign, int gates){
@@ -16,6 +18,8 @@ Airport::Airport(const string &name, const string &iata, const string &callsign,
     Airport::gates = gates;
 
     GatesOccupied.resize(gates);
+    wait5000 = NULL;
+
 };
 
 Airport::~Airport() {
@@ -108,9 +112,12 @@ bool Airport::getGateOccupied(int i) {
 void Airport::setGateOccupied(int i, bool occ) {
     REQUIRE(validGateIndex(i), "Valid gate index");
 
+    if (i == -1){
+        i = getFreeGates()[0];
+    }
     GatesOccupied[i] = occ;
     if (!occ){
-        notificationMessage("Gate ("  + intToString(i) + ") is now unoccupied");
+        logMessage("Gate ("  + intToString(i) + ") is now unoccupied");
 
     }
 
@@ -199,7 +206,7 @@ void Airport::addRunway(Runway *runway) {
 
     string s;
     s = "Runway added (" + runway->getName() + ") to airport (" + this->getName() + ")";
-    succesMessage(s);
+    //logMessage(s);
 
 }
 void Airport::removeRunway(string name) {
@@ -214,7 +221,7 @@ void Airport::removeRunway(string name) {
             Runways[i] = Runways[Runways.size()-1];
             Runways.resize(Runways.size()-1);
 
-            succesMessage("Runway Deleted (" + t + ")" );
+            logMessage("Runway Deleted (" + t + ")" );
             return;
         }
     }
@@ -223,7 +230,13 @@ void Airport::removeRunway(string name) {
 
 //checks
 bool Airport::validGateIndex(int i) {
-    return getGates() > i && i >= 0;
+
+    if (i != -1) {
+        return getGates() > i && i >= 0;
+    }else{
+        return (getFreeGates().size() > 0);
+
+    }
 }
 bool Airport::runwayExists(string name) {
     for (unsigned int i = 0; i < Runways.size(); i++){

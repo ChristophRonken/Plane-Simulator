@@ -58,7 +58,7 @@
 		<callsign>Speedbird 466</callsign>
 		<model>Boeing 737</model>
 		<type>airline</type>
-		<status>Gate</status>
+		<status>Approaching</status>
 		<engine>jet</engine>
 		<size>medium</size>
 		<passengers>60</passengers>
