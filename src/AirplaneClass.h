@@ -564,7 +564,7 @@ public:
      * Geen idee waar deze voor is
      * @return bool
      */
-    bool isEmergencyInAirport() const;
+    bool getEmergencyInAirport() const;
 
     /**
      * zie hierboven

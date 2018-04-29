@@ -228,7 +228,7 @@ void Airplane::setTaxiRequest(bool taxiRequest) {
     Airplane::taxiRequest = taxiRequest;
 }
 
-bool Airplane::isEmergencyInAirport() const {
+bool Airplane::getEmergencyInAirport() const {
     return emergencyInAirport;
 }
 void Airplane::setEmergencyInAirport(bool emergencyInAirport) {
@@ -407,6 +407,8 @@ bool Airplane::getsimulationFinished(){
 void Airplane::setsimulationFinished(bool finished){
     Airplane::simulationFinished = finished;
 }
+
+
 
 
 //checks
@@ -845,7 +847,7 @@ bool Airplane::atGate() {
 }
 
 bool Airplane::readyForTakeOff() {
-    return (isReadyForDeparture() && Airplane::airPort != NULL && Airplane::runway != NULL && Airplane::state == "At runway");
+    return (isReadyForDeparture() && Airplane::airPort != NULL && Airplane::runway != NULL && Airplane::state == "Waiting for departure");
 }
 
 bool Airplane::permissionToDescend(int height, Airport* Port, Runway* Runway){
@@ -889,7 +891,6 @@ bool Airplane::isReadyForDeparture() const {
             return true;
         }
     }
-
     return false;
 
 }
@@ -999,9 +1000,6 @@ void Airplane::taxiToRunway(Runway* runw){
         gate = -1;
     }
 
-    Airplane::onitsway = true;
-    runw->setonItsWay(true);
-
     REQUIRE((!Airplane::onitsway && !runw->getonItsWay()) || (Airplane::onitsway && runw->getonItsWay()), "no plane on its way");
 
     Airplane::onitsway = true;
@@ -1011,6 +1009,7 @@ void Airplane::taxiToRunway(Runway* runw){
 
     if (taxiPoint.empty() && taxiCrossing.empty()){
         taxiPoint = taxiRoute->getTaxiPoints()[0];
+        Airplane::setState("at taxipoint");
         setOpperationTime(1);
         return;
     }
@@ -1036,10 +1035,11 @@ void Airplane::taxiToRunway(Runway* runw){
                         confirmMessageSend = false;
                         runway = runw;
                         Airplane::setState("Waiting for departure");
-                        currentTask == "at holding point";
+                        currentTask = "at holding point";
                         Airplane::onitsway = false;
                         runw->setonItsWay(false);
                         setOpperationTime(1);
+                        runway->setHoldingShortOccupied(true);
                         return;
                     }
                 }
@@ -1500,21 +1500,25 @@ void Airplane::takeOff() {
     REQUIRE(currentTask == "taking off" || currentTask == "at holding point", "correct state");
     string tijd = getTime();
 
-    cout << "request: " << Airplane::requestMessageSend << endl;
-    cout << "message: " << Airplane::messageMessageSend << endl;
-    cout << "confirm: " << Airplane::confirmMessageSend << endl;
-
     REQUIRE(readyForTakeOff(), "Ready for take off");
     REQUIRE(Airplane::getHeight() == 0, "Plane not on ground");
-    cout << "done" << endl;
     if (currentTask == "at holding point") {
         if (!requestMessageSend) {
             holdingShortAtRunway(this, runway, tijd);
             requestMessageSend = true;
+            setOpperationTime(1);
             return;
         }
 
         if (!messageMessageSend) {
+            /*
+            cout << "isoccupied" << runway->isOccupied() <<endl;
+            cout << "wachtop " << runway->getWaitingOnRunway() <<endl;
+            cout << "wachtaan " << runway->getHoldingShortOccupied() <<endl;
+            cout << "planewachtop " << Airplane::waitonrunway <<endl;
+            cout << "planewachtaan " << Airplane::waitatrunway <<endl;
+            cout << "loopend" << endl;
+             */
 
             if (!runway->isOccupied() && !runway->getWaitingOnRunway() && !runway->getHoldingShortOccupied() && !runway->getCrossing()) {
                 clearedForTakeOffMessage(this, runway, tijd);
@@ -1523,6 +1527,7 @@ void Airplane::takeOff() {
                 runway->setWaitingOnRunway(true);
                 runway->setOccupied(true);
                 runway->setPermissionToCross(false);
+                setOpperationTime(1);
                 return;
             } else if (!runway->isOccupied() && !runway->getWaitingOnRunway() && runway->getHoldingShortOccupied() && !runway->getCrossing() && Airplane::waitatrunway) {
                 clearedForTakeOffMessage(this, runway, tijd);
@@ -1531,6 +1536,7 @@ void Airplane::takeOff() {
                 runway->setWaitingOnRunway(true);
                 runway->setOccupied(true);
                 runway->setPermissionToCross(false);
+                setOpperationTime(1);
                 return;
             } else if (!runway->isOccupied() && !runway->getWaitingOnRunway() && !runway->getHoldingShortOccupied() && runway->getCrossing()) {
                 lineUpRunwayMessage(this, runway, tijd);
@@ -1538,29 +1544,25 @@ void Airplane::takeOff() {
                 waitonrunway = true;
                 runway->setWaitingOnRunway(true);
                 runway->setOccupied(true);
+                setOpperationTime(1);
                 return;
             } else if (!runway->isOccupied() && !runway->getWaitingOnRunway() && runway->getHoldingShortOccupied() && runway->getCrossing() && Airplane::waitatrunway) {
                 lineUpRunwayMessage(this, runway, tijd);
                 messageMessageSend = true;
                 waitonrunway = true;
                 Airplane::waitatrunway = false;
-                runway->setHoldingShortOccupied(false);
                 runway->setWaitingOnRunway(true);
                 runway->setOccupied(true);
+                setOpperationTime(1);
                 return;
-            } else if (!runway->getHoldingShortOccupied()) {
+            } else if (!runway->getHoldingShortOccupied() || (runway->getHoldingShortOccupied() && Airplane::waitatrunway)) {
                 waitAtRunwayMessage(this, tijd);
                 messageMessageSend = true;
                 waitatrunway = true;
                 runway->setHoldingShortOccupied(true);
+                setOpperationTime(1);
                 return;
             }
-            cout << "isoccupied" << runway->isOccupied() <<endl;
-            cout << "wachtop " << runway->getWaitingOnRunway() <<endl;
-            cout << "wachtaan " << runway->getHoldingShortOccupied() <<endl;
-            cout << "planewachtop " << Airplane::waitonrunway <<endl;
-            cout << "planewachtaan " << Airplane::waitatrunway <<endl;
-            cout << "loopend" << endl;
         }
         else {
             if (permissiontotakeoff) {
@@ -1570,26 +1572,31 @@ void Airplane::takeOff() {
                 requestMessageSend = false;
                 messageMessageSend = false;
                 if(!alreadylinedup){
-                    opperationTime = 2;
+                    setOpperationTime(2);;
+                }
+                else{
+                    setOpperationTime(1);
                 }
                 alreadylinedup = false;
+                runway->setHoldingShortOccupied(false);
                 return;
             }
             if (waitonrunway) {
                 lineUpRunwayConfirmation(this, runway, tijd);
                 alreadylinedup = true;
-                waitonrunway = false;
                 requestMessageSend = false;
                 messageMessageSend = false;
                 Airplane::waitonrunway = true;
+                setOpperationTime(1);
+                runway->setHoldingShortOccupied(false);
                 return;
             }
             if (waitatrunway) {
                 waitAtRunwayConfirmation(this, tijd);
-                waitatrunway = false;
                 requestMessageSend = false;
                 messageMessageSend = false;
                 Airplane::waitatrunway = true;
+                setOpperationTime(1);
                 return;
             }
         }
@@ -1629,8 +1636,9 @@ void Airplane::takeOff() {
 
     cout << "finished" << endl;
 
-    currentTask = "Finished";
+    currentTask = "finished";
     Airplane::setsimulationFinished(true);
+    return;
 
 }
 
@@ -1685,8 +1693,9 @@ void Airplane::technicalCheck(){
 
 void Airplane::refuel() {
     REQUIRE(currentTask == "refueling", "correct state");
+    cout << fuelCapacity << endl;
+    cout << fuel << endl;
 
-    opperationTime = ceil(fuelCapacity / 10000);
     notificationMessage(getNumber() + " has been refueled");
 
     if (emergencyInAirport) {
@@ -1696,7 +1705,9 @@ void Airplane::refuel() {
         Airplane::setState("Waiting for board passengers");
         currentTask = "board passengers";
     }
-
+    Airplane::setFuel(100000);
+    cout << ceil(fuelCapacity / 10000) << endl;
+    Airplane::setOpperationTime(ceil(fuelCapacity / 10000));
     return;
 }
 
@@ -1732,23 +1743,32 @@ void Airplane::nextTask(Airport* Port) {
 }
 
 void Airplane::initSimulation(Airport *Port) {
+    Airplane::onitsway = false;
+    Airplane::waitonrunway = false;
+    Airplane::waitatrunway = false;
     for (unsigned int i=0; i<Port->getRunways().size(); i++){
         Port->getRunways()[i]->setPermissionToCross(true);
+        Port->getRunways()[i]->setonItsWay(false);
+        Port->getRunways()[i]->setWaitingOnRunway(false);
+        Port->getRunways()[i]->setHoldingShortOccupied(false);
     }
     if (getState() == "Approaching"){
+        Airplane::setHeight(10000);
         if (flightPlan != NULL){
             opperationTime = flightPlan->getArrival();
-            currentTask = "land";
+            currentTask = "try to land";
         }
 
     }
-
     if (getState() == "Gate"){
+        Airplane::setHeight(0);
+        Airplane::setFuel(0);
+        Airplane::setPassengers(0);
         if (flightPlan != NULL) {
             opperationTime = flightPlan->getDeparture();
         }
 
-        currentTask = "IFR";
+        currentTask = "technical check";
 
         setAirport(Port);
         setGate(Port->getFreeGates()[0]);

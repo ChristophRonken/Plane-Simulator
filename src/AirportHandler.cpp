@@ -660,6 +660,7 @@ void AirportHandler::GraphicalAirport3D(string & AirportIata) {
     s += "nrFigures = " + intToString(aantalfiguren) + "\n";
     s += "\n";
 
+    // draws gates and planes in gates
     for (int i=0; i<airport->getGates(); i++){
         s += "[Figure" + intToString(i+planes) + "]\n";
         s += "type = \"Cube\"\n";
@@ -689,6 +690,7 @@ void AirportHandler::GraphicalAirport3D(string & AirportIata) {
         }
     }
 
+    // draws runways and planes on runways
     for (unsigned int i=0; i<airport->getRunways().size(); i++){
         s += "[Figure" + intToString(i+airport->getGates()+planes) + "]\n";
         s += "type = \"Cube\"\n";
@@ -715,6 +717,30 @@ void AirportHandler::GraphicalAirport3D(string & AirportIata) {
             s += "center = ("+ intToString((airport->getGates()-1)*6 /2) + ", " + intToString(20*(i+1)) + ", 0)\n";
             s += "color = (0, 1, 1)\n";
             s += "\n";
+        }
+    }
+
+    // makes vector with all airplanes in the simulation
+    vector<Airplane*> unfinishedAirplanes;
+    for (unsigned int i=0; i<getAirplanes().size(); i++){
+        if (getAirplanes()[i]->getsimulationFinished()){
+            unfinishedAirplanes.push_back(getAirplanes()[i]);
+        }
+    }
+
+    // draws all airplanes
+    for (unsigned int i=0; i<unfinishedAirplanes.size(); i++){
+        string task = unfinishedAirplanes[i]->getCurrentTask();
+        if (task == "try to land" || task == "descending to 5000ft." || task == "descending to 3000ft." || task == "descending to 0ft." || task == "landing"){
+        } else if (task == "emergency crash" || task == "emergency landing" || task == "crash"){
+        } else if(task == "IFR" || task == "pushback" || task == "request taxi"){
+        } else if(task == "going to runway"){
+        } else if(task == "going to gate"){
+        } else if(task == "taking off" || task == "at holding point"){
+        } else if(task == "exit passengers"){
+        } else if(task == "board passengers"){
+        } else if(task == "technical check"){
+        } else if(task == "refueling"){
         }
     }
 
