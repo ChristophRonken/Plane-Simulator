@@ -517,7 +517,7 @@ void AirportHandler::runSimulation(string name) {
                         Plane->execTask(Port);
 
                     }
-                    cout << Plane->getHeight() << endl;
+                    cout << Plane->getCurrentTask() << endl;
                     Plane->setOpperationTime(Plane->getOpperationTime() - 1);
 
                 }
@@ -525,8 +525,9 @@ void AirportHandler::runSimulation(string name) {
         }
     }
 
-    ofstream *file = getText();
-    file->close();
+
+    closeCommunicationLogFile();
+    closeLogFile();
 
 }
 

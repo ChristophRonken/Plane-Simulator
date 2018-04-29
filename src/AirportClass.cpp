@@ -110,7 +110,7 @@ void Airport::setGateOccupied(int i, bool occ) {
 
     GatesOccupied[i] = occ;
     if (!occ){
-        notificationMessage("Gate ("  + intToString(i) + ") is now unoccupied");
+        logMessage("Gate ("  + intToString(i) + ") is now unoccupied");
 
     }
 
@@ -199,7 +199,7 @@ void Airport::addRunway(Runway *runway) {
 
     string s;
     s = "Runway added (" + runway->getName() + ") to airport (" + this->getName() + ")";
-    //succesMessage(s);
+    //logMessage(s);
 
 }
 void Airport::removeRunway(string name) {
@@ -214,7 +214,7 @@ void Airport::removeRunway(string name) {
             Runways[i] = Runways[Runways.size()-1];
             Runways.resize(Runways.size()-1);
 
-            succesMessage("Runway Deleted (" + t + ")" );
+            logMessage("Runway Deleted (" + t + ")" );
             return;
         }
     }
