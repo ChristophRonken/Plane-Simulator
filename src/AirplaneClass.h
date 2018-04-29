@@ -617,7 +617,7 @@ public:
      * Make the airplane taxi to a given gate
      * @param gate
      */
-    void taxiToGate(int);
+    void taxiToGate(int gate = -1);
 
     /**
      * Perform an emergency landing

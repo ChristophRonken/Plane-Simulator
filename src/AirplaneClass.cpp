@@ -19,6 +19,7 @@ Airplane::Airplane() {
     taxiPoint = "";
     taxiCrossing = "";
     flightPlan = new FlightPlan();
+    attemptRunway = NULL;
 
 }
 
@@ -529,21 +530,14 @@ bool Airplane::validGate(int gate) {
 
     if (gate == -1){
         vector<int> t = airPort->getFreeGates();
-        if (t.size() == 0){
-            return false;
-        }
-        return true;
+        return t.size() != 0;
 
     }
 
     if (!(gate >= 0 && gate < airPort->getGates())){
         return false;
     }
-    if (airPort->getGateOccupied(gate)){
-        return false;
-    }
-
-    return true;
+    return !airPort->getGateOccupied(gate);
 
 }
 
@@ -1133,6 +1127,11 @@ void Airplane::taxiToGate(int gate){
     REQUIRE(currentTask == "going to gate", "correct state");
     REQUIRE(validGate(gate), "valid gate number");
 
+    if (gate == -1){
+        gate = airPort->getFreeGates()[0];
+
+    }
+
     string tijd = getTime();
     if (runway != NULL){
         taxiRoute = runway->getTaxiRoute();
@@ -1335,7 +1334,7 @@ void Airplane::land(Airport *Port, Runway* Runw) {
 
     string tijd = getTime();
     if (currentTask != "landing") {
-        if (state != "Approaching") {
+        if (state != "Approaching" && state != "on final approach") {
             REQUIRE(state == "Airborne", "Plane is not airborne");
             REQUIRE(validLandingSpot(Port, Runw), "Valid landing spot");
 
@@ -1351,6 +1350,7 @@ void Airplane::land(Airport *Port, Runway* Runw) {
                         Runw = runw[i];
                         attemptRunway = runw[i];
                         break;
+
                     }
                 }
             }
@@ -1360,14 +1360,17 @@ void Airplane::land(Airport *Port, Runway* Runw) {
             return;
         } else if (Runw == NULL) {
             Runw = attemptRunway;
+
         }
 
         logMessage(Airplane::number + " is approaching " + Port->getName() + " at " + intToString(height) + "ft.");
-
+        cout << height << endl;
         if (height == cHeightLevelA) {
             if (!requestMessageSend) {
                 requestMessageSend = true;
+
                 if (permissionToDescend(height, Port, Runw)) {
+
                     descendTo5000ftMessage(this, tijd);
                     confirmMessageSend = false;
                     opperationTime = 1;
@@ -1379,27 +1382,31 @@ void Airplane::land(Airport *Port, Runway* Runw) {
                     return;
                 }
             } else {
+
                 requestMessageSend = false;
                 if (confirmMessageSend) {
                     waitBeforeDescendConfirmation(this, tijd);
                     confirmMessageSend = false;
                     opperationTime = 1;
                     return;
+
                 } else {
                     descendTo5000ftConfirmation(this, tijd);
                     currentTask = "descending to 5000ft.";
+                    Port->setWait5000(this);
 
                     if (Airplane::getEngine() == "jet") {
-                        opperationTime = cHeightLevelB/cJetDescentionSpeed;
+                        opperationTime = (cHeightLevelA - cHeightLevelB)/cJetDescentionSpeed +1;
 
                     } else if (Airplane::getEngine() == "propeller") {
-                        opperationTime = cHeightLevelB/cProprellerDescentionSpeed;
+                        opperationTime = (cHeightLevelA - cHeightLevelB)/cProprellerDescentionSpeed +1;
 
                     }
                     return;
                 }
             }
         }
+
         if (height == cHeightLevelB) {opperationTime = 6;
             if (!requestMessageSend) {
                 requestMessageSend = true;
@@ -1427,17 +1434,34 @@ void Airplane::land(Airport *Port, Runway* Runw) {
                     currentTask = "descending to 3000ft.";
 
                     if (Airplane::getEngine() == "jet") {
-                        opperationTime = 2000/cJetDescentionSpeed;
+                        opperationTime = (cHeightLevelB - cHeightLevelC)/cProprellerDescentionSpeed -1;
                     } else if (Airplane::getEngine() == "propeller") {
-                        opperationTime = 2000/cProprellerDescentionSpeed;
+                        opperationTime = (cHeightLevelB - cHeightLevelC)/cProprellerDescentionSpeed -1;
                     }
                     return;
                 }
             }
         }
+
         if (height == cHeightLevelC) {
             if (!requestMessageSend) {
                 requestMessageSend = true;
+
+                if (Runw == NULL) {
+                    logMessage("Preparing airplane (" + Airplane::number + ") for landing in " + Port->getName());
+
+                    vector<Runway*> runw = Port->getRunways();
+
+                    for (unsigned int i = 0; i < runw.size(); i++) {
+                        if (!runw[i]->isOccupied()) {
+                            Runw = runw[i];
+                            attemptRunway = runw[i];
+                            break;
+
+                        }
+                    }
+                }
+
                 if (permissionToDescend(height, Port, Runw)) {
                     finalApproachMessage(this, Runw, tijd);
                     Runw->setOccupied(true);
@@ -1490,10 +1514,10 @@ void Airplane::land(Airport *Port, Runway* Runw) {
         }
     }
     else {
-            afterLandingMessage(this, Port, Runw, tijd);
-            currentTask = "taxi to gate";
-            opperationTime = 1;
-            return;
+        afterLandingMessage(this, Port, runway, tijd);
+        currentTask = "going to gate";
+        opperationTime = 1;
+        return;
 
     }
 
@@ -1751,9 +1775,14 @@ void Airplane::refuel() {
 //simulation
 
 void Airplane::initSimulation(Airport *Port) {
+
     Airplane::onitsway = false;
     Airplane::waitonrunway = false;
     Airplane::waitatrunway = false;
+    Airplane::requestMessageSend = false;
+    Airplane::messageMessageSend = false;
+    Airplane::confirmMessageSend = false;
+
     for (unsigned int i = 0; i < Port->getRunways().size(); i++) {
         Port->getRunways()[i]->setPermissionToCross(true);
         Port->getRunways()[i]->setonItsWay(false);
@@ -1765,6 +1794,7 @@ void Airplane::initSimulation(Airport *Port) {
             Airplane::setHeight(cHeightLevelA);
             opperationTime = flightPlan->getArrival();
             currentTask = "try to land";
+
         }
 
         if (getState() == "Gate") {
@@ -1800,7 +1830,7 @@ void Airplane::execTask(Airport* Port) {
     } else if(currentTask == "going to runway"){
         taxiToRunway();
     } else if(currentTask == "going to gate"){
-        taxiToGate(0);
+        taxiToGate();
     } else if(currentTask == "taking off" || currentTask == "at holding point"){
         takeOff();
     } else if(currentTask == "exit passengers"){
