@@ -2,13 +2,10 @@
 // date: 02/05/2018
 // version: 2.0
 
-
-
 #include "MessageSystem.h"
 
 ofstream gOutputCommunicationLog("CommunicationLog.txt");
 ofstream gOutputLog("Log.txt");
-
 
 ofstream* getCommunicationLogFile(){
     return &gOutputCommunicationLog;
@@ -71,7 +68,6 @@ void descendTo3000ftConfirmation(Airplane* plane, const string &time){
     gOutputCommunicationLog << "[" << time << "][AIR]\n"
                  << "$ Descend and maintain five thousand feet, " << plane->getCallsign() << ".\n";
 }
-
 
 void finalApproachMessage(Airplane* plane, Runway* runway, const string &time){
     gOutputCommunicationLog << "[" << time << "][ATC]\n"
