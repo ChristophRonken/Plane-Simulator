@@ -1,6 +1,6 @@
-//
-// Created by oliviervh on 01.03.18.
-//
+// author: Ronken Christoph & Van Hautte Olivier
+// date: 02/05/2018
+// version: 2.0
 
 #ifndef PSE_V1_MESSAGESYSTEM_H
 #define PSE_V1_MESSAGESYSTEM_H
@@ -25,7 +25,7 @@ using namespace std;
  * Print a message in the logFile
  * @param str
  */
-void logMessage(string str);
+void logMessage(const string &str);
 
 /**
  * Returns the ofstream object containing all the text send to and from the ATC
@@ -45,14 +45,14 @@ ofstream* getLogFile();
  * @param name
  * @return ofstream
  */
-ofstream* openNewLogFile(string name);
+ofstream* openNewLogFile(const string &name);
 
 /**
  * Opens and returns a new ATC communication logfile
  * @param name
  * @return ofstream
  */
-ofstream* openNewCommunicationLogFile(string name);
+ofstream* openNewCommunicationLogFile(const string &name);
 
 /**
  * Closes the current logfile
@@ -64,304 +64,295 @@ void closeLogFile();
  */
 void closeCommunicationLogFile();
 
-/*
- * Landing messages
- */
-
 /**
  * Initial communication message
- * @param Plane
- * @param Port
+ * @param plane
+ * @param airport
  * @param time
  */
-void initialCommunicationMessage(Airplane* Plane, Airport* Port, string time);
+void initialCommunicationMessage(Airplane* plane, Airport* airport, const string &time);
 
 /**
  * ATC tells airplane to descend to 5000ft
- * @param Plane
+ * @param plane
  * @param time
  */
-void descendTo5000ftMessage(Airplane* Plane, string time);
+void descendTo5000ftMessage(Airplane* plane, const string &time);
 
 /**
  * Airplane says it will start descending to 5000 ft
- * @param Plane
+ * @param plane
  * @param time
  */
-void descendTo5000ftConfirmation(Airplane* Plane, string time);
+void descendTo5000ftConfirmation(Airplane* plane, const string &time);
 
 /**
  * Tell the plane to wait before descending
- * @param Plane
+ * @param plane
  * @param time
  */
-void waitBeforeDescendMessage(Airplane* Plane, string time);
+void waitBeforeDescendMessage(Airplane* plane, const string &time);
 
 /**
  * Airplane confirms waiting message
- * @param Plane
+ * @param plane
  * @param time
  */
-void waitBeforeDescendConfirmation(Airplane* Plane, string time);
+void waitBeforeDescendConfirmation(Airplane* plane, const string &time);
 
 /**
  * Tell the plane descend to 3000ft
- * @param Plane
+ * @param plane
  * @param time
  */
-void descendTo3000ftMessage(Airplane* Plane, string time);
+void descendTo3000ftMessage(Airplane* plane, const string &time);
 
 /**
  * Airplane says it will start descending
- * @param Plane
+ * @param plane
  * @param time
  */
-void descendTo3000ftConfirmation(Airplane* Plane, string time);
+void descendTo3000ftConfirmation(Airplane* plane, const string &time);
 
 /**
  * Tell the airplane to start the final approach
- * @param Plane
- * @param Runw
+ * @param plane
+ * @param runway
  * @param time
  */
-void finalApproachMessage(Airplane* Plane, Runway* Runw, string time);
+void finalApproachMessage(Airplane* plane, Runway* runway, const string &time);
 
 /**
  * Airplane says it will start it's final approach
- * @param Plane
- * @param Runw
+ * @param plane
+ * @param runway
  * @param time
  */
-void finalApproachConfirmation(Airplane* Plane, Runway* Runw, string time);
+void finalApproachConfirmation(Airplane* plane, Runway* runway, const string &time);
 
 /**
  * Send message after the final approach
- * @param Plane
- * @param Port
- * @param Runw
+ * @param plane
+ * @param airport
+ * @param runway
  * @param time
  */
-void afterLandingMessage(Airplane* Plane, Airport* Port, Runway* Runw, string time);
-
-/*
- * Take off messages
- */
+void afterLandingMessage(Airplane* plane, Airport* airport, Runway* runway, const string &time);
 
 /**
  * Request IFR Permission to start departure procedure
- * @param Plane
+ * @param plane
  * @param time
  */
-void IFRRequest(Airplane* Plane, string time);
+void IFRRequest(Airplane* plane, const string &time);
 
 /**
  * Accept IFR Request
- * @param Plane
+ * @param plane
  * @param time
  */
-void IFRMessage(Airplane* Plane, string time);
+void IFRMessage(Airplane* plane, const string &time);
 
 /**
  * Confirm IFR's Accepting
- * @param Plane
+ * @param plane
  * @param time
  */
-void IFRConfirmation(Airplane* Plane, string time);
+void IFRConfirmation(Airplane* plane, const string &time);
 
-// After IFR authorization
 /**
  * Request pushback Message
- * @param Plane
+ * @param plane
  * @param time
  */
-void pushbackRequest(Airplane* Plane, string time);
+void pushbackRequest(Airplane* plane, const string &time);
 
 /**
  * Accept pushback request message
- * @param Plane
+ * @param plane
  * @param time
  */
-void pushbackMessage(Airplane* Plane, string time);
+void pushbackMessage(Airplane* plane, const string &time);
 
 /**
  * Confirm pushback acceptance
- * @param Plane
+ * @param plane
  * @param time
  */
-void pushbackConfirmation(Airplane* Plane, string time);
+void pushbackConfirmation(Airplane* plane, const string &time);
 
 /**
  * Send ready for taxi message
- * @param Plane
+ * @param plane
  * @param time
  */
-void readyToTaxiMessage(Airplane* Plane, string time);
+void readyToTaxiMessage(Airplane* plane, const string &time);
 
 
 /**
- * Plane is holding short at runway message
- * @param Plane
- * @param Runw
+ * plane is holding short at runway message
+ * @param plane
+ * @param runway
  * @param time
  */
-void holdingShortAtRunway(Airplane* Plane, Runway* Runw, string time);
+void holdingShortAtRunway(Airplane* plane, Runway* runway, const string &time);
 
 /**
  * Tell the plane to wait at the runway
- * @param Plane
+ * @param plane
  * @param time
  */
-void waitAtRunwayMessage(Airplane* Plane, string time);
+void waitAtRunwayMessage(Airplane* plane, const string &time);
 
 /**
- * Plane Says he heard the wait at runway message
- * @param Plane
+ * plane Says he heard the wait at runway message
+ * @param plane
  * @param time
  */
-void waitAtRunwayConfirmation(Airplane* Plane, string time);
+void waitAtRunwayConfirmation(Airplane* plane, const string &time);
 
 /**
  * Tell the plane to line up on the runway
- * @param Plane
- * @param Runw
+ * @param plane
+ * @param runway
  * @param time
  */
-void lineUpRunwayMessage(Airplane* Plane, Runway* Runw, string time);
+void lineUpRunwayMessage(Airplane* plane, Runway* runway, const string &time);
 
 /**
  * The plane says it has heard the linup message
- * @param Plane
- * @param Runw
+ * @param plane
+ * @param runway
  * @param time
  */
-void lineUpRunwayConfirmation(Airplane* Plane, Runway* Runw, string time);
+void lineUpRunwayConfirmation(Airplane* plane, Runway* runway, const string &time);
 
 /**
  * Tell the plane it is cleared for take-off
- * @param Plane
- * @param Runw
+ * @param plane
+ * @param runway
  * @param time
  */
-void clearedForTakeOffMessage(Airplane* Plane, Runway* Runw, string time);
+void clearedForTakeOffMessage(Airplane* plane, Runway* runway, const string &time);
 
 /**
  * The plane says it has heared the clearance message
- * @param Plane
- * @param Runw
+ * @param plane
+ * @param runway
  * @param time
  */
-void clearedForTakeOffConfirmation(Airplane* Plane, Runway* Runw, string time);
+void clearedForTakeOffConfirmation(Airplane* plane, Runway* runway, const string &time);
 
 
 /**
  * Tell the plane to go to a holding point
- * @param Plane
+ * @param plane
  * @param taxiCrossing
  * @param taxiPoint
  * @param time
  */
-void toHoldingPointMessage(Airplane* Plane, string taxiCrossing, string taxiPoint, string time);
+void toHoldingPointMessage(Airplane* plane, const string &taxiCrossing, const string &taxiPoint, const string &time);
 
 /**
  * The plane says it has heard the to holding point message
- * @param Plane
+ * @param plane
  * @param taxiCrossing
  * @param taxiPoint
  * @param time
  */
-void toHoldingPointConfirmation(Airplane* Plane, string taxiCrossing, string taxiPoint, string time);
+void toHoldingPointConfirmation(Airplane* plane, const string &taxiCrossing, const string &taxiPoint, const string &time);
 
 /**
  * Tell the plane to go to the given runway
- * @param Plane
- * @param Runw
+ * @param plane
+ * @param runway
  * @param taxiPoint
  * @param time
  */
-void toRunwayMessage(Airplane* Plane, Runway* Runw, string taxiPoint, string time);
+void toRunwayMessage(Airplane* plane, Runway* runway, const string &taxiPoint, const string &time);
 
 /**
  * The plane says it has heard th to runway message
- * @param Plane
- * @param Runw
+ * @param plane
+ * @param runway
  * @param taxiPoint
  * @param time
  */
-void toRunwayConfirmation(Airplane* Plane, Runway* Runw, string taxiPoint, string time);
+void toRunwayConfirmation(Airplane* plane, Runway* runway, const string &taxiPoint, const string &time);
 
 /**
  * Tell the plane to go to the gate
- * @param Plane
+ * @param plane
  * @param gateIndex
  * @param taxiPoint
  * @param time
  */
-void toGateMessage(Airplane* Plane, int gateIndex,  string taxiPoint, string time);
+void toGateMessage(Airplane* plane, const int &gateIndex,  const string &taxiPoint, const string &time);
 
 /**
  * The plane says it has heard the to gate message
- * @param Plane
+ * @param plane
  * @param gateIndex
  * @param taxiPoint
  * @param time
  */
-void toGateConfirmation(Airplane* Plane, int gateIndex,  string taxiPoint, string time);
+void toGateConfirmation(Airplane* plane, const int &gateIndex,  const string &taxiPoint, const string &time);
 
 /**
  * The plane asks if it is cleared to cross the runway
- * @param Plane
+ * @param plane
  * @param taxiCrossing
  * @param time
  */
-void clearedToCrossRequest(Airplane* Plane, string taxiCrossing, string time );
+void clearedToCrossRequest(Airplane* plane, const string &taxiCrossing, const string &time);
 
 /**
  * Tell the plane it is cleared to cross the runway
- * @param Plane
+ * @param plane
  * @param taxiCrossing
  * @param time
  */
-void clearedToCrossMessage(Airplane* Plane, string taxiCrossing, string time );
+void clearedToCrossMessage(Airplane* plane, const string &taxiCrossing, const string &time);
 
 /**
  * The plane says it has heard the cleared to cross message
- * @param Plane
+ * @param plane
  * @param taxiCrossing
  * @param time
  */
-void clearedToCrossConfirmation(Airplane* Plane, string taxiCrossing, string time );
+void clearedToCrossConfirmation(Airplane* plane, const string &taxiCrossing, const string &time);
 
 
 /**
  * Emergancy above 3000 ft, ask for help
- * @param Plane
- * @param Port
+ * @param plane
+ * @param airport
  * @param time
  */
-void EmergencyAbove3000ftRequest(Airplane* Plane, Airport* Port, string time);
+void EmergencyAbove3000ftRequest(Airplane* plane, Airport* airport, const string &time);
 
 /**
  * Emergancy above 3000 ft, instructions
- * @param Plane
- * @param Runw
+ * @param plane
+ * @param runway
  * @param time
  */
-void EmergencyAbove3000ftMessage(Airplane* Plane, Runway* Runw, string time);
+void EmergencyAbove3000ftMessage(Airplane* plane, Runway* runway, const string &time);
 
 /**
  * Emergancy below 3000 ft, ask for instructions
- * @param Plane
- * @param Port
+ * @param plane
+ * @param airport
  * @param time
  */
-void EmergencyBelow3000ftRequest(Airplane* Plane, Airport* Port, string time);
+void EmergencyBelow3000ftRequest(Airplane* plane, Airport* airport, const string &time);
 
 /**
  * Emergancy bellow 3000 ft, instructions
- * @param Plane
+ * @param plane
  * @param time
  */
-void EmergencyBelow3000ftMessage(Airplane* Plane, string time);
+void EmergencyBelow3000ftMessage(Airplane* plane, const string &time);
 
 
 #endif //PSE_V1_MESSAGESYSTEM_H
