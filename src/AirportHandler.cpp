@@ -35,7 +35,7 @@ void AirportHandler::setAirports(const vector<Airport *> &Airports) {
     REQUIRE(validAirports(Airports), "Valid airports");
 
     AirportHandler::Airports = Airports;
-    ENSURE(Airports == AirportHandler::Airports, "Set Airports");
+    ENSURE(Airports == AirportHandler::getAirports(), "Set Airports");
 
 }
 
@@ -47,6 +47,8 @@ void AirportHandler::setAirplanes(const vector<Airplane *> &Airplanes) {
     REQUIRE(validAirplanes(Airplanes), "Valid airplanes");
 
     AirportHandler::Airplanes = Airplanes;
+
+    ENSURE(AirportHandler::getAirplanes() == Airplanes, "Airplanes set");
 
 }
 
@@ -66,12 +68,12 @@ void AirportHandler::addAirplane(Airplane *Plane) {
     REQUIRE(validAirplane(Plane), "Valid airplane");
 
     Airplanes.push_back(Plane);
-    ENSURE(Airplanes[Airplanes.size()-1] == Plane, "Plane added");
+    ENSURE(AirportHandler::airplaneExists(Plane->getNumber()), "Plane added");
 
 }
 void AirportHandler::removeAirplane(string callsign){
 
-    REQUIRE(airplaneExists(callsign), "Airplane exists");
+    REQUIRE(AirportHandler::airplaneExists(callsign), "Airplane exists");
 
     for (unsigned int i = 0; i < Airplanes.size(); i++) {
         if (Airplanes[i]->getCallsign() == callsign) {
@@ -85,6 +87,9 @@ void AirportHandler::removeAirplane(string callsign){
         }
     }
 
+    ENSURE(!AirportHandler::airplaneExists(callsign), "Airplane doesn't exist");
+
+
 }
 
 void AirportHandler::addAirport(Airport *Port) {
@@ -92,7 +97,7 @@ void AirportHandler::addAirport(Airport *Port) {
     REQUIRE(validAirport(Port), "Valid airport");
 
     Airports.push_back(Port);
-    ENSURE(Airports[Airports.size()-1] == Port, "Airport added");
+    ENSURE(AirportHandler::airportExists(Port->getIata()), "Airport added");
 
 }
 void AirportHandler::removeAirport(string callsign){
@@ -100,7 +105,7 @@ void AirportHandler::removeAirport(string callsign){
     REQUIRE(airportExists(callsign), "Airport exists");
 
     for (unsigned int i = 0; i < Airports.size(); i++) {
-        if (Airports[i]->getCallsign() == callsign) {
+        if (Airports[i]->getIata() == callsign) {
 
             const vector<Runway *> Runways;
             Airports[i]->setRunways(Runways);
@@ -112,11 +117,12 @@ void AirportHandler::removeAirport(string callsign){
             Airports[i] = Airports[Airports.size()-1];
             Airports.resize(Airports.size()-1);
 
-            //succesMessage("Airplane Deleted (" + callsign + ")" );
             return;
 
         }
     }
+
+    ENSURE(!AirportHandler::airportExists(callsign), "Airport added");
 
 }
 

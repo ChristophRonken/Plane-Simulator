@@ -6,6 +6,7 @@
 #define PSE_V1_TAXIROUTE_H
 #include <vector>
 #include <string>
+#include "DesignByContract.h"
 
 using namespace std;
 

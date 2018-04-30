@@ -186,8 +186,16 @@ public:
      */
     bool isValid();
 
+    /**
+     * Returns true if a plane is on it's way towards the Runway
+     * @return
+     */
     bool getonItsWay();
 
+    /**
+     * Set if a plane is on it's way
+     * @param onitsway
+     */
     void setonItsWay(bool onitsway);
 
 };

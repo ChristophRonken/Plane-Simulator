@@ -45,7 +45,7 @@ class Airplane {
     string size;
     string squawkCode;
 
-    Airport* airPort;
+    Airport* airport;
     Runway* runway;
     Runway* attemptRunway;
 
@@ -158,9 +158,9 @@ public:
 
     /**
      * sets the current airport
-     * @param airPort
+     * @param airport
      */
-    void setAirport(Airport *airPort);
+    void setAirport(Airport *airport);
 
     /**
      * returns a pointer to the current runway
@@ -463,18 +463,6 @@ public:
      * @return FlightPlan*
      */
     FlightPlan * getFlightPlan() const;
-
-    /**
-     * Get the airport the plane is currently in
-     * @return Airport*
-     */
-    Airport *getAirPort() const;
-
-    /**
-     * Set the airport the plane is in
-     * @param airPort
-     */
-    void setAirPort(Airport *airPort);
 
     /**
      * Get the runway the airplane is trying to go to.

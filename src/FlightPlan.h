@@ -7,7 +7,7 @@
 
 #include <iostream>
 #include <vector>
-
+#include "DesignByContract.h"
 
 using namespace std;
 

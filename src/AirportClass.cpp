@@ -16,9 +16,9 @@ Airport::Airport(const string &name, const string &iata, const string &callsign,
     Airport::iata = iata;
     Airport::callsign = callsign;
     Airport::gates = gates;
-
-    GatesOccupied.resize(gates);
-    wait5000 = NULL;
+    Airport::self = this;
+    Airport::GatesOccupied.resize(gates);
+    Airport::wait5000 = NULL;
 
 };
 
@@ -36,7 +36,7 @@ const string &Airport::getName() const {
 }
 void Airport::setName(const string &name) {
     Airport::name = name;
-    ENSURE(Airport::name == name, "Airport name set");
+    ENSURE(Airport::getName() == name, "Airport name set");
 
 }
 
@@ -45,7 +45,7 @@ const string &Airport::getIata() const {
 }
 void Airport::setIata(const string &iata) {
     Airport::iata = iata;
-    ENSURE(Airport::iata == iata, "Airport iata set");
+    ENSURE(Airport::getIata() == iata, "Airport iata set");
 
 }
 
@@ -54,7 +54,7 @@ const string &Airport::getCallsign() const {
 }
 void Airport::setCallsign(const string &callsign) {
     Airport::callsign = callsign;
-    ENSURE(Airport::name == name, "Airport name set");
+    ENSURE(Airport::getName() == name, "Airport name set");
 
 }
 
@@ -64,8 +64,8 @@ int Airport::getGates() const {
 void Airport::setGates(int gates) {
     Airport::gates = gates;
     GatesOccupied.resize(gates, false);
-    ENSURE(Airport::gates == gates, "Gates set");
-    ENSURE(GatesOccupied.size() == unsigned(gates), "Added new gates");
+    ENSURE(Airport::getGates() == gates, "Gates set");
+    ENSURE(Airport::getGatesOccupied().size() == unsigned(gates), "Added new gates");
 
 }
 
@@ -76,7 +76,7 @@ void Airport::setRunways(const vector<Runway *> &Runways) {
     for (int i=0; i< (signed) Runways.size(); i++){
         addRunway(Runways[i]);
     }
-
+    ENSURE(Airport::getRunways() == Runways, "Runways set");
 }
 
 const vector<bool> &Airport::getGatesOccupied() const {
@@ -84,7 +84,7 @@ const vector<bool> &Airport::getGatesOccupied() const {
 }
 void Airport::setGatesOccupied(const vector<bool> &GatesOccupied) {
     Airport::GatesOccupied = GatesOccupied;
-    ENSURE(GatesOccupied == GatesOccupied, "Set GatesOccupied");
+    ENSURE(Airport::getGatesOccupied() == GatesOccupied, "Set GatesOccupied");
 
 }
 
@@ -93,6 +93,7 @@ Airplane* Airport::getWait5000(){
 }
 void Airport::setWait5000(Airplane* plane){
     Airport::wait5000 = plane;
+    ENSURE(Airport::getWait5000() == plane, "wait 5000 set");
 }
 
 Airplane* Airport::getWait3000(){
@@ -100,6 +101,7 @@ Airplane* Airport::getWait3000(){
 }
 void Airport::setWait3000(Airplane* plane){
     Airport::wait3000 = plane;
+    ENSURE(Airport::getWait3000() == plane, "wait 3000 set");
 }
 
 bool Airport::getGateOccupied(int i) {
@@ -110,7 +112,7 @@ bool Airport::getGateOccupied(int i) {
 
 }
 void Airport::setGateOccupied(int i, bool occ) {
-    REQUIRE(validGateIndex(i), "Valid gate index");
+    REQUIRE(Airport::validGateIndex(i), "Valid gate index");
 
     if (i == -1){
         i = getFreeGates()[0];
@@ -120,6 +122,8 @@ void Airport::setGateOccupied(int i, bool occ) {
         logMessage("Gate ("  + intToString(i) + ") is now unoccupied");
 
     }
+
+    ENSURE(Airport::getGateOccupied(i) == occ, "gate set");
 
 }
 
@@ -228,6 +232,9 @@ void Airport::removeRunway(string name) {
             return;
         }
     }
+
+    ENSURE(!Airport::runwayExists(name), "wait 5000 set");
+
 }
 
 
