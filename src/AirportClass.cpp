@@ -179,10 +179,13 @@ void Airport::setVar(string Type, string Value) {
     }
 
     else if (Type == "gates"){
-        int i;
-        istringstream(Value) >> i;
-        Airport::setGates(i);
+        if (isNumber(Value)){
+            int i;
+            istringstream(Value) >> i;
+            Airport::setGates(i);
+        }
         return;
+
     }
 
     else{

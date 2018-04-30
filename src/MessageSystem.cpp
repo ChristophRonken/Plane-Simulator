@@ -10,15 +10,6 @@ std::ofstream gOutputCommunicationLog("CommunicationLog.txt");
 std::ofstream gOutputLog("Log.txt");
 
 
-string intToString(int i){
-
-    stringstream ss;
-    ss << i;
-    string str = ss.str();
-    return str;
-
-};
-
 ofstream * getCommunicationLogFile(){
 
     return &gOutputCommunicationLog;

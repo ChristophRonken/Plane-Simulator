@@ -10,3 +10,12 @@ bool isNumber(const std::string& s) {
     return !s.empty() && it == s.end();
 
 }
+
+string intToString(int i){
+
+    stringstream ss;
+    ss << i;
+    string str = ss.str();
+    return str;
+
+};

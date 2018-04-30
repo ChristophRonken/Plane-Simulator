@@ -7,8 +7,15 @@
 
 #endif //PSE_V1_UTILS_H
 
-# include <iostream>
+# include <sstream>
 
 using namespace std;
 
 bool isNumber(const std::string& s);
+
+/**
+ * Converts Ints to strings
+ * @param int i
+ * @return string
+ */
+string intToString(int i);

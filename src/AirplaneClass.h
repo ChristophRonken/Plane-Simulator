@@ -23,7 +23,14 @@ class Runway;
 enum SqauwkCodeEnum {PrivateSmallSquawk, PrivateMediumSquawk, AirlineMediumPropellerSquawk, AirlineMediumJetSquawk,
                     AirlineLargeSquawk, MilitarySquawk, EmegencySquawk};
 
+const int cSmall = 1;
+const int cMedium = 2;
+const int cLarge = 3;
 
+const int cRunwayLengthA = 500;
+const int cRunwayLengthB = 1000;
+const int cRunwayLengthC = 1500;
+const int cRunwayLengthD = 2000;
 
 class Airplane {
 
@@ -435,7 +442,7 @@ public:
      * If none was given, it will generate an appropriate code
      * @param code
      */
-    void setSquawkCode(string code = "");
+    void setSquawkCode(int code = 0);
 
     /**
      * Get the current squawk code
@@ -659,25 +666,55 @@ public:
      */
     void refuel();
 
-    bool validGateNumber(int gate);
 
+    /**
+     * Check if the plane was propperly initialized
+     * @return bool
+     */
     bool propperlyInitialised();
 
+    /**
+     * Check if all set values are valid to run a simulation (flightplan excluded)
+     * @return bool
+     */
     bool isValid();
 
-
+    /**
+     * Check if the simulation was finished
+     * @return
+     */
     bool getsimulationFinished();
 
+    /**
+     * Set if the simulation was finished
+     */
     void setsimulationFinished(bool);
 
+    /**
+     * Get the current task the plane is performing
+     * @return string
+     */
     const string &getCurrentTask() const;
 
+    /**
+     * Set the current task the plane is performing
+     * @param currentTask
+     */
     void setCurrentTask(const string &currentTask);
 
+    /**
+     * Preform tasks that happen over a longer period
+     */
     void continueTask();
 
+    /**
+     * Descend X ft
+     */
     void descend();
 
+    /**
+     * Ascend X ft
+     */
     void ascend();
 
     int attemptgate;
