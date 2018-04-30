@@ -1,6 +1,6 @@
-//
-// Created by oliviervh on 01.03.18.
-//
+// author: Ronken Christoph & Van Hautte Olivier
+// date: 02/05/2018
+// version: 2.0
 
 #ifndef PSE_V1_RUNWAYCLASS_H
 #define PSE_V1_RUNWAYCLASS_H
