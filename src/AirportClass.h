@@ -152,7 +152,7 @@ public:
     void printInfo();
 
     /**
-     * gets the airports info as a string
+     * Get the airport's info as a string
      * @return
      */
     string getInfo();
@@ -166,7 +166,7 @@ public:
     void setGateOccupied(const int &i, const bool &occ);
 
     /**
-     * Returns the occupied state of a gate 
+     * Get the occupied state of a gate
      * Precondition: validGateIndex(int)
      * @param int i
      * @return occupied
@@ -174,14 +174,14 @@ public:
     bool getGateOccupied(const int &i);
 
     /**
-     * Returns a vector with the indexes of all the free gates
-     * @return FreeGates
+     * Get a vector with the indexes of all the free gates
+     * @return freeGates
      */
     vector<int> getFreeGates();
 
     /**
-     * Returns a vector with the indexes of all the free Runways
-     * @return FreeRunways
+     * Get a vector with the indexes of all the free Runways
+     * @return freeRunways
      */
     vector<int> getFreeRunways();
 
@@ -224,15 +224,15 @@ public:
     void setWait3000(Airplane* plane);
 
     /**
-     * Get the runway by name (string)
+     * Get a runway with name (string)
      * Precontition: runwayExists(string name)
-     * @return Runway
+     * @return runway
      */
     Runway* getRunway(const string &name);
 
     /**
      * Check if the airport is properly initialised
-     * @return
+     * @return bool
      */
     bool properlyInitialised();
 
