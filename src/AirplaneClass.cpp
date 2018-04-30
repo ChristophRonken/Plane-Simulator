@@ -340,8 +340,9 @@ void Airplane::setVar(string Type, string Value) {
     }
 
     else if (Type == "status"){
-        if (Value == "Gate" || Value == "Approaching" )
-        Airplane::setState(Value);
+        if (Value == "Gate" || Value == "Approaching" ) {
+            Airplane::setState(Value);
+        }
         return;
     }
 
@@ -367,32 +368,31 @@ void Airplane::setVar(string Type, string Value) {
     }
 
     else if (Type == "passengers"){
-        int i;
-        istringstream(Value) >> i;
-        Airplane::setPassengers(i);
-        Airplane::setPassengerCapacity(i);
+        if (isNumber(Value)) {
+            int i;
+            istringstream(Value) >> i;
+            Airplane::setPassengers(i);
+            Airplane::setPassengerCapacity(i);
+        }
         return;
     }
 
     else if (Type == "height"){
-        int i;
-        istringstream(Value) >> i;
-        Airplane::setHeight(i);
+        if (isNumber(Value)) {
+            int i;
+            istringstream(Value) >> i;
+            Airplane::setHeight(i);
+        }
         return;
     }
 
     else if (Type == "fuel"){
-        int i;
-        istringstream(Value) >> i;
-        Airplane::setFuel(i);
-        Airplane::setFuelCapacity(i);
-        return;
-    }
-
-    else if (Type == "gate"){
-        int i;
-        istringstream(Value) >> i;
-        Airplane::setGate(i);
+        if (isNumber(Value)) {
+            int i;
+            istringstream(Value) >> i;
+            Airplane::setFuel(i);
+            Airplane::setFuelCapacity(i);
+        }
         return;
     }
 
@@ -1140,11 +1140,11 @@ void Airplane::taxiToGate(int gate){
         runway = NULL;
     }
 
-    if (taxiPoint == "" && taxiCrossing == ""){
+    if (taxiPoint.empty() && taxiCrossing.empty()){
         taxiPoint = taxiRoute->getTaxiPoints()[taxiRoute->getTaxiPoints().size()-1];
         return;
     }
-    if (taxiPoint != ""){
+    if (!taxiPoint.empty()){
         for (unsigned int i=0; i < taxiRoute->getTaxiPoints().size(); i++){
             if (taxiPoint == taxiRoute->getTaxiPoints()[i]){
                 if (i == 0){
@@ -1191,7 +1191,7 @@ void Airplane::taxiToGate(int gate){
             }
         }
     }
-    else if (taxiCrossing != ""){
+    else if (!taxiCrossing.empty()){
         for (unsigned int i=0; i < taxiRoute->getTaxiCrossings().size(); i++){
             if (taxiCrossing == taxiRoute->getTaxiCrossings()[i]){
                 if (!requestMessageSend) {
@@ -1947,8 +1947,8 @@ void Airplane::continueTask() {
     }
 
     if (currentTask == "exit passengers"){
-        if (passengers - (passengerCapacity - passengers)/opperationTime > 0) {
-            passengers -= ceil((passengerCapacity - passengers)/opperationTime);
+        if (passengers - (passengers)/opperationTime > 0) {
+            passengers -= ceil((passengers)/opperationTime);
 
         }else{
             passengers = 0;
