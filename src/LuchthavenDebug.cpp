@@ -1341,7 +1341,7 @@ TEST_F(CommunicationTests, taxiToRunway) {
 
         D->fileOutput();
 
-        ofstream *OutputTxt = getText();
+        ofstream *OutputTxt = getLogFile();
 
         *OutputTxt << "End";
 

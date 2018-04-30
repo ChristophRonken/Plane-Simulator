@@ -659,9 +659,7 @@ public:
      */
     void refuel();
 
-    void boardPassengers();
-
-    void exitPassengers();
+    bool validGateNumber(int gate);
 
     bool propperlyInitialised();
 
@@ -681,6 +679,10 @@ public:
     void descend();
 
     void ascend();
+
+    int attemptgate;
+
+
 
 };
 
