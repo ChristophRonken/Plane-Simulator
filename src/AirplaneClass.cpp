@@ -1631,14 +1631,9 @@ void Airplane::takeOff() {
 
     logMessage("Airplane (" + Airplane::getNumber() + ") is taking off at " + Airplane::getAirport()->getName());
 
-    runway->setOccupied(false);
-    runway->setWaitingOnRunway(false);
-    runway->setPermissionToCross(true);
-    Airplane::waitonrunway = false;
 
-    Airplane::setAirport(NULL);
-    Airplane::setRunway(NULL);
-    Airplane::setState("Airborne");
+
+    Airplane::setState("ascending");
 
     if (Airplane::getEngine() == "propeller"){
         opperationTime = cHeightLevelC;
@@ -1649,11 +1644,8 @@ void Airplane::takeOff() {
         height += cJetAscentionSpeed;
     }
 
-    ENSURE(runway == NULL && state == "Airborne" && airPort == NULL && height != 0, "Airborne");
-
     currentTask = "taking-Off";
 
-    Airplane::setsimulationFinished(true);
     return;
 
 }
@@ -1796,6 +1788,9 @@ void Airplane::initSimulation(Airport *Port) {
     Airplane::messageMessageSend = false;
     Airplane::confirmMessageSend = false;
     Airplane::technicalChecked = false;
+    Airplane::emergencyInAirport = false;
+    Airplane::crossed = false;
+    Airplane::permissiontotakeoff = false;
 
     for (unsigned int i = 0; i < Port->getRunways().size(); i++) {
         Port->getRunways()[i]->setPermissionToCross(true);
@@ -1828,6 +1823,8 @@ void Airplane::initSimulation(Airport *Port) {
         }
     }else{
         currentTask = "finished";
+        setState("finished");
+        Airplane::setsimulationFinished(true);
 
     }
 
@@ -1952,6 +1949,8 @@ void Airplane::continueTask() {
     }
 
     if (currentTask == "exit passengers"){
+        Airplane::setTaxiPoint("");
+        Airplane::setTaxiCrossing("");
         if (size == "small") {
             if (passengers - passengerCapacity / (cSmall*cBoardingExitingTime) >= 0) {
                 passengers -= passengerCapacity / (cSmall*cBoardingExitingTime);
@@ -2016,7 +2015,12 @@ void Airplane::ascend() {
 
     if (height >= cHeightLevelB){
         currentTask = "finished";
-
+        runway->setOccupied(false);
+        runway->setWaitingOnRunway(false);
+        runway->setPermissionToCross(true);
+        Airplane::waitonrunway = false;
+        Airplane::setAirport(NULL);
+        Airplane::setRunway(NULL);
     }
 
 }

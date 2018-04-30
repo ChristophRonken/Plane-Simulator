@@ -485,7 +485,6 @@ void AirportHandler::runSimulation(string iata) {
         Airplanes[i]->initSimulation(Airports[0]);
 
     }
-
     setStartingTime(simulationStartTime);
     double nowtime = time(NULL);
     double startTime = nowtime;
@@ -517,15 +516,14 @@ void AirportHandler::runSimulation(string iata) {
                         Plane->execTask(Port);
 
                     }
+                    cout << "Tijd: " << getTime() << endl;
                     cout << Plane->getCurrentTask() << endl;
-                    cout << "passengers" << Plane->getPassengers() << endl;
-                    cout << "fuel" << Plane->getFuel() << endl;
+                    cout << Plane->getState() << endl;
+                    cout << endl;
                     Plane->setOpperationTime(Plane->getOpperationTime() - 1);
 
                 }
             }
-            cout << "Tijd: " << getTime() << endl;
-
             GraphicalAirport3D(iata);
         }
     }
@@ -750,7 +748,7 @@ void AirportHandler::GraphicalAirport3D(string & AirportIata) {
         Airplane* plane = unfinishedAirplanes[i];
         string state = plane->getState();
 
-        if (state == "Approaching" || state == "on final approach"){
+        if (state == "Approaching"){
             s += "[Figure" + intToString(i + airport->getRunways().size() + airport->getGates()+longesttaxi->getTaxiPoints().size() + longesttaxi->getTaxiCrossings().size()) + "]\n";
             s += "type = \"Sphere\"\n";
             s += "n = 2\n";
@@ -758,9 +756,23 @@ void AirportHandler::GraphicalAirport3D(string & AirportIata) {
             s += "rotateX = 0\n";
             s += "rotateY = 0\n";
             s += "rotateZ = 0\n";
-            s += "center = (-10, -10, 0)\n";
-            s += "color = (0.75, 0.25, 0)\n";
+            s += "center = (0, 0, " + intToString(ceil(plane->getHeight()/200)) + ")\n";
+            s += "color = (1, 1, 0)\n";
             s += "\n";
+        }
+        else if (state == "on final approach") {
+            s += "[Figure" + intToString(
+                    i + airport->getRunways().size() + airport->getGates() + longesttaxi->getTaxiPoints().size() +
+                    longesttaxi->getTaxiCrossings().size()) + "]\n";
+            s += "type = \"Sphere\"\n";
+            s += "n = 2\n";
+            s += "scale = 2\n";
+            s += "rotateX = 0\n";
+            s += "rotateY = 0\n";
+            s += "rotateZ = 0\n";
+            s += "center = (" + intToString((airport->getGates() - 1) * 6 / 2 + 15) + ", " +
+                         intToString(20 * (plane->getAttemptRunway()->getTaxiRoute()->getTaxiPoints().size() -1 + 1)) + intToString(ceil(plane->getHeight()/200)) + ")\n";
+            s += "color = (1, 1, 1)\n";
         }
         else if (state == "emergency refuel"){
             s += "[Figure" + intToString(i + airport->getRunways().size() + airport->getGates()+longesttaxi->getTaxiPoints().size() + longesttaxi->getTaxiCrossings().size()) + "]\n";
@@ -771,7 +783,7 @@ void AirportHandler::GraphicalAirport3D(string & AirportIata) {
             s += "rotateY = 0\n";
             s += "rotateZ = 0\n";
             for (unsigned int j=0; j<airport->getRunways().size(); j++){
-                if (unfinishedAirplanes[i]->getRunway() == airport->getRunways()[j]){
+                if (plane->getRunway() == airport->getRunways()[j]){
                     s += "center = ("+ intToString((airport->getGates()-1)*6 /2  - 10) + ", " + intToString(20*(j+1)) + ", 0)\n";
                 }
             }
@@ -870,7 +882,6 @@ void AirportHandler::GraphicalAirport3D(string & AirportIata) {
         else if (state == "at taxipoint"){
             for (unsigned int j = 0; j < longesttaxi->getTaxiPoints().size(); j++) {
                 if (plane->getTaxiPoint() == longesttaxi->getTaxiPoints()[j]) {
-                    cout << "true" << endl;
                     s += "[Figure" + intToString(i + airport->getRunways().size() + airport->getGates()+longesttaxi->getTaxiPoints().size() + longesttaxi->getTaxiCrossings().size()) + "]\n";
                     s += "type = \"Sphere\"\n";
                     s += "n = 2\n";
@@ -887,7 +898,7 @@ void AirportHandler::GraphicalAirport3D(string & AirportIata) {
         }
         else if (state == "at taxicrossing" && plane->getCurrentTask() == "going to gate"){
             for (unsigned int j = 0; j < longesttaxi->getTaxiCrossings().size(); j++) {
-                if (unfinishedAirplanes[i]->getTaxiCrossing() == longesttaxi->getTaxiCrossings()[j]) {
+                if (plane->getTaxiCrossing() == longesttaxi->getTaxiCrossings()[j]) {
                     s += "[Figure" + intToString(i + airport->getRunways().size() + airport->getGates()+longesttaxi->getTaxiPoints().size() + longesttaxi->getTaxiCrossings().size()) + "]\n";
                     s += "type = \"Sphere\"\n";
                     s += "n = 2\n";
@@ -904,7 +915,7 @@ void AirportHandler::GraphicalAirport3D(string & AirportIata) {
         }
         else if (state == "at taxicrossing" && plane->getCurrentTask() == "going to runway"){
             for (unsigned int j = 0; j < longesttaxi->getTaxiCrossings().size(); j++) {
-                if (unfinishedAirplanes[i]->getTaxiCrossing() == longesttaxi->getTaxiCrossings()[j]) {
+                if (plane->getTaxiCrossing() == longesttaxi->getTaxiCrossings()[j]) {
                     s += "[Figure" + intToString(i + airport->getRunways().size() + airport->getGates()+longesttaxi->getTaxiPoints().size() + longesttaxi->getTaxiCrossings().size()) + "]\n";
                     s += "type = \"Sphere\"\n";
                     s += "n = 2\n";
@@ -969,14 +980,14 @@ void AirportHandler::GraphicalAirport3D(string & AirportIata) {
             s += "rotateY = 0\n";
             s += "rotateZ = 0\n";
             for (unsigned int j=0; j<airport->getRunways().size(); j++){
-                if (unfinishedAirplanes[i]->getRunway() == airport->getRunways()[j]){
-                    s += "center = (-10,-10, 10)\n";
+                if (plane->getRunway() == airport->getRunways()[j]){
+                    s += "center = ("+ intToString((airport->getGates()-1)*6 /2  + 15) + ", " + intToString(20*(j+1)) + ", 0)\n";
                 }
             }
             s += "color = (0, 1, 1)\n";
             s += "\n";
         }
-        else if (state == "Airborne"){
+        else if (state == "ascending"){
             s += "[Figure" + intToString(i + airport->getRunways().size() + airport->getGates()+longesttaxi->getTaxiPoints().size() + longesttaxi->getTaxiCrossings().size()) + "]\n";
             s += "type = \"Sphere\"\n";
             s += "n = 2\n";
@@ -985,11 +996,11 @@ void AirportHandler::GraphicalAirport3D(string & AirportIata) {
             s += "rotateY = 0\n";
             s += "rotateZ = 0\n";
             for (unsigned int j=0; j<airport->getRunways().size(); j++){
-                if (unfinishedAirplanes[i]->getRunway() == airport->getRunways()[j]){
-                    s += "center = ("+ intToString((airport->getGates()-1)*6 /2) + ", " + intToString(20*(j+1)) + ", 10)\n";
+                if (plane->getRunway() == airport->getRunways()[j]){
+                    s += "center = ("+ intToString((airport->getGates()-1)*6 /2  - 10) + ", " + intToString(20*(j+1)) + intToString(ceil(plane->getHeight()/200)) + ")\n";
                 }
             }
-            s += "color = (0, 1, 1)\n";
+            s += "color = (1, 1, 1)\n";
             s += "\n";
         }
         else if (state == "At runway"){
@@ -1000,12 +1011,9 @@ void AirportHandler::GraphicalAirport3D(string & AirportIata) {
             s += "rotateX = 0\n";
             s += "rotateY = 0\n";
             s += "rotateZ = 0\n";
-            for (unsigned int j=0; j<airport->getRunways().size(); j++){
-                if (unfinishedAirplanes[i]->getRunway() == airport->getRunways()[j]){
-                    s += "center = (-10, -10, 10)\n";
-                }
-            }
-            s += "color = (0, 1, 1)\n";
+            s += "center = (" + intToString((airport->getGates() - 1) * 6 / 2 + 15) + ", " +
+                 intToString(20 * (plane->getRunway()->getTaxiRoute()->getTaxiPoints().size())) + ", 0)\n";
+            s += "color = (1, 1, 1)\n";
             s += "\n";
         }
         else {
