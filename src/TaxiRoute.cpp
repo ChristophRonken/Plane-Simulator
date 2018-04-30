@@ -1,6 +1,6 @@
-//
-// Created by oliviervh on 12.04.18.
-//
+// author: Ronken Christoph & Van Hautte Olivier
+// date: 02/05/2018
+// version: 2.0
 
 #include "TaxiRoute.h"
 
