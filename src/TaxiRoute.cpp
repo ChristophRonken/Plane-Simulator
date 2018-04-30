@@ -8,11 +8,11 @@ TaxiRoute::TaxiRoute(){
     self = this;
 }
 
-void TaxiRoute::addTaxiPoint(string taxipoint){
+void TaxiRoute::addTaxiPoint(const string &taxipoint){
     TaxiRoute::taxipoints.push_back(taxipoint);
 }
 
-void TaxiRoute::addCrossing(string crossing){
+void TaxiRoute::addCrossing(const string &crossing){
     TaxiRoute::taxicrossings.push_back(crossing);
 }
 
@@ -25,13 +25,12 @@ vector<string> TaxiRoute::getTaxiCrossings(){
 }
 
 bool TaxiRoute::propperlyInitialised() {
-    return (this == self);
+    return (this == TaxiRoute::self);
 }
 
 bool TaxiRoute::isValid() {
     if (propperlyInitialised()){
-        return taxipoints.size() != 0;
-
+        return !TaxiRoute::taxipoints.empty();
     }
     return false;
 }

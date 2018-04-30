@@ -18,15 +18,40 @@ public:
 
     TaxiRoute();
 
-    void addTaxiPoint(string taxipoint);
+    /**
+     * Adds a new taxipoint
+     * @param taxipoint
+     */
+    void addTaxiPoint(const string &taxipoint);
 
-    void addCrossing(string crossing);
+    /**
+     * Adds a new taxicrossing
+     * @param crossing
+     */
+    void addCrossing(const string &crossing);
 
+    /**
+     * Get a vector with all taxipoints
+     * @return taxipoints
+     */
     vector<string> getTaxiPoints();
+
+    /**
+     * Get a vector with all taxicrossings
+     * @return taxicrossings
+     */
     vector<string> getTaxiCrossings();
 
+    /**
+     * Check if the TaxiRoute is properly initialised
+     * @return bool
+     */
     bool propperlyInitialised();
 
+    /**
+     * Check if the values of the TaxiRoute are propperly initialised
+     * @return bool
+     */
     bool isValid();
 
 
