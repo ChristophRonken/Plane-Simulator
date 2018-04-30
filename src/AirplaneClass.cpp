@@ -413,9 +413,6 @@ void Airplane::setsimulationFinished(bool finished){
     Airplane::simulationFinished = finished;
 }
 
-
-
-
 //checks
 bool Airplane::validLandingSpot(Airport *Port, Runway *Runw) {
 
@@ -528,16 +525,6 @@ bool Airplane::validLandingSpot(Airport *Port, Runway *Runw) {
         }
     }
     return false;
-}
-
-bool Airplane::validGateNumber(int gate) {
-
-    if ((gate >= 0 && gate < Airplane::getAirport()->getGates())){
-        return true;
-    }
-    else {
-        return false;
-    }
 }
 
 bool Airplane::validGate(int gate) {
@@ -1759,10 +1746,7 @@ void Airplane::technicalCheck(){
 
 void Airplane::refuel() {
     REQUIRE(currentTask == "refueling", "correct state");
-<<<<<<< HEAD
-=======
 
->>>>>>> 2f80b0ee2fa5a9af0e0c2a49e23f983b6b38f1db
     logMessage(getNumber() + " has been refueled");
 
     if (emergencyInAirport) {
@@ -1771,11 +1755,7 @@ void Airplane::refuel() {
     } else {
         Airplane::setState("board passengers");
 
-<<<<<<< HEAD
         // << getTimePassed() << ", " << flightPlan->getDeparture() << endl;
-
-=======
->>>>>>> 2f80b0ee2fa5a9af0e0c2a49e23f983b6b38f1db
         if (getTimePassed() > flightPlan->getDeparture()) { ;
             currentTask = "board passengers";
 
