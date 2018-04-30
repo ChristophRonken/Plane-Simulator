@@ -88,7 +88,7 @@ class Airplane {
     bool simulationFinished;
 
     const static int cFuelPerMinute = 10000;
-
+    const static int cBoardingExitingTime = 5;
     const static int cProprellerDescentionSpeed = 500;
     const static int cJetDescentionSpeed = 1000;
     const static int cProprellerAscentionSpeed = 500;

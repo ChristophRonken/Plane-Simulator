@@ -1665,7 +1665,8 @@ void Airplane::exitPlane(){
 
         passengers = 0;
 
-        logMessage(passengerCapacity + " passengers exited " + callsign);
+        logMessage(intToString(passengerCapacity) + " passengers exited " + callsign + " at gate "
+                   + intToString(gate) + " of " + airPort->getName());
 
         if(Airplane::getEmergencyInAirport()){
             Airplane::setState("emergency check");
@@ -1677,15 +1678,15 @@ void Airplane::exitPlane(){
         return;
     }else{
         if (size == "small"){
-            opperationTime = cSmall;
-            passengers -= passengerCapacity/cSmall;
+            opperationTime = cSmall*cBoardingExitingTime;
+            passengers -= passengerCapacity/(cSmall*cBoardingExitingTime);
         }else{
             if (size == "medium"){
-                opperationTime = cMedium;
-                passengers -= passengerCapacity/cMedium;
+                opperationTime = cMedium*cBoardingExitingTime;
+                passengers -= passengerCapacity/(cMedium*cBoardingExitingTime);
             }else{
-                opperationTime = cLarge;
-                passengers -= passengerCapacity/cLarge;
+                opperationTime = cLarge*cBoardingExitingTime;
+                passengers -= passengerCapacity/(cLarge*cBoardingExitingTime);
 
             }
         }
@@ -1699,7 +1700,7 @@ void Airplane::enterPlane(){
 
         passengers = passengerCapacity;
 
-        logMessage(passengerCapacity + " passengers entered " + callsign + " at gate "
+        logMessage(intToString(passengerCapacity) + " passengers entered " + callsign + " at gate "
                             + intToString(gate) + " of " + airPort->getName());
 
         Airplane::setState("pushback");
@@ -1707,16 +1708,16 @@ void Airplane::enterPlane(){
         return;
     }else{
         if (size == "small"){
-            opperationTime = cSmall;
-            passengers += passengerCapacity / cSmall;
+            opperationTime = cSmall*cBoardingExitingTime;
+            passengers += passengerCapacity / (cSmall*cBoardingExitingTime);
         }else{
             if (size == "medium"){
-                opperationTime = cMedium;
-                passengers += passengerCapacity / cMedium;
+                opperationTime = cMedium*cBoardingExitingTime;
+                passengers += passengerCapacity / (cMedium*cBoardingExitingTime);
 
             }else{
-                opperationTime = cLarge;
-                passengers += passengerCapacity / cLarge;
+                opperationTime = cLarge*cBoardingExitingTime;
+                passengers += passengerCapacity / (cLarge*cBoardingExitingTime);
 
             }
         }
