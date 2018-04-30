@@ -1673,6 +1673,7 @@ void Airplane::exitPlane(){
         }
         else{
             Airplane::setState("technical check");
+
         }
         currentTask = "technical check";
         return;
@@ -1728,17 +1729,16 @@ void Airplane::technicalCheck(){
     REQUIRE(currentTask == "technical check", "correct state");
 
     Airplane::emergencyInAirport = false;
-    if (!technicalChecked) {
-        if (Airplane::getSize() == "small") {
-            opperationTime = cSmall;
-        } else if (Airplane::getSize() == "medium") {
-            opperationTime = cMedium;
+    if (!technicalChecked && size != "small"){
+        if (Airplane::getSize() == "medium") {
+            opperationTime = cMedium-1;
         } else if (Airplane::getSize() == "large") {
-            opperationTime = cLarge;
+            opperationTime = cLarge-1;
         }
         technicalChecked = true;
         return;
     }
+
     logMessage(getNumber() + " has been checked for technical malfunction");
     if (emergencyInAirport){
         Airplane::setState("emergency refuel");
@@ -1927,23 +1927,22 @@ void Airplane::continueTask() {
 
     if (currentTask == "board passengers"){
         if (size == "small") {
-            if (passengers + passengerCapacity / cSmall < passengerCapacity) {
-                passengers += passengerCapacity / cSmall;
-                opperationTime = 2;
+            if (passengers + passengerCapacity / (cSmall*cBoardingExitingTime) <= passengerCapacity) {
+                passengers += passengerCapacity / (cSmall*cBoardingExitingTime);
                 return;
             }
 
 
         }else if (size == "medium"){
-            if (passengers + passengerCapacity / cMedium < passengerCapacity) {
-                passengers += passengerCapacity / cMedium;
+            if (passengers + passengerCapacity / (cMedium*cBoardingExitingTime) <= passengerCapacity) {
+                passengers += passengerCapacity / (cMedium*cBoardingExitingTime);
                 return;
             }
 
 
         }else if (size == "large"){
-            if (passengers + passengerCapacity/cLarge < passengerCapacity) {
-                passengers += passengerCapacity /cLarge;
+            if (passengers + passengerCapacity/(cLarge*cBoardingExitingTime) <= passengerCapacity) {
+                passengers += passengerCapacity / (cLarge*cBoardingExitingTime);
                 return;
             }
 
@@ -1953,14 +1952,29 @@ void Airplane::continueTask() {
     }
 
     if (currentTask == "exit passengers"){
-        if (passengers - (passengers)/opperationTime > 0) {
-            passengers -= ceil((passengers)/opperationTime);
+        if (size == "small") {
+            if (passengers - passengerCapacity / (cSmall*cBoardingExitingTime) >= 0) {
+                passengers -= passengerCapacity / (cSmall*cBoardingExitingTime);
+                return;
+            }
 
-        }else{
-            passengers = 0;
+
+        }else if (size == "medium"){
+            if (passengers - passengerCapacity / (cMedium*cBoardingExitingTime) >= 0) {
+                passengers -= passengerCapacity / (cMedium*cBoardingExitingTime);
+                return;
+            }
+
+
+        }else if (size == "large"){
+            if (passengers - passengerCapacity/(cLarge*cBoardingExitingTime) >= 0) {
+                passengers -= passengerCapacity / (cLarge*cBoardingExitingTime);
+                return;
+            }
 
         }
-        return;
+        passengers = 0;
+        opperationTime = 1;
 
     }
 
