@@ -10,9 +10,11 @@
 using namespace std;
 
 class TaxiRoute {
+    TaxiRoute* self;
+
     vector<string> taxipoints;
     vector<string> taxicrossings;
-    TaxiRoute* self;
+
 
 public:
 
