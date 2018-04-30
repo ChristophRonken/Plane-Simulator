@@ -23,7 +23,14 @@ class Runway;
 enum SqauwkCodeEnum {PrivateSmallSquawk, PrivateMediumSquawk, AirlineMediumPropellerSquawk, AirlineMediumJetSquawk,
                     AirlineLargeSquawk, MilitarySquawk, EmegencySquawk};
 
+const int cSmall = 1;
+const int cMedium = 2;
+const int cLarge = 3;
 
+const int cRunwayLengthA = 500;
+const int cRunwayLengthB = 1000;
+const int cRunwayLengthC = 1500;
+const int cRunwayLengthD = 2000;
 
 class Airplane {
 
@@ -435,7 +442,7 @@ public:
      * If none was given, it will generate an appropriate code
      * @param code
      */
-    void setSquawkCode(string code = "");
+    void setSquawkCode(int code = 0);
 
     /**
      * Get the current squawk code

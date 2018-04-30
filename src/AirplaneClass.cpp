@@ -4,6 +4,7 @@
 
 #include "AirplaneClass.h"
 #include <string>
+#include <cstdlib>
 
 string gTime;
 int gTimePassed;
@@ -236,11 +237,11 @@ void Airplane::setEmergencyInAirport(bool emergencyInAirport) {
     Airplane::emergencyInAirport = emergencyInAirport;
 }
 
-void Airplane::setSquawkCode(string code){
+void Airplane::setSquawkCode(int code){
 
     int index = 0;
 
-    if (code == ""){
+    if (code == 0){
         if (type == "private"){
             if (size == "small"){
                 index = PrivateSmallSquawk;
@@ -275,10 +276,13 @@ void Airplane::setSquawkCode(string code){
         }
 
         if (index == PrivateSmallSquawk) {
-            squawkCode == "0001-0777";
+            int randNumb = rand() % 776 + 1;
+            squawkCode == intToString(randNumb);
 
         }else{
-            squawkCode == intToString(index) + "000-" + intToString(index) + "777";
+            int randNumb = rand() % 777;
+            int code = 1000*index + randNumb;
+            squawkCode == intToString(code);
 
         }
 
@@ -548,13 +552,13 @@ bool Airplane::validRunway(Runway* Runw){
             Runway *runway = airPort->getRunways()[i];
             if (getSize() == "small"){
                 if (getEngine() == "propeller"){
-                    if (runway->getLength() >= 500){
+                    if (runway->getLength() >= cRunwayLengthA){
                         return true;
                     }
                     continue;
                 }
                 else if (getEngine() == "jet"){
-                    if (runway->getLength() >= 1000 && runway->getType() == "asphalt"){
+                    if (runway->getLength() >= cRunwayLengthB && runway->getType() == "asphalt"){
                         return true;
                     }
                     continue;
@@ -562,13 +566,13 @@ bool Airplane::validRunway(Runway* Runw){
             }
             else if (getSize() == "medium"){
                 if (getEngine() == "propeller"){
-                    if (runway->getLength() >= 1000 && runway->getType() == "asphalt"){
+                    if (runway->getLength() >= cRunwayLengthB && runway->getType() == "asphalt"){
                         return true;
                     }
                     continue;
                 }
                 else if (getEngine() == "jet"){
-                    if (runway->getLength() >= 2000 && runway->getType() == "asphalt"){
+                    if (runway->getLength() >= cRunwayLengthD && runway->getType() == "asphalt"){
                         return true;
                     }
                     continue;
@@ -576,7 +580,7 @@ bool Airplane::validRunway(Runway* Runw){
             }
             else if (getSize() == "large"){
                 if (getEngine() == "propeller"){
-                    if (runway->getLength() >= 1500 && runway->getType() == "asphalt"){
+                    if (runway->getLength() >= cRunwayLengthC && runway->getType() == "asphalt"){
                         return true;
                     }
                     continue;
@@ -593,7 +597,7 @@ bool Airplane::validRunway(Runway* Runw){
     }
     else if (getSize() == "small"){
         if (getEngine() == "propeller"){
-            if (Runw->getLength() >= 500){
+            if (Runw->getLength() >= cRunwayLengthA){
                 return true;
             }
             else{
@@ -601,7 +605,7 @@ bool Airplane::validRunway(Runway* Runw){
             }
         }
         else if (getEngine() == "jet"){
-            if (Runw->getLength() >= 1000 && Runw->getType() == "asphalt"){
+            if (Runw->getLength() >= cRunwayLengthB && Runw->getType() == "asphalt"){
                 return true;
             }
             else{
@@ -611,7 +615,7 @@ bool Airplane::validRunway(Runway* Runw){
     }
     else if (getSize() == "medium"){
         if (getEngine() == "propeller"){
-            if (Runw->getLength() >= 1000 && Runw->getType() == "asphalt"){
+            if (Runw->getLength() >= cRunwayLengthB && Runw->getType() == "asphalt"){
                 return true;
             }
             else{
@@ -619,7 +623,7 @@ bool Airplane::validRunway(Runway* Runw){
             }
         }
         else if (getEngine() == "jet"){
-            if (Runw->getLength() >= 2000 && Runw->getType() == "asphalt"){
+            if (Runw->getLength() >= cRunwayLengthD && Runw->getType() == "asphalt"){
                 return true;
             }
             else{
@@ -629,7 +633,7 @@ bool Airplane::validRunway(Runway* Runw){
     }
     else if (getSize() == "large"){
         if (getEngine() == "propeller"){
-            if (Runw->getLength() >= 1500 && Runw->getType() == "asphalt"){
+            if (Runw->getLength() >= cRunwayLengthC && Runw->getType() == "asphalt"){
                 return true;
             }
             else{
@@ -637,7 +641,7 @@ bool Airplane::validRunway(Runway* Runw){
             }
         }
         else if (getEngine() == "jet"){
-            if (Runw->getLength() >= cHeightLevelC && Runw->getType() == "asphalt"){
+            if (Runw->getLength() >= cRunwayLengthB && Runw->getType() == "asphalt"){
                 return true;
             }
             else{
@@ -955,13 +959,13 @@ void Airplane::pushBack(Runway* Runw) {
             messageMessageSend = false;
             pushback = true;
             if (Airplane::getSize() == "small"){
-                opperationTime = 1;
+                opperationTime = cSmall;
             }
             else if (Airplane::getSize() == "medium"){
-                opperationTime = 2;
+                opperationTime = cMedium;
             }
             else if (Airplane::getSize() == "large"){
-                opperationTime = 3;
+                opperationTime = cLarge;
             }
             Airplane::setState("Waiting for taxirequest");
             currentTask = "request taxi";
@@ -1261,9 +1265,9 @@ void Airplane::emergencyLanding(Airport* Port){
                 emergencyInAirport = true;
                 requestMessageSend = true;
                 if (Airplane::getEngine() == "jet") {
-                    Airplane::setHeight(Airplane::getHeight()-1000);
+                    Airplane::setHeight(Airplane::getHeight()-cJetDescentionSpeed);
                 } else if (Airplane::getEngine() == "propeller") {
-                    Airplane::setHeight(Airplane::getHeight()-500);
+                    Airplane::setHeight(Airplane::getHeight()-cProprellerDescentionSpeed);
                 }
                 opperationTime = 1;
                 return;
@@ -1272,9 +1276,9 @@ void Airplane::emergencyLanding(Airport* Port){
                 emergencyInAirport = false;
                 requestMessageSend = true;
                 if (Airplane::getEngine() == "jet") {
-                    Airplane::setHeight(Airplane::getHeight()-1000);
+                    Airplane::setHeight(Airplane::getHeight()-cJetDescentionSpeed);
                 } else if (Airplane::getEngine() == "propeller") {
-                    Airplane::setHeight(Airplane::getHeight()-500);
+                    Airplane::setHeight(Airplane::getHeight()-cProprellerDescentionSpeed);
                 }
                 opperationTime = 1;
                 return;
@@ -1288,9 +1292,9 @@ void Airplane::emergencyLanding(Airport* Port){
                 Port->getRunways()[Port->getFreeRunways()[0]]->setPermissionToCross(false);
                 currentTask = "emergency landing";
                 if (Airplane::getEngine() == "jet") {
-                    opperationTime = Airplane::getHeight() / 1000;
+                    opperationTime = Airplane::getHeight() / cJetDescentionSpeed;
                 } else if (Airplane::getEngine() == "propeller") {
-                    opperationTime = Airplane::getHeight() / 500;
+                    opperationTime = Airplane::getHeight() / cProprellerDescentionSpeed;
                 }
                 Airplane::setHeight(0);
                 return;
@@ -1299,9 +1303,9 @@ void Airplane::emergencyLanding(Airport* Port){
                 currentTask = "emergency crash";
                 if (Airplane::getEngine() == "jet") {
 
-                    opperationTime = Airplane::getHeight() / 1000;
+                    opperationTime = Airplane::getHeight() / cJetDescentionSpeed;
                 } else if (Airplane::getEngine() == "propeller") {
-                    opperationTime = Airplane::getHeight() / 500;
+                    opperationTime = Airplane::getHeight() / cProprellerDescentionSpeed;
                 }
                 if (Airplane::getHeight() == 0){
                     opperationTime += 1;
@@ -1644,11 +1648,11 @@ void Airplane::takeOff() {
 
     if (Airplane::getEngine() == "propeller"){
         opperationTime = cHeightLevelC;
-        height += 500;
+        height += cProprellerAscentionSpeed;
     }
     else if (Airplane::getEngine() == "jet"){
         opperationTime = cHeightLevelC;
-        height += 1000;
+        height += cJetAscentionSpeed;
     }
 
     ENSURE(runway == NULL && state == "Airborne" && airPort == NULL && height != 0, "Airborne");
@@ -1704,13 +1708,13 @@ void Airplane::enterPlane(){
         return;
     }else{
         if (size == "small"){
-            opperationTime = 1;
+            opperationTime = cSmall;
         }else{
             if (size == "medium"){
-                opperationTime = 2;
+                opperationTime = cMedium;
 
             }else{
-                opperationTime = 3;
+                opperationTime = cLarge;
 
             }
         }
