@@ -12,8 +12,8 @@ using namespace std;
 class TaxiRoute {
     TaxiRoute* self;
 
-    vector<string> taxipoints;
-    vector<string> taxicrossings;
+    vector<string> taxiPoints;
+    vector<string> taxiCrossings;
 
 
 public:
@@ -21,16 +21,16 @@ public:
     TaxiRoute();
 
     /**
-     * Adds a new taxipoint
-     * @param taxipoint
+     * Adds a new taxiPoint
+     * @param taxiPoint
      */
-    void addTaxiPoint(const string &taxipoint);
+    void addTaxiPoint(const string &taxiPoint);
 
     /**
-     * Adds a new taxicrossing
-     * @param crossing
+     * Adds a new taxiCrossing
+     * @param taxiCrossing
      */
-    void addCrossing(const string &crossing);
+    void addCrossing(const string &taxiCrossing);
 
     /**
      * Get a vector with all taxipoints
