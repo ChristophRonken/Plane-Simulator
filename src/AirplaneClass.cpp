@@ -1745,18 +1745,15 @@ void Airplane::technicalCheck(){
 
 void Airplane::refuel() {
     REQUIRE(currentTask == "refueling", "correct state");
-    //cout << fuelCapacity << endl;
-    //cout << fuel << endl;
 
     logMessage(getNumber() + " has been refueled");
 
     if (emergencyInAirport) {
         Airplane::setState("Waiting for taxi to gate");
         currentTask = "taxi to gate";
+
     } else {
         Airplane::setState("Waiting for board passengers");
-
-        cout << getTimePassed() << ", " << flightPlan->getDeparture() << endl;
 
         if (getTimePassed() > flightPlan->getDeparture()) { ;
             currentTask = "board passengers";
@@ -1874,31 +1871,6 @@ string Airplane::getInfo() {
           + "->size:\t" + size + "\n";
 
     return str;
-}
-
-void Airplane::boardPassengers() {
-
-    if (opperationTime){
-
-        passengers += (passengerCapacity - passengers)/opperationTime;
-
-    }else{
-        passengers = passengerCapacity;
-
-    }
-
-}
-
-void Airplane::exitPassengers() {
-
-    if (opperationTime){
-
-        passengers += (passengerCapacity - passengers)/opperationTime;
-
-    }else{
-        passengers = 0;
-
-    }
 }
 
 bool Airplane::propperlyInitialised() {

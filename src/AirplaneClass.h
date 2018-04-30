@@ -666,27 +666,54 @@ public:
      */
     void refuel();
 
-    void boardPassengers();
-
-    void exitPassengers();
-
+    /**
+     * Check if the plane was propperly initialized
+     * @return bool
+     */
     bool propperlyInitialised();
 
+    /**
+     * Check if all set values are valid to run a simulation (flightplan excluded)
+     * @return bool
+     */
     bool isValid();
 
-
+    /**
+     * Check if the simulation was finished
+     * @return
+     */
     bool getsimulationFinished();
 
+    /**
+     * Set if the simulation was finished
+     */
     void setsimulationFinished(bool);
 
+    /**
+     * Get the current task the plane is performing
+     * @return string
+     */
     const string &getCurrentTask() const;
 
+    /**
+     * Set the current task the plane is performing
+     * @param currentTask
+     */
     void setCurrentTask(const string &currentTask);
 
+    /**
+     * Preform tasks that happen over a longer period
+     */
     void continueTask();
 
+    /**
+     * Descend X ft
+     */
     void descend();
 
+    /**
+     * Ascend X ft
+     */
     void ascend();
 
 };
