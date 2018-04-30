@@ -1665,7 +1665,7 @@ void Airplane::exitPlane(){
 
         passengers = 0;
 
-        //logMessage(passengerCapacity + " passengers exited " + callsign);
+        logMessage(passengerCapacity + " passengers exited " + callsign);
 
         if(Airplane::getEmergencyInAirport()){
             Airplane::setState("emergency check");
@@ -1677,13 +1677,15 @@ void Airplane::exitPlane(){
         return;
     }else{
         if (size == "small"){
-            opperationTime = 1;
+            opperationTime = cSmall;
+            passengers -= passengerCapacity/cSmall;
         }else{
             if (size == "medium"){
-                opperationTime = 2;
-
+                opperationTime = cMedium;
+                passengers -= passengerCapacity/cMedium;
             }else{
-                opperationTime = 3;
+                opperationTime = cLarge;
+                passengers -= passengerCapacity/cLarge;
 
             }
         }
@@ -1697,8 +1699,8 @@ void Airplane::enterPlane(){
 
         passengers = passengerCapacity;
 
-        //logMessage(passengerCapacity + " passengers exited " + callsign + " at gate "
-          //                  + intToString(gate) + " of " + airPort->getName());
+        logMessage(passengerCapacity + " passengers entered " + callsign + " at gate "
+                            + intToString(gate) + " of " + airPort->getName());
 
         Airplane::setState("pushback");
         currentTask = "IFR";
@@ -1706,12 +1708,15 @@ void Airplane::enterPlane(){
     }else{
         if (size == "small"){
             opperationTime = cSmall;
+            passengers += passengerCapacity / cSmall;
         }else{
             if (size == "medium"){
                 opperationTime = cMedium;
+                passengers += passengerCapacity / cMedium;
 
             }else{
                 opperationTime = cLarge;
+                passengers += passengerCapacity / cLarge;
 
             }
         }
@@ -1722,25 +1727,32 @@ void Airplane::technicalCheck(){
     REQUIRE(currentTask == "technical check", "correct state");
 
     Airplane::emergencyInAirport = false;
-
-    if (Airplane::getSize() == "small"){
-        opperationTime = 1;
+    if (!technicalChecked) {
+        if (Airplane::getSize() == "small") {
+            opperationTime = cSmall;
+        } else if (Airplane::getSize() == "medium") {
+            opperationTime = cMedium;
+        } else if (Airplane::getSize() == "large") {
+            opperationTime = cLarge;
+        }
+        technicalChecked = true;
+        return;
     }
-    else if (Airplane::getSize() == "medium"){
-        opperationTime = 2;
-    }
-    else if (Airplane::getSize() == "large"){
-        opperationTime = 3;
-    }
-    //logMessage(getNumber() + " has been checked for technical malfunction");
+    logMessage(getNumber() + " has been checked for technical malfunction");
     if (emergencyInAirport){
         Airplane::setState("emergency refuel");
     }
     else {
-        Airplane::setState("refuel");
+        if (fuel == fuelCapacity){
+            currentTask = "board passengers";
+            Airplane::setState("board passengers");
+        }else{
+            Airplane::setState("refuel");
+            Airplane::setOpperationTime(ceil((fuelCapacity - fuel)/ cFuelPerMinute));
+            currentTask = "refueling";
+        }
     }
-    Airplane::setOpperationTime(ceil(fuelCapacity / cFuelPerMinute));
-    currentTask = "refueling";
+
     return;
 }
 
@@ -1782,6 +1794,7 @@ void Airplane::initSimulation(Airport *Port) {
     Airplane::requestMessageSend = false;
     Airplane::messageMessageSend = false;
     Airplane::confirmMessageSend = false;
+    Airplane::technicalChecked = false;
 
     for (unsigned int i = 0; i < Port->getRunways().size(); i++) {
         Port->getRunways()[i]->setPermissionToCross(true);
@@ -1905,21 +1918,37 @@ void Airplane::continueTask() {
 
         }else{
             fuel = fuelCapacity;
+            opperationTime = 1;
 
         }
         return;
     }
 
     if (currentTask == "board passengers"){
-        if (passengers + (passengerCapacity - passengers)/opperationTime < passengerCapacity) {
-            passengers += ceil((passengerCapacity - passengers)/opperationTime);
+        if (size == "small") {
+            if (passengers + passengerCapacity / cSmall < passengerCapacity) {
+                passengers += passengerCapacity / cSmall;
+                opperationTime = 2;
+                return;
+            }
 
-        }else{
-            passengers = passengerCapacity;
+
+        }else if (size == "medium"){
+            if (passengers + passengerCapacity / cMedium < passengerCapacity) {
+                passengers += passengerCapacity / cMedium;
+                return;
+            }
+
+
+        }else if (size == "large"){
+            if (passengers + passengerCapacity/cLarge < passengerCapacity) {
+                passengers += passengerCapacity /cLarge;
+                return;
+            }
 
         }
-        return;
-
+        passengers = passengerCapacity;
+        opperationTime = 1;
     }
 
     if (currentTask == "exit passengers"){

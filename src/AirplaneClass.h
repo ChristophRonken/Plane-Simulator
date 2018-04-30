@@ -64,6 +64,8 @@ class Airplane {
     string taxiPoint;
     string taxiCrossing;
 
+    bool technicalChecked;
+
     bool IFRAuthorized;
     bool pushback;
 
