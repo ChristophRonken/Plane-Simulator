@@ -747,7 +747,6 @@ public:
     bool isOnItsWay() const;
 
     void setOnItsWay(bool onItsWay);
-
 };
 
 void setTime(const string& time);
