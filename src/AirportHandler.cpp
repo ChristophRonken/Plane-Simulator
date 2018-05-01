@@ -390,7 +390,7 @@ bool AirportHandler::validAirplanes(vector<Airplane *> Planes) {
 
     vector<string> names;
     for (unsigned int i = 0; i< Planes.size(); i++){
-        string name = Planes[i]->getCallsign();
+        string name = Planes[i]->getNumber();
         if (!(find(names.begin(), names.end(), name) == names.end() && name != "")){
             return false;
         }
