@@ -1706,7 +1706,8 @@ void Airplane::takeOff() {
 
 void Airplane::exitPlane(){
     REQUIRE(Airplane::getCurrentTask() == "exit passengers" && Airplane::atGate(), "correct state");
-
+    Airplane::setTaxiPoint("");
+    Airplane::setTaxiCrossing("");
     if (passengers <= 0) {
 
         passengers = 0;
