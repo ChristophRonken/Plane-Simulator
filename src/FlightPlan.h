@@ -35,6 +35,7 @@ public:
 
     /**
      * Sets the destination of the flight plan
+     * Postconditions: FlightPlan::getDestination() == destination
      * @param destination
      */
     void setDestination(const string &destination);
@@ -47,6 +48,7 @@ public:
 
     /**
      * Sets the departure time of the flight plan
+     * Postconditions: FlightPlan::getDeparture() == departure
      * @param departure
      */
     void setDeparture(int departure);
@@ -59,6 +61,7 @@ public:
 
     /**
      * Sets the interval between arriving and departing again
+     * Postconditions: FlightPlan::getInterval() == interval
      * @param interval
      */
     void setInterval(int interval);
@@ -71,6 +74,7 @@ public:
 
     /**
      * Sets the arrival time
+     * Postconditions: FlightPlan::getArrival() == arrival
      * @param arrival
      */
     void setArrival(int arrival);

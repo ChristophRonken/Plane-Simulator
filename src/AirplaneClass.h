@@ -728,17 +728,17 @@ public:
     /**
      * Preform tasks that happen over a longer period
      */
-    void continueTask();
+    void continueTask(Airport * Port);
 
     /**
      * Descend X ft
      */
-    void descend();
+    void descend(Airport * Port);
 
     /**
      * Ascend X ft
      */
-    void ascend();
+    void ascend(Airport * Port);
 
 
 

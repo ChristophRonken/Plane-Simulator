@@ -166,7 +166,7 @@ public:
 
     /**
      * set a certain gate to occ
-     * Precondition: validGateIndex(int i)
+     * Precondition: validGateIndex(i)
      * @param int i : index of the gate
      * @param bool occ : occupied or not
      */

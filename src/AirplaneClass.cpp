@@ -1029,13 +1029,13 @@ void Airplane::taxiToRunway(Runway* runw){
         runw = Airplane::attemptRunway;
     }
 
-    REQUIRE(!runw->getHoldingShortOccupied(), "Runway fully occupied.");
+   // REQUIRE(!runw->getHoldingShortOccupied(), "Runway fully occupied.");
     if (gate != -1){
         airport->setGateOccupied(gate, false);
         gate = -1;
     }
 
-    REQUIRE((!Airplane::onitsway && !runw->getOnItsWay()) || (Airplane::onitsway && runw->getOnItsWay()), "no plane on its way");
+    //REQUIRE((!Airplane::onitsway && !runw->getOnItsWay()) || (Airplane::onitsway && runw->getOnItsWay()), "no plane on its way");
 
     Airplane::onitsway = true;
     runw->setOnItsWay(true);
@@ -1831,7 +1831,7 @@ void Airplane::refuel() {
 
 }
 
-void Airplane::descend() {
+void Airplane::descend(Airport * Port) {
 
     if (engine == "jet"){
         height -= cJetDescentionSpeed;
@@ -1842,9 +1842,11 @@ void Airplane::descend() {
 
     }
 
+    logMessage(Airplane::number + " is approaching " + Port->getName() + " at " + intToString(height) + "ft.");
+
 }
 
-void Airplane::ascend() {
+void Airplane::ascend(Airport * Port) {
     if (engine == "jet"){
         height += cJetAscentionSpeed;
 
@@ -1857,6 +1859,10 @@ void Airplane::ascend() {
         currentTask = "finished";
 
     }
+
+
+
+    logMessage(Airplane::number + " is leaving " + Port->getName() + " at " + intToString(height) + "ft.");
 
 }
 
@@ -1947,7 +1953,7 @@ bool Airplane::notFinished(Airport* Port) {
 
 }
 
-void Airplane::continueTask() {
+void Airplane::continueTask(Airport * Port) {
 
     if (currentTask == "refueling"){
         if (fuel + cFuelPerMinute < fuelCapacity) {
@@ -2015,12 +2021,12 @@ void Airplane::continueTask() {
     }
 
     if (currentTask == "taking-Off"){
-        Airplane::ascend();
+        Airplane::ascend(Port);
 
     }
 
     if (currentTask == "descending to 5000ft." || currentTask == "descending to 3000ft." || currentTask == "descending to 0ft."){
-        Airplane::descend();
+        Airplane::descend(Port);
 
     }
 
