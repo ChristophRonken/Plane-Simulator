@@ -15,7 +15,7 @@
 #include "FlightPlan.h"
 #include "../xml/tinyxml.h"
 
-enum SuccessEnum {ImportAborted, PartialImport, Success};
+enum ESuccess {importAborted, partialImport, success};
 
 class AirportHandler {
 
@@ -62,7 +62,7 @@ public:
      * Preconditions: AirportHandler::validFileName(string)
      * @param fileName
      */
-    SuccessEnum addXmlData(const string &fileName);
+    ESuccess addXmlData(const string &fileName);
 
     /**
      * Returns a vector with the saved airports

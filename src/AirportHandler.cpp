@@ -28,34 +28,34 @@ AirportHandler::~AirportHandler() {
 
 //getters & setters
 const vector<Airport *> &AirportHandler::getAirports() const {
-    return airports;
+    return AirportHandler::airports;
 }
 void AirportHandler::setAirports(const vector<Airport *> &airports) {
 
-    REQUIRE(validAirports(airports), "Valid airports");
+    REQUIRE(AirportHandler::validAirports(airports), "Valid airports");
 
     AirportHandler::airports = airports;
-    ENSURE(airports == AirportHandler::getAirports(), "Set airports");
+    ENSURE(AirportHandler::airports == airports, "Set airports");
 
 }
 
 const vector<Airplane *> &AirportHandler::getAirplanes() const {
-    return airplanes;
+    return AirportHandler::airplanes;
 }
 void AirportHandler::setAirplanes(const vector<Airplane *> &airplanes) {
 
-    REQUIRE(validAirplanes(airplanes), "Valid airplanes");
+    REQUIRE(AirportHandler::validAirplanes(airplanes), "Valid airplanes");
 
     AirportHandler::airplanes = airplanes;
 
-    ENSURE(AirportHandler::getAirplanes() == airplanes, "airplanes set");
+    ENSURE(AirportHandler::airplanes == airplanes, "airplanes set");
 
 }
 
 Airport *AirportHandler::getAirport(const string &iata) {
-    for (unsigned int i = 0; i < airports.size(); i++){
-        if (airports[i]->getIata() == iata){
-            return airports[i];
+    for (unsigned int i = 0; i < AirportHandler::airports.size(); i++){
+        if (AirportHandler::airports[i]->getIata() == iata){
+            return AirportHandler::airports[i];
         }
     }
     return NULL;
@@ -65,9 +65,9 @@ Airport *AirportHandler::getAirport(const string &iata) {
 //add remove
 void AirportHandler::addAirplane(Airplane *airplane) {
 
-    REQUIRE(validAirplane(airplane), "Valid airplane");
+    REQUIRE(AirportHandler::validAirplane(airplane), "Valid airplane");
 
-    airplanes.push_back(airplane);
+    AirportHandler::airplanes.push_back(airplane);
     ENSURE(AirportHandler::airplaneExists(airplane->getNumber()), "Plane added");
 
 }
@@ -76,12 +76,12 @@ void AirportHandler::removeAirplane(const string &number){
 
     REQUIRE(AirportHandler::airplaneExists(number), "Airplane exists");
 
-    for (unsigned int i = 0; i < airplanes.size(); i++) {
-        if (airplanes[i]->getNumber() == number) {
-            airplanes[i]->setAirport(NULL);
-            delete airplanes[i];
-            airplanes[i] = airplanes[airplanes.size()-1];
-            airplanes.resize(airplanes.size()-1);
+    for (unsigned int i = 0; i < AirportHandler::airplanes.size(); i++) {
+        if (AirportHandler::airplanes[i]->getNumber() == number) {
+            AirportHandler::airplanes[i]->setAirport(NULL);
+            delete AirportHandler::airplanes[i];
+            AirportHandler::airplanes[i] = AirportHandler::airplanes[AirportHandler::airplanes.size()-1];
+            AirportHandler::airplanes.resize(AirportHandler::airplanes.size()-1);
 
             //succesMessage("Airplane Deleted (" + callsign + ")" );
             return;
@@ -90,14 +90,13 @@ void AirportHandler::removeAirplane(const string &number){
 
     ENSURE(!AirportHandler::airplaneExists(number), "Airplane doesn't exist");
 
-
 }
 
 void AirportHandler::addAirport(Airport *airport) {
 
-    REQUIRE(validAirport(airport), "Valid airport");
+    REQUIRE(AirportHandler::validAirport(airport), "Valid airport");
 
-    airports.push_back(airport);
+    AirportHandler::airports.push_back(airport);
     ENSURE(AirportHandler::airportExists(airport->getIata()), "Airport added");
 
 }
@@ -106,18 +105,18 @@ void AirportHandler::removeAirport(const string &iata){
 
     REQUIRE(airportExists(iata), "Airport exists");
 
-    for (unsigned int i = 0; i < airports.size(); i++) {
-        if (airports[i]->getIata() == iata) {
+    for (unsigned int i = 0; i < AirportHandler::airports.size(); i++) {
+        if (AirportHandler::airports[i]->getIata() == iata) {
 
             const vector<Runway *> Runways;
-            airports[i]->setRunways(Runways);
+            AirportHandler::airports[i]->setRunways(Runways);
 
             const vector<bool> occup;
-            airports[i]->setGatesOccupied(occup);
+            AirportHandler::airports[i]->setGatesOccupied(occup);
 
             delete airports[i];
-            airports[i] = airports[airports.size()-1];
-            airports.resize(airports.size()-1);
+            AirportHandler::airports[i] = AirportHandler::airports[AirportHandler::airports.size()-1];
+            AirportHandler::airports.resize(AirportHandler::airports.size()-1);
 
             return;
 
@@ -128,12 +127,12 @@ void AirportHandler::removeAirport(const string &iata){
 
 }
 
-SuccessEnum AirportHandler::addXmlData(const string &fileName) {
+ESuccess AirportHandler::addXmlData(const string &fileName) {
 
     string errorFile = fileName.substr(0, fileName.size() - 4) + "Error.txt";
 
     ofstream errStream(errorFile.c_str());
-    SuccessEnum endResult = Success;
+    ESuccess endResult = success;
 
     // Open XML
     const char *cstr = fileName.c_str();
@@ -142,7 +141,7 @@ SuccessEnum AirportHandler::addXmlData(const string &fileName) {
 
     if(!doc.LoadFile()) {
         errStream << "XML IMPORT ABORTED: " << doc.ErrorDesc() << endl;
-        return ImportAborted;
+        return importAborted;
     };
 
 
@@ -153,7 +152,7 @@ SuccessEnum AirportHandler::addXmlData(const string &fileName) {
         if (root->ValueTStr() != "AirportInfo"){
             errStream << "XML PARTIAL IMPORT: Expected <AirportInfo> ... </AirportInfo> and got <"
                       << root->Value() <<  "> ... </" << root->Value() << ">." << endl;
-            endResult = PartialImport;
+            endResult = partialImport;
 
         }else {
 
@@ -172,7 +171,7 @@ SuccessEnum AirportHandler::addXmlData(const string &fileName) {
 
                     //Port->isValid();
 
-                    airports.push_back(Port);
+                    AirportHandler::airports.push_back(Port);
 
                     continue;
                 }
@@ -204,9 +203,9 @@ SuccessEnum AirportHandler::addXmlData(const string &fileName) {
                         string AttName = elemAtt->Value();
                         if (AttName == "airport") {
                             string AttValue = elemAtt->GetText();
-                            for (unsigned int i = 0; i < airports.size(); i++) {
-                                if (airports[i]->getIata() == AttValue) {
-                                    airports[i]->addRunway(Runw);
+                            for (unsigned int i = 0; i < AirportHandler::airports.size(); i++) {
+                                if (AirportHandler::airports[i]->getIata() == AttValue) {
+                                    AirportHandler::airports[i]->addRunway(Runw);
                                     break;
                                 }
 
@@ -214,7 +213,7 @@ SuccessEnum AirportHandler::addXmlData(const string &fileName) {
 
                             if (Runw->getAirport() == NULL) {
                                 errStream << "XML PARTIAL IMPORT: Invalid value for attribute airport at Runway.\n" ;
-                                endResult = PartialImport;
+                                endResult = partialImport;
                                 delete Runw;
 
                             }
@@ -243,13 +242,13 @@ SuccessEnum AirportHandler::addXmlData(const string &fileName) {
                                             break;
                                         } else if (i == (signed) Runw->getAirport()->getRunways().size() - 1) {
                                             errStream << "XML PARTIAL IMPORT: failed to create taxipoint.\n";
-                                            endResult =  PartialImport;
+                                            endResult =  partialImport;
 
                                         }
                                     }
                                 } else {
                                     errStream << "XML PARTIAL IMPORT: failed to create taxiRoute.\n";
-                                    endResult =  PartialImport;
+                                    endResult =  partialImport;
 
                                 }
                             }
@@ -261,7 +260,7 @@ SuccessEnum AirportHandler::addXmlData(const string &fileName) {
 
                     if (!Runw->isValid()) {
                         errStream << "XML PARTIAL IMPORT: failed to create runway.\n";
-                        endResult = PartialImport;
+                        endResult = partialImport;
                         Runw->getAirport()->removeRunway(Runw->getName());
 
                     }
@@ -304,14 +303,14 @@ SuccessEnum AirportHandler::addXmlData(const string &fileName) {
                                     Flight->setInterval(i);
                                 } else {
                                     errStream << "XML PARTIAL IMPORT: invalid value type at flightplan\n";
-                                    endResult = PartialImport;
+                                    endResult = partialImport;
 
                                 }
                             }
 
                             if (!Flight->isValid()){
                                 errStream << "XML PARTIAL IMPORT: invalid value of the flightplan\n";
-                                endResult = PartialImport;
+                                endResult = partialImport;
                                 delete Flight;
                                 Flight = NULL;
 
@@ -329,17 +328,17 @@ SuccessEnum AirportHandler::addXmlData(const string &fileName) {
 
                     if (Plane->isValid()) {
                         Plane->setSquawkCode();
-                        if (validAirplane(Plane)) {
-                            airplanes.push_back(Plane);
+                        if (AirportHandler::validAirplane(Plane)) {
+                            AirportHandler::airplanes.push_back(Plane);
 
                         } else {
                             errStream << "XML PARTIAL IMPORT: double defined Airplane\n";
-                            endResult = PartialImport;
+                            endResult = partialImport;
                             delete Plane;
                         }
                     }else{
                         errStream << "XML PARTIAL IMPORT: invalid or non defined Airplane values\n";
-                        endResult = PartialImport;
+                        endResult = partialImport;
                         delete Plane;
                     }
 
@@ -356,7 +355,7 @@ SuccessEnum AirportHandler::addXmlData(const string &fileName) {
 
 string AirportHandler::timeToString(double passedTimeUnits){
 
-    passedTimeUnits += gSimulationStartTime*60;
+    passedTimeUnits += AirportHandler::gSimulationStartTime*60;
 
     double hour = int(floor(passedTimeUnits/60))%24;
     double minutes = int(passedTimeUnits)%60;
@@ -422,8 +421,8 @@ bool AirportHandler::validAirplane(Airplane *airplane) {
 
     }
 
-    for (unsigned int i = 0; i < airplanes.size(); i++) {
-        if (airplanes[i]->getNumber() == airplane->getNumber()){
+    for (unsigned int i = 0; i < AirportHandler::airplanes.size(); i++) {
+        if (AirportHandler::airplanes[i]->getNumber() == airplane->getNumber()){
             return false;
         }
     }
@@ -437,8 +436,8 @@ bool AirportHandler::validAirport(Airport* airport) {
         return false;
 
     }
-    for (unsigned int i = 0; i < airports.size(); i++) {
-        if (airports[i]->getIata() == airport->getIata()){
+    for (unsigned int i = 0; i < AirportHandler::airports.size(); i++) {
+        if (AirportHandler::airports[i]->getIata() == airport->getIata()){
             return false;
 
         }
@@ -450,26 +449,21 @@ bool AirportHandler::airportEmpty(Airport *airport) {
 
     if (airport->getFreeRunways().size() == airport->getRunways().size()){
         if (airport->getFreeGates().size() == unsigned (airport->getGates())){
-            for (unsigned int i = 0; i < airplanes.size(); i++){
-                if (airplanes[i]->notFinished(airport)) {
+            for (unsigned int i = 0; i < AirportHandler::airplanes.size(); i++){
+                if (AirportHandler::airplanes[i]->notFinished(airport)) {
                     return false;
 
                 }
             }
-
             return true;
-
         }
     }
-
-
     return false;
-
 }
 bool AirportHandler::airplaneExists(const string &number) {
 
-    for (unsigned int i = 0; i< airplanes.size(); i++){
-        if (airplanes[i]->getNumber() == number){
+    for (unsigned int i = 0; i< AirportHandler::airplanes.size(); i++){
+        if (AirportHandler::airplanes[i]->getNumber() == number){
             return true;
         }
     }
@@ -477,8 +471,8 @@ bool AirportHandler::airplaneExists(const string &number) {
 
 }
 bool AirportHandler::airportExists(const string &iata) {
-    for (unsigned int i = 0; i< airports.size(); i++){
-        if (airports[i]->getIata() == iata){
+    for (unsigned int i = 0; i< AirportHandler::airports.size(); i++){
+        if (AirportHandler::airports[i]->getIata() == iata){
             return true;
         }
     }
@@ -490,34 +484,34 @@ bool AirportHandler::airportExists(const string &iata) {
 void AirportHandler::runSimulation(const string &iata) {
     REQUIRE(!AirportHandler::getAirports().empty(), "an airport to run a simulation on exists");
 
-    for (unsigned int i = 0; i < airplanes.size(); i++) {
-        airplanes[i]->initSimulation(airports[0]);
+    for (unsigned int i = 0; i < AirportHandler::airplanes.size(); i++) {
+        AirportHandler::airplanes[i]->initSimulation(AirportHandler::airports[0]);
 
     }
 
-    setStartingTime(gSimulationStartTime);
+    setStartingTime(AirportHandler::gSimulationStartTime);
 
     double nowtime = time(NULL);
     double startTime = nowtime;
 
-    Airport* Port = getAirport(iata);
+    Airport* Port = AirportHandler::getAirport(iata);
 
-    while (!airportEmpty(airports[0])) {
+    while (!airportEmpty(AirportHandler::airports[0])) {
 
         double later = time(NULL);
         double deltaTime = difftime(later, nowtime);
 
-        if (deltaTime >= gTimeUnit){
+        if (deltaTime >= AirportHandler::gTimeUnit){
 
-            nowtime += gTimeUnit ;
+            nowtime += AirportHandler::gTimeUnit ;
 
-            double passedTimeUnits = (nowtime - startTime)/gTimeUnit;
+            double passedTimeUnits = (nowtime - startTime)/AirportHandler::gTimeUnit;
 
             setTime(timeToString(passedTimeUnits));
             setTimePassed(passedTimeUnits);
 
-            for (unsigned int i = 0; i < airplanes.size(); i++) {
-                Airplane *Plane = airplanes[i];
+            for (unsigned int i = 0; i < AirportHandler::airplanes.size(); i++) {
+                Airplane *Plane = AirportHandler::airplanes[i];
 
                 if (Plane->notFinished(Port)) {
                     if (Plane->getOpperationTime() > 0) {
@@ -536,7 +530,7 @@ void AirportHandler::runSimulation(const string &iata) {
 
                 }
             }
-            GraphicalAirport3D(iata);
+            AirportHandler::GraphicalAirport3D(iata);
         }
     }
 
@@ -550,13 +544,13 @@ void AirportHandler::runSimulation(const string &iata) {
 //output
 void AirportHandler::printInfo() {
 
-    for (unsigned int i = 0; i < airports.size() ; i++) {
-        airports[i]->printInfo();
+    for (unsigned int i = 0; i < AirportHandler::airports.size() ; i++) {
+        AirportHandler::airports[i]->printInfo();
 
     }
 
-    for (unsigned int i = 0; i < airplanes.size(); i++) {
-        airplanes[i]->printInfo();
+    for (unsigned int i = 0; i < AirportHandler::airplanes.size(); i++) {
+        AirportHandler::airplanes[i]->printInfo();
 
     }
 
@@ -565,13 +559,13 @@ string AirportHandler::getInfo() {
 
     string s;
 
-    for (unsigned int i = 0; i< airports.size(); i++ ){
-        s+= airports[i]->getInfo();
+    for (unsigned int i = 0; i< AirportHandler::airports.size(); i++ ){
+        s+= AirportHandler::airports[i]->getInfo();
 
     }
 
-    for (unsigned int i = 0; i< airplanes.size(); i++ ){
-        s+= airplanes[i]->getInfo();
+    for (unsigned int i = 0; i< AirportHandler::airplanes.size(); i++ ){
+        s+= AirportHandler::airplanes[i]->getInfo();
 
     }
 
@@ -591,7 +585,7 @@ void AirportHandler::fileOutput(const string &fileName) {
 
 void AirportHandler::GraphicalAirport2D(const string &iata) {
 
-    REQUIRE(airportExists(iata), "Airport exists");
+    REQUIRE(AirportHandler::airportExists(iata), "Airport exists");
 
     string document = iata;
     document += ".txt";
@@ -637,7 +631,7 @@ void AirportHandler::GraphicalAirport2D(const string &iata) {
 
 void AirportHandler::GraphicalAirport3D(const string &iata) {
 
-    REQUIRE(airportExists(iata), "Airport exists");
+    REQUIRE(AirportHandler::airportExists(iata), "Airport exists");
 
     string document = "3Doutput" + getTime() + ".ini";
     const char * documentname = document.c_str();
@@ -1033,10 +1027,6 @@ void AirportHandler::GraphicalAirport3D(const string &iata) {
         }
     }
 
-
-
-
-
     fstream file;
     file.open(documentname, fstream::out);
     file << s;
@@ -1045,7 +1035,7 @@ void AirportHandler::GraphicalAirport3D(const string &iata) {
 }
 
 bool AirportHandler::propperlyInitialised() {
-    return (this == self);
+    return (this == AirportHandler::self);
 }
 
 
