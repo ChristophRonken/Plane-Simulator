@@ -940,14 +940,17 @@ bool Airplane::isValid() {
 // functies
 
 void Airplane::pushBack(Runway* Runw) {
-    REQUIRE(currentTask == "IFR" || currentTask == "pushback" || currentTask == "request taxi", "correct state");
+    REQUIRE(Airplane::getCurrentTask() == "IFR" || Airplane::getCurrentTask() == "pushback"
+            || Airplane::getCurrentTask() == "request taxi", "correct state");
+    REQUIRE(Airplane::atAirport(), "At airport");
+    REQUIRE(Airplane::validRunway(Runw), "Valid runway");
 
     Airplane::setState("pushback");
     string tijd = getTime();
 
     if (currentTask == "IFR") {
-        REQUIRE(atAirport(), "At airport");
-        REQUIRE(validRunway(Runw), "Valid runway");
+
+
 
         if (!requestMessageSend) {
 
@@ -1023,21 +1026,20 @@ void Airplane::pushBack(Runway* Runw) {
 
 void Airplane::taxiToRunway(Runway* runw){
 
-
-    REQUIRE(currentTask == "going to runway", "correct state");
+    REQUIRE(Airplane::getCurrentTask() == "going to runway", "correct state");
+    REQUIRE(Airplane::getRunway() != NULL || Airplane::getAttemptRunway() != NULL, "destination runway was set");
     if (runw == NULL){
         runw = Airplane::attemptRunway;
     }
 
-   // REQUIRE(!runw->getHoldingShortOccupied(), "Runway fully occupied.");
     if (gate != -1){
         airport->setGateOccupied(gate, false);
         gate = -1;
     }
 
-    //REQUIRE((!Airplane::onitsway && !runw->getOnItsWay()) || (Airplane::onitsway && runw->getOnItsWay()), "no plane on its way");
+    //REQUIRE((!Airplane::onItsWay && !runw->getOnItsWay()) || (Airplane::onItsWay && runw->getOnItsWay()), "no plane on its way");
 
-    Airplane::onitsway = true;
+    Airplane::onItsWay = true;
     runw->setOnItsWay(true);
     const string &tijd = getTime();
     taxiRoute = runw->getTaxiRoute();
@@ -1071,7 +1073,7 @@ void Airplane::taxiToRunway(Runway* runw){
                         runway = runw;
                         Airplane::setState("at holding point");
                         currentTask = "at holding point";
-                        Airplane::onitsway = false;
+                        Airplane::onItsWay = false;
                         runw->setOnItsWay(false);
                         setOpperationTime(1);
                         runway->setHoldingShortOccupied(true);
@@ -1167,7 +1169,7 @@ void Airplane::taxiToRunway(Runway* runw){
 void Airplane::taxiToGate(int gate){
     REQUIRE(currentTask == "going to gate", "correct task");
     REQUIRE(validGate(gate), "valid gate number");
-    if(!onitsway) {
+    if(!onItsWay) {
         if (gate == -1) {
             attemptgate = airport->getFreeGates()[0];
         }
@@ -1175,7 +1177,7 @@ void Airplane::taxiToGate(int gate){
             attemptgate = gate;
         }
         airport->setGateOccupied(attemptgate, true);
-        Airplane::onitsway = true;
+        Airplane::onItsWay = true;
     }
     string tijd = getTime();
     if (runway != NULL){
@@ -1209,7 +1211,7 @@ void Airplane::taxiToGate(int gate){
                         confirmMessageSend = false;
                         //setGate(attemptgate);
                         opperationTime = 1;
-                        Airplane::onitsway = false;
+                        Airplane::onItsWay = false;
                         currentTask = "exit passengers";
                         Airplane::setState("exit passengers");
                         Airplane::setGate(attemptgate);
@@ -1870,7 +1872,7 @@ void Airplane::ascend(Airport * Port) {
 
 void Airplane::initSimulation(Airport *Port) {
     Airplane::setsimulationFinished(false);
-    Airplane::onitsway = false;
+    Airplane::onItsWay = false;
     Airplane::waitonrunway = false;
     Airplane::waitatrunway = false;
     Airplane::requestMessageSend = false;
@@ -2059,6 +2061,15 @@ int Airplane::getAttemptgate() const {
 void Airplane::setAttemptgate(int attemptgate) {
     Airplane::attemptgate = attemptgate;
     ENSURE(Airplane::getAttemptgate() == attemptgate, "attempt gate set");
+}
+
+bool Airplane::isOnItsWay() const {
+    return onItsWay;
+}
+
+void Airplane::setOnItsWay(bool onItsWay) {
+    Airplane::onItsWay = onItsWay;
+    ENSURE(Airplane::isOnItsWay() == onItsWay, "onItsWay set");
 }
 
 

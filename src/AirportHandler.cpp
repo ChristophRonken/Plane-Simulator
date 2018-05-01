@@ -515,7 +515,7 @@ void AirportHandler::runSimulation(const string &iata) {
 
                 if (Plane->notFinished(Port)) {
                     if (Plane->getOpperationTime() > 0) {
-                        Plane->continueTask();
+                        Plane->continueTask(Port);
 
                     } else {
                         Plane->execTask(Port);

@@ -85,7 +85,7 @@ class Airplane {
     bool waitatrunway;
     bool waitonrunway;
 
-    bool onitsway;
+    bool onItsWay;
     bool simulationFinished;
 
     const static int cFuelPerMinute = 10000;
@@ -351,7 +351,9 @@ public:
     /**
      * sends the plane to the given runway
      * if no runway was given, it will choose the first free runway
-     * Precondition: this->atAirport() && validRunway(Runway* )
+     * Precondition: this->atAirport() && validRunway(Runway* ) &&
+     *      Airplane::getCurrentTask() == "IFR" || Airplane::getCurrentTask() == "pushback"
+     *      || Airplane::getCurrentTask() == "request taxi"
      * @param runway
      */
     void pushBack(Runway* Runw = NULL);
@@ -637,6 +639,8 @@ public:
 
     /**
      * Make the airplane taxi to a (given) runway if possible
+     * Preconditions: Airplane::getCurrentTask() == "going to runway" &&
+     * (Airplane::getRunway() != NULL || Airplane::getAttemptRunway() != NULL)
      */
     void taxiToRunway(Runway* Runw = NULL);
 
@@ -740,6 +744,9 @@ public:
      */
     void ascend(Airport * Port);
 
+    bool isOnItsWay() const;
+
+    void setOnItsWay(bool onItsWay);
 
 
 };
