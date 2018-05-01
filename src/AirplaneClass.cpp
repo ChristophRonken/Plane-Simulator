@@ -305,11 +305,15 @@ void Airplane::setSquawkCode(int code){
         }
 
     }else{
-        squawkCode = code;
+        squawkCode = intToString(code);
 
     }
 
+<<<<<<< HEAD
     ENSURE(Airplane::getSquawkCode() != "" , "squawkCode set");
+=======
+    ENSURE(Airplane::getSquawkCode().empty() , "squawkCode set");
+>>>>>>> 5af4fc1d4fd170f6d5533c1f1d109cdf96885a49
 
 }
 const string &Airplane::getSquawkCode() const {
@@ -1707,7 +1711,7 @@ void Airplane::takeOff() {
 }
 
 void Airplane::exitPlane(){
-    REQUIRE(Airplane::getCurrentTask == "exit passengers" && Airplane::atGate(), "correct state");
+    REQUIRE(Airplane::getCurrentTask() == "exit passengers" && Airplane::atGate(), "correct state");
 
     if (passengers <= 0) {
 
@@ -1743,7 +1747,7 @@ void Airplane::exitPlane(){
 }
 
 void Airplane::enterPlane(){
-    REQUIRE(Airplane::getCurrentTask == "board passengers" && Airplane::atGate(), "correct state");
+    REQUIRE(Airplane::getCurrentTask() == "board passengers" && Airplane::atGate(), "correct state");
 
     if (passengers >= passengerCapacity) {
 
@@ -1759,7 +1763,7 @@ void Airplane::enterPlane(){
         if (size == "small"){
             opperationTime = cSmall*cBoardingExitingTime;
             passengers += passengerCapacity / (cSmall*cBoardingExitingTime);
-        }else{
+        }else {
             if (size == "medium"){
                 opperationTime = cMedium*cBoardingExitingTime;
                 passengers += passengerCapacity / (cMedium*cBoardingExitingTime);
@@ -1806,7 +1810,7 @@ void Airplane::technicalCheck(){
 }
 
 void Airplane::refuel() {
-    REQUIRE(Airplane::getCurrentTask == "refueling" && atGate(), "correct state");
+    REQUIRE(Airplane::getCurrentTask() == "refueling" && atGate(), "correct state");
 
     logMessage(getNumber() + " has been refueled");
 

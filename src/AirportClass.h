@@ -61,6 +61,7 @@ public:
 
     /**
      * set the name of the airport
+     * Postconditions:
      * @param name
      */
     void setName(const string &name);
@@ -73,6 +74,7 @@ public:
 
     /**
      * set the iata of the airport
+     * Postconditions:
      * @param iata
      */
     void setIata(const string &iata);
@@ -85,6 +87,7 @@ public:
 
     /**
      * sets the callsign of the airport
+     * Postconditions:
      * @param callsign
      */
     void setCallsign(const string &callsign);
@@ -97,6 +100,7 @@ public:
 
     /**
      * set the amount of gates in the airport
+     * Postconditions:
      * @param gates
      */
     void setGates(int gates);
@@ -109,6 +113,7 @@ public:
 
     /**
      * set the runways in the airport
+     * Postconditions:
      * @param Runways
      */
     void setRunways(const vector<Runway *> &Runways);
@@ -121,6 +126,7 @@ public:
 
     /**
      * set wich gates are occupied through a vector
+     * Postconditions:
      * @param GatesOccupied
      */
     void setGatesOccupied(const vector<bool> &GatesOccupied);
@@ -141,7 +147,8 @@ public:
 
     /**
      * removes a runway from the airport
-     * Precontition: runwayExists(string name)
+     * Precontition: Airport::runwayExists(name)
+     * Postconditions: !Airport::runwayExists(name)
      * @param name
      */
     void removeRunway(string name);
