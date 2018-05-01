@@ -525,8 +525,7 @@ void AirportHandler::runSimulation(const string &iata) {
                     cout << "Tijd: " << getTime() << endl;
                     cout << airplane->getCurrentTask() << endl;
                     cout << airplane->getState() << endl;
-                    cout << airplane->getGate();
-                    cout << endl;
+                    cout << airplane->getGate() << endl;
                     airplane->setOperationTime(airplane->getOperationTime() - 1);
 
                 }
