@@ -22,26 +22,69 @@ class FlightPlan {
 
 public:
 
+    /**
+     * Constructor
+     */
     FlightPlan();
 
+    /**
+     * Returns the destination of the flight plan
+     * @return string
+     */
     const string &getDestination() const;
 
+    /**
+     * Sets the destination of the flight plan
+     * @param destination
+     */
     void setDestination(const string &destination);
 
+    /**
+     * Returns the departure time of the flight plan
+     * @return int
+     */
     int getDeparture() const;
 
+    /**
+     * Sets the departure time of the flight plan
+     * @param departure
+     */
     void setDeparture(int departure);
 
+    /**
+     * Returns the interval between arriving and departing again
+     * @return int
+     */
     int getInterval() const;
 
+    /**
+     * Sets the interval between arriving and departing again
+     * @param interval
+     */
     void setInterval(int interval);
 
+    /**
+     * Returns the arrival time
+     * @return int
+     */
     int getArrival() const;
 
+    /**
+     * Sets the arrival time
+     * @param arrival
+     */
     void setArrival(int arrival);
 
+    /**
+     * Checks if the flight plan was propperly initialised
+     * @return bool
+     */
     bool propperlyInitialised();
 
+    /**
+     * Check if the flight plan is valid
+     * @return bool
+     */
     bool isValid();
 
 

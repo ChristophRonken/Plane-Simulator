@@ -71,12 +71,12 @@ void AirportHandler::addAirplane(Airplane *Plane) {
     ENSURE(AirportHandler::airplaneExists(Plane->getNumber()), "Plane added");
 
 }
-void AirportHandler::removeAirplane(string callsign){
+void AirportHandler::removeAirplane(string number){
 
-    REQUIRE(AirportHandler::airplaneExists(callsign), "Airplane exists");
+    REQUIRE(AirportHandler::airplaneExists(number), "Airplane exists");
 
     for (unsigned int i = 0; i < Airplanes.size(); i++) {
-        if (Airplanes[i]->getCallsign() == callsign) {
+        if (Airplanes[i]->getNumber() == number) {
             Airplanes[i]->setAirport(NULL);
             delete Airplanes[i];
             Airplanes[i] = Airplanes[Airplanes.size()-1];
@@ -87,7 +87,7 @@ void AirportHandler::removeAirplane(string callsign){
         }
     }
 
-    ENSURE(!AirportHandler::airplaneExists(callsign), "Airplane doesn't exist");
+    ENSURE(!AirportHandler::airplaneExists(number), "Airplane doesn't exist");
 
 
 }
@@ -100,12 +100,12 @@ void AirportHandler::addAirport(Airport *Port) {
     ENSURE(AirportHandler::airportExists(Port->getIata()), "Airport added");
 
 }
-void AirportHandler::removeAirport(string callsign){
+void AirportHandler::removeAirport(string iata){
 
-    REQUIRE(airportExists(callsign), "Airport exists");
+    REQUIRE(airportExists(iata), "Airport exists");
 
     for (unsigned int i = 0; i < Airports.size(); i++) {
-        if (Airports[i]->getIata() == callsign) {
+        if (Airports[i]->getIata() == iata) {
 
             const vector<Runway *> Runways;
             Airports[i]->setRunways(Runways);
@@ -122,7 +122,7 @@ void AirportHandler::removeAirport(string callsign){
         }
     }
 
-    ENSURE(!AirportHandler::airportExists(callsign), "Airport added");
+    ENSURE(!AirportHandler::airportExists(iata), "Airport added");
 
 }
 
@@ -486,11 +486,13 @@ bool AirportHandler::airportExists(string iata) {
 
 //simulation
 void AirportHandler::runSimulation(string iata) {
+    REQUIRE(!AirportHandler::getAirports().empty(), "an airport to run a simulation on exists");
 
     for (unsigned int i = 0; i < Airplanes.size(); i++) {
         Airplanes[i]->initSimulation(Airports[0]);
 
     }
+
     setStartingTime(simulationStartTime);
     double nowtime = time(NULL);
     double startTime = nowtime;
