@@ -68,7 +68,7 @@ void AirportHandler::addAirplane(Airplane *airplane) {
     REQUIRE(AirportHandler::validAirplane(airplane), "Valid airplane");
 
     AirportHandler::airplanes.push_back(airplane);
-    ENSURE(AirportHandler::airplaneExists(airplane->getNumber()), "Plane added");
+    ENSURE(AirportHandler::airplaneExists(airplane->getNumber()), "airplane added");
 
 }
 
@@ -160,18 +160,18 @@ ESuccess AirportHandler::addXmlData(const string &fileName) {
             for (TiXmlElement *elem = root->FirstChildElement(); elem != NULL; elem = elem->NextSiblingElement()) {
                 string elemName = elem->Value();
                 if (elemName == "AIRPORT") {
-                    Airport *Port = new Airport();
+                    Airport *airport = new Airport();
                     for (TiXmlElement *elemAtt = elem->FirstChildElement();
                          elemAtt != NULL; elemAtt = elemAtt->NextSiblingElement()) {
                         string AttName = elemAtt->Value();
                         string AttValue = elemAtt->GetText();
 
-                        Port->setVar(AttName, string(AttValue));
+                        airport->setVar(AttName, string(AttValue));
                     }
 
-                    //Port->isValid();
+                    //airport->isValid();
 
-                    AirportHandler::airports.push_back(Port);
+                    AirportHandler::airports.push_back(airport);
 
                     continue;
                 }
@@ -273,7 +273,7 @@ ESuccess AirportHandler::addXmlData(const string &fileName) {
                 string elemName = elem->Value();
 
                 if (elemName == "AIRPLANE") {
-                    Airplane *Plane = new Airplane();
+                    Airplane *airplane = new Airplane();
 
                     for (TiXmlElement *elemAtt = elem->FirstChildElement();
                          elemAtt != NULL; elemAtt = elemAtt->NextSiblingElement()) {
@@ -316,30 +316,30 @@ ESuccess AirportHandler::addXmlData(const string &fileName) {
 
                             }
 
-                            Plane->setFlightPlan(Flight);
+                            airplane->setFlightPlan(Flight);
                             continue;
 
                         }
 
                         string AttValue = elemAtt->GetText();
-                        Plane->setVar(AttName, string(AttValue));
+                        airplane->setVar(AttName, string(AttValue));
 
                     }
 
-                    if (Plane->isValid()) {
-                        Plane->setSquawkCode();
-                        if (AirportHandler::validAirplane(Plane)) {
-                            AirportHandler::airplanes.push_back(Plane);
+                    if (airplane->isValid()) {
+                        airplane->setSquawkCode();
+                        if (AirportHandler::validAirplane(airplane)) {
+                            AirportHandler::airplanes.push_back(airplane);
 
                         } else {
                             errStream << "XML PARTIAL IMPORT: double defined Airplane\n";
                             endResult = partialImport;
-                            delete Plane;
+                            delete airplane;
                         }
                     }else{
                         errStream << "XML PARTIAL IMPORT: invalid or non defined Airplane values\n";
                         endResult = partialImport;
-                        delete Plane;
+                        delete airplane;
                     }
 
                     continue;
@@ -494,7 +494,7 @@ void AirportHandler::runSimulation(const string &iata) {
     double nowtime = time(NULL);
     double startTime = nowtime;
 
-    Airport* Port = AirportHandler::getAirport(iata);
+    Airport* airport = AirportHandler::getAirport(iata);
 
     while (!airportEmpty(AirportHandler::airports[0])) {
 
@@ -511,22 +511,23 @@ void AirportHandler::runSimulation(const string &iata) {
             setTimePassed(passedTimeUnits);
 
             for (unsigned int i = 0; i < AirportHandler::airplanes.size(); i++) {
-                Airplane *Plane = AirportHandler::airplanes[i];
+                Airplane *airplane = AirportHandler::airplanes[i];
 
-                if (Plane->notFinished(Port)) {
-                    if (Plane->getOperationTime() > 0) {
-                        Plane->continueTask();
+                if (airplane->notFinished(airport)) {
+
+                    if (airplane->getOperationTime() > 0) {
+                        airplane->continueTask(airport);
 
                     } else {
-                        Plane->execTask(Port);
+                        airplane->execTask(airport);
 
                     }
                     cout << "Tijd: " << getTime() << endl;
-                    cout << Plane->getCurrentTask() << endl;
-                    cout << Plane->getState() << endl;
-                    cout << Plane->getGate();
+                    cout << airplane->getCurrentTask() << endl;
+                    cout << airplane->getState() << endl;
+                    cout << airplane->getGate();
                     cout << endl;
-                    Plane->setOperationTime(Plane->getOperationTime() - 1);
+                    airplane->setOperationTime(airplane->getOperationTime() - 1);
 
                 }
             }

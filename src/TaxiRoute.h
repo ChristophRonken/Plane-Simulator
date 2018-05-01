@@ -17,17 +17,47 @@ class TaxiRoute {
 
 public:
 
+    /**
+     * Constructor
+     */
     TaxiRoute();
 
+    /**
+     * Adds a taxipoint to the list
+     * Postconditions: TaxiRoute::getTaxiPoints()[TaxiRoute::getTaxiPoints().size()-1] == taxipoint
+     * @param taxipoint
+     */
     void addTaxiPoint(string taxipoint);
 
+    /**
+     * Adds a crossing to the list
+     * PostConditions: TaxiRoute::getTaxiCrossings()[TaxiRoute::getTaxiCrossings().size()-1] == crossing
+     * @param crossing
+     */
     void addCrossing(string crossing);
 
+    /**
+     * Returns the list of taxi points
+     * @return
+     */
     vector<string> getTaxiPoints();
+
+    /**
+     * returns the list of taxi crossings
+     * @return
+     */
     vector<string> getTaxiCrossings();
 
+    /**
+     * Checks if the TaxiRoute was propperly initialised
+     * @return
+     */
     bool propperlyInitialised();
 
+    /**
+     * Checks if the taxiRoute has at least 1 taxipoint and is propperly initialised
+     * @return
+     */
     bool isValid();
 
 

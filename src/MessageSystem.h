@@ -23,6 +23,7 @@ using namespace std;
 
 /**
  * Print a message in the logFile
+ * Precondition: getLogFile()->is_open()
  * @param str
  */
 void logMessage(const string &str);
@@ -56,11 +57,13 @@ ofstream* openNewCommunicationLogFile(const string &name);
 
 /**
  * Closes the current logfile
+ * Precondition: getLogFile()->is_open()
  */
 void closeLogFile();
 
 /**
  * Closes the current communication logfile
+ * Precondition: getCommunicationLogFile()->is_open()
  */
 void closeCommunicationLogFile();
 
@@ -70,6 +73,7 @@ void closeCommunicationLogFile();
 
 /**
  * Initial communication message
+ * Precondition: getCommunicationLogFile()->is_open()
  * @param airplane
  * @param airport
  * @param time
@@ -78,6 +82,7 @@ void initialCommunicationMessage(Airplane* airplane, Airport* airport, const str
 
 /**
  * ATC tells airplane to descend to 5000ft
+ * Precondition: getCommunicationLogFile()->is_open()
  * @param airplane
  * @param time
  */
@@ -85,6 +90,7 @@ void descendTo5000ftMessage(Airplane* airplane, const string &time);
 
 /**
  * Airplane says it will start descending to 5000 ft
+ * Precondition: getCommunicationLogFile()->is_open()
  * @param airplane
  * @param time
  */
@@ -92,6 +98,7 @@ void descendTo5000ftConfirmation(Airplane* airplane, const string &time);
 
 /**
  * Tell the airplane to wait before descending
+ * Precondition: getCommunicationLogFile()->is_open()
  * @param airplane
  * @param time
  */
@@ -99,6 +106,7 @@ void waitBeforeDescendMessage(Airplane* airplane, const string &time);
 
 /**
  * Airplane confirms waiting message
+ * Precondition: getCommunicationLogFile()->is_open()
  * @param airplane
  * @param time
  */
@@ -106,6 +114,7 @@ void waitBeforeDescendConfirmation(Airplane* airplane, const string &time);
 
 /**
  * Tell the airplane descend to 3000ft
+ * Precondition: getCommunicationLogFile()->is_open()
  * @param airplane
  * @param time
  */
@@ -113,6 +122,7 @@ void descendTo3000ftMessage(Airplane* airplane, const string &time);
 
 /**
  * Airplane says it will start descending
+ * Precondition: getCommunicationLogFile()->is_open()
  * @param airplane
  * @param time
  */
@@ -120,6 +130,7 @@ void descendTo3000ftConfirmation(Airplane* airplane, const string &time);
 
 /**
  * Tell the airplane to start the final approach
+ * Precondition: getCommunicationLogFile()->is_open()
  * @param airplane
  * @param runway
  * @param time
@@ -128,6 +139,7 @@ void finalApproachMessage(Airplane* airplane, Runway* runway, const string &time
 
 /**
  * Airplane says it will start it's final approach
+ * Precondition: getCommunicationLogFile()->is_open()
  * @param airplane
  * @param runway
  * @param time
@@ -136,6 +148,7 @@ void finalApproachConfirmation(Airplane* airplane, Runway* runway, const string 
 
 /**
  * Send message after the final approach
+ * Precondition: getCommunicationLogFile()->is_open()
  * @param airplane
  * @param airport
  * @param runway
@@ -149,6 +162,7 @@ void afterLandingMessage(Airplane* airplane, Airport* airport, Runway* runway, c
 
 /**
  * Request IFR Permission to start departure procedure
+ * Precondition: getCommunicationLogFile()->is_open()
  * @param airplane
  * @param time
  */
@@ -156,6 +170,7 @@ void IFRRequest(Airplane* airplane, const string &time);
 
 /**
  * Accept IFR Request
+ * Precondition: getCommunicationLogFile()->is_open()
  * @param airplane
  * @param time
  */
@@ -163,6 +178,7 @@ void IFRMessage(Airplane* airplane, const string &time);
 
 /**
  * Confirm IFR's Accepting
+ * Precondition: getCommunicationLogFile()->is_open()
  * @param airplane
  * @param time
  */
@@ -171,6 +187,7 @@ void IFRConfirmation(Airplane* airplane, const string &time);
 // After IFR authorization
 /**
  * Request pushback Message
+ * Precondition: getCommunicationLogFile()->is_open()
  * @param airplane
  * @param time
  */
@@ -178,6 +195,7 @@ void pushbackRequest(Airplane* airplane, const string &time);
 
 /**
  * Accept pushback request message
+ * Precondition: getCommunicationLogFile()->is_open()
  * @param airplane
  * @param time
  */
@@ -185,6 +203,7 @@ void pushbackMessage(Airplane* airplane, const string &time);
 
 /**
  * Confirm pushback acceptance
+ * Precondition: getCommunicationLogFile()->is_open()
  * @param airplane
  * @param time
  */
@@ -192,6 +211,7 @@ void pushbackConfirmation(Airplane* airplane, const string &time);
 
 /**
  * Send ready for taxi message
+ * Precondition: getCommunicationLogFile()->is_open()
  * @param airplane
  * @param time
  */
@@ -200,6 +220,7 @@ void readyToTaxiMessage(Airplane* airplane, const string &time);
 
 /**
  * airplane is holding short at runway message
+ * Precondition: getCommunicationLogFile()->is_open()
  * @param airplane
  * @param runway
  * @param time
@@ -208,6 +229,7 @@ void holdingShortAtRunway(Airplane* airplane, Runway* runway, const string &time
 
 /**
  * Tell the airplane to wait at the runway
+ * Precondition: getCommunicationLogFile()->is_open()
  * @param airplane
  * @param time
  */
@@ -215,6 +237,7 @@ void waitAtRunwayMessage(Airplane* airplane, const string &time);
 
 /**
  * airplane Says he heard the wait at runway message
+ * Precondition: getCommunicationLogFile()->is_open()
  * @param airplane
  * @param time
  */
@@ -222,6 +245,7 @@ void waitAtRunwayConfirmation(Airplane* airplane, const string &time);
 
 /**
  * Tell the airplane to line up on the runway
+ * Precondition: getCommunicationLogFile()->is_open()
  * @param airplane
  * @param runway
  * @param time
@@ -230,6 +254,7 @@ void lineUpRunwayMessage(Airplane* airplane, Runway* runway, const string &time)
 
 /**
  * The airplane says it has heard the linup message
+ * Precondition: getCommunicationLogFile()->is_open()
  * @param airplane
  * @param runway
  * @param time
@@ -238,6 +263,7 @@ void lineUpRunwayConfirmation(Airplane* airplane, Runway* runway, const string &
 
 /**
  * Tell the airplane it is cleared for take-off
+ * Precondition: getCommunicationLogFile()->is_open()
  * @param airplane
  * @param runway
  * @param time
@@ -246,6 +272,7 @@ void clearedForTakeOffMessage(Airplane* airplane, Runway* runway, const string &
 
 /**
  * The airplane says it has heared the clearance message
+ * Precondition: getCommunicationLogFile()->is_open()
  * @param airplane
  * @param runway
  * @param time
@@ -255,6 +282,7 @@ void clearedForTakeOffConfirmation(Airplane* airplane, Runway* runway, const str
 
 /**
  * Tell the airplane to go to a holding point
+ * Precondition: getCommunicationLogFile()->is_open()
  * @param airplane
  * @param taxiCrossing
  * @param taxiPoint
@@ -264,6 +292,7 @@ void toHoldingPointMessage(Airplane* airplane, const string &taxiCrossing, const
 
 /**
  * The airplane says it has heard the to holding point message
+ * Precondition: getCommunicationLogFile()->is_open()
  * @param airplane
  * @param taxiCrossing
  * @param taxiPoint
@@ -273,6 +302,7 @@ void toHoldingPointConfirmation(Airplane* airplane, const string &taxiCrossing, 
 
 /**
  * Tell the airplane to go to the given runway
+ * Precondition: getCommunicationLogFile()->is_open()
  * @param airplane
  * @param runway
  * @param taxiPoint
@@ -282,6 +312,7 @@ void toRunwayMessage(Airplane* airplane, Runway* runway, const string &taxiPoint
 
 /**
  * The airplane says it has heard th to runway message
+ * Precondition: getCommunicationLogFile()->is_open()
  * @param airplane
  * @param runway
  * @param taxiPoint
@@ -291,6 +322,7 @@ void toRunwayConfirmation(Airplane* airplane, Runway* runway, const string &taxi
 
 /**
  * Tell the airplane to go to the gate
+ * Precondition: getCommunicationLogFile()->is_open()
  * @param airplane
  * @param gateIndex
  * @param taxiPoint
@@ -300,6 +332,7 @@ void toGateMessage(Airplane* airplane, int gateIndex,  const string &taxiPoint, 
 
 /**
  * The airplane says it has heard the to gate message
+ * Precondition: getCommunicationLogFile()->is_open()
  * @param airplane
  * @param gateIndex
  * @param taxiPoint
@@ -309,6 +342,7 @@ void toGateConfirmation(Airplane* airplane, int gateIndex,  const string &taxiPo
 
 /**
  * The airplane asks if it is cleared to cross the runway
+ * Precondition: getCommunicationLogFile()->is_open()
  * @param airplane
  * @param taxiCrossing
  * @param time
@@ -317,6 +351,7 @@ void clearedToCrossRequest(Airplane* airplane, const string &taxiCrossing, const
 
 /**
  * Tell the airplane it is cleared to cross the runway
+ * Precondition: getCommunicationLogFile()->is_open()
  * @param airplane
  * @param taxiCrossing
  * @param time
@@ -325,6 +360,7 @@ void clearedToCrossMessage(Airplane* airplane, const string &taxiCrossing, const
 
 /**
  * The airplane says it has heard the cleared to cross message
+ * Precondition: getCommunicationLogFile()->is_open()
  * @param airplane
  * @param taxiCrossing
  * @param time
@@ -334,6 +370,7 @@ void clearedToCrossConfirmation(const string &taxiCrossing, const string &time )
 
 /**
  * Emergancy above 3000 ft, ask for help
+ * Precondition: getCommunicationLogFile()->is_open()
  * @param airplane
  * @param airport
  * @param time
@@ -342,6 +379,7 @@ void EmergencyAbove3000ftRequest(Airplane* airplane, Airport* airport, const str
 
 /**
  * Emergancy above 3000 ft, instructions
+ * Precondition: getCommunicationLogFile()->is_open()
  * @param airplane
  * @param runway
  * @param time
@@ -350,6 +388,7 @@ void EmergencyAbove3000ftMessage(Airplane* airplane, Runway* runway, const strin
 
 /**
  * Emergancy below 3000 ft, ask for instructions
+ * Precondition: getCommunicationLogFile()->is_open()
  * @param airplane
  * @param airport
  * @param time
@@ -358,6 +397,7 @@ void EmergencyBelow3000ftRequest(Airplane* airplane, Airport* airport, const str
 
 /**
  * Emergancy bellow 3000 ft, instructions
+ * Precondition: getCommunicationLogFile()->is_open()
  * @param airplane
  * @param time
  */

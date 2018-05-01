@@ -14,7 +14,7 @@ const string &FlightPlan::getDestination() const {
 }
 void FlightPlan::setDestination(const string &destination) {
     FlightPlan::destination = destination;
-    ENSURE(FlightPlan::destination == destination, "destination set" );
+    ENSURE(FlightPlan::getDestination() == destination, "destination set" );
 }
 
 int FlightPlan::getDeparture() const {
@@ -22,7 +22,7 @@ int FlightPlan::getDeparture() const {
 }
 void FlightPlan::setDeparture(int departure) {
     FlightPlan::departure = departure;
-    ENSURE(FlightPlan::departure == departure, "departure time set" );
+    ENSURE(FlightPlan::getDeparture() == departure, "departure time set" );
 }
 
 int FlightPlan::getInterval() const {
@@ -31,7 +31,7 @@ int FlightPlan::getInterval() const {
 
 void FlightPlan::setInterval(int interval) {
     FlightPlan::interval = interval;
-    ENSURE(FlightPlan::interval == interval, "interval set" );
+    ENSURE(FlightPlan::getInterval() == interval, "interval set" );
 }
 
 int FlightPlan::getArrival() const {
@@ -39,7 +39,7 @@ int FlightPlan::getArrival() const {
 }
 void FlightPlan::setArrival(int arrival) {
     FlightPlan::arrival = arrival;
-    ENSURE(FlightPlan::arrival == arrival, "arrival time set" );
+    ENSURE(FlightPlan::getArrival() == arrival, "arrival time set" );
 }
 
 bool FlightPlan::propperlyInitialised() {

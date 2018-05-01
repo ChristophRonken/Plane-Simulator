@@ -351,7 +351,9 @@ public:
     /**
      * sends the plane to the given runway
      * if no runway was given, it will choose the first free runway
-     * Precondition: this->atAirport() && validRunway(Runway* )
+     * Precondition: this->atAirport() && validRunway(Runway* ) &&
+     *      Airplane::getCurrentTask() == "IFR" || Airplane::getCurrentTask() == "pushback"
+     *      || Airplane::getCurrentTask() == "request taxi"
      * @param runway
      */
     void pushBack(Runway* runway = NULL);
@@ -637,6 +639,8 @@ public:
 
     /**
      * Make the airplane taxi to a (given) runway if possible
+     * Preconditions: Airplane::getCurrentTask() == "going to runway" &&
+     * (Airplane::getRunway() != NULL || Airplane::getAttemptRunway() != NULL)
      */
     void taxiToRunway(Runway* runway = NULL);
 
@@ -728,18 +732,21 @@ public:
     /**
      * Preform tasks that happen over a longer period
      */
-    void continueTask();
+    void continueTask(Airport * airport);
 
     /**
      * Descend X ft
      */
-    void descend();
+    void descend(Airport * airport);
 
     /**
      * Ascend X ft
      */
-    void ascend();
+    void ascend(Airport * airport);
 
+    bool isOnItsWay() const;
+
+    void setOnItsWay(bool onItsWay);
 
 
 };
