@@ -10,12 +10,12 @@ TaxiRoute::TaxiRoute(){
 
 void TaxiRoute::addTaxiPoint(string taxipoint){
     TaxiRoute::taxipoints.push_back(taxipoint);
-    ENSURE(TaxiRoute::getTaxiPoints()[TaxiRoute::getTaxiPoints().size()-1] == taxipoint, "" );
+    ENSURE(TaxiRoute::taxipoints[TaxiRoute::taxipoints.size()-1] == taxipoint, "" );
 }
 
 void TaxiRoute::addCrossing(string crossing){
     TaxiRoute::taxicrossings.push_back(crossing);
-    ENSURE(TaxiRoute::getTaxiCrossings()[TaxiRoute::getTaxiCrossings().size()-1] == crossing, "" );
+    ENSURE(TaxiRoute::TaxiRoute::taxicrossings[TaxiRoute::TaxiRoute::taxicrossings.size()-1] == crossing, "" );
 }
 
 vector<string> TaxiRoute::getTaxiPoints(){
@@ -27,12 +27,12 @@ vector<string> TaxiRoute::getTaxiCrossings(){
 }
 
 bool TaxiRoute::propperlyInitialised() {
-    return (this == self);
+    return (this == TaxiRoute::self);
 }
 
 bool TaxiRoute::isValid() {
-    if (propperlyInitialised()){
-        return taxipoints.size() != 0;
+    if (TaxiRoute::propperlyInitialised()){
+        return !TaxiRoute::taxipoints.empty();
 
     }
     return false;
