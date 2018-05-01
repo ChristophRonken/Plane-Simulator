@@ -238,7 +238,7 @@ ESuccess AirportHandler::addXmlData(const string &fileName) {
                                 } else if (SubAttName == "crossing") {
                                     for (int i = 0; i < (signed) Runw->getAirport()->getRunways().size(); i++) {
                                         if (Runw->getAirport()->getRunways()[i]->getName() == SubAttValue) {
-                                            Taxi->addCrossing(SubAttValue);
+                                            Taxi->addTaxiCrossing(SubAttValue);
                                             break;
                                         } else if (i == (signed) Runw->getAirport()->getRunways().size() - 1) {
                                             errStream << "XML PARTIAL IMPORT: failed to create taxipoint.\n";
