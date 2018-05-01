@@ -740,7 +740,7 @@ public:
 };
 
 void setTime(string);
-string getTime();
+const string &getTime();
 
 void setTimePassed(int time);
 int getTimePassed();
