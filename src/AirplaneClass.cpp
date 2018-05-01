@@ -111,7 +111,7 @@ const string &Airplane::getType() const {
 void Airplane::setType(const string &type) {
     REQUIRE(validPlaneType(type), "Valid type?");
     Airplane::type = type;
-    ENSURE(!validPlaneType(type) || (validPlaneType(type) && Airplane::getType() == type), "type set");
+    ENSURE( Airplane::getType() == type, "type set");
 }
 
 const string &Airplane::getEngine() const {
@@ -120,7 +120,7 @@ const string &Airplane::getEngine() const {
 void Airplane::setEngine(const string &engine) {
     REQUIRE(validEngineType(engine), "valid Engine");
     Airplane::engine = engine;
-    ENSURE(!validEngineType(engine) || (validEngineType(engine) && Airplane::getEngine() == engine), "engine set");
+    ENSURE(Airplane::getEngine() == engine, "engine set");
 
 }
 
@@ -130,7 +130,7 @@ const string &Airplane::getSize() const {
 void Airplane::setSize(const string &size) {
     REQUIRE(validSize(size), "valid size");
     Airplane::size = size;
-    ENSURE(!validSize(size) || (validSize(size) && Airplane::getSize() == size), "size set");
+    ENSURE(Airplane::getSize() == size, "size set");
 }
 
 int Airplane::getOpperationTime() const {
@@ -295,12 +295,12 @@ void Airplane::setSquawkCode(int code){
 
         if (index == PrivateSmallSquawk) {
             int randNumb = rand() % 776 + 1;
-            squawkCode == intToString(randNumb);
+            squawkCode = intToString(randNumb);
 
         }else{
             int randNumb = rand() % 777;
             int code = 1000*index + randNumb;
-            squawkCode == intToString(code);
+            squawkCode = intToString(code);
 
         }
 
@@ -309,7 +309,7 @@ void Airplane::setSquawkCode(int code){
 
     }
 
-    ENSURE(Airplane::getSquawkCode().empty() , "squawkCode set");
+    ENSURE(!Airplane::getSquawkCode().empty() , "squawkCode set");
 }
 const string &Airplane::getSquawkCode() const {
     return squawkCode;
@@ -1871,6 +1871,8 @@ void Airplane::initSimulation(Airport *Port) {
     Airplane::messageMessageSend = false;
     Airplane::confirmMessageSend = false;
     Airplane::technicalChecked = false;
+
+    Airplane::setSquawkCode();
 
     for (unsigned int i = 0; i < Port->getRunways().size(); i++) {
         Port->getRunways()[i]->setPermissionToCross(true);

@@ -111,7 +111,7 @@ public:
 
     /**
      * Set ID number
-     * Postcondition:
+     * Postcondition: Airplane::getNumber() == number
      * @param number
      */
     void setNumber(const string &number);
@@ -124,7 +124,7 @@ public:
 
     /**
      * sets the planes callsign
-     * Postcondition:
+     * Postcondition: Airplane::getCallsign() == callsign
      * @param callsign
      */
     void setCallsign(const string &callsign);
@@ -137,7 +137,7 @@ public:
 
     /**
      * set planes model
-     * Postcondition:
+     * Postcondition: Airplane::getModel() == model
      * @param model
      */
     void setModel(const string &model);
@@ -150,7 +150,7 @@ public:
 
     /**
      * sets the state of the plane
-     * Postcondition:
+     * Postcondition: Airplane::getState() == state
      * @param state
      */
     void setState(const string &state);
@@ -163,7 +163,7 @@ public:
 
     /**
      * sets the current airport
-     * Postcondition:
+     * Postcondition: Airplane::getAirport() == airport
      * @param airport
      */
     void setAirport(Airport *airport);
@@ -176,7 +176,7 @@ public:
 
     /**
      * sets the current runway
-     * Postcondition:
+     * Postcondition: Airplane::getRunway() == runway
      * @param runway
      */
     void setRunway(Runway *runway);
@@ -190,7 +190,7 @@ public:
     /**
      * Sets the gate index
      * Preconditions: validGate(gate)
-     * Postconditions:
+     * Postconditions: Airplane::getGate() == gate
      * @param gate
      */
     void setGate(int gate);
@@ -203,7 +203,7 @@ public:
 
     /**
      * Sets the amount of fuel
-     * Postcondition:
+     * Postcondition: Airplane::getFuel() == fuel
      * @param fuel
      */
     void setFuel(int fuel);
@@ -216,7 +216,7 @@ public:
 
     /**
      * Sets the max fuel capacity
-     * Postcondition:
+     * Postcondition: Airplane::getFuelCapacity() == fuelCapacity
      * @param fuelCapacity
      */
     void setFuelCapacity(int fuelCapacity);
@@ -229,7 +229,7 @@ public:
 
     /**
      * sets the amount of passengers
-     * Postcondition:
+     * Postcondition: Airplane::getPassengers() == passengers
      * @param passengers
      */
     void setPassengers(int passengers);
@@ -242,7 +242,7 @@ public:
 
     /**
      * sets the max passenger capacity
-     * Postcondition:
+     * Postcondition: Airplane::getPassengerCapacity() == passengerCapacity
      * @param passengerCapacity
      */
     void setPassengerCapacity(int passengerCapacity);
@@ -255,7 +255,7 @@ public:
 
     /**
      * Set the current flying height of the airplane
-     * Postcondition:
+     * Postcondition: Airplane::getHeight() == height
      * @param height
      */
     void setHeight(int height);
@@ -268,8 +268,8 @@ public:
 
     /**
      * Set the type of the airplane
-     * Preconditions: validPlaneType(type)
-     * Postcondition:
+     * Preconditions: Airplane::validPlaneType(type)
+     * Postcondition: Airplane::getType() == type)
      * @param type
      */
     void setType(const string &type);
@@ -282,8 +282,8 @@ public:
 
     /**
      * Sets the engine of the airplane
-     * Preconditions: validEngine(engine)
-     * Postcondition:
+     * Preconditions: Airplane::validEngine(engine)
+     * Postcondition: Airplane::getEngine() == engine
      * @param engine
      */
     void setEngine(const string &engine);
@@ -296,8 +296,8 @@ public:
 
     /**
      * Sets the size of the airplane
-     * Preconditions: validSize(size)
-     * Postcondition:
+     * Preconditions: Airplane::validSize(size)
+     * Postcondition: Airplane::getSize() == size
      * @param size
      */
     void setSize(const string &size);
@@ -310,7 +310,7 @@ public:
 
     /**
      * Sets the opperation time of the airplane
-     * Postcondition:
+     * Postcondition: Airplane::getOpperationTime() == opperationTime
      * @param opperationTime
      */
     void setOpperationTime(int opperationTime);
@@ -338,12 +338,6 @@ public:
      * @return readyForDeparture
      */
     bool isReadyForDeparture() const;
-
-    /**
-     * prepares the plane for departure
-     * Precondition: this->atGate()
-     */
-    void prepareForDeparture();
 
     /**
      * lands the plane in the given airport
@@ -452,7 +446,7 @@ public:
     /**
      * Set the squawk code of this plane
      * If none was given, it will generate an appropriate code
-     * Postconditions:
+     * Postconditions: !Airplane::getSquawkCode().empty()
      * @param code
      */
     void setSquawkCode(int code = 0);
@@ -465,7 +459,7 @@ public:
 
     /**
      * Set the flight plan of this airplane
-     * Postconditions:
+     * Postconditions: Airplane::getFlightPlan() == flightPlan
      * @param Flight
      */
     void setFlightPlan(FlightPlan *Flight);
@@ -484,7 +478,7 @@ public:
 
     /**
      * Set the runway the airplane is trying to go to.
-     * Postconditions:
+     * Postconditions: Airplane::getAttemptRunway() == attemptRunway
      * @param attemptRunway
      */
     void setAttemptRunway(Runway *attemptRunway);
@@ -497,7 +491,7 @@ public:
 
     /**
      * Set the taxiRoute the plane is taking
-     * Postconditions:
+     * Postconditions: Airplane::getTaxiRoute() == taxiRoute
      * @param taxiRoute
      */
     void setTaxiRoute(TaxiRoute *taxiRoute);
@@ -510,7 +504,7 @@ public:
 
     /**
      * set the taxipoint the plane is on
-     * Postconditions:
+     * Postconditions: Airplane::getTaxiPoint() == taxiPoint
      * @param taxiPoint
      */
     void setTaxiPoint(const string &taxiPoint);
@@ -523,7 +517,7 @@ public:
 
     /**
      * Set the taxiCrossing the plane is on
-     * Postconditions:
+     * Postconditions: Airplane::getTaxiCrossing() == taxiCrossing
      * @param taxiCrossing
      */
     void setTaxiCrossing(const string &taxiCrossing);
@@ -536,7 +530,7 @@ public:
 
     /**
      * Set if the IFR authorized the plane to initialize the departure procedure
-     * Postconditions:
+     * Postconditions: Airplane::isIFRAuthorized() == IFRAuthorized
      * @param IFRAuthorized 
      */
     void setIFRAuthorized(bool IFRAuthorized);
@@ -549,7 +543,7 @@ public:
 
     /**
      * Set if pushnack from gate is allowed
-     * Postconditions:
+     * Postconditions: Airplane::isPushback() == pushback
      * @param pushback 
      */
     void setPushback(bool pushback);
@@ -562,7 +556,7 @@ public:
 
     /**
      * Set if a request message was send for the upcoming task
-     * Postconditions:
+     * Postconditions: Airplane::isRequestMessageSend() == requestMessageSend
      * @param requestMessageSend
      */
     void setRequestMessageSend(bool requestMessageSend);
@@ -575,7 +569,7 @@ public:
 
     /**
      * Set if the ATC send the airplane an instruction message for the upcoming task
-     * Postconditions:
+     * Postconditions: Airplane::isMessageMessageSend() == messageMessageSend
      * @param messageMessageSend
      */
     void setMessageMessageSend(bool messageMessageSend);
@@ -588,7 +582,7 @@ public:
 
     /**
      * Set if the airplane send a confirmation message notifying the ATC it will perform it's instructions
-     * Postconditions:
+     * Postconditions: Airplane::isConfirmMessageSend() == confirmMessageSend
      * @param confirmMessageSend
      */
     void setConfirmMessageSend(bool confirmMessageSend);
@@ -601,7 +595,7 @@ public:
 
     /**
      * zie hierboven
-     * Postconditions:
+     * Postconditions: Airplane::getEmergencyInAirport() == emergencyInAirport
      * @param emergencyInAirport
      */
     void setEmergencyInAirport(bool emergencyInAirport);
@@ -614,13 +608,22 @@ public:
 
     /**
      * Set if the current task is waiting for taxi instructions
-     * Postconditions:
+     * Postconditions: Airplane::isTaxiRequest() == taxiRequest
      * @param taxiRequest
      */
     void setTaxiRequest(bool taxiRequest);
 
+    /**
+     * Get the gate index the plane is trying to go to
+     * @return int
+     */
     int getAttemptgate() const;
 
+    /**
+     * Set the gate index the plane is trying to go to
+     * Postcondition: Airplane::getAttemptgate() == attemptgate
+     * @param attemptgate
+     */
     void setAttemptgate(int attemptgate);
 
     /**
@@ -698,14 +701,16 @@ public:
 
     /**
      * Check if the simulation was finished
-     * @return
+     * @return bool
      */
     bool getsimulationFinished();
 
-    /**
-     * Set if the simulation was finished
-     */
-    void setsimulationFinished(bool);
+   /**
+    * Set if the simulation was finished
+    * Postcondition: Airplane::getsimulationFinished() == finished
+    * @param finished
+    */
+    void setsimulationFinished(bool finished);
 
     /**
      * Get the current task the plane is performing
@@ -715,7 +720,7 @@ public:
 
     /**
      * Set the current task the plane is performing
-     * Postconditions:
+     * Postconditions: Airplane::getCurrentTask() == currentTask
      * @param currentTask
      */
     void setCurrentTask(const string &currentTask);

@@ -34,29 +34,32 @@ public:
     virtual ~AirportHandler();
 
     /**
-     * Removes an airplane from the saved airplanes
-     * Preconditions: airplaneExists(string)
+     * Removes an airplane from the saved Airplanes
+     * Preconditions: AirportHandler::airplaneExists(callsign)
+     * Postconditions: !AirportHandler::airplaneExists(callsign)
      * @param callsign
      */
-    void removeAirplane(const string &callsign);
+    void removeAirplane(const string &number);
+
 
     /**
      * Adds an airport to the saved airports
-     * Preconditions: validAirport(Airport*)
-     * @param Airport
+     * Preconditions: AirportHandler::validAirport(Airport*)
+     * @param airport
      */
     void addAirport(Airport *airport);
 
     /**
      * Removes an airport from the saved airports
-     * Preconditions: airportExists(string)
-     * @param callsign
+     * Preconditions: AirportHandler::airportExists(iata)
+     * Postcondition: !AirportHandler::airportExists(iata)
+     * @param iata
      */
-    void removeAirport(const string &callsign);
+    void removeAirport(const string &iata);
 
     /**
      * Add airplanes, airports and runways from an given xml file.
-     * Preconditions: validFileName(string)
+     * Preconditions: AirportHandler::validFileName(string)
      * @param fileName
      */
     SuccessEnum addXmlData(const string &fileName);
@@ -74,6 +77,7 @@ public:
      * and might cause memory leaks if not deleted properly.
      * It is adviced to only use this function to initialize the vector of airports.
      * Precondition: validAirports(vector<Airport*>)
+     * Postcondition: Airports == AirportHandler::getAirports()
      * @param airports
      */
     void setAirports(const vector<Airport *> &airports);
@@ -90,14 +94,16 @@ public:
      * they will dissapear from this handler
      * and might cause memory leaks if not deleted properly.
      * It is adviced to only use this function to initialize the vector of airplanes.
-     * Precondition: validAirplanes(vector<Airplane*>);
+     * Precondition: AirportHandler::validAirplanes(Airplanes);
+     * Postconditions: AirportHandler::getAirplanes() == Airplanes
      * @param airplanes
      */
     void setAirplanes(const vector<Airplane *> &airplanes);
 
     /**
      * Adds an airplane to the list of planes
-     * Precondition: validAirplane(Airplane*)
+     * Precondition: AirportHandler::validAirplane(Airplane*)
+     * Postconditions: AirportHandler::airplaneExists(Plane->getNumber())
      * @param Plane
      */
     void addAirplane(Airplane* airplane);
@@ -120,6 +126,7 @@ public:
 
     /**
      * Run a simultaion of an airport
+     * Preconditions: !AirportHandler::getAirports().empty()
      * @param name of the airport to run a simulation on
      */
     void runSimulation(const string &name);

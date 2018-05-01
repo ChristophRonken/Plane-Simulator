@@ -220,18 +220,21 @@ public:
 
     /**
      * Set the Airplane that is currently waiting at height 5000.
+     * Postcondition: Airport::wait5000 == plane
      * @param plane
      */
     void setWait5000(Airplane* plane);
 
     /**
      * Set the Airplane that is currently waiting at height 3000.
+     * Postcondition: Airport::wait3000 == plane
      * @param plane
      */
     void setWait3000(Airplane* plane);
 
     /**
      * Get the runway by name (string)
+     * if the runway doesn't exist, it return NULL
      * @return Runway
      */
     Runway* getRunway(string name);
