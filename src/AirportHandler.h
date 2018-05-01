@@ -21,10 +21,10 @@ class AirportHandler {
 
     AirportHandler* self;
 
-    vector<Airport*> Airports;
-    vector<Airplane*> Airplanes;
-    const static double TimeUnit = 0.1;   // in seconds
-    const static double simulationStartTime = 12; // in hours
+    vector<Airport*> airports;
+    vector<Airplane*> airplanes;
+    const static double gTimeUnit = 0.1;   // in seconds
+    const static double gSimulationStartTime = 12; // in hours
     vector<int> occupiedColor;
     vector<int> freeColor;
 
@@ -34,36 +34,36 @@ public:
     virtual ~AirportHandler();
 
     /**
-     * Removes an airplane from the saved Airplanes
+     * Removes an airplane from the saved airplanes
      * Preconditions: airplaneExists(string)
      * @param callsign
      */
-    void removeAirplane(string callsign);
+    void removeAirplane(const string &callsign);
 
     /**
      * Adds an airport to the saved airports
      * Preconditions: validAirport(Airport*)
      * @param Airport
      */
-    void addAirport(Airport *Airport);
+    void addAirport(Airport *airport);
 
     /**
      * Removes an airport from the saved airports
      * Preconditions: airportExists(string)
      * @param callsign
      */
-    void removeAirport(string callsign);
+    void removeAirport(const string &callsign);
 
     /**
      * Add airplanes, airports and runways from an given xml file.
      * Preconditions: validFileName(string)
      * @param fileName
      */
-    SuccessEnum addXmlData(string fileName);
+    SuccessEnum addXmlData(const string &fileName);
 
     /**
      * Returns a vector with the saved airports
-     * @return Airports
+     * @return airports
      */
     const vector<Airport *> &getAirports() const;
 
@@ -74,13 +74,13 @@ public:
      * and might cause memory leaks if not deleted properly.
      * It is adviced to only use this function to initialize the vector of airports.
      * Precondition: validAirports(vector<Airport*>)
-     * @param Airports
+     * @param airports
      */
-    void setAirports(const vector<Airport *> &Airports);
+    void setAirports(const vector<Airport *> &airports);
 
     /**
      * Returns a vector with all the saved airplanes
-     * @return Airplanes
+     * @return airplanes
      */
     const vector<Airplane *> &getAirplanes() const;
 
@@ -91,16 +91,16 @@ public:
      * and might cause memory leaks if not deleted properly.
      * It is adviced to only use this function to initialize the vector of airplanes.
      * Precondition: validAirplanes(vector<Airplane*>);
-     * @param Airplanes
+     * @param airplanes
      */
-    void setAirplanes(const vector<Airplane *> &Airplanes);
+    void setAirplanes(const vector<Airplane *> &airplanes);
 
     /**
      * Adds an airplane to the list of planes
      * Precondition: validAirplane(Airplane*)
      * @param Plane
      */
-    void addAirplane(Airplane* Plane);
+    void addAirplane(Airplane* airplane);
 
     /**
      * Get a string with the info of all planes and airports
@@ -116,76 +116,76 @@ public:
     /**
      * Outputs a file, with the info of the airplanes and airports, to the working directory
      */
-    void fileOutput(string fileName = "AirportInfo.txt");;
+    void fileOutput(const string &fileName = "AirportInfo.txt");;
 
     /**
      * Run a simultaion of an airport
      * @param name of the airport to run a simulation on
      */
-    void runSimulation(string name);
+    void runSimulation(const string &name);
 
     /**
      * Get the pointer to the airportwith the given name.
      * @param name of the airport
      * @return Airport*
      */
-    Airport* getAirport(string name);
+    Airport* getAirport(const string &name);
 
     /**
      * Check if an airplane exists
      * @param callsign
      * @return bool
      */
-    bool airplaneExists(string callsign);
+    bool airplaneExists(const string &callsign);
 
     /**
      * Check if an airport already exists.
      * @param callsign
      * @return bool
      */
-    bool airportExists(string callsign);
+    bool airportExists(const string &iata);
 
     /**
      * Check if a filename is valid
      * @param name
      * @return bool
      */
-    bool validFileName(string name);
+    bool validFileName(const string &name);
 
     /**
      * Check if the vector of airplanes is valid (no duplicates or faulty initialised airplanes)
      * @param Planes
      * @return bool
      */
-    bool validAirplanes(vector<Airplane*> Planes);
+    bool validAirplanes(vector<Airplane*> airplanes);
 
     /**
      * Check if the vector of airports is valid (no duplicates or faulty initialised airports)
      * @param Ports
      * @return bool
      */
-    bool validAirports(vector<Airport*> Ports);
+    bool validAirports(vector<Airport*> airports);
 
     /**
      * Check if an airplane is valid to add to the system (no duplicate or faulty initialised)
      * @param Plane
      * @return bool
      */
-    bool validAirplane(Airplane* Plane);
+    bool validAirplane(Airplane* airplane);
 
     /**
      * Check if an airport is valid to add to the system (no duplicate or faulty initialised)
      * @param Port
      * @return bool
      */
-    bool validAirport(Airport* Port);
+    bool validAirport(Airport* airport);
 
     /**
      * Check if an airport is empty (no airplanes in or around the airport)
      * @param Port
      * @return bool
      */
-    bool airportEmpty(Airport *Port);
+    bool airportEmpty(Airport *airport);
 
     /**
      * Outputs a file with the given airports iata as file name,
@@ -193,7 +193,7 @@ public:
      * Preconditions: airportExists(string AirportIata);
      * @param AirportIata
      */
-    void GraphicalAirport2D(string & AirportIata);
+    void GraphicalAirport2D(const string &iata);
 
     /**'
      * Changes a double to it's corresponding time in string format (hh:mm)
@@ -208,7 +208,7 @@ public:
      * to represent the airport in a 3D environement
      * @param AirportIata
      */
-    void GraphicalAirport3D(string & AirportIata);
+    void GraphicalAirport3D(const string &iata);
 
     /**
      * Check if the Airporthandler was propperly initiallized and isn't NULL
