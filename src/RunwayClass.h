@@ -20,7 +20,7 @@ class Runway {
 
     Runway* self;
     string name;
-    Airport* airPort;
+    Airport* airport;
 
     string type;
     int length;
@@ -31,7 +31,7 @@ class Runway {
 
     bool holdingShortOccupied;
     bool waitingOnRunway;
-    bool permissiontocross;
+    bool permissionToCross;
     bool crossing;
 
     bool onItsWay;
@@ -40,9 +40,9 @@ public:
     /**
       * Construct a runway with parameters
       * @param name
-      * @param airPort
+      * @param airport
       */
-    Runway(const string &name, Airport *airPort);
+    Runway(const string &name, Airport *airport);
 
     /**
      * Construct a runway and set parameters later
@@ -69,9 +69,9 @@ public:
 
     /**
      * sets the airport the runway is located at
-     * @param Port
+     * @param airport
      */
-    void setAirport(Airport* Port);
+    void setAirport(Airport* airport);
 
     /**
      * gets if the runway is occupied
@@ -111,12 +111,12 @@ public:
     void setLength(int length);
 
     /**
-     * Set the value of the variable with name == Type
+     * Set the value of the variable with name == type
      * If the type is invalid, nothing happens
-     * @param Type
-     * @param Value
+     * @param type
+     * @param value
      */
-    void setVar(string Type, string Value);
+    void setVar(string type, string value);
 
     /**
      *  Set the taxiRoute
