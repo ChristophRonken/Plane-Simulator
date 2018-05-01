@@ -305,11 +305,11 @@ void Airplane::setSquawkCode(int code){
         }
 
     }else{
-        squawkCode = code;
+        squawkCode = intToString(code);
 
     }
 
-    ENSURE(Airplane::getSquawkCode() != "" , "squawkCode set");
+    ENSURE(Airplane::getSquawkCode().empty() , "squawkCode set");
 
 }
 const string &Airplane::getSquawkCode() const {
@@ -1707,7 +1707,7 @@ void Airplane::takeOff() {
 }
 
 void Airplane::exitPlane(){
-    REQUIRE(Airplane::getCurrentTask == "exit passengers" && Airplane::atGate(), "correct state");
+    REQUIRE(Airplane::getCurrentTask() == "exit passengers" && Airplane::atGate(), "correct state");
 
     if (passengers <= 0) {
 
@@ -1743,7 +1743,7 @@ void Airplane::exitPlane(){
 }
 
 void Airplane::enterPlane(){
-    REQUIRE(Airplane::getCurrentTask == "board passengers" && Airplane::atGate(), "correct state");
+    REQUIRE(Airplane::getCurrentTask() == "board passengers" && Airplane::atGate(), "correct state");
 
     if (passengers >= passengerCapacity) {
 
@@ -1806,7 +1806,7 @@ void Airplane::technicalCheck(){
 }
 
 void Airplane::refuel() {
-    REQUIRE(Airplane::getCurrentTask == "refueling" && atGate(), "correct state");
+    REQUIRE(Airplane::getCurrentTask() == "refueling" && atGate(), "correct state");
 
     logMessage(getNumber() + " has been refueled");
 

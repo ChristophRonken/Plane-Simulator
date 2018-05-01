@@ -10,12 +10,12 @@ TaxiRoute::TaxiRoute(){
 
 void TaxiRoute::addTaxiPoint(string taxipoint){
     TaxiRoute::taxipoints.push_back(taxipoint);
-    ENSURE(TaxiRoute::getTaxiPoints()[TaxiRoute::getTaxiPoints().size()] == taxipoint, "" );
+    ENSURE(TaxiRoute::getTaxiPoints()[TaxiRoute::getTaxiPoints().size()-1] == taxipoint, "" );
 }
 
 void TaxiRoute::addCrossing(string crossing){
     TaxiRoute::taxicrossings.push_back(crossing);
-    ENSURE(TaxiRoute::getTaxiCrossings()[TaxiRoute::getTaxiCrossings().size()] == crossing, "" );
+    ENSURE(TaxiRoute::getTaxiCrossings()[TaxiRoute::getTaxiCrossings().size()-1] == crossing, "" );
 }
 
 vector<string> TaxiRoute::getTaxiPoints(){

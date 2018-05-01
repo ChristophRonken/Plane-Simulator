@@ -56,8 +56,9 @@ class Airplane {
     int passengerCapacity;
     int height;
     int opperationTime;
+    int attemptgate;
 
-   string currentTask;
+    string currentTask;
 
     FlightPlan* flightPlan;
     TaxiRoute* taxiRoute;
@@ -587,6 +588,7 @@ public:
 
     /**
      * Set if the airplane send a confirmation message notifying the ATC it will perform it's instructions
+     * Postconditions:
      * @param confirmMessageSend
      */
     void setConfirmMessageSend(bool confirmMessageSend);
@@ -599,6 +601,7 @@ public:
 
     /**
      * zie hierboven
+     * Postconditions:
      * @param emergencyInAirport
      */
     void setEmergencyInAirport(bool emergencyInAirport);
@@ -611,6 +614,7 @@ public:
 
     /**
      * Set if the current task is waiting for taxi instructions
+     * Postconditions:
      * @param taxiRequest
      */
     void setTaxiRequest(bool taxiRequest);
@@ -707,6 +711,7 @@ public:
 
     /**
      * Set the current task the plane is performing
+     * Postconditions:
      * @param currentTask
      */
     void setCurrentTask(const string &currentTask);
@@ -725,8 +730,6 @@ public:
      * Ascend X ft
      */
     void ascend();
-
-    int attemptgate;
 
 
 
