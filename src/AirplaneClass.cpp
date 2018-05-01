@@ -1035,10 +1035,10 @@ void Airplane::taxiToRunway(Runway* runw){
         gate = -1;
     }
 
-    REQUIRE((!Airplane::onitsway && !runw->getonItsWay()) || (Airplane::onitsway && runw->getonItsWay()), "no plane on its way");
+    REQUIRE((!Airplane::onitsway && !runw->getOnItsWay()) || (Airplane::onitsway && runw->getOnItsWay()), "no plane on its way");
 
     Airplane::onitsway = true;
-    runw->setonItsWay(true);
+    runw->setOnItsWay(true);
     const string &tijd = getTime();
     taxiRoute = runw->getTaxiRoute();
 
@@ -1072,7 +1072,7 @@ void Airplane::taxiToRunway(Runway* runw){
                         Airplane::setState("at holding point");
                         currentTask = "at holding point";
                         Airplane::onitsway = false;
-                        runw->setonItsWay(false);
+                        runw->setOnItsWay(false);
                         setOpperationTime(1);
                         runway->setHoldingShortOccupied(true);
                         return;
@@ -1876,7 +1876,7 @@ void Airplane::initSimulation(Airport *Port) {
 
     for (unsigned int i = 0; i < Port->getRunways().size(); i++) {
         Port->getRunways()[i]->setPermissionToCross(true);
-        Port->getRunways()[i]->setonItsWay(false);
+        Port->getRunways()[i]->setOnItsWay(false);
         Port->getRunways()[i]->setWaitingOnRunway(false);
         Port->getRunways()[i]->setHoldingShortOccupied(false);
     }

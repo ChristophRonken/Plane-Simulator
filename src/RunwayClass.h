@@ -57,6 +57,7 @@ public:
 
     /**
      * set the name of the runway
+     * Postconditions: Runway::getName() == name
      * @param name
      */
     void setName(const string &name);
@@ -69,6 +70,7 @@ public:
 
     /**
      * sets the airport the runway is located at
+     * Postconditions: Runway::getAirport() == airport
      * @param airport
      */
     void setAirport(Airport* airport);
@@ -81,6 +83,7 @@ public:
 
     /**
      * Sets occupied to the given param
+     * Postconditions: Runway::isOccupied() == occupied
      * @param occupied
      */
     void setOccupied(bool occupied);
@@ -94,6 +97,7 @@ public:
     /**
      * sets the runway type
      * Preconditions: type == "grass" || type == "asphalt"
+     * Postconditions: Runway::getType() == type
      * @param type
      */
     void setType(const string &type);
@@ -106,6 +110,7 @@ public:
 
     /**
      * set the length of the runway
+     * Postconditions: Runway::getLength() == length,
      * @param length
      */
     void setLength(int length);
@@ -119,7 +124,8 @@ public:
     void setVar(string type, string value);
 
     /**
-     *  Set the taxiRoute
+     * Set the taxiRoute
+     * Postconditions: Runway::getTaxiRoute() == taxi
      * @param taxi
      */
     void setTaxiRoute(TaxiRoute* taxi);
@@ -132,13 +138,17 @@ public:
     
     /**
      * Set if a plane is in the holding short position
+     * Postcondition: Runway::getHoldingShortOccupied() == holdingShortOccupied
+     * @param holdingShortOccupied
      */
-    void setHoldingShortOccupied(bool);
+    void setHoldingShortOccupied(bool holdingShortOccupied);
 
     /**
      * Set if a plane is already waiting for take off on the runway
+     * Postcondition: Runway::getWaitingOnRunway() == waitingOnRunway
+     * @param waitingOnRunway
      */
-    void setWaitingOnRunway(bool);
+    void setWaitingOnRunway(bool waitingOnRunway);
 
     /**
      * Check if the holding position for planes is occupied
@@ -160,8 +170,10 @@ public:
 
     /**
      * Set if a plane is crossing the runway
+     * Postcondition: Runway::getCrossing() == crossing
+     * @param crossing
      */
-    void setCrossing(bool);
+    void setCrossing(bool crossing);
 
     /**
      * Check if a plane has permission to cross the runway
@@ -171,8 +183,10 @@ public:
 
     /**
      * Set if a plane has permission to cross te runway
+     * Postconditions: Runway::getPermissionToCross() == permissionToCross
+     * @param permissionToCross
      */
-    void setPermissionToCross(bool);
+    void setPermissionToCross(bool permissionToCross);
 
     /**
      * Check if the plane is propperly initialised
@@ -190,13 +204,14 @@ public:
      * Returns true if a plane is on it's way towards the Runway
      * @return
      */
-    bool getonItsWay();
+    bool getOnItsWay();
 
     /**
      * Set if a plane is on it's way
+     * Postconditions: Runway::getOnItsWay() == onItsWay
      * @param onitsway
      */
-    void setonItsWay(bool onitsway);
+    void setOnItsWay(bool onItsWay);
 
 };
 
