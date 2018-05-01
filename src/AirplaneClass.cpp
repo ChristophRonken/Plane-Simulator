@@ -1,6 +1,6 @@
-//
-// Created by oliviervh on 01.03.18.
-//
+// author: Ronken Christoph & Van Hautte Olivier
+// date: 02/05/2018
+// version: 2.0
 
 #include "AirplaneClass.h"
 #include <string>
@@ -298,8 +298,7 @@ const string &Airplane::getSquawkCode() const {
 void setTime(string time){
     gTime = time;
 };
-string getTime(){
-
+const string &getTime(){
     return gTime;
 
 };
@@ -1868,7 +1867,7 @@ bool Airplane::notFinished(Airport* Port) {
 }
 
 
-//Output
+//output
 void Airplane::printInfo() {
     cout << Airplane::getInfo() << endl;
 
