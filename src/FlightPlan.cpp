@@ -42,10 +42,10 @@ void FlightPlan::setArrival(int arrival) {
     ENSURE(FlightPlan::getArrival() == arrival, "arrival time set" );
 }
 
-bool FlightPlan::propperlyInitialised() {
+bool FlightPlan::properlyInitialised() {
     return (this == FlightPlan::self);
 }
 
 bool FlightPlan::isValid() {
-    return !(FlightPlan::destination.empty() || FlightPlan::interval == 0 || !FlightPlan::propperlyInitialised());
+    return !(FlightPlan::destination.empty() || FlightPlan::interval == 0 || !FlightPlan::properlyInitialised());
 }

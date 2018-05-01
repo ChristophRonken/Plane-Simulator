@@ -83,7 +83,7 @@ public:
      * Checks if the flight plan was propperly initialised
      * @return bool
      */
-    bool propperlyInitialised();
+    bool properlyInitialised();
 
     /**
      * Check if the flight plan is valid

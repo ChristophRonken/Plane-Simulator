@@ -105,16 +105,13 @@ namespace {
         }
 
         virtual void SetUp() {
-            runway = new Runway();
             taxiRoute = new TaxiRoute();
         }
 
         virtual void TearDown() {
-            delete runway;
             delete taxiRoute;
         }
 
-        Runway *runway;
         TaxiRoute* taxiRoute;
         string myString;
     };
@@ -129,4 +126,44 @@ namespace {
         EXPECT_TRUE(taxiRoute->isValid());
     }
 
+    class FlightPlanDomain : public ::testing::Test {
+    protected:
+
+        FlightPlanDomain() {
+
+        }
+
+        virtual void SetUp() {
+            runway = new Runway();
+            airport = new Airport();
+            taxiRoute = new TaxiRoute();
+            flightPlan = new FlightPlan();
+        }
+
+        virtual void TearDown() {
+            delete runway;
+            delete airport;
+            delete taxiRoute;
+            delete flightPlan;
+        }
+
+        Airport *airport;
+        Runway *runway;
+        TaxiRoute* taxiRoute;
+        FlightPlan* flightPlan;
+        string myString;
+        int myInt;
+    };
+
+    TEST_F(FlightPlanDomain, defaultConstructor) {
+        EXPECT_TRUE(flightPlan->properlyInitialised());
+    }
+
+    TEST_F(FlightPlanDomain, isValid){
+        myString = "destination";
+        flightPlan->setDestination(myString);
+        myInt = 45;
+        flightPlan->setInterval(myInt);
+        EXPECT_TRUE(flightPlan->isValid());
+    }
 }

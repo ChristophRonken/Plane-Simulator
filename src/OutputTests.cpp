@@ -102,4 +102,89 @@ namespace {
         EXPECT_EQ(runway->getOnItsWay(), true);
     }
 
+    class TaxiRouteOutput : public ::testing::Test {
+    protected:
+
+        TaxiRouteOutput() {
+
+        }
+
+        virtual void SetUp() {
+            taxiRoute = new TaxiRoute();
+        }
+
+        virtual void TearDown() {
+            delete taxiRoute;
+        }
+
+        Airport *airport;
+        Runway *runway;
+        TaxiRoute* taxiRoute;
+        string myString;
+    };
+
+    TEST_F(TaxiRouteOutput, addTaxiPoint) {
+        myString = "point";
+        EXPECT_NO_FATAL_FAILURE(taxiRoute->addTaxiPoint(myString));
+        EXPECT_EQ(taxiRoute->getTaxiPoints()[taxiRoute->getTaxiPoints().size()-1], myString);
+    }
+
+    TEST_F(TaxiRouteOutput, addTaxiCrossing) {
+        myString = "crossing";
+        EXPECT_NO_FATAL_FAILURE(taxiRoute->addTaxiCrossing(myString));
+        EXPECT_EQ(taxiRoute->getTaxiCrossings()[taxiRoute->getTaxiCrossings().size()-1], myString);
+    }
+
+    class FlightPlanOutput : public ::testing::Test {
+    protected:
+
+        FlightPlanOutput() {
+
+        }
+
+        virtual void SetUp() {
+            runway = new Runway();
+            airport = new Airport();
+            taxiRoute = new TaxiRoute();
+            flightPlan = new FlightPlan();
+        }
+
+        virtual void TearDown() {
+            delete runway;
+            delete airport;
+            delete taxiRoute;
+            delete flightPlan;
+        }
+
+        Airport *airport;
+        Runway *runway;
+        TaxiRoute* taxiRoute;
+        FlightPlan* flightPlan;
+        string myString;
+        int myInt;
+    };
+
+    TEST_F(FlightPlanOutput, setDestination) {
+        myString = "Bahamas";
+        EXPECT_NO_FATAL_FAILURE(flightPlan->setDestination(myString));
+        EXPECT_EQ(flightPlan->getDestination(), "Bahamas");
+    }
+
+    TEST_F(FlightPlanOutput, setDeparture) {
+        myInt = 45;
+        EXPECT_NO_FATAL_FAILURE(flightPlan->setDeparture(myInt));
+        EXPECT_EQ(flightPlan->getDeparture(), 45);
+    }
+
+    TEST_F(FlightPlanOutput, setArrival) {
+        myInt = 15;
+        EXPECT_NO_FATAL_FAILURE(flightPlan->setArrival(myInt));
+        EXPECT_EQ(flightPlan->getArrival(), 15);
+    }
+
+    TEST_F(FlightPlanOutput, setInterval) {
+        myInt = 45;
+        EXPECT_NO_FATAL_FAILURE(flightPlan->setInterval(myInt));
+        EXPECT_EQ(flightPlan->getInterval(), 45);
+    }
 }
