@@ -1,6 +1,6 @@
-// author: Ronken Christoph & Van Hautte Olivier
-// date: 02/05/2018
-// version: 2.0
+//
+// Created by oliviervh on 01.03.18.
+//
 
 #ifndef PSE_V1_RUNWAYCLASS_H
 #define PSE_V1_RUNWAYCLASS_H
@@ -20,7 +20,7 @@ class Runway {
 
     Runway* self;
     string name;
-    Airport* airport;
+    Airport* airPort;
 
     string type;
     int length;
@@ -31,7 +31,7 @@ class Runway {
 
     bool holdingShortOccupied;
     bool waitingOnRunway;
-    bool permissionToCross;
+    bool permissiontocross;
     bool crossing;
 
     bool onItsWay;
@@ -40,9 +40,9 @@ public:
     /**
       * Construct a runway with parameters
       * @param name
-      * @param airport
+      * @param airPort
       */
-    Runway(const string &name, Airport *airport);
+    Runway(const string &name, Airport *airPort);
 
     /**
      * Construct a runway and set parameters later
@@ -71,7 +71,7 @@ public:
      * sets the airport the runway is located at
      * @param Port
      */
-    void setAirport(Airport* airport);
+    void setAirport(Airport* Port);
 
     /**
      * gets if the runway is occupied
@@ -83,7 +83,7 @@ public:
      * Sets occupied to the given param
      * @param occupied
      */
-    void setOccupied(const bool &occupied);
+    void setOccupied(bool occupied);
 
     /**
      * Returns the runway type
@@ -108,15 +108,15 @@ public:
      * set the length of the runway
      * @param length
      */
-    void setLength(const int &length);
+    void setLength(int length);
 
     /**
-     * Set the value of the variable with name == type
+     * Set the value of the variable with name == Type
      * If the type is invalid, nothing happens
-     * @param type
-     * @param value
+     * @param Type
+     * @param Value
      */
-    void setVar(const string &type, const string &value);
+    void setVar(string Type, string Value);
 
     /**
      *  Set the taxiRoute
@@ -133,12 +133,12 @@ public:
     /**
      * Set if a plane is in the holding short position
      */
-    void setHoldingShortOccupied(const bool &holdingShortOccupied);
+    void setHoldingShortOccupied(bool);
 
     /**
      * Set if a plane is already waiting for take off on the runway
      */
-    void setWaitingOnRunway(const bool &waitingOnRunway);
+    void setWaitingOnRunway(bool);
 
     /**
      * Check if the holding position for planes is occupied
@@ -161,7 +161,7 @@ public:
     /**
      * Set if a plane is crossing the runway
      */
-    void setCrossing(const bool &crossing);
+    void setCrossing(bool);
 
     /**
      * Check if a plane has permission to cross the runway
@@ -172,7 +172,7 @@ public:
     /**
      * Set if a plane has permission to cross te runway
      */
-    void setPermissionToCross(const bool &permissionToCross);
+    void setPermissionToCross(bool);
 
     /**
      * Check if the plane is propperly initialised
@@ -187,16 +187,16 @@ public:
     bool isValid();
 
     /**
-     * Check if the a plane is on its way to the runway
-     * @return bool
+     * Returns true if a plane is on it's way towards the Runway
+     * @return
      */
     bool getonItsWay();
 
     /**
-     * Sets the bool representing a plane on its way or not
-     * @return bool
+     * Set if a plane is on it's way
+     * @param onitsway
      */
-    void setonItsWay(const bool &onItsWay);
+    void setonItsWay(bool onitsway);
 
 };
 

@@ -1,6 +1,6 @@
-// author: Ronken Christoph & Van Hautte Olivier
-// date: 02/05/2018
-// version: 2.0
+//
+// Created by oliviervh on 01.03.18.
+//
 
 #ifndef PSE_V1_AirplaneCLASS_H
 #define PSE_V1_AirplaneCLASS_H
@@ -45,7 +45,7 @@ class Airplane {
     string size;
     string squawkCode;
 
-    Airport* airPort;
+    Airport* airport;
     Runway* runway;
     Runway* attemptRunway;
 
@@ -110,6 +110,7 @@ public:
 
     /**
      * Set ID number
+     * Postcondition:
      * @param number
      */
     void setNumber(const string &number);
@@ -122,6 +123,7 @@ public:
 
     /**
      * sets the planes callsign
+     * Postcondition:
      * @param callsign
      */
     void setCallsign(const string &callsign);
@@ -134,6 +136,7 @@ public:
 
     /**
      * set planes model
+     * Postcondition:
      * @param model
      */
     void setModel(const string &model);
@@ -146,6 +149,7 @@ public:
 
     /**
      * sets the state of the plane
+     * Postcondition:
      * @param state
      */
     void setState(const string &state);
@@ -158,9 +162,10 @@ public:
 
     /**
      * sets the current airport
-     * @param airPort
+     * Postcondition:
+     * @param airport
      */
-    void setAirport(Airport *airPort);
+    void setAirport(Airport *airport);
 
     /**
      * returns a pointer to the current runway
@@ -170,6 +175,7 @@ public:
 
     /**
      * sets the current runway
+     * Postcondition:
      * @param runway
      */
     void setRunway(Runway *runway);
@@ -180,6 +186,12 @@ public:
      */
     int getGate() const;
 
+    /**
+     * Sets the gate index
+     * Preconditions: validGate(gate)
+     * Postconditions:
+     * @param gate
+     */
     void setGate(int gate);
 
     /**
@@ -190,6 +202,7 @@ public:
 
     /**
      * Sets the amount of fuel
+     * Postcondition:
      * @param fuel
      */
     void setFuel(int fuel);
@@ -202,6 +215,7 @@ public:
 
     /**
      * Sets the max fuel capacity
+     * Postcondition:
      * @param fuelCapacity
      */
     void setFuelCapacity(int fuelCapacity);
@@ -214,6 +228,7 @@ public:
 
     /**
      * sets the amount of passengers
+     * Postcondition:
      * @param passengers
      */
     void setPassengers(int passengers);
@@ -226,6 +241,7 @@ public:
 
     /**
      * sets the max passenger capacity
+     * Postcondition:
      * @param passengerCapacity
      */
     void setPassengerCapacity(int passengerCapacity);
@@ -238,6 +254,7 @@ public:
 
     /**
      * Set the current flying height of the airplane
+     * Postcondition:
      * @param height
      */
     void setHeight(int height);
@@ -251,6 +268,7 @@ public:
     /**
      * Set the type of the airplane
      * Preconditions: validPlaneType(type)
+     * Postcondition:
      * @param type
      */
     void setType(const string &type);
@@ -263,7 +281,8 @@ public:
 
     /**
      * Sets the engine of the airplane
-     * Preconditions: validEngine()
+     * Preconditions: validEngine(engine)
+     * Postcondition:
      * @param engine
      */
     void setEngine(const string &engine);
@@ -277,6 +296,7 @@ public:
     /**
      * Sets the size of the airplane
      * Preconditions: validSize(size)
+     * Postcondition:
      * @param size
      */
     void setSize(const string &size);
@@ -289,6 +309,7 @@ public:
 
     /**
      * Sets the opperation time of the airplane
+     * Postcondition:
      * @param opperationTime
      */
     void setOpperationTime(int opperationTime);
@@ -368,18 +389,6 @@ public:
     void execTask(Airport* Port);
 
     /**
-     * Finish the current task
-     * @param Port
-     */
-    void finishtask(Airport* Port);
-
-    /**
-     * Initialize the next task
-     * @param Port
-     */
-    void nextTask(Airport* Port);
-
-    /**
      * Get the destination of this airplane
      * @return string
      */
@@ -442,6 +451,7 @@ public:
     /**
      * Set the squawk code of this plane
      * If none was given, it will generate an appropriate code
+     * Postconditions:
      * @param code
      */
     void setSquawkCode(int code = 0);
@@ -454,6 +464,7 @@ public:
 
     /**
      * Set the flight plan of this airplane
+     * Postconditions:
      * @param Flight
      */
     void setFlightPlan(FlightPlan *Flight);
@@ -465,18 +476,6 @@ public:
     FlightPlan * getFlightPlan() const;
 
     /**
-     * Get the airport the plane is currently in
-     * @return Airport*
-     */
-    Airport *getAirPort() const;
-
-    /**
-     * Set the airport the plane is in
-     * @param airPort
-     */
-    void setAirPort(Airport *airPort);
-
-    /**
      * Get the runway the airplane is trying to go to.
      * @return Runway
      */
@@ -484,6 +483,7 @@ public:
 
     /**
      * Set the runway the airplane is trying to go to.
+     * Postconditions:
      * @param attemptRunway
      */
     void setAttemptRunway(Runway *attemptRunway);
@@ -496,6 +496,7 @@ public:
 
     /**
      * Set the taxiRoute the plane is taking
+     * Postconditions:
      * @param taxiRoute
      */
     void setTaxiRoute(TaxiRoute *taxiRoute);
@@ -508,6 +509,7 @@ public:
 
     /**
      * set the taxipoint the plane is on
+     * Postconditions:
      * @param taxiPoint
      */
     void setTaxiPoint(const string &taxiPoint);
@@ -520,6 +522,7 @@ public:
 
     /**
      * Set the taxiCrossing the plane is on
+     * Postconditions:
      * @param taxiCrossing
      */
     void setTaxiCrossing(const string &taxiCrossing);
@@ -532,6 +535,7 @@ public:
 
     /**
      * Set if the IFR authorized the plane to initialize the departure procedure
+     * Postconditions:
      * @param IFRAuthorized 
      */
     void setIFRAuthorized(bool IFRAuthorized);
@@ -544,6 +548,7 @@ public:
 
     /**
      * Set if pushnack from gate is allowed
+     * Postconditions:
      * @param pushback 
      */
     void setPushback(bool pushback);
@@ -556,6 +561,7 @@ public:
 
     /**
      * Set if a request message was send for the upcoming task
+     * Postconditions:
      * @param requestMessageSend
      */
     void setRequestMessageSend(bool requestMessageSend);
@@ -568,18 +574,19 @@ public:
 
     /**
      * Set if the ATC send the airplane an instruction message for the upcoming task
+     * Postconditions:
      * @param messageMessageSend
      */
     void setMessageMessageSend(bool messageMessageSend);
 
     /**
-     * Check if the airplane send a confirmation message notifying the ATC it will perfor it's instructions
+     * Check if the airplane send a confirmation message notifying the ATC it will perform it's instructions
      * @return bool
      */
     bool isConfirmMessageSend() const;
 
     /**
-     * Set if the airplane send a confirmation message notifying the ATC it will perfor it's instructions
+     * Set if the airplane send a confirmation message notifying the ATC it will perform it's instructions
      * @param confirmMessageSend
      */
     void setConfirmMessageSend(bool confirmMessageSend);
@@ -726,7 +733,7 @@ public:
 };
 
 void setTime(string);
-const string & getTime();
+string getTime();
 
 void setTimePassed(int time);
 int getTimePassed();

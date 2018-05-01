@@ -1,59 +1,33 @@
-// author: Ronken Christoph & Van Hautte Olivier
-// date: 02/05/2018
-// version: 2.0
+//
+// Created by oliviervh on 12.04.18.
+//
 
 #ifndef PSE_V1_TAXIROUTE_H
 #define PSE_V1_TAXIROUTE_H
 #include <vector>
 #include <string>
+#include "DesignByContract.h"
 
 using namespace std;
 
 class TaxiRoute {
+    vector<string> taxipoints;
+    vector<string> taxicrossings;
     TaxiRoute* self;
-
-    vector<string> taxiPoints;
-    vector<string> taxiCrossings;
-
 
 public:
 
     TaxiRoute();
 
-    /**
-     * Adds a new taxiPoint
-     * @param taxiPoint
-     */
-    void addTaxiPoint(const string &taxiPoint);
+    void addTaxiPoint(string taxipoint);
 
-    /**
-     * Adds a new taxiCrossing
-     * @param taxiCrossing
-     */
-    void addCrossing(const string &taxiCrossing);
+    void addCrossing(string crossing);
 
-    /**
-     * Get a vector with all taxipoints
-     * @return taxipoints
-     */
     vector<string> getTaxiPoints();
-
-    /**
-     * Get a vector with all taxicrossings
-     * @return taxicrossings
-     */
     vector<string> getTaxiCrossings();
 
-    /**
-     * Check if the TaxiRoute is properly initialised
-     * @return bool
-     */
     bool propperlyInitialised();
 
-    /**
-     * Check if the values of the TaxiRoute are propperly initialised
-     * @return bool
-     */
     bool isValid();
 
 

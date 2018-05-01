@@ -1,6 +1,6 @@
-// author: Ronken Christoph & Van Hautte Olivier
-// date: 02/05/2018
-// version: 2.0
+//
+// Created by oliviervh on 12.04.18.
+//
 
 #include "TaxiRoute.h"
 
@@ -8,29 +8,32 @@ TaxiRoute::TaxiRoute(){
     self = this;
 }
 
-void TaxiRoute::addTaxiPoint(const string &taxiPoint){
-    TaxiRoute::taxiPoints.push_back(taxiPoint);
+void TaxiRoute::addTaxiPoint(string taxipoint){
+    TaxiRoute::taxipoints.push_back(taxipoint);
+    ENSURE(TaxiRoute::getTaxiPoints()[TaxiRoute::getTaxiPoints().size()] == taxipoint, "" );
 }
 
-void TaxiRoute::addCrossing(const string &taxiCrossing){
-    TaxiRoute::taxiCrossings.push_back(taxiCrossing);
+void TaxiRoute::addCrossing(string crossing){
+    TaxiRoute::taxicrossings.push_back(crossing);
+    ENSURE(TaxiRoute::getTaxiCrossings()[TaxiRoute::getTaxiCrossings().size()] == crossing, "" );
 }
 
 vector<string> TaxiRoute::getTaxiPoints(){
-    return TaxiRoute::taxiPoints;
+    return TaxiRoute::taxipoints;
 }
 
 vector<string> TaxiRoute::getTaxiCrossings(){
-    return TaxiRoute::taxiCrossings;
+    return TaxiRoute::taxicrossings;
 }
 
 bool TaxiRoute::propperlyInitialised() {
-    return (this == TaxiRoute::self);
+    return (this == self);
 }
 
 bool TaxiRoute::isValid() {
     if (propperlyInitialised()){
-        return !TaxiRoute::taxiPoints.empty();
+        return taxipoints.size() != 0;
+
     }
     return false;
 }
