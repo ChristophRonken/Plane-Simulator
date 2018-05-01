@@ -55,224 +55,224 @@ void logMessage(const string &str){
 
 
 //Landing messages
-void initialCommunicationMessage(Airplane* plane, Airport* airport, const string &time){
+void initialCommunicationMessage(Airplane* airplane, Airport* airport, const string &time){
 
     gOutputCommunicationLog << "[" << time << "][AIR]\n"
-                 << "$ " << airport->getCallsign() << ", " << plane->getCallsign() << ", arriving at " << airport->getName() << ".\n";
+                 << "$ " << airport->getCallsign() << ", " << airplane->getCallsign() << ", arriving at " << airport->getName() << ".\n";
 
 };
 
-void descendTo5000ftMessage(Airplane* plane, const string &time){
+void descendTo5000ftMessage(Airplane* airplane, const string &time){
 
     gOutputCommunicationLog << "[" << time << "][ATC]\n"
-                 << "$" << plane->getCallsign() << ", radar contact, descend and maintain five thousand feet, squawk " << plane->getSquawkCode() << ".\n";
+                 << "$" << airplane->getCallsign() << ", radar contact, descend and maintain five thousand feet, squawk " << airplane->getSquawkCode() << ".\n";
 
 
 };
-void descendTo5000ftConfirmation(Airplane* plane, const string &time){
+void descendTo5000ftConfirmation(Airplane* airplane, const string &time){
 
     gOutputCommunicationLog << "[" << time << "][AIR]\n"
-                 << "$ Descend and maintain five thousand feet, squawking " << plane->getSquawkCode() << ", " << plane->getCallsign() << ".\n";
+                 << "$ Descend and maintain five thousand feet, squawking " << airplane->getSquawkCode() << ", " << airplane->getCallsign() << ".\n";
 
 };
 
-void waitBeforeDescendMessage(Airplane* plane, const string &time){
+void waitBeforeDescendMessage(Airplane* airplane, const string &time){
 
     gOutputCommunicationLog << "[" << time << "][ATC]\n"
-                 << "$ " << plane->getCallsign() << ", hold south on the one eighty radial, expect further clearance at " << time << ".\n";
+                 << "$ " << airplane->getCallsign() << ", hold south on the one eighty radial, expect further clearance at " << time << ".\n";
 
 
 
 
 };
-void waitBeforeDescendConfirmation(Airplane* plane, const string &time){
+void waitBeforeDescendConfirmation(Airplane* airplane, const string &time){
 
     gOutputCommunicationLog << "[" << time << "][AIR]\n"
-                 << "$ Holding south on the one eighty radial, " << plane->getCallsign() << ".\n";
+                 << "$ Holding south on the one eighty radial, " << airplane->getCallsign() << ".\n";
 
 
 };
 
-void descendTo3000ftMessage(Airplane* plane, const string &time){
+void descendTo3000ftMessage(Airplane* airplane, const string &time){
 
     gOutputCommunicationLog << "[" << time << "][ATC]\n"
-                 << "$" << plane->getCallsign() << ", radar contact, descend and maintain three thousand feet.\n";
+                 << "$" << airplane->getCallsign() << ", radar contact, descend and maintain three thousand feet.\n";
 
 
 };
-void descendTo3000ftConfirmation(Airplane* plane, const string &time){
+void descendTo3000ftConfirmation(Airplane* airplane, const string &time){
 
     gOutputCommunicationLog << "[" << time << "][AIR]\n"
-                 << "$ Descend and maintain five thousand feet, " << plane->getCallsign() << ".\n";
+                 << "$ Descend and maintain five thousand feet, " << airplane->getCallsign() << ".\n";
 
 };
 
 
-void finalApproachMessage(Airplane* plane, Runway* runway, const string &time){
+void finalApproachMessage(Airplane* airplane, Runway* runway, const string &time){
 
     gOutputCommunicationLog << "[" << time << "][ATC]\n"
-                 << "$" << plane->getCallsign() << ", cleared ILS approach runway" << runway->getName() << ".\n";
+                 << "$" << airplane->getCallsign() << ", cleared ILS approach runway" << runway->getName() << ".\n";
 
 
 };
-void finalApproachConfirmation(Airplane* plane, Runway* runway, const string &time){
+void finalApproachConfirmation(Airplane* airplane, Runway* runway, const string &time){
 
     gOutputCommunicationLog << "[" << time << "][AIR]\n"
-                 << "$ Cleared ILS approach runway " << runway->getName() << ", " << plane->getCallsign() << ".\n";
+                 << "$ Cleared ILS approach runway " << runway->getName() << ", " << airplane->getCallsign() << ".\n";
 
 };
 
-void afterLandingMessage(Airplane* plane, Airport* airport, Runway* runway, const string &time){
+void afterLandingMessage(Airplane* airplane, Airport* airport, Runway* runway, const string &time){
 
     gOutputCommunicationLog << "[" << time << "][AIR]\n"
-                 << "$ " << airport->getCallsign() << ", " << plane->getCallsign() << ", runway " << runway->getName() << "vacated.\n";
+                 << "$ " << airport->getCallsign() << ", " << airplane->getCallsign() << ", runway " << runway->getName() << "vacated.\n";
 
 };
 
 
 //Take off messages
-void IFRRequest(Airplane* plane, const string &time){
+void IFRRequest(Airplane* airplane, const string &time){
 
     gOutputCommunicationLog << "[" << time << "][AIR]\n"
-                 << "$ " << plane->getAirport()->getCallsign() << ", " << plane->getCallsign() << ", requesting IFR clearancy to " << plane->getDestination() << ".\n";
+                 << "$ " << airplane->getAirport()->getCallsign() << ", " << airplane->getCallsign() << ", requesting IFR clearancy to " << airplane->getDestination() << ".\n";
 
 
 };
-void IFRMessage(Airplane* plane, const string &time){
+void IFRMessage(Airplane* airplane, const string &time){
 
     gOutputCommunicationLog << "[" << time << "][ATC]\n"
-                 << "$ " << plane->getCallsign() << ", " << plane->getAirport()->getCallsign() << ", cleared to " << plane->getDestination() << ", maintain five thousand, "
-                    "expect flight level one zero zero - ten minutes after departure, squawk " << plane->getSquawkCode() << ".\n";
+                 << "$ " << airplane->getCallsign() << ", " << airplane->getAirport()->getCallsign() << ", cleared to " << airplane->getDestination() << ", maintain five thousand, "
+                    "expect flight level one zero zero - ten minutes after departure, squawk " << airplane->getSquawkCode() << ".\n";
 
 };
-void IFRConfirmation(Airplane* plane, const string &time){
+void IFRConfirmation(Airplane* airplane, const string &time){
 
     gOutputCommunicationLog << "[" << time << "][AIR]\n"
-                 << "Cleared to " << plane->getDestination() << ", initial altitude five thousand, expecting one zero zero in ten, squawking "
-                 << plane->getSquawkCode() << ", " << plane->getCallsign() << ".\n";
+                 << "Cleared to " << airplane->getDestination() << ", initial altitude five thousand, expecting one zero zero in ten, squawking "
+                 << airplane->getSquawkCode() << ", " << airplane->getCallsign() << ".\n";
 
 };
 
-void pushbackRequest(Airplane* plane, const string &time){
+void pushbackRequest(Airplane* airplane, const string &time){
 
     gOutputCommunicationLog << "[" << time << "][AIR]\n"
-                 << "$ " << plane->getAirport()->getCallsign() << ", " << plane->getCallsign() << " at gate " << plane->getGate() << ", requesting pushback.\n";
+                 << "$ " << airplane->getAirport()->getCallsign() << ", " << airplane->getCallsign() << " at gate " << airplane->getGate() << ", requesting pushback.\n";
 
 };
-void pushbackMessage(Airplane* plane, const string &time){
+void pushbackMessage(Airplane* airplane, const string &time){
 
     gOutputCommunicationLog << "[" << time << "][ATC]\n"
-                 << "$ " << plane->getCallsign() << ", " << plane->getAirport()->getCallsign() << ", pushback approved.\n";
+                 << "$ " << airplane->getCallsign() << ", " << airplane->getAirport()->getCallsign() << ", pushback approved.\n";
 
 };
-void pushbackConfirmation(Airplane* plane, const string &time){
+void pushbackConfirmation(Airplane* airplane, const string &time){
 
     gOutputCommunicationLog << "[" << time << "][AIR]\n"
-                 << "$ Pushback approved, " << plane->getCallsign() << ".\n";
+                 << "$ Pushback approved, " << airplane->getCallsign() << ".\n";
 
 };
 
-void readyToTaxiMessage(Airplane* plane, const string &time){
+void readyToTaxiMessage(Airplane* airplane, const string &time){
 
     gOutputCommunicationLog << "[" << time << "][AIR]\n"
-                 << "$ " << plane->getCallsign() << " is ready to taxi.\n";
+                 << "$ " << airplane->getCallsign() << " is ready to taxi.\n";
 
 };
 
-void holdingShortAtRunway(Airplane* plane, Runway* runway, const string &time){
+void holdingShortAtRunway(Airplane* airplane, Runway* runway, const string &time){
 
     gOutputCommunicationLog << "[" << time << "][AIR]\n"
-                 << "$ " << plane->getAirport()->getCallsign() << ", " << plane->getCallsign() << ", holding short at " << runway->getName() << ".\n";
+                 << "$ " << airplane->getAirport()->getCallsign() << ", " << airplane->getCallsign() << ", holding short at " << runway->getName() << ".\n";
 
 };
 
-void waitAtRunwayMessage(Airplane* plane, const string &time){
+void waitAtRunwayMessage(Airplane* airplane, const string &time){
 
     gOutputCommunicationLog << "[" << time << "][ATC]\n"
-                 << "$ " << plane->getCallsign() << ", hold position.\n";
+                 << "$ " << airplane->getCallsign() << ", hold position.\n";
 };
-void waitAtRunwayConfirmation(Airplane* plane, const string &time){
+void waitAtRunwayConfirmation(Airplane* airplane, const string &time){
 
     gOutputCommunicationLog << "[" << time << "][AIR]\n"
-                 << "$ Holding position, " << plane->getCallsign() << ".\n";
+                 << "$ Holding position, " << airplane->getCallsign() << ".\n";
 
 };
 
-void lineUpRunwayMessage(Airplane* plane, Runway* runway, const string &time){
+void lineUpRunwayMessage(Airplane* airplane, Runway* runway, const string &time){
 
     gOutputCommunicationLog << "[" << time << "][ATC]\n"
-                 << "$ " << plane->getCallsign() << ", line-up runway " << runway->getName() << " and wait.\n";
+                 << "$ " << airplane->getCallsign() << ", line-up runway " << runway->getName() << " and wait.\n";
 
 };
-void lineUpRunwayConfirmation(Airplane* plane, Runway* runway, const string &time){
+void lineUpRunwayConfirmation(Airplane* airplane, Runway* runway, const string &time){
 
     gOutputCommunicationLog << "[" << time << "][AIR]\n"
-                 << "$ Lining up runway " << runway->getName() << " and wait" << plane->getCallsign();
+                 << "$ Lining up runway " << runway->getName() << " and wait" << airplane->getCallsign();
 
 };
 
-void clearedForTakeOffMessage(Airplane* plane, Runway* runway, const string &time){
+void clearedForTakeOffMessage(Airplane* airplane, Runway* runway, const string &time){
 
     gOutputCommunicationLog << "[" << time << "][ATC]\n"
-                 << "$ " << plane->getCallsign() << ", runway " << runway->getName() << " cleared for take-off.\n";
+                 << "$ " << airplane->getCallsign() << ", runway " << runway->getName() << " cleared for take-off.\n";
 };
-void clearedForTakeOffConfirmation(Airplane* plane, Runway* runway, const string &time){
+void clearedForTakeOffConfirmation(Airplane* airplane, Runway* runway, const string &time){
 
     gOutputCommunicationLog << "[" << time << "][AIR]\n"
-                 << "$ Runway " << runway->getName() << "cleared for take-off, " << plane->getCallsign() << ".\n";
+                 << "$ Runway " << runway->getName() << "cleared for take-off, " << airplane->getCallsign() << ".\n";
 
 };
 
 
 //Taxiing
-void toHoldingPointMessage(Airplane* plane, const string &taxiCrossing, const string &taxiPoint, const string &time){
+void toHoldingPointMessage(Airplane* airplane, const string &taxiCrossing, const string &taxiPoint, const string &time){
 
     gOutputCommunicationLog << "[" << time << "][ATC]\n"
-                 << "$ " << plane->getCallsign() << ", taxi to holding point " << taxiCrossing  << " via " << taxiPoint << ".\n";
+                 << "$ " << airplane->getCallsign() << ", taxi to holding point " << taxiCrossing  << " via " << taxiPoint << ".\n";
 
 };
-void toHoldingPointConfirmation(Airplane* plane, const string &taxiCrossing, const string &taxiPoint, const string &time){
+void toHoldingPointConfirmation(Airplane* airplane, const string &taxiCrossing, const string &taxiPoint, const string &time){
 
     gOutputCommunicationLog << "[" << time << "][AIR]\n"
-                 << "$ Taxi to holding point " << taxiCrossing << " via " << taxiPoint << ", " << plane->getCallsign() << ".\n";
+                 << "$ Taxi to holding point " << taxiCrossing << " via " << taxiPoint << ", " << airplane->getCallsign() << ".\n";
 
 };
 
-void toRunwayMessage(Airplane* plane, Runway* runway, const string &taxiPoint, const string &time){
+void toRunwayMessage(Airplane* airplane, Runway* runway, const string &taxiPoint, const string &time){
 
     gOutputCommunicationLog << "[" << time << "][ATC]\n"
-                 << "$ " << plane->getCallsign() << ", taxi to runway " << runway->getName() << " via " << taxiPoint << ".\n";
+                 << "$ " << airplane->getCallsign() << ", taxi to runway " << runway->getName() << " via " << taxiPoint << ".\n";
 };
-void toRunwayConfirmation(Airplane* plane, Runway* runway, const string &taxiPoint, const string &time){
+void toRunwayConfirmation(Airplane* airplane, Runway* runway, const string &taxiPoint, const string &time){
 
     gOutputCommunicationLog << "[" << time << "][AIR]\n"
-                 << "$ Taxi to runway " << runway->getName() << " via " << taxiPoint << ", " << plane->getCallsign() << ".\n";
+                 << "$ Taxi to runway " << runway->getName() << " via " << taxiPoint << ", " << airplane->getCallsign() << ".\n";
 
 };
 
-void toGateMessage(Airplane* plane, int gateIndex,  const string &taxiPoint, const string &time){
+void toGateMessage(Airplane* airplane, int gateIndex,  const string &taxiPoint, const string &time){
 
     gOutputCommunicationLog << "[" << time << "][ATC]\n"
-                 << "$ " << plane->getCallsign() << ", taxi to gate " << gateIndex << " via " << taxiPoint << ".\n";
+                 << "$ " << airplane->getCallsign() << ", taxi to gate " << gateIndex << " via " << taxiPoint << ".\n";
 
 };
-void toGateConfirmation(Airplane* plane, int gateIndex,  const string &taxiPoint, const string &time){
+void toGateConfirmation(Airplane* airplane, int gateIndex,  const string &taxiPoint, const string &time){
 
     gOutputCommunicationLog << "[" << time << "][AIR]\n"
-                 << "$ Taxi to gate " << gateIndex << " via " << taxiPoint << ", " << plane->getCallsign() << ".\n";
+                 << "$ Taxi to gate " << gateIndex << " via " << taxiPoint << ", " << airplane->getCallsign() << ".\n";
 
 };
 
-void clearedToCrossRequest(Airplane* plane, const string &taxiCrossing, const string &time ){
+void clearedToCrossRequest(Airplane* airplane, const string &taxiCrossing, const string &time ){
 
     gOutputCommunicationLog << "[" << time << "][AIR]\n"
-                 << "$ " << plane->getAirport()->getCallsign() << ", " << plane->getCallsign() << ", holding short at  " << taxiCrossing << ".\n";
+                 << "$ " << airplane->getAirport()->getCallsign() << ", " << airplane->getCallsign() << ", holding short at  " << taxiCrossing << ".\n";
 
 };
-void clearedToCrossMessage(Airplane* plane, const string &taxiCrossing, const string &time ){
+void clearedToCrossMessage(Airplane* airplane, const string &taxiCrossing, const string &time ){
 
     gOutputCommunicationLog << "[" << time << "][ATC]\n"
-                 << "$ " << plane->getCallsign() << ", cleared to cross " << taxiCrossing << ".\n";
+                 << "$ " << airplane->getCallsign() << ", cleared to cross " << taxiCrossing << ".\n";
 
 };
 void clearedToCrossConfirmation(const string &taxiCrossing, const string &time ){
@@ -284,30 +284,30 @@ void clearedToCrossConfirmation(const string &taxiCrossing, const string &time )
 
 
 //Emergency
-void EmergencyAbove3000ftRequest(Airplane* plane, Airport* airport, const string &time){
+void EmergencyAbove3000ftRequest(Airplane* airplane, Airport* airport, const string &time){
 
     gOutputCommunicationLog << "[" << time << "][AIR]"
-                 << "$ Mayday, mayday, mayday, " << airport->getCallsign() << ", " << plane->getCallsign() << ", out of fuel, request immidiate landing, "
-                 << plane->getPassengers() << " passengers on board.\n";
+                 << "$ Mayday, mayday, mayday, " << airport->getCallsign() << ", " << airplane->getCallsign() << ", out of fuel, request immidiate landing, "
+                 << airplane->getPassengers() << " passengers on board.\n";
 
 };
-void EmergencyAbove3000ftMessage(Airplane* plane, Runway* runway, const string &time){
+void EmergencyAbove3000ftMessage(Airplane* airplane, Runway* runway, const string &time){
 
     gOutputCommunicationLog << "[" << time << "][ATC]"
-                 << "$ " << plane->getCallsign() << ", roger mayday, squawk seven seven zero zero, cleared ILS landing runway " << runway->getName() << ".\n";
+                 << "$ " << airplane->getCallsign() << ", roger mayday, squawk seven seven zero zero, cleared ILS landing runway " << runway->getName() << ".\n";
 
 };
-void EmergencyBelow3000ftRequest(Airplane* plane, Airport* airport, const string &time){
+void EmergencyBelow3000ftRequest(Airplane* airplane, Airport* airport, const string &time){
 
     gOutputCommunicationLog << "[" << time << "][AIR]"
-                 << "$ Mayday, mayday, mayday, " << airport->getCallsign() << ", " << plane->getCallsign() << ", out of fuel, performing emergency landing, "
-                 << plane->getPassengers() << " passengers on board.\n";
+                 << "$ Mayday, mayday, mayday, " << airport->getCallsign() << ", " << airplane->getCallsign() << ", out of fuel, performing emergency landing, "
+                 << airplane->getPassengers() << " passengers on board.\n";
 
 };
-void EmergencyBelow3000ftMessage(Airplane* plane, const string &time){
+void EmergencyBelow3000ftMessage(Airplane* airplane, const string &time){
 
     gOutputCommunicationLog << "[" << time << "][ATC]"
-                 << "$ " << plane->getCallsign() << ", roger mayday, squawk seven seven zero zero, emergency personal on standby, good luck!\n";
+                 << "$ " << airplane->getCallsign() << ", roger mayday, squawk seven seven zero zero, emergency personal on standby, good luck!\n";
 
 };
 
