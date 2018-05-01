@@ -235,11 +235,11 @@ SuccessEnum AirportHandler::addXmlData(string fileName) {
                                 if (SubAttName == "taxipoint") {
                                     Taxi->addTaxiPoint(SubAttValue);
                                 } else if (SubAttName == "crossing") {
-                                    for (int i = 0; i < (signed) Runw->getAirport()->Runways.size(); i++) {
-                                        if (Runw->getAirport()->Runways[i]->getName() == SubAttValue) {
+                                    for (int i = 0; i < (signed) Runw->getAirport()->getRunways().size(); i++) {
+                                        if (Runw->getAirport()->getRunways()[i]->getName() == SubAttValue) {
                                             Taxi->addCrossing(SubAttValue);
                                             break;
-                                        } else if (i == (signed) Runw->getAirport()->Runways.size() - 1) {
+                                        } else if (i == (signed) Runw->getAirport()->getRunways().size() - 1) {
                                             errStream << "XML PARTIAL IMPORT: failed to create taxipoint.\n";
                                             endResult =  PartialImport;
 

@@ -29,13 +29,13 @@ class Airport {
 
     int gates;
 
-    vector<bool> GatesOccupied;
+    vector<bool> gatesOccupied;
 
     Airplane* wait5000;
     Airplane* wait3000;
 
 public:
-    vector<Runway*> Runways;
+    vector<Runway*> runways;
 
     Airport();
 
@@ -133,10 +133,10 @@ public:
 
     /**
      * sets the var of the airport
-     * @param Type of the var
-     * @param Value of the var
+     * @param type of the var
+     * @param value of the var
      */
-    void setVar(string Type, string Value);
+    void setVar(string type, string value);
 
     /**
      * adds a runway to the airport
