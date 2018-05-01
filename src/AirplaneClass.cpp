@@ -560,15 +560,14 @@ bool Airplane::validLandingSpot(Airport *Port, Runway *Runw) {
 bool Airplane::validGate(int gate) {
 
     if (gate == -1){
-        vector<int> t = airport->getFreeGates();
-        return t.size() != 0;
+        return true;
 
     }
 
     if (!(gate >= 0 && gate < airport->getGates())){
         return false;
     }
-    return !airport->getGateOccupied(gate);
+    return !airport->getGateOccupied(gate) || attemptgate == gate;
 
 }
 
@@ -867,7 +866,7 @@ bool Airplane::atAirport() {
 
 bool Airplane::atGate() {
 
-    return state == "Standing at gate" && gate >= 0;
+    return gate >= 0;
 
 
 }
@@ -1208,7 +1207,7 @@ void Airplane::taxiToGate(int gate){
                     else{
                         messageMessageSend = false;
                         confirmMessageSend = false;
-                        setGate(attemptgate);
+                        //setGate(attemptgate);
                         opperationTime = 1;
                         Airplane::onitsway = false;
                         currentTask = "exit passengers";
@@ -2043,6 +2042,15 @@ string Airplane::getInfo() {
           + "->size:\t" + size + "\n";
 
     return str;
+}
+
+int Airplane::getAttemptgate() const {
+    return attemptgate;
+}
+
+void Airplane::setAttemptgate(int attemptgate) {
+    Airplane::attemptgate = attemptgate;
+    ENSURE(Airplane::getAttemptgate() == attemptgate, "attempt gate set");
 }
 
 

@@ -619,6 +619,10 @@ public:
      */
     void setTaxiRequest(bool taxiRequest);
 
+    int getAttemptgate() const;
+
+    void setAttemptgate(int attemptgate);
+
     /**
      * Check if the airplane has permission to descend
      * @param height
