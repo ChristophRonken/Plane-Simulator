@@ -5,15 +5,15 @@
 #include "TaxiRoute.h"
 
 TaxiRoute::TaxiRoute(){
-    self = this;
+    TaxiRoute::self = this;
 }
 
-void TaxiRoute::addTaxiPoint(string taxipoint){
+void TaxiRoute::addTaxiPoint(const string &taxipoint){
     TaxiRoute::taxipoints.push_back(taxipoint);
     ENSURE(TaxiRoute::getTaxiPoints()[TaxiRoute::getTaxiPoints().size()-1] == taxipoint, "" );
 }
 
-void TaxiRoute::addCrossing(string crossing){
+void TaxiRoute::addTaxiCrossing(const string &crossing){
     TaxiRoute::taxicrossings.push_back(crossing);
     ENSURE(TaxiRoute::getTaxiCrossings()[TaxiRoute::getTaxiCrossings().size()-1] == crossing, "" );
 }
@@ -26,12 +26,12 @@ vector<string> TaxiRoute::getTaxiCrossings(){
     return TaxiRoute::taxicrossings;
 }
 
-bool TaxiRoute::propperlyInitialised() {
+bool TaxiRoute::properlyInitialised() {
     return (this == TaxiRoute::self);
 }
 
 bool TaxiRoute::isValid() {
-    if (TaxiRoute::propperlyInitialised()){
+    if (TaxiRoute::properlyInitialised()){
         return !TaxiRoute::taxipoints.empty();
 
     }

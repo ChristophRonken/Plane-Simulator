@@ -97,4 +97,36 @@ namespace {
         EXPECT_TRUE(runway->isValid());
     }
 
+    class TaxiRouteDomain : public ::testing::Test {
+    protected:
+
+        TaxiRouteDomain() {
+
+        }
+
+        virtual void SetUp() {
+            runway = new Runway();
+            taxiRoute = new TaxiRoute();
+        }
+
+        virtual void TearDown() {
+            delete runway;
+            delete taxiRoute;
+        }
+
+        Runway *runway;
+        TaxiRoute* taxiRoute;
+        string myString;
+    };
+
+    TEST_F(TaxiRouteDomain, defaultConstructor) {
+        EXPECT_TRUE(taxiRoute->properlyInitialised());
+    }
+
+    TEST_F(TaxiRouteDomain, isValid) {
+        myString = "point";
+        taxiRoute->addTaxiPoint(myString);
+        EXPECT_TRUE(taxiRoute->isValid());
+    }
+
 }

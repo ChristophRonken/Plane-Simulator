@@ -27,14 +27,14 @@ public:
      * Postconditions: TaxiRoute::getTaxiPoints()[TaxiRoute::getTaxiPoints().size()-1] == taxipoint
      * @param taxipoint
      */
-    void addTaxiPoint(string taxipoint);
+    void addTaxiPoint(const string &taxiPoint);
 
     /**
      * Adds a crossing to the list
      * PostConditions: TaxiRoute::getTaxiCrossings()[TaxiRoute::getTaxiCrossings().size()-1] == crossing
      * @param crossing
      */
-    void addCrossing(string crossing);
+    void addTaxiCrossing(const string &taxiCrossing);
 
     /**
      * Returns the list of taxi points
@@ -52,7 +52,7 @@ public:
      * Checks if the TaxiRoute was propperly initialised
      * @return
      */
-    bool propperlyInitialised();
+    bool properlyInitialised();
 
     /**
      * Checks if the taxiRoute has at least 1 taxipoint and is propperly initialised
