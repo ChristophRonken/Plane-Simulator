@@ -1871,6 +1871,10 @@ void Airplane::initSimulation(Airport *Port) {
     Airplane::messageMessageSend = false;
     Airplane::confirmMessageSend = false;
     Airplane::technicalChecked = false;
+    Airplane::emergencyInAirport = false;
+    Airplane::alreadylinedup = false;
+    Airplane::IFRAuthorized = false;
+    Airplane::pushback = false;
 
     Airplane::setSquawkCode();
 
