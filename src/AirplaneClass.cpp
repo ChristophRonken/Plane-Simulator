@@ -319,9 +319,9 @@ void setTime(string time){
     gTime = time;
     ENSURE(getTime() == time , "gTime set");
 };
-string getTime(){
+const string &getTime(){
 
-    return gTime;
+    return (const string &)gTime;
 
 };
 
@@ -1039,7 +1039,7 @@ void Airplane::taxiToRunway(Runway* runw){
 
     Airplane::onitsway = true;
     runw->setonItsWay(true);
-    string tijd = getTime();
+    const string &tijd = getTime();
     taxiRoute = runw->getTaxiRoute();
 
     if (taxiPoint.empty() && taxiCrossing.empty()){
@@ -1126,7 +1126,7 @@ void Airplane::taxiToRunway(Runway* runw){
                     }
                 }
                 else  if (!confirmMessageSend) {
-                    clearedToCrossConfirmation(this, taxiRoute->getTaxiCrossings()[i], tijd);
+                    clearedToCrossConfirmation(taxiRoute->getTaxiCrossings()[i], tijd);
                     confirmMessageSend = true;
                     setOpperationTime(1);
                     return;
@@ -1258,7 +1258,7 @@ void Airplane::taxiToGate(int gate){
                     }
                 }
                 else  if (!confirmMessageSend) {
-                    clearedToCrossConfirmation(this, taxiRoute->getTaxiCrossings()[i], tijd);
+                    clearedToCrossConfirmation(taxiRoute->getTaxiCrossings()[i], tijd);
                     confirmMessageSend = true;
                     return;
                 }
