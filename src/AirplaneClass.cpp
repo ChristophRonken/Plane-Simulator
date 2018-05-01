@@ -12,223 +12,256 @@ int gStartingTime;
 
 
 Airplane::Airplane() {
-    self = this;
-    gate = -1;
-    runway = NULL;
-    taxiPoint = "";
-    taxiCrossing = "";
-    flightPlan = NULL;
-    attemptRunway = NULL;
+    Airplane::self = this;
+    Airplane::number = "";
+    Airplane::callsign = "";
+    Airplane::model = "";
+    Airplane::state = "";
+    Airplane::type = "";
+    Airplane::engine = "";
+    Airplane::size = "";
+    Airplane::squawkCode = "";
+    Airplane::airport = NULL;
+    Airplane::runway = NULL;
+    Airplane::attemptRunway = NULL;
+    Airplane::gate = 0;
+    Airplane::fuel = 0;
+    Airplane::fuelCapacity = 100000;
+    Airplane::passengers = 0;
+    Airplane::passengerCapacity = 0;
+    Airplane::height = 0;
+    Airplane::operationTime = 0;
+    Airplane::attemptGate = 0;
+    Airplane::currentTask = "";
+    Airplane::flightPlan = NULL;
+    Airplane::taxiRoute = NULL;
+    Airplane::taxiPoint = "";
+    Airplane::taxiCrossing = "";
+    Airplane::technicalChecked = false;
+    Airplane::ifrAuthorized = false;
+    Airplane::pushback = false;
+    Airplane::requestMessageSend = false;
+    Airplane::messageMessageSend = false;
+    Airplane::confirmMessageSend = false;
+    Airplane::taxiRequest = false;
+    Airplane::emergencyInAirport = false;
+    Airplane::crossed = false;
+    Airplane::alreadyLinedUp = false;
+    Airplane::permissionToTakeOff = false;
+    Airplane::waitAtRunway = false;
+    Airplane::waitOnRunway = false;
+    Airplane::onItsWay = false;
+    Airplane::simulationFinished = false;
 
 }
 
 //getters & setters
 const string &Airplane::getNumber() const {
-    return number;
+    return Airplane::number;
 }
 void Airplane::setNumber(const string &number) {
     Airplane::number = number;
-    ENSURE(Airplane::getNumber() == number, "number set");
+    ENSURE(Airplane::number == number, "number set");
 
 }
 
 const string &Airplane::getCallsign() const {
-    return callsign;
+    return Airplane::callsign;
 }
 void Airplane::setCallsign(const string &callsign) {
     Airplane::callsign = callsign;
-    ENSURE(Airplane::getCallsign() == callsign, "callsign set");
+    ENSURE(Airplane::callsign == callsign, "callsign set");
 }
 
 const string &Airplane::getModel() const {
-    return model;
+    return Airplane::model;
 }
 void Airplane::setModel(const string &model) {
     Airplane::model = model;
-    ENSURE(Airplane::getModel() == model, "model set");
+    ENSURE(Airplane::model == model, "model set");
 }
 
 const string &Airplane::getState() const {
-    return state;
+    return Airplane::state;
 }
 void Airplane::setState(const string &state) {
     Airplane::state = state;
-    ENSURE(Airplane::getState() == state, "state set");
+    ENSURE(Airplane::state == state, "state set");
 }
 
 int Airplane::getFuel() const {
-    return fuel;
+    return Airplane::fuel;
 }
 void Airplane::setFuel(int fuel) {
     Airplane::fuel = fuel;
-    ENSURE(Airplane::getFuel() == fuel, "fuel set");
+    ENSURE(Airplane::fuel == fuel, "fuel set");
 }
 
 int Airplane::getHeight() const {
-    return height;
+    return Airplane::height;
 }
 void Airplane::setHeight(int height) {
     Airplane::height = height;
-    ENSURE(Airplane::getHeight() == height, "height set");
+    ENSURE(Airplane::height == height, "height set");
 }
 
 int Airplane::getFuelCapacity() const {
-    return fuelCapacity;
+    return Airplane::fuelCapacity;
 }
 void Airplane::setFuelCapacity(int fuelCapacity) {
     Airplane::fuelCapacity = fuelCapacity;
-    ENSURE(Airplane::getFuelCapacity() == fuelCapacity, "fuel capacity set");
+    ENSURE(Airplane::fuelCapacity == fuelCapacity, "fuel capacity set");
 }
 
 int Airplane::getPassengers() const {
-    return passengers;
+    return Airplane::passengers;
 }
 void Airplane::setPassengers(int passengers) {
     Airplane::passengers = passengers;
-    ENSURE(Airplane::getPassengers() == passengers, "passengers set");
+    ENSURE(Airplane::passengers == passengers, "passengers set");
 }
 
 int Airplane::getPassengerCapacity() const {
-    return passengerCapacity;
+    return Airplane::passengerCapacity;
 }
 void Airplane::setPassengerCapacity(int passengerCapacity) {
     Airplane::passengerCapacity = passengerCapacity;
-    ENSURE(Airplane::getPassengerCapacity() == passengerCapacity, "passenger capacity set");
+    ENSURE(Airplane::passengerCapacity == passengerCapacity, "passenger capacity set");
 }
 
 Airport *Airplane::getAirport() const {
-    return airport;
+    return Airplane::airport;
 }
 void Airplane::setAirport(Airport *airport){
     Airplane::airport = airport;
-    ENSURE(Airplane::getAirport() == airport, "airport set");
+    ENSURE(Airplane::airport == airport, "airport set");
 
 }
 
 const string &Airplane::getType() const {
-    return type;
+    return Airplane::type;
 }
 void Airplane::setType(const string &type) {
-    REQUIRE(validPlaneType(type), "Valid type?");
+    REQUIRE(Airplane::validPlaneType(type), "Valid type?");
     Airplane::type = type;
-    ENSURE( Airplane::getType() == type, "type set");
+    ENSURE( Airplane::type == type, "type set");
 }
 
 const string &Airplane::getEngine() const {
-    return engine;
+    return Airplane::engine;
 }
 void Airplane::setEngine(const string &engine) {
-    REQUIRE(validEngineType(engine), "valid Engine");
+    REQUIRE(Airplane::validEngineType(engine), "valid Engine");
     Airplane::engine = engine;
-    ENSURE(Airplane::getEngine() == engine, "engine set");
+    ENSURE(Airplane::engine == engine, "engine set");
 
 }
 
 const string &Airplane::getSize() const {
-    return size;
+    return Airplane::size;
 }
 void Airplane::setSize(const string &size) {
-    REQUIRE(validSize(size), "valid size");
+    REQUIRE(Airplane::validSize(size), "valid size");
     Airplane::size = size;
-    ENSURE(Airplane::getSize() == size, "size set");
+    ENSURE(Airplane::size == size, "size set");
 }
 
 int Airplane::getOperationTime() const {
-    return operationTime;
+    return Airplane::operationTime;
 }
 void Airplane::setOperationTime(int operationTime) {
     Airplane::operationTime = operationTime;
-    ENSURE(Airplane::getOperationTime() == operationTime, "operation time set");
+    ENSURE(Airplane::operationTime == operationTime, "operation time set");
 }
 
 Runway *Airplane::getRunway() const {
-    return runway;
+    return Airplane::runway;
 }
 void Airplane::setRunway(Runway *runway) {
     Airplane::runway = runway;
-    ENSURE(Airplane::getRunway() == runway, "runway set");
+    ENSURE(Airplane::runway == runway, "runway set");
 
 }
 
 int Airplane::getGate() const {
-    return gate;
+    return Airplane::gate;
 }
 void Airplane::setGate(int gate) {
-    REQUIRE(validGate(gate), "validGate");
+    REQUIRE(Airplane::Airplane::validGate(gate), "validGate");
     Airplane::gate = gate;
-    ENSURE(Airplane::getGate() == gate, "gate set");
+    ENSURE(Airplane::gate == gate, "gate set");
 }
 
 Runway *Airplane::getAttemptRunway() const {
-    return attemptRunway;
+    return Airplane::attemptRunway;
 }
 void Airplane::setAttemptRunway(Runway * attemptRunway) {
     Airplane::attemptRunway = attemptRunway;
-    ENSURE(Airplane::getAttemptRunway() == attemptRunway, "attempt runway set");
+    ENSURE(Airplane::attemptRunway == attemptRunway, "attempt runway set");
 }
 
 FlightPlan *Airplane::getFlightPlan() const {
-    return flightPlan;
+    return Airplane::flightPlan;
 }
 void Airplane::setFlightPlan(FlightPlan *flightPlan) {
     Airplane::flightPlan = flightPlan;
-    ENSURE(Airplane::getFlightPlan() == flightPlan , "flight plan set");
+    ENSURE(Airplane::flightPlan == flightPlan , "flight plan set");
 }
 
 TaxiRoute *Airplane::getTaxiRoute() const {
-    return taxiRoute;
+    return Airplane::taxiRoute;
 }
 void Airplane::setTaxiRoute(TaxiRoute *taxiRoute) {
     Airplane::taxiRoute = taxiRoute;
-    ENSURE(Airplane::getTaxiRoute() == taxiRoute, "taxiroute set");
+    ENSURE(Airplane::taxiRoute == taxiRoute, "taxiroute set");
 }
 
 const string &Airplane::getTaxiPoint() const {
-    return taxiPoint;
+    return Airplane::taxiPoint;
 }
 void Airplane::setTaxiPoint(const string &taxiPoint) {
     Airplane::taxiPoint = taxiPoint;
-    ENSURE(Airplane::getTaxiPoint() == taxiPoint, "taxi point set");
+    ENSURE(Airplane::taxiPoint == taxiPoint, "taxi point set");
 }
 
 const string &Airplane::getTaxiCrossing() const {
-    return taxiCrossing;
+    return Airplane::taxiCrossing;
 }
 void Airplane::setTaxiCrossing(const string &taxiCrossing) {
     Airplane::taxiCrossing = taxiCrossing;
-    ENSURE(Airplane::getTaxiCrossing() == taxiCrossing, "taxi crossing set");
+    ENSURE(Airplane::taxiCrossing == taxiCrossing, "taxi crossing set");
 }
 
 bool Airplane::isIFRAuthorized() const {
-    return IFRAuthorized;
+    return Airplane::ifrAuthorized;
 }
-void Airplane::setIFRAuthorized(bool IFRAuthorized) {
-    Airplane::IFRAuthorized = IFRAuthorized;
-    ENSURE(Airplane::isIFRAuthorized() == IFRAuthorized , "IFR authorized set");
+void Airplane::setIFRAuthorized(bool ifrAuthorized) {
+    Airplane::ifrAuthorized = ifrAuthorized;
+    ENSURE(Airplane::ifrAuthorized == ifrAuthorized , "IFR authorized set");
 }
 
 bool Airplane::isPushback() const {
-    return pushback;
+    return Airplane::pushback;
 }
 void Airplane::setPushback(bool pushback) {
     Airplane::pushback = pushback;
-    ENSURE(Airplane::isPushback() == pushback , "pushback set");
+    ENSURE(Airplane::pushback == pushback , "pushback set");
 }
 
 bool Airplane::isRequestMessageSend() const {
-    return requestMessageSend;
+    return Airplane::requestMessageSend;
 }
 void Airplane::setRequestMessageSend(bool requestMessageSend) {
     Airplane::requestMessageSend = requestMessageSend;
-    ENSURE(Airplane::isRequestMessageSend() == requestMessageSend , "request message send set");
+    ENSURE(Airplane::requestMessageSend == requestMessageSend , "request message send set");
 }
 
 bool Airplane::isMessageMessageSend() const {
-    return messageMessageSend;
+    return Airplane::messageMessageSend;
 }
 void Airplane::setMessageMessageSend(bool messageMessageSend) {
     Airplane::messageMessageSend = messageMessageSend;
-    ENSURE(Airplane::isMessageMessageSend() == messageMessageSend , "message send set");
+    ENSURE(Airplane::messageMessageSend == messageMessageSend , "message send set");
 }
 
 bool Airplane::isConfirmMessageSend() const {
@@ -236,23 +269,23 @@ bool Airplane::isConfirmMessageSend() const {
 }
 void Airplane::setConfirmMessageSend(bool confirmMessageSend) {
     Airplane::confirmMessageSend = confirmMessageSend;
-    ENSURE(Airplane::isConfirmMessageSend() == confirmMessageSend , "confirm message send set");
+    ENSURE(Airplane::confirmMessageSend == confirmMessageSend , "confirm message send set");
 }
 
 bool Airplane::isTaxiRequest() const {
-    return taxiRequest;
+    return Airplane::taxiRequest;
 }
 void Airplane::setTaxiRequest(bool taxiRequest) {
     Airplane::taxiRequest = taxiRequest;
-    ENSURE(Airplane::isTaxiRequest() == taxiRequest , "taxi request set");
+    ENSURE(Airplane::taxiRequest == taxiRequest , "taxi request set");
 }
 
 bool Airplane::getEmergencyInAirport() const {
-    return emergencyInAirport;
+    return Airplane::emergencyInAirport;
 }
 void Airplane::setEmergencyInAirport(bool emergencyInAirport) {
     Airplane::emergencyInAirport = emergencyInAirport;
-    ENSURE(Airplane::getEmergencyInAirport() == emergencyInAirport, "emergency in airport set");
+    ENSURE(Airplane::emergencyInAirport == emergencyInAirport, "emergency in airport set");
 }
 
 void Airplane::setSquawkCode(int code){
@@ -260,74 +293,73 @@ void Airplane::setSquawkCode(int code){
     int index = 0;
 
     if (code == 0){
-        if (type == "private"){
-            if (size == "small"){
-                index = PrivateSmallSquawk;
+        if (Airplane::type == "private"){
+            if (Airplane::size == "small"){
+                index = privateSmallSquawk;
 
             }else{
-                index = PrivateMediumSquawk;
+                index = privateMediumSquawk;
 
             }
         }
-        if (type == "airline"){
-            if (size == "medium"){
-                if (engine == "propeller"){
-                    index = AirlineMediumPropellerSquawk;
+        if (Airplane::type == "airline"){
+            if (Airplane::size == "medium"){
+                if (Airplane::engine == "propeller"){
+                    index = airlineMediumPropellerSquawk;
 
                 }else{
-                    index = AirlineMediumJetSquawk;
+                    index = airlineMediumJetSquawk;
 
                 }
 
             }else{
-                index = AirlineLargeSquawk;
+                index = airlineLargeSquawk;
 
             }
         }
-        if (type == "military"){
-            index = MilitarySquawk;
+        if (Airplane::type == "military"){
+            index = militarySquawk;
 
         }
-        if (type == "emergency"){
-            index = EmegencySquawk;
+        if (Airplane::type == "emergency"){
+            index = emegencySquawk;
 
         }
 
-        if (index == PrivateSmallSquawk) {
+        if (index == privateSmallSquawk) {
             int randNumb = rand() % 776 + 1;
-            squawkCode = intToString(randNumb);
+            Airplane::squawkCode = intToString(randNumb);
 
         }else{
             int randNumb = rand() % 777;
             int code = 1000*index + randNumb;
-            squawkCode = intToString(code);
+            Airplane::squawkCode = intToString(code);
 
         }
 
     }else{
-        squawkCode = intToString(code);
+        Airplane::squawkCode = intToString(code);
 
     }
 
     ENSURE(!Airplane::getSquawkCode().empty() , "squawkCode set");
 }
 const string &Airplane::getSquawkCode() const {
-    return squawkCode;
+    return Airplane::squawkCode;
 }
 
-void setTime(string time){
+void setTime(const string &time){
     gTime = time;
-    ENSURE(getTime() == time , "gTime set");
+    ENSURE(gTime == time , "gTime set");
 };
 const string &getTime(){
-
-    return (const string &)gTime;
+    return gTime;
 
 };
 
 void setTimePassed(int time){
     gTimePassed = time;
-    ENSURE(getTimePassed() == time, "passed time set");
+    ENSURE(gTimePassed == time, "passed time set");
 
 }
 int getTimePassed(){
@@ -337,7 +369,7 @@ int getTimePassed(){
 
 void setStartingTime(int time){
     gStartingTime = time;
-    ENSURE(getStartingTime() == time , "starting time set");
+    ENSURE(gStartingTime == time , "starting time set");
 
 }
 int getStartingTime(){
@@ -345,79 +377,79 @@ int getStartingTime(){
 
 }
 
-string Airplane::getDestination() {
-    REQUIRE(getFlightPlan() != NULL, "has a flightPlan");
-    return flightPlan->getDestination();
+const string &Airplane::getDestination() {
+    REQUIRE(Airplane::getFlightPlan() != NULL, "has a flightPlan");
+    return Airplane::flightPlan->getDestination();
 }
 
-void Airplane::setVar(string Type, string Value) {
+void Airplane::setVar(const string &type, const string &value) {
 
-    if (Type == "number"){
-        Airplane::setNumber(Value);
+    if (type == "number"){
+        Airplane::setNumber(value);
         return ;
     }
 
-    else if (Type == "model"){
-        Airplane::setModel(Value);
-        return ;
-    }
-
-    else if (Type == "callsign"){
-        Airplane::setCallsign(Value);
+    else if (type == "model"){
+        Airplane::setModel(value);
         return;
     }
 
-    else if (Type == "status"){
-        if (Value == "Gate" || Value == "Approaching" ) {
-            Airplane::setState(Value);
+    else if (type == "callsign"){
+        Airplane::setCallsign(value);
+        return;
+    }
+
+    else if (type == "status"){
+        if (value == "Gate" || value == "Approaching" ) {
+            Airplane::setState(value);
         }
         return;
     }
 
-    else if (Type == "type"){
-        if (validPlaneType(Value)){
-            Airplane::setType(Value);
+    else if (type == "type"){
+        if (Airplane::validPlaneType(value)){
+            Airplane::setType(value);
         }
         return;
     }
 
-    else if (Type == "engine"){
-        if (validEngineType(Value)) {
-            Airplane::setEngine(Value);
+    else if (type == "engine"){
+        if (Airplane::validEngineType(value)) {
+            Airplane::setEngine(value);
             return;
         }
     }
 
-    else if (Type == "size"){
-        if (validSize(Value)) {
-            Airplane::setSize(Value);
+    else if (type == "size"){
+        if (Airplane::validSize(value)) {
+            Airplane::setSize(value);
             return;
         }
     }
 
-    else if (Type == "passengers"){
-        if (isNumber(Value)) {
+    else if (type == "passengers"){
+        if (isNumber(value)) {
             int i;
-            istringstream(Value) >> i;
+            istringstream(value) >> i;
             Airplane::setPassengers(i);
             Airplane::setPassengerCapacity(i);
         }
         return;
     }
 
-    else if (Type == "height"){
-        if (isNumber(Value)) {
+    else if (type == "height"){
+        if (isNumber(value)) {
             int i;
-            istringstream(Value) >> i;
+            istringstream(value) >> i;
             Airplane::setHeight(i);
         }
         return;
     }
 
-    else if (Type == "fuel"){
-        if (isNumber(Value)) {
+    else if (type == "fuel"){
+        if (isNumber(value)) {
             int i;
-            istringstream(Value) >> i;
+            istringstream(value) >> i;
             Airplane::setFuel(i);
             Airplane::setFuelCapacity(i);
         }
@@ -431,67 +463,67 @@ bool Airplane::getsimulationFinished(){
 }
 void Airplane::setsimulationFinished(bool finished){
     Airplane::simulationFinished = finished;
-    ENSURE(Airplane::getsimulationFinished() == finished , "simulation finished set");
+    ENSURE(Airplane::simulationFinished == finished , "simulation finished set");
 }
 
 const string &Airplane::getCurrentTask() const {
-    return currentTask;
+    return Airplane::currentTask;
 }
 void Airplane::setCurrentTask(const string &currentTask) {
     Airplane::currentTask = currentTask;
-    ENSURE(Airplane::getCurrentTask() == currentTask , "currentTask set");
+    ENSURE(Airplane::currentTask == currentTask , "currentTask set");
 }
 
 
 //checks
-bool Airplane::validLandingSpot(Airport *Port, Runway *Runw) {
+bool Airplane::validLandingSpot(Airport *airport, Runway *runway) {
 
-    if (Port == NULL){
+    if (airport == NULL){
         return false;
 
     }
 
-    if (Runw == NULL){
-        vector<int> runw = Port->getFreeRunways();
-        for (int i = 0; (unsigned)i<runw.size(); i++){
-            Runway *runway = Port->getRunways()[i];
-            if (getSize() == "small"){
-                if (getEngine()== "propeller"){
+    if (runway == NULL){
+        vector<int> runway = airport->getFreeRunways();
+        for (int i = 0; (unsigned)i<runway.size(); i++){
+            Runway *runway = airport->getRunways()[i];
+            if (Airplane::size == "small"){
+                if (Airplane::engine == "propeller"){
                     if (runway->getLength() >= 500){
                         return true;
                     }
                     continue;
                 }
-                else if (getEngine()== "jet"){
+                else if (Airplane::engine == "jet"){
                     if (runway->getLength() >= 1000 && runway->getType() == "asphalt"){
                         return true;
                     }
                     continue;
                 }
             }
-            else if (getSize() == "medium"){
+            else if (Airplane::size == "medium"){
                 if (getEngine()== "propeller"){
                     if (runway->getLength() >= 1000 && runway->getType() == "asphalt"){
                         return true;
                     }
                     continue;
                 }
-                else if (getEngine()== "jet"){
+                else if (Airplane::engine == "jet"){
                     if (runway->getLength() >= 2000 && runway->getType() == "asphalt"){
                         return true;
                     }
                     continue;
                 }
             }
-            else if (getSize() == "large"){
-                if (getEngine()== "propeller"){
+            else if (Airplane::size  == "large"){
+                if (Airplane::engine == "propeller"){
                     if (runway->getLength() >= 1500 && runway->getType() == "asphalt"){
                         return true;
                     }
                     continue;
                 }
-                else if (getEngine()== "jet"){
-                    if (runway->getLength() >= cHeightLevelC && runway->getType() == "asphalt"){
+                else if (Airplane::engine == "jet"){
+                    if (runway->getLength() >= kHeightLevelC && runway->getType() == "asphalt"){
                         return true;
                     }
                     continue;
@@ -500,35 +532,17 @@ bool Airplane::validLandingSpot(Airport *Port, Runway *Runw) {
         }
         return false;
     }
-    else if (getSize() == "small"){
-        if (getEngine()== "propeller"){
-            if (Runw->getLength() >= 500 && !Runw->isOccupied()){
+    else if (Airplane::size == "small"){
+        if (Airplane::engine == "propeller"){
+            if (runway->getLength() >= 500 && !runway->isOccupied()){
                 return true;
             }
             else{
                 return false;
             }
         }
-        else if (getEngine()== "jet"){
-            if (Runw->getLength() >= 1000 && Runw->getType() == "asphalt" && !Runw->isOccupied()){
-                return true;
-            }
-            else{
-                return false;
-            }
-        }
-    }
-    else if (getSize() == "medium"){
-        if (getEngine() == "propeller"){
-            if (Runw->getLength() >= 1000 && Runw->getType() == "asphalt" && !Runw->isOccupied()){
-                return true;
-            }
-            else{
-                return false;
-            }
-        }
-        else if (getEngine() == "jet"){
-            if (Runw->getLength() >= 2000 && Runw->getType() == "asphalt" && !Runw->isOccupied()){
+        else if (Airplane::engine == "jet"){
+            if (runway->getLength() >= 1000 && runway->getType() == "asphalt" && !runway->isOccupied()){
                 return true;
             }
             else{
@@ -536,17 +550,35 @@ bool Airplane::validLandingSpot(Airport *Port, Runway *Runw) {
             }
         }
     }
-    else if (getSize() == "large"){
-        if (getEngine() == "propeller"){
-            if (Runw->getLength() >= 1500 && Runw->getType() == "asphalt" && !Runw->isOccupied()){
+    else if (Airplane::size == "medium"){
+        if (Airplane::engine == "propeller"){
+            if (runway->getLength() >= 1000 && runway->getType() == "asphalt" && !runway->isOccupied()){
                 return true;
             }
             else{
                 return false;
             }
         }
-        else if (getEngine() == "jet"){
-            if (Runw->getLength() >= cHeightLevelC && Runw->getType() == "asphalt" && !Runw->isOccupied()){
+        else if (Airplane::engine == "jet"){
+            if (runway->getLength() >= 2000 && runway->getType() == "asphalt" && !runway->isOccupied()){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+    }
+    else if (Airplane::size  == "large"){
+        if (Airplane::engine == "propeller"){
+            if (runway->getLength() >= 1500 && runway->getType() == "asphalt" && !runway->isOccupied()){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        else if (Airplane::engine == "jet"){
+            if (runway->getLength() >= kHeightLevelC && runway->getType() == "asphalt" && !runway->isOccupied()){
                 return true;
             }
             else{
@@ -564,56 +596,56 @@ bool Airplane::validGate(int gate) {
 
     }
 
-    if (!(gate >= 0 && gate < airport->getGates())){
+    if (!(gate >= 0 && gate < Airplane::airport->getGates())){
         return false;
     }
-    return !airport->getGateOccupied(gate) || attemptgate == gate;
+    return !Airplane::airport->getGateOccupied(gate) || Airplane::attemptGate == gate;
 
 }
 
-bool Airplane::validRunway(Runway* Runw){
+bool Airplane::validRunway(Runway* runway){
 
-    if (Runw == NULL){
-        vector<int> runw = airport->getFreeRunways();
-        for (int i = 0; (unsigned)i<runw.size(); i++){
-            Runway *runway = airport->getRunways()[i];
-            if (getSize() == "small"){
-                if (getEngine() == "propeller"){
-                    if (runway->getLength() >= cRunwayLengthA){
+    if (runway == NULL){
+        vector<int> runway = Airplane::airport->getFreeRunways();
+        for (int i = 0; (unsigned)i<runway.size(); i++){
+            Runway *runway = Airplane::airport->getRunways()[i];
+            if (Airplane::size == "small"){
+                if (Airplane::engine == "propeller"){
+                    if (runway->getLength() >= kRunwayLengthA){
                         return true;
                     }
                     continue;
                 }
-                else if (getEngine() == "jet"){
-                    if (runway->getLength() >= cRunwayLengthB && runway->getType() == "asphalt"){
-                        return true;
-                    }
-                    continue;
-                }
-            }
-            else if (getSize() == "medium"){
-                if (getEngine() == "propeller"){
-                    if (runway->getLength() >= cRunwayLengthB && runway->getType() == "asphalt"){
-                        return true;
-                    }
-                    continue;
-                }
-                else if (getEngine() == "jet"){
-                    if (runway->getLength() >= cRunwayLengthD && runway->getType() == "asphalt"){
+                else if (Airplane::engine == "jet"){
+                    if (runway->getLength() >= kRunwayLengthB && runway->getType() == "asphalt"){
                         return true;
                     }
                     continue;
                 }
             }
-            else if (getSize() == "large"){
-                if (getEngine() == "propeller"){
-                    if (runway->getLength() >= cRunwayLengthC && runway->getType() == "asphalt"){
+            else if (Airplane::size == "medium"){
+                if (Airplane::engine == "propeller"){
+                    if (runway->getLength() >= kRunwayLengthB && runway->getType() == "asphalt"){
                         return true;
                     }
                     continue;
                 }
-                else if (getEngine() == "jet"){
-                    if (runway->getLength() >= cHeightLevelC && runway->getType() == "asphalt"){
+                else if (Airplane::engine == "jet"){
+                    if (runway->getLength() >= kRunwayLengthD && runway->getType() == "asphalt"){
+                        return true;
+                    }
+                    continue;
+                }
+            }
+            else if (Airplane::size == "large"){
+                if (Airplane::engine == "propeller"){
+                    if (runway->getLength() >= kRunwayLengthC && runway->getType() == "asphalt"){
+                        return true;
+                    }
+                    continue;
+                }
+                else if (Airplane::engine == "jet"){
+                    if (runway->getLength() >= kHeightLevelC && runway->getType() == "asphalt"){
                         return true;
                     }
                     continue;
@@ -622,35 +654,17 @@ bool Airplane::validRunway(Runway* Runw){
         }
         return false;
     }
-    else if (getSize() == "small"){
-        if (getEngine() == "propeller"){
-            if (Runw->getLength() >= cRunwayLengthA){
+    else if (Airplane::size == "small"){
+        if (Airplane::engine == "propeller"){
+            if (runway->getLength() >= kRunwayLengthA){
                 return true;
             }
             else{
                 return false;
             }
         }
-        else if (getEngine() == "jet"){
-            if (Runw->getLength() >= cRunwayLengthB && Runw->getType() == "asphalt"){
-                return true;
-            }
-            else{
-                return false;
-            }
-        }
-    }
-    else if (getSize() == "medium"){
-        if (getEngine() == "propeller"){
-            if (Runw->getLength() >= cRunwayLengthB && Runw->getType() == "asphalt"){
-                return true;
-            }
-            else{
-                return false;
-            }
-        }
-        else if (getEngine() == "jet"){
-            if (Runw->getLength() >= cRunwayLengthD && Runw->getType() == "asphalt"){
+        else if (Airplane::engine == "jet"){
+            if (runway->getLength() >= kRunwayLengthB && runway->getType() == "asphalt"){
                 return true;
             }
             else{
@@ -658,17 +672,35 @@ bool Airplane::validRunway(Runway* Runw){
             }
         }
     }
-    else if (getSize() == "large"){
-        if (getEngine() == "propeller"){
-            if (Runw->getLength() >= cRunwayLengthC && Runw->getType() == "asphalt"){
+    else if (Airplane::size == "medium"){
+        if (Airplane::engine == "propeller"){
+            if (runway->getLength() >= kRunwayLengthB && runway->getType() == "asphalt"){
                 return true;
             }
             else{
                 return false;
             }
         }
-        else if (getEngine() == "jet"){
-            if (Runw->getLength() >= cRunwayLengthB && Runw->getType() == "asphalt"){
+        else if (Airplane::engine == "jet"){
+            if (runway->getLength() >= kRunwayLengthD && runway->getType() == "asphalt"){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+    }
+    else if (Airplane::size == "large"){
+        if (Airplane::engine == "propeller"){
+            if (runway->getLength() >= kRunwayLengthC && runway->getType() == "asphalt"){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        else if (Airplane::engine == "jet"){
+            if (runway->getLength() >= kRunwayLengthB && runway->getType() == "asphalt"){
                 return true;
             }
             else{
@@ -679,28 +711,28 @@ bool Airplane::validRunway(Runway* Runw){
     return false;
 }
 
-bool Airplane::validPlaneType(string type) {
+bool Airplane::validPlaneType(const string &type) {
 
     if (type != "private" && type != "airline" && type != "military" && type != "emergency"){
         return false;
 
     }
 
-    if (size == "small"){
+    if (Airplane::size == "small"){
 
         if (type == "airline"){
             return false;
 
         }
 
-        if (engine == "propeller"){
+        if (Airplane::engine == "propeller"){
             if (type == "military"){
                 return false;
 
             }
         }
 
-        if (engine == "jet"){
+        if (Airplane::engine == "jet"){
             if (type == "emergency"){
                 return false;
 
@@ -708,13 +740,13 @@ bool Airplane::validPlaneType(string type) {
         }
     }
 
-    if (size == "medium"){
+    if (Airplane::size == "medium"){
         if (type == "military" || type == "emergency"){
             return false;
 
         }
 
-        if (engine == "propeller"){
+        if (Airplane::engine == "propeller"){
             if (type == "private"){
                 return false;
 
@@ -722,20 +754,20 @@ bool Airplane::validPlaneType(string type) {
         }
     }
 
-    if (size == "large") {
+    if (Airplane::size == "large") {
         if (type == "emergency" || type == "private"){
             return false;
 
         }
 
-        if (engine == "jet"){
+        if (Airplane::engine == "jet"){
             if (type == "military"){
                 return false;
 
             }
         }
 
-        if (engine == "propeller" ){
+        if (Airplane::engine == "propeller" ){
             if (type == "airline"){
                 return false;
 
@@ -746,15 +778,15 @@ bool Airplane::validPlaneType(string type) {
     return true;
 }
 
-bool Airplane::validEngineType(string engine) {
+bool Airplane::validEngineType(const string &engine) {
 
     if (engine != "propeller" && engine != "jet"){
         return false;
     }
 
-    if (type == "private"){
+    if (Airplane::type == "private"){
 
-        if (size == "medium"){
+        if (Airplane::size == "medium"){
             if (engine == "propeller"){
                 return false;
 
@@ -764,9 +796,9 @@ bool Airplane::validEngineType(string engine) {
         return true;
     }
 
-    if (type == "airline"){
+    if (Airplane::type == "airline"){
 
-        if (size == "large"){
+        if (Airplane::size == "large"){
             if (engine == "propeller"){
                 return false;
 
@@ -777,17 +809,17 @@ bool Airplane::validEngineType(string engine) {
 
     }
 
-    if (type == "military"){
-        if (size == "small"){
+    if (Airplane::type == "military"){
+        if (Airplane::size == "small"){
             return (engine == "jet");
         }
 
-        if (size == "large") {
+        if (Airplane::size == "large") {
             return (engine == "propeller");
         }
     }
 
-    if (type == "emergency"){
+    if (Airplane::type == "emergency"){
         return (engine == "propeller");
 
     }
@@ -796,15 +828,15 @@ bool Airplane::validEngineType(string engine) {
 
 }
 
-bool Airplane::validSize(string size) {
+bool Airplane::validSize(const string &size) {
 
-    if (type == "private"){
+    if (Airplane::type == "private"){
         if (size == "large"){
             return false;
 
         }
 
-        if (engine == "propeller"){
+        if (Airplane::engine == "propeller"){
             if (size == "medium"){
                 return false;
 
@@ -812,13 +844,13 @@ bool Airplane::validSize(string size) {
         }
     }
 
-    if (type == "airline"){
+    if (Airplane::type == "airline"){
         if (size == "small"){
             return false;
 
         }
 
-        if (engine == "propeller"){
+        if (Airplane::engine == "propeller"){
             if (size == "large"){
                 return false;
 
@@ -826,20 +858,20 @@ bool Airplane::validSize(string size) {
         }
     }
 
-    if (type == "military"){
+    if (Airplane::type == "military"){
         if (size == "medium"){
             return false;
 
         }
 
-        if (engine == "jet"){
+        if (Airplane::engine == "jet"){
             if (size == "large"){
                 return false;
 
             }
         }
 
-        if (engine == "propeller"){
+        if (Airplane::engine == "propeller"){
             if (size == "small"){
                 return false;
 
@@ -847,7 +879,7 @@ bool Airplane::validSize(string size) {
         }
     }
 
-    if (type == "emergency"){
+    if (Airplane::type == "emergency"){
         if (size == "large" || size == "medium"){
             return false;
 
@@ -860,47 +892,47 @@ bool Airplane::validSize(string size) {
 
 bool Airplane::atAirport() {
 
-    return (airport != NULL);
+    return (Airplane::airport != NULL);
 
 }
 
 bool Airplane::atGate() {
 
-    return gate >= 0;
+    return Airplane::gate >= 0;
 
 
 }
 
 bool Airplane::readyForTakeOff() {
-    return (isReadyForDeparture() && Airplane::airport != NULL && Airplane::runway != NULL && Airplane::state == "Waiting for departure");
+    return (Airplane::isReadyForDeparture() && Airplane::airport != NULL && Airplane::runway != NULL && Airplane::state == "Waiting for departure");
 }
 
-bool Airplane::permissionToDescend(int height, Airport* Port, Runway* Runway){
-    if (height == cHeightLevelA){
-        if (Port->getWait5000() == NULL){
-            Port->setWait5000(this);
+bool Airplane::permissionToDescend(int height, Airport* airport, Runway* runway){
+    if (height == Airplane::kHeightLevelA){
+        if (airport->getWait5000() == NULL){
+            airport->setWait5000(this);
             return true;
         }
         else{
             return false;
         }
     }
-    else if (height == cHeightLevelB){
-        if (Port->getWait3000() == NULL){
-            Port->setWait5000(NULL);
-            Port->setWait3000(this);
+    else if (height == Airplane::kHeightLevelB){
+        if (airport->getWait3000() == NULL){
+            airport->setWait5000(NULL);
+            airport->setWait3000(this);
             return true;
         }
         else{
             return false;
         }
     }
-    else if (height == cHeightLevelC){
-        if (Runway->isOccupied()){
+    else if (height == Airplane::kHeightLevelC){
+        if (runway->isOccupied()){
             return false;
         }
         else{
-            Port->setWait3000(NULL);
+            airport->setWait3000(NULL);
             return true;
         }
     }
@@ -911,8 +943,8 @@ bool Airplane::permissionToDescend(int height, Airport* Port, Runway* Runway){
 
 bool Airplane::isReadyForDeparture() const {
 
-    if (passengers == passengerCapacity){
-        if (fuel == fuelCapacity){
+    if (Airplane::passengers == Airplane::passengerCapacity){
+        if (Airplane::fuel == Airplane::fuelCapacity){
             return true;
         }
     }
@@ -920,240 +952,240 @@ bool Airplane::isReadyForDeparture() const {
 
 }
 
-bool Airplane::propperlyInitialised() {
-    return (self == this);
+bool Airplane::properlyInitialised() {
+    return (Airplane::self == this);
 }
 
 bool Airplane::isValid() {
 
-    if (size.empty() || fuel == 0 || type.empty() || model.empty() || number.empty()
-        || callsign.empty() || state.empty() || engine.empty()){
+    if (Airplane::size.empty() || Airplane::fuel == 0 || Airplane::type.empty() || Airplane::model.empty() || Airplane::number.empty()
+        || Airplane::callsign.empty() || Airplane::state.empty() || Airplane::engine.empty()){
 
         return false;
     }
 
-    return (validSize(size) && validEngineType(engine) && validPlaneType(type) && propperlyInitialised());
+    return (validSize(Airplane::size) && validEngineType(Airplane::engine) && validPlaneType(Airplane::type) && Airplane::properlyInitialised());
 
 }
 
 
 // functies
-void Airplane::pushBack(Runway* Runw) {
-    REQUIRE(currentTask == "IFR" || currentTask == "pushback" || currentTask == "request taxi", "correct state");
+void Airplane::pushBack(Runway* runway) {
+    REQUIRE(Airplane::currentTask == "IFR" || Airplane::currentTask == "pushback" || Airplane::currentTask == "request taxi", "correct state");
 
     Airplane::setState("pushback");
     string tijd = getTime();
 
-    if (currentTask == "IFR") {
+    if (Airplane::currentTask == "IFR") {
         REQUIRE(atAirport(), "At airport");
-        REQUIRE(validRunway(Runw), "Valid runway");
+        REQUIRE(validRunway(runway), "Valid runway");
 
-        if (!requestMessageSend) {
+        if (!Airplane::requestMessageSend) {
 
-            if (Runw == NULL) {
-                vector<int> runw = airport->getFreeRunways();
-                for (int i = 0; (unsigned) i < runw.size(); i++) {
-                    if (validRunway(airport->getRunways()[i])) {
-                        attemptRunway = airport->getRunways()[i];
+            if (runway == NULL) {
+                vector<int> runway = Airplane::airport->getFreeRunways();
+                for (int i = 0; (unsigned) i < runway.size(); i++) {
+                    if (validRunway(Airplane::airport->getRunways()[i])) {
+                        Airplane::attemptRunway = Airplane::airport->getRunways()[i];
                         break;
                     }
                 }
             }
             IFRRequest(this, tijd);
-            requestMessageSend = true;
+            Airplane::requestMessageSend = true;
             return;
         }
-        if (requestMessageSend && Runw == NULL) {
-            Runw = attemptRunway;
+        if (Airplane::requestMessageSend && runway == NULL) {
+            runway = Airplane::attemptRunway;
         }
-        if (!messageMessageSend) {
+        if (!Airplane::messageMessageSend) {
             IFRMessage(this, tijd);
-            messageMessageSend = true;
+            Airplane::messageMessageSend = true;
             return;
         }
         if (!confirmMessageSend) {
             IFRConfirmation(this, tijd);
-            requestMessageSend = false;
-            messageMessageSend = false;
-            currentTask = "pushback";
+            Airplane::requestMessageSend = false;
+            Airplane::messageMessageSend = false;
+            Airplane::currentTask = "pushback";
             return;
         }
     }
-    else if (currentTask == "pushback") {
+    else if (Airplane::currentTask == "pushback") {
 
-        if (!requestMessageSend) {
+        if (!Airplane::requestMessageSend) {
             pushbackRequest(this, tijd);
-            requestMessageSend = true;
+            Airplane::requestMessageSend = true;
             return;
         }
 
-        if (!messageMessageSend) {
+        if (!Airplane::messageMessageSend) {
             pushbackMessage(this, tijd);
-            messageMessageSend = true;
+            Airplane::messageMessageSend = true;
             return;
         }
 
-        if (!confirmMessageSend) {
+        if (!Airplane::confirmMessageSend) {
             pushbackConfirmation(this, tijd);
-            requestMessageSend = false;
-            messageMessageSend = false;
-            pushback = true;
+            Airplane::requestMessageSend = false;
+            Airplane::messageMessageSend = false;
+            Airplane::pushback = true;
             if (Airplane::getSize() == "small"){
-                operationTime = cSmall;
+                Airplane::operationTime = kSmall;
             }
             else if (Airplane::getSize() == "medium"){
-                operationTime = cMedium;
+                Airplane::operationTime = kMedium;
             }
             else if (Airplane::getSize() == "large"){
-                operationTime = cLarge;
+                Airplane::operationTime = kLarge;
             }
-            currentTask = "request taxi";
+            Airplane::currentTask = "request taxi";
             return;
         }
     }
 
-    else if(currentTask == "request taxi") {
-        currentTask = "going to runway";
+    else if(Airplane::currentTask == "request taxi") {
+        Airplane::currentTask = "going to runway";
         readyToTaxiMessage(this, tijd);
         return;
     }
 
 }
 
-void Airplane::taxiToRunway(Runway* runw){
+void Airplane::taxiToRunway(Runway* runway){
 
 
-    REQUIRE(currentTask == "going to runway", "correct state");
-    if (runw == NULL){
-        runw = Airplane::attemptRunway;
+    REQUIRE(Airplane::currentTask == "going to runway", "correct state");
+    if (runway == NULL){
+        runway = Airplane::attemptRunway;
     }
 
-    REQUIRE(!runw->getHoldingShortOccupied(), "Runway fully occupied.");
-    if (gate != -1){
-        airport->setGateOccupied(gate, false);
-        gate = -1;
+    REQUIRE(!runway->getHoldingShortOccupied(), "Runway fully occupied.");
+    if (Airplane::gate != -1){
+        Airplane::airport->setGateOccupied(Airplane::gate, false);
+        Airplane::gate = -1;
     }
 
-    REQUIRE((!Airplane::onitsway && !runw->getOnItsWay()) || (Airplane::onitsway && runw->getOnItsWay()), "no plane on its way");
+    REQUIRE((!Airplane::onItsWay && !runway->getOnItsWay()) || (Airplane::onItsWay && runway->getOnItsWay()), "no plane on its way");
 
-    Airplane::onitsway = true;
-    runw->setOnItsWay(true);
+    Airplane::onItsWay = true;
+    runway->setOnItsWay(true);
     const string &tijd = getTime();
-    taxiRoute = runw->getTaxiRoute();
+    Airplane::taxiRoute = runway->getTaxiRoute();
 
-    if (taxiPoint.empty() && taxiCrossing.empty()){
-        taxiPoint = taxiRoute->getTaxiPoints()[0];
+    if (Airplane::taxiPoint.empty() && Airplane::taxiCrossing.empty()){
+        Airplane::taxiPoint = Airplane::taxiRoute->getTaxiPoints()[0];
         Airplane::setState("at taxipoint");
-        setOperationTime(1);
+        Airplane::operationTime = 1;
         return;
     }
 
-    if (taxiPoint != ""){
-        for (unsigned int i=0; i < taxiRoute->getTaxiPoints().size(); i++){
-            if (taxiPoint == taxiRoute->getTaxiPoints()[i]){
-                if (i == taxiRoute->getTaxiPoints().size()-1){
-                    if (!messageMessageSend){
-                        toRunwayMessage(this, runw, taxiPoint, tijd);
-                        messageMessageSend = true;
-                        setOperationTime(1);
+    if (Airplane::taxiPoint != ""){
+        for (unsigned int i=0; i < Airplane::taxiRoute->getTaxiPoints().size(); i++){
+            if (Airplane::taxiPoint == Airplane::taxiRoute->getTaxiPoints()[i]){
+                if (i == Airplane::taxiRoute->getTaxiPoints().size()-1){
+                    if (!Airplane::messageMessageSend){
+                        toRunwayMessage(this, runway, taxiPoint, tijd);
+                        Airplane::messageMessageSend = true;
+                        Airplane::operationTime = 1;
                         return;
                     }
-                    else if (!confirmMessageSend){
-                        toRunwayConfirmation(this, runw, taxiPoint, tijd);
-                        confirmMessageSend = true;
+                    else if (!Airplane::confirmMessageSend){
+                        toRunwayConfirmation(this, runway, Airplane::taxiPoint, tijd);
+                        Airplane::confirmMessageSend = true;
                         setOperationTime(1);
                         return;
                     }
                     else{
-                        messageMessageSend = false;
-                        confirmMessageSend = false;
-                        runway = runw;
+                        Airplane::messageMessageSend = false;
+                        Airplane::confirmMessageSend = false;
+                        Airplane::runway = runway;
                         Airplane::setState("at holding point");
-                        currentTask = "at holding point";
-                        Airplane::onitsway = false;
-                        runw->setOnItsWay(false);
-                        setOperationTime(1);
+                        Airplane::currentTask = "at holding point";
+                        Airplane::onItsWay = false;
+                        runway->setOnItsWay(false);
+                        Airplane::operationTime = 1;
                         runway->setHoldingShortOccupied(true);
                         return;
                     }
                 }
-                else if (!messageMessageSend) {
+                else if (!Airplane::messageMessageSend) {
                     toHoldingPointMessage(this, taxiRoute->getTaxiCrossings()[i], taxiPoint, tijd);
-                    messageMessageSend = true;
-                    setOperationTime(1);
+                    Airplane::messageMessageSend = true;
+                    Airplane::operationTime = 1;
                     return;
                 }
-                else  if (!confirmMessageSend) {
+                else  if (!Airplane::confirmMessageSend) {
                     toHoldingPointConfirmation(this, taxiRoute->getTaxiCrossings()[i], taxiPoint, tijd);
-                    confirmMessageSend = true;
-                    setOperationTime(1);
+                    Airplane::confirmMessageSend = true;
+                    Airplane::operationTime = 1;
                     return;
                 }
                 else{
-                    taxiPoint = "";
-                    taxiCrossing = taxiRoute->getTaxiCrossings()[i];
+                    Airplane::taxiPoint = "";
+                    Airplane::taxiCrossing = Airplane::taxiRoute->getTaxiCrossings()[i];
                     Airplane::setState("at taxicrossing");
-                    messageMessageSend = false;
-                    confirmMessageSend = false;
-                    setOperationTime(5);
+                    Airplane::messageMessageSend = false;
+                    Airplane::confirmMessageSend = false;
+                    Airplane::operationTime = 5;
                     return;
                 }
             }
         }
     }
-    else if (taxiCrossing != ""){
-        for (unsigned int i=0; i < taxiRoute->getTaxiCrossings().size(); i++){
-            if (taxiCrossing == taxiRoute->getTaxiCrossings()[i]){
-                if (!requestMessageSend) {
+    else if (Airplane::taxiCrossing != ""){
+        for (unsigned int i=0; i < Airplane::taxiRoute->getTaxiCrossings().size(); i++){
+            if (Airplane::taxiCrossing == Airplane::taxiRoute->getTaxiCrossings()[i]){
+                if (!Airplane::requestMessageSend) {
                     clearedToCrossRequest(this, taxiRoute->getTaxiCrossings()[i], tijd);
-                    requestMessageSend = true;
-                    setOperationTime(1);
+                    Airplane::requestMessageSend = true;
+                    Airplane::operationTime = 1;
                     return;
                 }
-                else  if (!messageMessageSend) {
+                else  if (!Airplane::messageMessageSend) {
 
-                    if (!Airplane::getAirport()->getRunway(taxiCrossing)->getPermissionToCross()){
-                        setOperationTime(1);
-                        requestMessageSend = false;
+                    if (!Airplane::getAirport()->getRunway(Airplane::taxiCrossing)->getPermissionToCross()){
+                        Airplane::operationTime = 1;
+                        Airplane::requestMessageSend = false;
                         return;
                     }
                     else {
-                        clearedToCrossMessage(this, taxiRoute->getTaxiCrossings()[i], tijd);
-                        messageMessageSend = true;
+                        clearedToCrossMessage(this, Airplane::taxiRoute->getTaxiCrossings()[i], tijd);
+                        Airplane::messageMessageSend = true;
                         setOperationTime(1);
                         return;
                     }
                 }
-                else  if (!confirmMessageSend) {
-                    clearedToCrossConfirmation(taxiRoute->getTaxiCrossings()[i], tijd);
-                    confirmMessageSend = true;
-                    setOperationTime(1);
+                else  if (!Airplane::confirmMessageSend) {
+                    clearedToCrossConfirmation(Airplane::taxiRoute->getTaxiCrossings()[i], tijd);
+                    Airplane::confirmMessageSend = true;
+                    Airplane::operationTime = 1;
                     return;
                 }
                 else{
-                    if (crossed){
-                        taxiCrossing = "";
-                        taxiPoint = taxiRoute->getTaxiPoints()[i+1];
-                        requestMessageSend = false;
-                        messageMessageSend = false;
-                        confirmMessageSend = false;
-                        crossed = false;
-                        runw->setPermissionToCross(true);
+                    if (Airplane::crossed){
+                        Airplane::taxiCrossing = "";
+                        Airplane::setTaxiPoint(taxiRoute->getTaxiPoints()[i+1]);
+                        Airplane::requestMessageSend = false;
+                        Airplane::messageMessageSend = false;
+                        Airplane::confirmMessageSend = false;
+                        Airplane::crossed = false;
+                        runway->setPermissionToCross(true);
                         Airplane::setState("at taxipoint");
-                        setOperationTime(5);
+                        Airplane::setOperationTime(5);
                         return;
                     }
                     else {
-                        if (runw->getPermissionToCross()){
-                            crossed = true;
-                            runw->setPermissionToCross(false);
+                        if (runway->getPermissionToCross()){
+                            Airplane::crossed = true;
+                            runway->setPermissionToCross(false);
                             Airplane::setState("crossing taxicrossing");
-                            setOperationTime(1);
+                            Airplane::setOperationTime(1);
                             return;
                         }
                         else{
                             Airplane::setState("at taxicrossing");
-                            setOperationTime(1);
+                            Airplane::setOperationTime(1);
                             return;
                         }
                     }
@@ -1164,127 +1196,127 @@ void Airplane::taxiToRunway(Runway* runw){
 }
 
 void Airplane::taxiToGate(int gate){
-    REQUIRE(currentTask == "going to gate", "correct task");
-    REQUIRE(validGate(gate), "valid gate number");
-    if(!onitsway) {
+    REQUIRE(Airplane::currentTask == "going to gate", "correct task");
+    REQUIRE(Airplane::validGate(gate), "valid gate number");
+    if(!Airplane::onItsWay) {
         if (gate == -1) {
-            attemptgate = airport->getFreeGates()[0];
+            Airplane::attemptGate = Airplane::airport->getFreeGates()[0];
         }
         else{
-            attemptgate = gate;
+            Airplane::attemptGate = gate;
         }
-        airport->setGateOccupied(attemptgate, true);
-        Airplane::onitsway = true;
+        Airplane::airport->setGateOccupied(Airplane::attemptGate, true);
+        Airplane::onItsWay = true;
     }
-    string tijd = getTime();
-    if (runway != NULL){
-        taxiRoute = runway->getTaxiRoute();
-        runway->setOccupied(false);
-        runway->setPermissionToCross(true);
-        runway = NULL;
+    const string &tijd = getTime();
+    if (Airplane::runway != NULL){
+        Airplane::taxiRoute = Airplane::runway->getTaxiRoute();
+        Airplane::runway->setOccupied(false);
+        Airplane::runway->setPermissionToCross(true);
+        Airplane::runway = NULL;
     }
 
-    if (taxiPoint == "" && taxiCrossing == ""){
+    if (Airplane::taxiPoint == "" && Airplane::taxiCrossing == ""){
         Airplane::setState("at taxipoint");
-        taxiPoint = taxiRoute->getTaxiPoints()[taxiRoute->getTaxiPoints().size()-1];
+        Airplane::taxiPoint = Airplane::taxiRoute->getTaxiPoints()[Airplane::taxiRoute->getTaxiPoints().size()-1];
         return;
     }
-    if (!taxiPoint.empty()){
-        for (unsigned int i=0; i < taxiRoute->getTaxiPoints().size(); i++){
-            if (taxiPoint == taxiRoute->getTaxiPoints()[i]){
+    if (!Airplane::taxiPoint.empty()){
+        for (unsigned int i=0; i < Airplane::taxiRoute->getTaxiPoints().size(); i++){
+            if (Airplane::taxiPoint == Airplane::taxiRoute->getTaxiPoints()[i]){
                 if (i == 0){
-                    if (!messageMessageSend){
-                        toGateMessage(this, attemptgate, taxiPoint, tijd);
-                        messageMessageSend = true;
+                    if (!Airplane::messageMessageSend){
+                        toGateMessage(this, Airplane::attemptGate, Airplane::taxiPoint, tijd);
+                        Airplane::messageMessageSend = true;
                         return;
                     }
-                    else if (!confirmMessageSend){
-                        toGateConfirmation(this, attemptgate, taxiPoint, tijd);
-                        confirmMessageSend = true;
+                    else if (!Airplane::confirmMessageSend){
+                        toGateConfirmation(this, Airplane::attemptGate, Airplane::taxiPoint, tijd);
+                        Airplane::confirmMessageSend = true;
                         return;
                     }
                     else{
-                        messageMessageSend = false;
-                        confirmMessageSend = false;
-                        //setGate(attemptgate);
-                        operationTime = 1;
-                        Airplane::onitsway = false;
-                        currentTask = "exit passengers";
+                        Airplane::messageMessageSend = false;
+                        Airplane::confirmMessageSend = false;
+                        //setGate(attemptGate);
+                        Airplane::operationTime = 1;
+                        Airplane::onItsWay = false;
+                        Airplane::currentTask = "exit passengers";
                         Airplane::setState("exit passengers");
-                        Airplane::setGate(attemptgate);
+                        Airplane::setGate(attemptGate);
                         return;
                     }
                 }
 
-                else if (!messageMessageSend) {
-                    toHoldingPointMessage(this, taxiRoute->getTaxiCrossings()[i-1], taxiPoint, tijd);
-                    messageMessageSend = true;
+                else if (!Airplane::messageMessageSend) {
+                    toHoldingPointMessage(this, Airplane::taxiRoute->getTaxiCrossings()[i-1], Airplane::taxiPoint, tijd);
+                    Airplane::messageMessageSend = true;
                     return;
                 }
-                else  if (!confirmMessageSend) {
-                    toHoldingPointConfirmation(this, taxiRoute->getTaxiCrossings()[i-1], taxiPoint, tijd);
-                    confirmMessageSend = true;
+                else  if (!Airplane::confirmMessageSend) {
+                    toHoldingPointConfirmation(this, Airplane::taxiRoute->getTaxiCrossings()[i-1], Airplane::taxiPoint, tijd);
+                    Airplane::confirmMessageSend = true;
                     return;
                 }
                 else{
-                    taxiPoint = "";
+                    Airplane::taxiPoint = "";
                     Airplane::setState("at taxicrossing");
-                    taxiCrossing = taxiRoute->getTaxiCrossings()[i-1];
-                    messageMessageSend = false;
-                    confirmMessageSend = false;
-                    operationTime = 5;
+                    Airplane::taxiCrossing = taxiRoute->getTaxiCrossings()[i-1];
+                    Airplane::messageMessageSend = false;
+                    Airplane::confirmMessageSend = false;
+                    Airplane::setOperationTime(5);
                     return;
                 }
             }
         }
     }
-    else if (!taxiCrossing.empty()){
-        for (unsigned int i=0; i < taxiRoute->getTaxiCrossings().size(); i++){
-            if (taxiCrossing == taxiRoute->getTaxiCrossings()[i]){
-                if (!requestMessageSend) {
-                    clearedToCrossRequest(this, taxiRoute->getTaxiCrossings()[i], tijd);
-                    requestMessageSend = true;
+    else if (!Airplane::taxiCrossing.empty()){
+        for (unsigned int i=0; i < Airplane::taxiRoute->getTaxiCrossings().size(); i++){
+            if (Airplane::taxiCrossing == Airplane::taxiRoute->getTaxiCrossings()[i]){
+                if (!Airplane::requestMessageSend) {
+                    clearedToCrossRequest(this, Airplane::taxiRoute->getTaxiCrossings()[i], tijd);
+                    Airplane::requestMessageSend = true;
                     return;
                 }
-                else  if (!messageMessageSend) {
-                    if (!Airplane::getAirport()->getRunway(taxiCrossing)->getPermissionToCross()){
+                else  if (!Airplane::messageMessageSend) {
+                    if (!Airplane::getAirport()->getRunway(Airplane::taxiCrossing)->getPermissionToCross()){
                         return;
                     }
                     else {
-                        clearedToCrossMessage(this, taxiRoute->getTaxiCrossings()[i], tijd);
-                        messageMessageSend = true;
+                        clearedToCrossMessage(this, Airplane::taxiRoute->getTaxiCrossings()[i], tijd);
+                        Airplane::messageMessageSend = true;
                         return;
                     }
                 }
-                else  if (!confirmMessageSend) {
-                    clearedToCrossConfirmation(taxiRoute->getTaxiCrossings()[i], tijd);
-                    confirmMessageSend = true;
+                else  if (!Airplane::confirmMessageSend) {
+                    clearedToCrossConfirmation(Airplane::taxiRoute->getTaxiCrossings()[i], tijd);
+                    Airplane::confirmMessageSend = true;
                     return;
                 }
                 else{
-                    if (crossed){
-                        taxiCrossing = "";
-                        taxiPoint = taxiRoute->getTaxiPoints()[i+1];
-                        requestMessageSend = false;
-                        messageMessageSend = false;
-                        confirmMessageSend = false;
-                        crossed = false;
-                        runway->setPermissionToCross(true);
+                    if (Airplane::crossed){
+                        Airplane::taxiCrossing = "";
+                        Airplane::taxiPoint = Airplane::taxiRoute->getTaxiPoints()[i+1];
+                        Airplane::requestMessageSend = false;
+                        Airplane::messageMessageSend = false;
+                        Airplane::confirmMessageSend = false;
+                        Airplane::crossed = false;
+                        Airplane::runway->setPermissionToCross(true);
                         Airplane::setState("at taxipoint");
-                        setOperationTime(5);
+                        Airplane::setOperationTime(5);
                         return;
                     }
                     else {
-                        if (runway->getPermissionToCross()){
-                            crossed = true;
-                            runway->setPermissionToCross(false);
+                        if (Airplane::runway->getPermissionToCross()){
+                            Airplane::crossed = true;
+                            Airplane::runway->setPermissionToCross(false);
                             Airplane::setState("crossing taxicrossing");
-                            setOperationTime(1);
+                            Airplane::setOperationTime(1);
                             return;
                         }
                         else{
                             Airplane::setState("at taxicrossing");
-                            setOperationTime(1);
+                            Airplane::setOperationTime(1);
                             return;
                         }
                     }
@@ -1295,67 +1327,67 @@ void Airplane::taxiToGate(int gate){
     }
 }
 
-void Airplane::emergencyLanding(Airport* Port){
+void Airplane::emergencyLanding(Airport* airport){
 
-    REQUIRE(currentTask == "emergency crash" || currentTask == "emergency landing" || currentTask == "crash", "correct state");
-    REQUIRE(!(currentTask != "emergency crash" || currentTask != "emergency landing") ||
-            (Airplane::getState() == "Airborne" && (currentTask != "emergency crash" ||
-                    currentTask != "emergency landing")), "Plane is out of fuel");
+    REQUIRE(Airplane::currentTask == "emergency crash" || Airplane::currentTask == "emergency landing" || Airplane::currentTask == "crash", "correct state");
+    REQUIRE(!(Airplane::currentTask != "emergency crash" || Airplane::currentTask != "emergency landing") ||
+            (Airplane::getState() == "Airborne" && (Airplane::currentTask != "emergency crash" ||
+                    Airplane::currentTask != "emergency landing")), "Plane is out of fuel");
 
 
-    string tijd = getTime();
-    if(currentTask != "emergency crash" || currentTask != "emergency landing") {
+    const string &tijd = getTime();
+    if(Airplane::currentTask != "emergency crash" || currentTask != "emergency landing") {
 
-        if (!requestMessageSend) {
-            if (height >= cHeightLevelC) {
-                EmergencyAbove3000ftRequest(this, Port, tijd);
-                emergencyInAirport = true;
-                requestMessageSend = true;
+        if (!Airplane::requestMessageSend) {
+            if (Airplane::height >= Airplane::kHeightLevelC) {
+                EmergencyAbove3000ftRequest(this, airport, tijd);
+                Airplane::emergencyInAirport = true;
+                Airplane::requestMessageSend = true;
                 if (Airplane::getEngine() == "jet") {
-                    Airplane::setHeight(Airplane::getHeight()-cJetDescentionSpeed);
+                    Airplane::setHeight(Airplane::getHeight()-Airplane::kJetDescentionSpeed);
                 } else if (Airplane::getEngine() == "propeller") {
-                    Airplane::setHeight(Airplane::getHeight()-cProprellerDescentionSpeed);
+                    Airplane::setHeight(Airplane::getHeight()-Airplane::kProprellerDescentionSpeed);
                 }
-                operationTime = 1;
+                Airplane::operationTime = 1;
                 return;
             } else {
-                EmergencyBelow3000ftRequest(this, Port, tijd);
-                emergencyInAirport = false;
-                requestMessageSend = true;
+                EmergencyBelow3000ftRequest(this, airport, tijd);
+                Airplane::emergencyInAirport = false;
+                Airplane::requestMessageSend = true;
                 if (Airplane::getEngine() == "jet") {
-                    Airplane::setHeight(Airplane::getHeight()-cJetDescentionSpeed);
+                    Airplane::setHeight(Airplane::getHeight()-Airplane::kJetDescentionSpeed);
                 } else if (Airplane::getEngine() == "propeller") {
-                    Airplane::setHeight(Airplane::getHeight()-cProprellerDescentionSpeed);
+                    Airplane::setHeight(Airplane::getHeight()-Airplane::kProprellerDescentionSpeed);
                 }
-                operationTime = 1;
+                Airplane::operationTime = 1;
                 return;
             }
         } else {
-            requestMessageSend = false;
-            if (emergencyInAirport) {
-                EmergencyAbove3000ftMessage(this, runway, tijd);
-                runway = Port->getRunways()[Port->getFreeRunways()[0]];
-                Port->getRunways()[Port->getFreeRunways()[0]]->setOccupied(true);
-                Port->getRunways()[Port->getFreeRunways()[0]]->setPermissionToCross(false);
-                currentTask = "emergency landing";
+            Airplane::requestMessageSend = false;
+            if (Airplane::emergencyInAirport) {
+                EmergencyAbove3000ftMessage(this, Airplane::runway, tijd);
+                Airplane::runway = airport->getRunways()[airport->getFreeRunways()[0]];
+                airport->getRunways()[airport->getFreeRunways()[0]]->setOccupied(true);
+                airport->getRunways()[airport->getFreeRunways()[0]]->setPermissionToCross(false);
+                Airplane::currentTask = "emergency landing";
                 if (Airplane::getEngine() == "jet") {
-                    operationTime = Airplane::getHeight() / cJetDescentionSpeed;
+                    Airplane::operationTime = Airplane::getHeight() / Airplane::kJetDescentionSpeed;
                 } else if (Airplane::getEngine() == "propeller") {
-                    operationTime = Airplane::getHeight() / cProprellerDescentionSpeed;
+                    Airplane::operationTime = Airplane::getHeight() / Airplane::kProprellerDescentionSpeed;
                 }
                 Airplane::setHeight(0);
                 return;
             } else {
                 EmergencyBelow3000ftMessage(this, tijd);
-                currentTask = "emergency crash";
+                Airplane::currentTask = "emergency crash";
                 if (Airplane::getEngine() == "jet") {
 
-                    operationTime = Airplane::getHeight() / cJetDescentionSpeed;
+                    Airplane::operationTime = Airplane::getHeight() / Airplane::kJetDescentionSpeed;
                 } else if (Airplane::getEngine() == "propeller") {
-                    operationTime = Airplane::getHeight() / cProprellerDescentionSpeed;
+                    Airplane::operationTime = Airplane::getHeight() / Airplane::kProprellerDescentionSpeed;
                 }
                 if (Airplane::getHeight() == 0){
-                    operationTime += 1;
+                    Airplane::operationTime += 1;
                 }
                 Airplane::setHeight(0);
                 return;
@@ -1363,93 +1395,93 @@ void Airplane::emergencyLanding(Airport* Port){
         }
     }
     else{
-        if (emergencyInAirport){
-            runway->setPermissionToCross(true);
+        if (Airplane::emergencyInAirport){
+            Airplane::runway->setPermissionToCross(true);
             Airplane::setState("emergency exit");
-            requestMessageSend = false;
-            currentTask = "exit passengers";
+            Airplane::requestMessageSend = false;
+            Airplane::currentTask = "exit passengers";
             return;
         }
         else{
             Airplane::setState("Finished");
-            requestMessageSend = false;
-            currentTask = "Finished";
+            Airplane::requestMessageSend = false;
+            Airplane::currentTask = "Finished";
             return;
         }
 
     }
 }
 
-void Airplane::land(Airport *Port, Runway* Runw) {
-    REQUIRE(currentTask == "try to land" || currentTask == "landing" || currentTask == "descending to 5000ft."  || currentTask == "descending to 3000ft." || currentTask == "descending to 0ft.", "correct task");
+void Airplane::land(Airport *airport, Runway* runway) {
+    REQUIRE(Airplane::currentTask == "try to land" || Airplane::currentTask == "landing" || Airplane::currentTask == "descending to 5000ft."  || Airplane::currentTask == "descending to 3000ft." || Airplane::currentTask == "descending to 0ft.", "correct task");
 
-    string tijd = getTime();
-    if (currentTask != "landing") {
-        if (state != "Approaching" && state != "on final approach") {
-            REQUIRE(state == "Airborne", "Plane is not airborne");
-            REQUIRE(validLandingSpot(Port, Runw), "Valid landing spot");
+    const string &tijd = getTime();
+    if (Airplane::currentTask != "landing") {
+        if (Airplane::state != "Approaching" && Airplane::state != "on final approach") {
+            REQUIRE(Airplane::state == "Airborne", "Plane is not airborne");
+            REQUIRE(validLandingSpot(airport, runway), "Valid landing spot");
 
             Airplane::setState("Approaching");
 
-            if (Runw == NULL) {
-                logMessage("Preparing airplane (" + Airplane::number + ") for landing in " + Port->getName());
+            if (runway == NULL) {
+                logMessage("Preparing airplane (" + Airplane::number + ") for landing in " + airport->getName());
 
-                vector<Runway*> runw = Port->getRunways();
+                vector<Runway*> runways = airport->getRunways();
 
-                for (unsigned int i = 0; i < runw.size(); i++) {
-                    if (!runw[i]->isOccupied()) {
-                        Runw = runw[i];
-                        attemptRunway = runw[i];
+                for (unsigned int i = 0; i < runways.size(); i++) {
+                    if (!runways[i]->isOccupied()) {
+                        Airplane::runway = runways[i];
+                        Airplane::attemptRunway = runways[i];
                         break;
 
                     }
                 }
             }
 
-            initialCommunicationMessage(this, Port, tijd);
-            operationTime = 1;
+            initialCommunicationMessage(this, airport, tijd);
+            Airplane::operationTime = 1;
             return;
-        } else if (Runw == NULL) {
-            Runw = attemptRunway;
+        } else if (runway == NULL) {
+            runway = attemptRunway;
 
         }
 
-        logMessage(Airplane::number + " is approaching " + Port->getName() + " at " + intToString(height) + "ft.");
-        if (height == cHeightLevelA) {
-            if (!requestMessageSend) {
-                requestMessageSend = true;
+        logMessage(Airplane::number + " is approaching " + airport->getName() + " at " + intToString(height) + "ft.");
+        if (Airplane::height == Airplane::kHeightLevelA) {
+            if (!Airplane::requestMessageSend) {
+                Airplane::requestMessageSend = true;
 
-                if (permissionToDescend(height, Port, Runw)) {
+                if (permissionToDescend(Airplane::height, airport, runway)) {
 
                     descendTo5000ftMessage(this, tijd);
-                    confirmMessageSend = false;
-                    operationTime = 1;
+                    Airplane::confirmMessageSend = false;
+                    Airplane::operationTime = 1;
                     return;
                 } else {
                     waitBeforeDescendMessage(this, tijd);
-                    confirmMessageSend = true;
-                    operationTime = 1;
+                    Airplane::confirmMessageSend = true;
+                    Airplane::operationTime = 1;
                     return;
                 }
             } else {
 
-                requestMessageSend = false;
-                if (confirmMessageSend) {
+                Airplane::requestMessageSend = false;
+                if (Airplane::confirmMessageSend) {
                     waitBeforeDescendConfirmation(this, tijd);
-                    confirmMessageSend = false;
-                    operationTime = 1;
+                    Airplane::confirmMessageSend = false;
+                    Airplane::operationTime = 1;
                     return;
 
                 } else {
                     descendTo5000ftConfirmation(this, tijd);
-                    currentTask = "descending to 5000ft.";
-                    Port->setWait5000(this);
+                    Airplane::currentTask = "descending to 5000ft.";
+                    airport->setWait5000(this);
 
                     if (Airplane::getEngine() == "jet") {
-                        operationTime = (cHeightLevelA - cHeightLevelB)/cJetDescentionSpeed +1;
+                        Airplane::operationTime = (Airplane::kHeightLevelA - Airplane::kHeightLevelB)/Airplane::kJetDescentionSpeed +1;
 
                     } else if (Airplane::getEngine() == "propeller") {
-                        operationTime = (cHeightLevelA - cHeightLevelB)/cProprellerDescentionSpeed +1;
+                        Airplane::operationTime = (Airplane::kHeightLevelA - Airplane::kHeightLevelB)/Airplane::kProprellerDescentionSpeed +1;
 
                     }
                     return;
@@ -1457,117 +1489,117 @@ void Airplane::land(Airport *Port, Runway* Runw) {
             }
         }
 
-        if (height == cHeightLevelB) {operationTime = 6;
-            if (!requestMessageSend) {
-                requestMessageSend = true;
-                if (permissionToDescend(height, Port, Runw)) {
+        if (Airplane::height == Airplane::kHeightLevelB) {Airplane::operationTime = 6;
+            if (!Airplane::requestMessageSend) {
+                Airplane::requestMessageSend = true;
+                if (permissionToDescend(Airplane::height, airport, runway)) {
                     descendTo3000ftMessage(this, tijd);
-                    confirmMessageSend = false;
-                    operationTime = 1;
+                    Airplane::confirmMessageSend = false;
+                    Airplane::operationTime = 1;
                     return;
                 } else {
                     waitBeforeDescendMessage(this, tijd);
-                    confirmMessageSend = true;
-                    operationTime = 1;
+                    Airplane::confirmMessageSend = true;
+                    Airplane::operationTime = 1;
                     return;
                 }
             } else {
-                requestMessageSend = false;
-                if (confirmMessageSend) {
+                Airplane::requestMessageSend = false;
+                if (Airplane::confirmMessageSend) {
                     waitBeforeDescendConfirmation(this, tijd);
                     logMessage(Airplane::number + " is waiting at a height of " + intToString(height));
-                    confirmMessageSend = false;
-                    operationTime = 1;
+                    Airplane::confirmMessageSend = false;
+                    Airplane::operationTime = 1;
                     return;
                 } else {
                     descendTo3000ftConfirmation(this, tijd);
-                    currentTask = "descending to 3000ft.";
+                    Airplane::currentTask = "descending to 3000ft.";
 
                     if (Airplane::getEngine() == "jet") {
-                        operationTime = (cHeightLevelB - cHeightLevelC)/cProprellerDescentionSpeed -1;
+                        Airplane::operationTime = (Airplane::kHeightLevelB - Airplane::kHeightLevelC)/Airplane::kProprellerDescentionSpeed -1;
                     } else if (Airplane::getEngine() == "propeller") {
-                        operationTime = (cHeightLevelB - cHeightLevelC)/cProprellerDescentionSpeed -1;
+                        Airplane::operationTime = (Airplane::kHeightLevelB - Airplane::kHeightLevelC)/Airplane::kProprellerDescentionSpeed -1;
                     }
                     return;
                 }
             }
         }
 
-        if (height == cHeightLevelC) {
-            if (!requestMessageSend) {
-                requestMessageSend = true;
+        if (Airplane::height == Airplane::kHeightLevelC) {
+            if (!Airplane::requestMessageSend) {
+                Airplane::requestMessageSend = true;
 
-                if (Runw == NULL) {
-                    logMessage("Preparing airplane (" + Airplane::number + ") for landing in " + Port->getName());
+                if (runway == NULL) {
+                    logMessage("Preparing airplane (" + Airplane::number + ") for landing in " + airport->getName());
 
-                    vector<Runway*> runw = Port->getRunways();
+                    vector<Runway*> runways = airport->getRunways();
 
-                    for (unsigned int i = 0; i < runw.size(); i++) {
-                        if (!runw[i]->isOccupied()) {
-                            Runw = runw[i];
-                            attemptRunway = runw[i];
+                    for (unsigned int i = 0; i < runways.size(); i++) {
+                        if (!runways[i]->isOccupied()) {
+                            runway = runways[i];
+                            Airplane::attemptRunway = runways[i];
                             break;
 
                         }
                     }
                 }
 
-                if (permissionToDescend(height, Port, Runw)) {
-                    finalApproachMessage(this, Runw, tijd);
-                    Runw->setOccupied(true);
-                    Runw->setPermissionToCross(false);
-                    confirmMessageSend = false;
-                    operationTime = 1;
+                if (permissionToDescend(Airplane::height, airport, runway)) {
+                    finalApproachMessage(this, runway, tijd);
+                    runway->setOccupied(true);
+                    runway->setPermissionToCross(false);
+                    Airplane::confirmMessageSend = false;
+                    Airplane::operationTime = 1;
                     return;
                 } else {
                     waitBeforeDescendMessage(this, tijd);
-                    confirmMessageSend = true;
-                    operationTime = 1;
+                    Airplane::confirmMessageSend = true;
+                    Airplane::operationTime = 1;
                     return;
                 }
             } else {
-                requestMessageSend = false;
-                if (confirmMessageSend) {
+                Airplane::requestMessageSend = false;
+                if (Airplane::confirmMessageSend) {
                     waitBeforeDescendConfirmation(this, tijd);
-                    logMessage(Airplane::number + " is waiting at a height of " + intToString(height));
-                    confirmMessageSend = false;
-                    operationTime = 1;
+                    logMessage(Airplane::number + " is waiting at a height of " + intToString(Airplane::height));
+                    Airplane::confirmMessageSend = false;
+                    Airplane::operationTime = 1;
                     return;
                 } else {
-                    finalApproachConfirmation(this, Runw, tijd);
+                    finalApproachConfirmation(this, runway, tijd);
                     Airplane::setState("on final approach");
-                    currentTask = "descending to 0ft.";
+                    Airplane::currentTask = "descending to 0ft.";
 
                     if (Airplane::getEngine() == "jet") {
-                        operationTime = cHeightLevelC/cJetDescentionSpeed;
+                        Airplane::operationTime = Airplane::kHeightLevelC/Airplane::kJetDescentionSpeed;
                     } else if (Airplane::getEngine() == "propeller") {
-                        operationTime = cHeightLevelC/cProprellerDescentionSpeed;
+                        Airplane::operationTime = Airplane::kHeightLevelC/Airplane::kProprellerDescentionSpeed;
                     }
                     return;
                 }
             }
         } else {
-            currentTask = "landing";
-            operationTime = 2;
+            Airplane::currentTask = "landing";
+            Airplane::operationTime = 2;
 
-            logMessage(Airplane::number + " is landing at Runway" + Runw->getName());
-            Airplane::setAirport(Port);
-            logMessage("Airplane (" + Airplane::number + ") landed in " + Port->getIata());
+            logMessage(Airplane::number + " is landing at Runway" + runway->getName());
+            Airplane::setAirport(airport);
+            logMessage("Airplane (" + Airplane::number + ") landed in " + airport->getIata());
 
-            Airplane::setRunway(Runw);
-            logMessage("Airplane (" + Airplane::number + ") is now at runway " + Runw->getName() + "\n");
+            Airplane::setRunway(runway);
+            logMessage("Airplane (" + Airplane::number + ") is now at runway " + runway->getName() + "\n");
 
             Airplane::setState("At runway");
-            height -= cJetDescentionSpeed;
+            Airplane::height -= Airplane::kJetDescentionSpeed;
 
 
-            ENSURE(Runw == Airplane::getRunway(), "Landed");
+            ENSURE(Airplane::runway == runway, "Landed");
         }
     }
     else {
-        afterLandingMessage(this, Port, runway, tijd);
-        currentTask = "going to gate";
-        operationTime = 1;
+        afterLandingMessage(this, Airplane::airport, Airplane::runway, tijd);
+        Airplane::currentTask = "going to gate";
+        Airplane::operationTime = 1;
         return;
 
     }
@@ -1575,97 +1607,97 @@ void Airplane::land(Airport *Port, Runway* Runw) {
 }
 
 void Airplane::takeOff() {
-    REQUIRE(currentTask == "taking off" || currentTask == "at holding point", "correct state");
-    string tijd = getTime();
+    REQUIRE(Airplane::currentTask == "taking off" || Airplane::currentTask == "at holding point", "correct state");
+    const string &tijd = getTime();
 
     REQUIRE(Airplane::getHeight() == 0, "Plane not on ground");
-    if (currentTask == "at holding point") {
-        if (!requestMessageSend) {
-            holdingShortAtRunway(this, runway, tijd);
-            requestMessageSend = true;
-            setOperationTime(1);
+    if (Airplane::currentTask == "at holding point") {
+        if (!Airplane::requestMessageSend) {
+            holdingShortAtRunway(this, Airplane::runway, tijd);
+            Airplane::requestMessageSend = true;
+            Airplane::setOperationTime(1);
             return;
         }
 
-        if (!messageMessageSend) {
-            if (!runway->isOccupied() && !runway->getWaitingOnRunway() && !runway->getHoldingShortOccupied() && !runway->getCrossing()) {
-                clearedForTakeOffMessage(this, runway, tijd);
-                permissiontotakeoff = true;
-                messageMessageSend = true;
-                runway->setWaitingOnRunway(true);
-                runway->setOccupied(true);
-                runway->setPermissionToCross(false);
+        if (!Airplane::messageMessageSend) {
+            if (!Airplane::runway->isOccupied() && !Airplane::runway->getWaitingOnRunway() && !Airplane::runway->getHoldingShortOccupied() && !Airplane::runway->getCrossing()) {
+                clearedForTakeOffMessage(this, Airplane::runway, tijd);
+                Airplane::permissionToTakeOff = true;
+                Airplane::messageMessageSend = true;
+                Airplane::runway->setWaitingOnRunway(true);
+                Airplane::runway->setOccupied(true);
+                Airplane::runway->setPermissionToCross(false);
                 setOperationTime(1);
                 return;
-            } else if (!runway->isOccupied() && !runway->getWaitingOnRunway() && runway->getHoldingShortOccupied() && !runway->getCrossing() && Airplane::waitatrunway) {
-                clearedForTakeOffMessage(this, runway, tijd);
-                permissiontotakeoff = true;
-                messageMessageSend = true;
-                runway->setWaitingOnRunway(true);
-                runway->setOccupied(true);
-                runway->setPermissionToCross(false);
+            } else if (!Airplane::runway->isOccupied() && !Airplane::runway->getWaitingOnRunway() && Airplane::runway->getHoldingShortOccupied() && !Airplane::runway->getCrossing() && Airplane::waitAtRunway) {
+                clearedForTakeOffMessage(this, Airplane::runway, tijd);
+                Airplane::permissionToTakeOff = true;
+                Airplane::messageMessageSend = true;
+                Airplane::runway->setWaitingOnRunway(true);
+                Airplane::runway->setOccupied(true);
+                Airplane::runway->setPermissionToCross(false);
                 setOperationTime(1);
                 return;
-            } else if (!runway->isOccupied() && !runway->getWaitingOnRunway() && !runway->getHoldingShortOccupied() && runway->getCrossing()) {
-                lineUpRunwayMessage(this, runway, tijd);
-                messageMessageSend = true;
-                waitonrunway = true;
-                runway->setWaitingOnRunway(true);
-                runway->setOccupied(true);
+            } else if (!Airplane::runway->isOccupied() && !Airplane::runway->getWaitingOnRunway() && !Airplane::runway->getHoldingShortOccupied() && Airplane::runway->getCrossing()) {
+                lineUpRunwayMessage(this, Airplane::runway, tijd);
+                Airplane::messageMessageSend = true;
+                Airplane::waitOnRunway = true;
+                Airplane::runway->setWaitingOnRunway(true);
+                Airplane::runway->setOccupied(true);
                 setOperationTime(1);
                 return;
-            } else if (!runway->isOccupied() && !runway->getWaitingOnRunway() && runway->getHoldingShortOccupied() && runway->getCrossing() && Airplane::waitatrunway) {
-                lineUpRunwayMessage(this, runway, tijd);
-                messageMessageSend = true;
-                waitonrunway = true;
-                Airplane::waitatrunway = false;
-                runway->setWaitingOnRunway(true);
-                runway->setOccupied(true);
-                setOperationTime(1);
+            } else if (!Airplane::runway->isOccupied() && !Airplane::runway->getWaitingOnRunway() && Airplane::runway->getHoldingShortOccupied() && Airplane::runway->getCrossing() && Airplane::waitAtRunway) {
+                lineUpRunwayMessage(this, Airplane::runway, tijd);
+                Airplane::messageMessageSend = true;
+                Airplane::waitOnRunway = true;
+                Airplane::waitAtRunway = false;
+                Airplane::runway->setWaitingOnRunway(true);
+                Airplane::runway->setOccupied(true);
+                Airplane::setOperationTime(1);
                 return;
-            } else if (!runway->getHoldingShortOccupied() || (runway->getHoldingShortOccupied() && Airplane::waitatrunway)) {
+            } else if (!Airplane::runway->getHoldingShortOccupied() || (Airplane::runway->getHoldingShortOccupied() && Airplane::waitAtRunway)) {
                 waitAtRunwayMessage(this, tijd);
-                messageMessageSend = true;
-                waitatrunway = true;
-                runway->setHoldingShortOccupied(true);
-                setOperationTime(1);
+                Airplane::messageMessageSend = true;
+                Airplane::waitAtRunway = true;
+                Airplane::runway->setHoldingShortOccupied(true);
+                Airplane::setOperationTime(1);
                 return;
             }
         }
         else {
-            if (permissiontotakeoff) {
-                clearedForTakeOffConfirmation(this, runway, tijd);
-                permissiontotakeoff = false;
+            if (Airplane::permissionToTakeOff) {
+                clearedForTakeOffConfirmation(this, Airplane::runway, tijd);
+                Airplane::permissionToTakeOff = false;
                 Airplane::setState("At runway");
-                currentTask == "taking off";
-                requestMessageSend = false;
-                messageMessageSend = false;
-                if(!alreadylinedup){
-                    setOperationTime(2);;
+                Airplane::currentTask == "taking off";
+                Airplane::requestMessageSend = false;
+                Airplane::messageMessageSend = false;
+                if(!Airplane::alreadyLinedUp){
+                    Airplane::setOperationTime(2);;
                 }
                 else{
-                    setOperationTime(1);
+                    Airplane::setOperationTime(1);
                 }
-                alreadylinedup = false;
-                runway->setHoldingShortOccupied(false);
+                Airplane::alreadyLinedUp = false;
+                Airplane::runway->setHoldingShortOccupied(false);
                 return;
             }
-            if (waitonrunway) {
-                lineUpRunwayConfirmation(this, runway, tijd);
-                alreadylinedup = true;
-                requestMessageSend = false;
-                messageMessageSend = false;
-                Airplane::waitonrunway = true;
+            if (Airplane::waitOnRunway) {
+                lineUpRunwayConfirmation(this, Airplane::runway, tijd);
+                Airplane::alreadyLinedUp = true;
+                Airplane::requestMessageSend = false;
+                Airplane::messageMessageSend = false;
+                Airplane::waitOnRunway = true;
                 Airplane::setState("lined up");
-                setOperationTime(1);
-                runway->setHoldingShortOccupied(false);
+                Airplane::setOperationTime(1);
+                Airplane::runway->setHoldingShortOccupied(false);
                 return;
             }
-            if (waitatrunway) {
+            if (Airplane::waitAtRunway) {
                 waitAtRunwayConfirmation(this, tijd);
-                requestMessageSend = false;
-                messageMessageSend = false;
-                Airplane::waitatrunway = true;
+                Airplane::requestMessageSend = false;
+                Airplane::messageMessageSend = false;
+                Airplane::waitAtRunway = true;
                 setOperationTime(1);
                 return;
             }
@@ -1676,27 +1708,27 @@ void Airplane::takeOff() {
 
     logMessage("Airplane (" + Airplane::getNumber() + ") is taking off at " + Airplane::getAirport()->getName());
 
-    runway->setOccupied(false);
-    runway->setWaitingOnRunway(false);
-    runway->setPermissionToCross(true);
-    Airplane::waitonrunway = false;
+    Airplane::runway->setOccupied(false);
+    Airplane::runway->setWaitingOnRunway(false);
+    Airplane::runway->setPermissionToCross(true);
+    Airplane::waitOnRunway = false;
 
     Airplane::setAirport(NULL);
     Airplane::setRunway(NULL);
     Airplane::setState("Airborne");
 
     if (Airplane::getEngine() == "propeller"){
-        operationTime = cHeightLevelC;
-        height += cProprellerAscentionSpeed;
+        Airplane::operationTime = Airplane::kHeightLevelC;
+        Airplane::height += Airplane::kProprellerAscentionSpeed;
     }
     else if (Airplane::getEngine() == "jet"){
-        operationTime = cHeightLevelC;
-        height += cJetAscentionSpeed;
+        Airplane::operationTime = Airplane::kHeightLevelC;
+        Airplane::height += Airplane::kJetAscentionSpeed;
     }
 
-    ENSURE(runway == NULL && state == "Airborne" && airport == NULL && height != 0, "Airborne");
+    ENSURE(Airplane::runway == NULL && Airplane::state == "Airborne" && Airplane::airport == NULL && Airplane::height != 0, "Airborne");
 
-    currentTask = "taking-Off";
+    Airplane::currentTask = "taking-Off";
 
     Airplane::setsimulationFinished(true);
     return;
@@ -1707,12 +1739,12 @@ void Airplane::exitPlane(){
     REQUIRE(Airplane::getCurrentTask() == "exit passengers" && Airplane::atGate(), "correct state");
     Airplane::setTaxiPoint("");
     Airplane::setTaxiCrossing("");
-    if (passengers <= 0) {
+    if (Airplane::passengers <= 0) {
 
-        passengers = 0;
+        Airplane::passengers = 0;
 
-        logMessage(intToString(passengerCapacity) + " passengers exited " + callsign + " at gate "
-                   + intToString(gate) + " of " + airport->getName());
+        logMessage(intToString(Airplane::passengerCapacity) + " passengers exited " + Airplane::callsign + " at gate "
+                   + intToString(Airplane::gate) + " of " + Airplane::airport->getName());
 
         if(Airplane::getEmergencyInAirport()){
             Airplane::setState("emergency check");
@@ -1721,19 +1753,19 @@ void Airplane::exitPlane(){
             Airplane::setState("technical check");
 
         }
-        currentTask = "technical check";
+        Airplane::currentTask = "technical check";
         return;
     }else{
-        if (size == "small"){
-            operationTime = cSmall*cBoardingExitingTime;
-            passengers -= passengerCapacity/(cSmall*cBoardingExitingTime);
+        if (Airplane::size == "small"){
+            Airplane::operationTime = kSmall*Airplane::kBoardingExitingTime;
+            Airplane::passengers -= Airplane::passengerCapacity/(kSmall*Airplane::kBoardingExitingTime);
         }else{
             if (size == "medium"){
-                operationTime = cMedium*cBoardingExitingTime;
-                passengers -= passengerCapacity/(cMedium*cBoardingExitingTime);
+                Airplane::operationTime = kMedium*Airplane::kBoardingExitingTime;
+                Airplane::passengers -= Airplane::passengerCapacity/(kMedium*Airplane::kBoardingExitingTime);
             }else{
-                operationTime = cLarge*cBoardingExitingTime;
-                passengers -= passengerCapacity/(cLarge*cBoardingExitingTime);
+                Airplane::operationTime = kLarge*Airplane::kBoardingExitingTime;
+                Airplane::passengers -= Airplane::passengerCapacity/(kLarge*Airplane::kBoardingExitingTime);
 
             }
         }
@@ -1743,28 +1775,28 @@ void Airplane::exitPlane(){
 void Airplane::enterPlane(){
     REQUIRE(Airplane::getCurrentTask() == "board passengers" && Airplane::atGate(), "correct state");
 
-    if (passengers >= passengerCapacity) {
+    if (Airplane::passengers >= Airplane::passengerCapacity) {
 
-        passengers = passengerCapacity;
+        Airplane::passengers = Airplane::passengerCapacity;
 
-        logMessage(intToString(passengerCapacity) + " passengers entered " + callsign + " at gate "
-                            + intToString(gate) + " of " + airport->getName());
+        logMessage(intToString(Airplane::passengerCapacity) + " passengers entered " + Airplane::callsign + " at gate "
+                            + intToString(Airplane::gate) + " of " + Airplane::airport->getName());
 
         Airplane::setState("pushback");
-        currentTask = "IFR";
+        Airplane::currentTask = "IFR";
         return;
     }else{
-        if (size == "small"){
-            operationTime = cSmall*cBoardingExitingTime;
-            passengers += passengerCapacity / (cSmall*cBoardingExitingTime);
+        if (Airplane::size == "small"){
+            Airplane::operationTime = kSmall*Airplane::kBoardingExitingTime;
+            Airplane::passengers += Airplane::passengerCapacity / (kSmall*Airplane::kBoardingExitingTime);
         }else {
-            if (size == "medium"){
-                operationTime = cMedium*cBoardingExitingTime;
-                passengers += passengerCapacity / (cMedium*cBoardingExitingTime);
+            if (Airplane::size == "medium"){
+                Airplane::operationTime = kMedium*Airplane::kBoardingExitingTime;
+                Airplane::passengers += Airplane::passengerCapacity / (kMedium*Airplane::kBoardingExitingTime);
 
             }else{
-                operationTime = cLarge*cBoardingExitingTime;
-                passengers += passengerCapacity / (cLarge*cBoardingExitingTime);
+                Airplane::operationTime = kLarge*Airplane::kBoardingExitingTime;
+                Airplane::passengers += Airplane::passengerCapacity / (kLarge*Airplane::kBoardingExitingTime);
 
             }
         }
@@ -1775,13 +1807,13 @@ void Airplane::technicalCheck(){
     REQUIRE(Airplane::getCurrentTask() == "technical check" && Airplane::atGate(), "correct state");
 
     Airplane::emergencyInAirport = false;
-    if (!technicalChecked && size != "small"){
+    if (!Airplane::technicalChecked && Airplane::size != "small"){
         if (Airplane::getSize() == "medium") {
-            operationTime = cMedium-1;
+            Airplane::operationTime = kMedium-1;
         } else if (Airplane::getSize() == "large") {
-            operationTime = cLarge-1;
+            Airplane::operationTime = kLarge-1;
         }
-        technicalChecked = true;
+        Airplane::technicalChecked = true;
         return;
     }
 
@@ -1790,13 +1822,13 @@ void Airplane::technicalCheck(){
         Airplane::setState("emergency refuel");
     }
     else {
-        if (fuel == fuelCapacity){
-            currentTask = "board passengers";
+        if (Airplane::fuel == Airplane::fuelCapacity){
+            Airplane::currentTask = "board passengers";
             Airplane::setState("board passengers");
         }else{
             Airplane::setState("refuel");
-            Airplane::setOperationTime(ceil((fuelCapacity - fuel)/ cFuelPerMinute));
-            currentTask = "refueling";
+            Airplane::setOperationTime(ceil((Airplane::fuelCapacity - Airplane::fuel)/ Airplane::kFuelPerMinute));
+            Airplane::currentTask = "refueling";
         }
     }
 
@@ -1808,19 +1840,19 @@ void Airplane::refuel() {
 
     logMessage(getNumber() + " has been refueled");
 
-    if (emergencyInAirport) {
-        currentTask = "taxi to gate";
+    if (Airplane::emergencyInAirport) {
+        Airplane::currentTask = "taxi to gate";
 
     } else {
         Airplane::setState("board passengers");
 
         // << getTimePassed() << ", " << flightPlan->getDeparture() << endl;
-        if (getTimePassed() > flightPlan->getDeparture()) { ;
-            currentTask = "board passengers";
+        if (getTimePassed() > Airplane::flightPlan->getDeparture()) { ;
+            Airplane::currentTask = "board passengers";
 
         }else{
-            currentTask = "idle";
-            operationTime = flightPlan->getDeparture() - getTimePassed();
+            Airplane::currentTask = "idle";
+            Airplane::operationTime = Airplane::flightPlan->getDeparture() - getTimePassed();
         }
 
     }
@@ -1833,28 +1865,28 @@ void Airplane::refuel() {
 
 void Airplane::descend() {
 
-    if (engine == "jet"){
-        height -= cJetDescentionSpeed;
+    if (Airplane::engine == "jet"){
+        Airplane::height -= Airplane::kJetDescentionSpeed;
 
 
     }else{
-        height -= cProprellerDescentionSpeed;
+        Airplane::height -= Airplane::kProprellerDescentionSpeed;
 
     }
 
 }
 
 void Airplane::ascend() {
-    if (engine == "jet"){
-        height += cJetAscentionSpeed;
+    if (Airplane::engine == "jet"){
+        Airplane::height += Airplane::kJetAscentionSpeed;
 
     }else{
-        height += cProprellerAscentionSpeed;
+        Airplane::height += Airplane::kProprellerAscentionSpeed;
 
     }
 
-    if (height >= cHeightLevelB){
-        currentTask = "finished";
+    if (Airplane::height >= Airplane::kHeightLevelB){
+        Airplane::currentTask = "finished";
 
     }
 
@@ -1862,83 +1894,83 @@ void Airplane::ascend() {
 
 
 //simulation
-void Airplane::initSimulation(Airport *Port) {
+void Airplane::initSimulation(Airport *airport) {
     Airplane::setsimulationFinished(false);
-    Airplane::onitsway = false;
-    Airplane::waitonrunway = false;
-    Airplane::waitatrunway = false;
+    Airplane::onItsWay = false;
+    Airplane::waitOnRunway = false;
+    Airplane::waitAtRunway = false;
     Airplane::requestMessageSend = false;
     Airplane::messageMessageSend = false;
     Airplane::confirmMessageSend = false;
     Airplane::technicalChecked = false;
     Airplane::emergencyInAirport = false;
-    Airplane::alreadylinedup = false;
-    Airplane::IFRAuthorized = false;
+    Airplane::alreadyLinedUp = false;
+    Airplane::ifrAuthorized = false;
     Airplane::pushback = false;
 
     Airplane::setSquawkCode();
 
-    for (unsigned int i = 0; i < Port->getRunways().size(); i++) {
-        Port->getRunways()[i]->setPermissionToCross(true);
-        Port->getRunways()[i]->setOnItsWay(false);
-        Port->getRunways()[i]->setWaitingOnRunway(false);
-        Port->getRunways()[i]->setHoldingShortOccupied(false);
+    for (unsigned int i = 0; i < airport->getRunways().size(); i++) {
+        airport->getRunways()[i]->setPermissionToCross(true);
+        airport->getRunways()[i]->setOnItsWay(false);
+        airport->getRunways()[i]->setWaitingOnRunway(false);
+        airport->getRunways()[i]->setHoldingShortOccupied(false);
     }
-    if (flightPlan != NULL) {
-        if (getState() == "Approaching") {
-            Airplane::setHeight(cHeightLevelA);
-            operationTime = flightPlan->getArrival();
-            currentTask = "try to land";
+    if (Airplane::flightPlan != NULL) {
+        if (Airplane::getState() == "Approaching") {
+            Airplane::setHeight(Airplane::kHeightLevelA);
+            Airplane::operationTime = Airplane::flightPlan->getArrival();
+            Airplane::currentTask = "try to land";
 
 
         }
 
-        if (getState() == "Gate") {
+        if (Airplane::getState() == "Gate") {
 
             Airplane::setHeight(0);
             Airplane::setFuel(0);
             Airplane::setPassengers(0);
 
-            operationTime = flightPlan->getDeparture();
-            currentTask = "technical check";
+            Airplane::operationTime = Airplane::flightPlan->getDeparture();
+            Airplane::currentTask = "technical check";
 
-            setAirport(Port);
-            setGate(Port->getFreeGates()[0]);
-            Port->setGateOccupied(0, true);
+            Airplane::setAirport(airport);
+            Airplane::setGate(airport->getFreeGates()[0]);
+            airport->setGateOccupied(0, true);
 
         }
     }else{
-        currentTask = "finished";
+        Airplane::currentTask = "finished";
 
     }
 
 }
 
-void Airplane::execTask(Airport* Port) {
-    operationTime -= 1;
+void Airplane::execTask(Airport* airport) {
+    Airplane::operationTime -= 1;
 
-    if (currentTask == "try to land" || currentTask == "descending to 5000ft." || currentTask == "descending to 3000ft." || currentTask == "descending to 0ft." || currentTask == "landing"){
-        land(Port);
-    } else if (currentTask == "emergency crash" || currentTask == "emergency landing" || currentTask == "crash"){
-        emergencyLanding(Port);
-    } else if(currentTask == "IFR" || currentTask == "pushback" || currentTask == "request taxi"){
-        pushBack();
-    } else if(currentTask == "going to runway"){
-        taxiToRunway();
-    } else if(currentTask == "going to gate"){
-        taxiToGate();
-    } else if(currentTask == "taking off" || currentTask == "at holding point"){
-        takeOff();
-    } else if(currentTask == "exit passengers"){
-        exitPlane();
-    } else if(currentTask == "board passengers"){
-        enterPlane();
-    } else if(currentTask == "technical check"){
-        technicalCheck();
-    } else if(currentTask == "refueling"){
-        refuel();
-    }else if (currentTask == "idle"){
-        currentTask = "board passengers";
+    if (Airplane::currentTask == "try to land" || Airplane::currentTask == "descending to 5000ft." || Airplane::currentTask == "descending to 3000ft." || Airplane::currentTask == "descending to 0ft." || Airplane::currentTask == "landing"){
+        Airplane::land(airport);
+    } else if (Airplane::currentTask == "emergency crash" || Airplane::currentTask == "emergency landing" || Airplane::currentTask == "crash"){
+        emergencyLanding(airport);
+    } else if(Airplane::currentTask == "IFR" || Airplane::currentTask == "pushback" || Airplane::currentTask == "request taxi"){
+        Airplane::pushBack();
+    } else if(Airplane::currentTask == "going to runway"){
+        Airplane::taxiToRunway();
+    } else if(Airplane::currentTask == "going to gate"){
+        Airplane::taxiToGate();
+    } else if(Airplane::currentTask == "taking off" || Airplane::currentTask == "at holding point"){
+        Airplane::takeOff();
+    } else if(Airplane::currentTask == "exit passengers"){
+        Airplane::exitPlane();
+    } else if(Airplane::currentTask == "board passengers"){
+        Airplane::enterPlane();
+    } else if(Airplane::currentTask == "technical check"){
+        Airplane::technicalCheck();
+    } else if(Airplane::currentTask == "refueling"){
+        Airplane::refuel();
+    }else if (Airplane::currentTask == "idle"){
+        Airplane::currentTask = "board passengers";
 
     }
 
@@ -1946,84 +1978,83 @@ void Airplane::execTask(Airport* Port) {
 
 }
 
-bool Airplane::notFinished(Airport* Port) {
-    return !(currentTask == "finished");
+bool Airplane::notFinished(Airport* airport) {
+    return !(Airplane::currentTask == "finished");
 
 }
 
 void Airplane::continueTask() {
 
-    if (currentTask == "refueling"){
-        if (fuel + cFuelPerMinute < fuelCapacity) {
-            fuel += cFuelPerMinute;
+    if (Airplane::currentTask == "refueling"){
+        if (Airplane::fuel + Airplane::kFuelPerMinute < Airplane::fuelCapacity) {
+            Airplane::fuel += Airplane::kFuelPerMinute;
 
         }else{
-            fuel = fuelCapacity;
-            operationTime = 1;
+            Airplane::fuel = Airplane::fuelCapacity;
+            Airplane::operationTime = 1;
 
         }
         return;
     }
 
-    if (currentTask == "board passengers"){
-        if (size == "small") {
-            if (passengers + passengerCapacity / (cSmall*cBoardingExitingTime) <= passengerCapacity) {
-                passengers += passengerCapacity / (cSmall*cBoardingExitingTime);
+    if (Airplane::currentTask == "board passengers"){
+        if (Airplane::size == "small") {
+            if (Airplane::passengers + Airplane::passengerCapacity / (kSmall*Airplane::kBoardingExitingTime) <= Airplane::passengerCapacity) {
+                Airplane::passengers += Airplane::passengerCapacity / (kSmall*Airplane::kBoardingExitingTime);
                 return;
             }
 
 
         }else if (size == "medium"){
-            if (passengers + passengerCapacity / (cMedium*cBoardingExitingTime) <= passengerCapacity) {
-                passengers += passengerCapacity / (cMedium*cBoardingExitingTime);
+            if (Airplane::passengers + Airplane::passengerCapacity / (kMedium*Airplane::kBoardingExitingTime) <= Airplane::passengerCapacity) {
+                Airplane::passengers += Airplane::passengerCapacity / (kMedium*Airplane::kBoardingExitingTime);
                 return;
             }
 
 
-        }else if (size == "large"){
-            if (passengers + passengerCapacity/(cLarge*cBoardingExitingTime) <= passengerCapacity) {
-                passengers += passengerCapacity / (cLarge*cBoardingExitingTime);
+        }else if (Airplane::size == "large"){
+            if (Airplane::passengers + Airplane::passengerCapacity/(kLarge*Airplane::kBoardingExitingTime) <= Airplane::passengerCapacity) {
+                Airplane::passengers += Airplane::passengerCapacity / (kLarge*Airplane::kBoardingExitingTime);
                 return;
             }
 
         }
-        passengers = passengerCapacity;
-        operationTime = 1;
+        Airplane::passengers = Airplane::passengerCapacity;
+        Airplane::operationTime = 1;
     }
 
-    if (currentTask == "exit passengers"){
-        if (size == "small") {
-            if (passengers - passengerCapacity / (cSmall*cBoardingExitingTime) >= 0) {
-                passengers -= passengerCapacity / (cSmall*cBoardingExitingTime);
+    if (Airplane::currentTask == "exit passengers"){
+        if (Airplane::size == "small") {
+            if (Airplane::passengers - Airplane::passengerCapacity / (kSmall*Airplane::kBoardingExitingTime) >= 0) {
+                Airplane::passengers -= Airplane::passengerCapacity / (kSmall*Airplane::kBoardingExitingTime);
                 return;
             }
 
 
         }else if (size == "medium"){
-            if (passengers - passengerCapacity / (cMedium*cBoardingExitingTime) >= 0) {
-                passengers -= passengerCapacity / (cMedium*cBoardingExitingTime);
-                return;
+            if (Airplane::passengers - Airplane::passengerCapacity / (kMedium*Airplane::kBoardingExitingTime) >= 0) {
+                Airplane::passengers -= Airplane::passengerCapacity / (kMedium*Airplane::kBoardingExitingTime);
             }
 
 
         }else if (size == "large"){
-            if (passengers - passengerCapacity/(cLarge*cBoardingExitingTime) >= 0) {
-                passengers -= passengerCapacity / (cLarge*cBoardingExitingTime);
+            if (Airplane::passengers - Airplane::passengerCapacity/(kLarge*Airplane::kBoardingExitingTime) >= 0) {
+                Airplane::passengers -= Airplane::passengerCapacity / (kLarge*Airplane::kBoardingExitingTime);
                 return;
             }
 
         }
-        passengers = 0;
-        operationTime = 1;
+        Airplane::passengers = 0;
+        Airplane::operationTime = 1;
 
     }
 
-    if (currentTask == "taking-Off"){
+    if (Airplane::currentTask == "taking-Off"){
         Airplane::ascend();
 
     }
 
-    if (currentTask == "descending to 5000ft." || currentTask == "descending to 3000ft." || currentTask == "descending to 0ft."){
+    if (Airplane::currentTask == "descending to 5000ft." || Airplane::currentTask == "descending to 3000ft." || Airplane::currentTask == "descending to 0ft."){
         Airplane::descend();
 
     }
@@ -2041,22 +2072,22 @@ void Airplane::printInfo() {
 
 string Airplane::getInfo() {
     string str;
-    str = "\nAirplane:\t" + callsign + " (" + number +  ")\n"
-          + "->model:\t" + model +"\n"
-          + "->type:\t" + type + "\n"
-          + "->engine:\t" + engine + "\n"
-          + "->size:\t" + size + "\n";
+    str = "\nAirplane:\t" + Airplane::callsign + " (" + Airplane::number +  ")\n"
+          + "->model:\t" + Airplane::model +"\n"
+          + "->type:\t" + Airplane::type + "\n"
+          + "->engine:\t" + Airplane::engine + "\n"
+          + "->size:\t" + Airplane::size + "\n";
 
     return str;
 }
 
 int Airplane::getAttemptgate() const {
-    return attemptgate;
+    return Airplane::attemptGate;
 }
 
-void Airplane::setAttemptgate(int attemptgate) {
-    Airplane::attemptgate = attemptgate;
-    ENSURE(Airplane::getAttemptgate() == attemptgate, "attempt gate set");
+void Airplane::setAttemptgate(int attemptGate) {
+    Airplane::attemptGate = attemptGate;
+    ENSURE(Airplane::getAttemptgate() == attemptGate, "attempt gate set");
 }
 
 

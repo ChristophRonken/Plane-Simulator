@@ -20,17 +20,17 @@ using namespace std;
 class Airport;
 class Runway;
 
-enum SqauwkCodeEnum {PrivateSmallSquawk, PrivateMediumSquawk, AirlineMediumPropellerSquawk, AirlineMediumJetSquawk,
-                    AirlineLargeSquawk, MilitarySquawk, EmegencySquawk};
+enum ESqauwkCode {privateSmallSquawk, privateMediumSquawk, airlineMediumPropellerSquawk, airlineMediumJetSquawk,
+                    airlineLargeSquawk, militarySquawk, emegencySquawk};
 
-const int cSmall = 1;
-const int cMedium = 2;
-const int cLarge = 3;
+const int kSmall = 1;
+const int kMedium = 2;
+const int kLarge = 3;
 
-const int cRunwayLengthA = 500;
-const int cRunwayLengthB = 1000;
-const int cRunwayLengthC = 1500;
-const int cRunwayLengthD = 2000;
+const int kRunwayLengthA = 500;
+const int kRunwayLengthB = 1000;
+const int kRunwayLengthC = 1500;
+const int kRunwayLengthD = 2000;
 
 class Airplane {
 
@@ -56,7 +56,7 @@ class Airplane {
     int passengerCapacity;
     int height;
     int operationTime;
-    int attemptgate;
+    int attemptGate;
 
     string currentTask;
 
@@ -67,7 +67,7 @@ class Airplane {
 
     bool technicalChecked;
 
-    bool IFRAuthorized;
+    bool ifrAuthorized;
     bool pushback;
 
     bool requestMessageSend;
@@ -79,25 +79,25 @@ class Airplane {
     bool emergencyInAirport;
     bool crossed;
 
-    bool alreadylinedup;
-    bool permissiontotakeoff;
+    bool alreadyLinedUp;
+    bool permissionToTakeOff;
 
-    bool waitatrunway;
-    bool waitonrunway;
+    bool waitAtRunway;
+    bool waitOnRunway;
 
-    bool onitsway;
+    bool onItsWay;
     bool simulationFinished;
 
-    const static int cFuelPerMinute = 10000;
-    const static int cBoardingExitingTime = 5;
-    const static int cProprellerDescentionSpeed = 500;
-    const static int cJetDescentionSpeed = 1000;
-    const static int cProprellerAscentionSpeed = 500;
-    const static int cJetAscentionSpeed = 1000;
+    const static int kFuelPerMinute = 10000;
+    const static int kBoardingExitingTime = 5;
+    const static int kProprellerDescentionSpeed = 500;
+    const static int kJetDescentionSpeed = 1000;
+    const static int kProprellerAscentionSpeed = 500;
+    const static int kJetAscentionSpeed = 1000;
 
-    const static int cHeightLevelA = 10000;
-    const static int cHeightLevelB = 5000;
-    const static int cHeightLevelC = 3000;
+    const static int kHeightLevelA = 10000;
+    const static int kHeightLevelB = 5000;
+    const static int kHeightLevelC = 3000;
 
 public:
 
@@ -317,10 +317,10 @@ public:
 
     /**
      * set the variables of the plane
-     * @param Type of the given variable
-     * @param Value of the variable
+     * @param type of the given variable
+     * @param value of the variable
      */
-    void setVar(string Type, string Value);
+    void setVar(const string &type, const string &value);
 
     /**
      * prints the info of the plane in the console
@@ -343,10 +343,10 @@ public:
      * lands the plane in the given airport
      * A runway is optional
      * Precondition: this->validLandingSpot(Airport*, Runway* )
-     * @param Port
+     * @param airport
      * @param R
      */
-    void land(Airport* Port , Runway* R = NULL);
+    void land(Airport* airport , Runway* R = NULL);
 
     /**
      * sends the plane to the given runway
@@ -354,7 +354,7 @@ public:
      * Precondition: this->atAirport() && validRunway(Runway* )
      * @param runway
      */
-    void pushBack(Runway* Runw = NULL);
+    void pushBack(Runway* runway = NULL);
 
     /**
      * send the plane to gate x
@@ -372,35 +372,35 @@ public:
 
     /**
      * Check if the plane finished all it's tasks
-     * @param Port
+     * @param airport
      * @return bool
      */
-    bool notFinished(Airport* Port);
+    bool notFinished(Airport* airport);
 
     /**
      * execute a task
-     * @param Port
+     * @param airport
      */
-    void execTask(Airport* Port);
+    void execTask(Airport* airport);
 
     /**
      * Get the destination of this airplane
      * @return string
      */
-    string getDestination();
+    const string &getDestination();
 
     /**
      * Initialize the plane's variables to start a simulation
-     * @param Port
+     * @param airport
      */
-    void initSimulation(Airport *Port);
+    void initSimulation(Airport *airport);
 
     /**
      * Check if the string type would be a valid airplane type
      * @param type
      * @return bool
      */
-    bool validPlaneType(string type);
+    bool validPlaneType(const string &type);
 
     /**
      * Check if the gate index is both valid and unoccupied
@@ -412,18 +412,18 @@ public:
     /**
      * Check if this airplane can take off/land on the given Runway.
      * If no runway is given, it will see if a Runway exists with the same requirements
-     * @param Runw
+     * @param runway
      * @return bool
      */
-    bool validRunway(Runway* Runw = NULL);
+    bool validRunway(Runway* runway = NULL);
 
     /**
      * Check if the location to land is valid
-     * @param Port
-     * @param Runw
+     * @param airport
+     * @param runway
      * @return bool
      */
-    bool validLandingSpot(Airport* Port, Runway* Runw = NULL );
+    bool validLandingSpot(Airport* airport, Runway* runway = NULL );
 
     /**
      * Check if the airplane is at an airport
@@ -530,10 +530,10 @@ public:
 
     /**
      * Set if the IFR authorized the plane to initialize the departure procedure
-     * Postconditions: Airplane::isIFRAuthorized() == IFRAuthorized
-     * @param IFRAuthorized 
+     * Postconditions: Airplane::isIFRAuthorized() == ifrAuthorized
+     * @param ifrAuthorized
      */
-    void setIFRAuthorized(bool IFRAuthorized);
+    void setIFRAuthorized(bool ifrAuthorized);
 
     /**
      * Checl if pushback from gate is allowed
@@ -629,7 +629,7 @@ public:
     /**
      * Check if the airplane has permission to descend
      * @param height
-     * @param Port
+     * @param airport
      * @param Runway
      * @return bool
      */
@@ -638,7 +638,7 @@ public:
     /**
      * Make the airplane taxi to a (given) runway if possible
      */
-    void taxiToRunway(Runway* Runw = NULL);
+    void taxiToRunway(Runway* runway = NULL);
 
     /**
      * Make the airplane taxi to a given gate
@@ -648,7 +648,7 @@ public:
 
     /**
      * Perform an emergency landing
-     * @param Port
+     * @param airport
      */
     void emergencyLanding(Airport*);
 
@@ -657,14 +657,14 @@ public:
      * @param engine
      * @return bool
      */
-    bool validEngineType(string engine);
+    bool validEngineType(const string &engine);
 
     /**
      * check if the input value would be a valid size for the airplane
      * @param size
      * @return bool
      */
-    bool validSize(string size);
+    bool validSize(const string &size);
 
     /**
      * Let passengers exit the plane
@@ -688,10 +688,10 @@ public:
 
 
     /**
-     * Check if the plane was propperly initialized
+     * Check if the plane was properly initialized
      * @return bool
      */
-    bool propperlyInitialised();
+    bool properlyInitialised();
 
     /**
      * Check if all set values are valid to run a simulation (flightplan excluded)
@@ -744,7 +744,7 @@ public:
 
 };
 
-void setTime(string);
+void setTime(const string& time);
 const string &getTime();
 
 void setTimePassed(int time);
