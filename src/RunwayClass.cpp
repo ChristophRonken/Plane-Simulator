@@ -148,7 +148,7 @@ void Runway::setPermissionToCross(bool permissionToCross){
     ENSURE(Runway::getPermissionToCross() == permissionToCross, "permission to cross set");
 }
 
-bool Runway::propperlyInitialised() {
+bool Runway::properlyInitialised() {
     return (this == Runway::self);
 }
 
@@ -158,7 +158,7 @@ bool Runway::isValid() {
 
     }
 
-    return !(Runway::name.empty() || Runway::type.empty() || Runway::length == 0 || !Runway::taxiRoute->isValid() || !Runway::propperlyInitialised());
+    return !(Runway::name.empty() || Runway::type.empty() || Runway::length == 0 || !Runway::taxiRoute->isValid() || !Runway::properlyInitialised());
 }
 
 bool Runway::getOnItsWay(){

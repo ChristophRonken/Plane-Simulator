@@ -192,7 +192,7 @@ public:
      * Check if the plane is propperly initialised
      * @return bool
      */
-    bool propperlyInitialised();
+    bool properlyInitialised();
 
     /**
      * Check if the Values of the runway are valid
