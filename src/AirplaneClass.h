@@ -55,7 +55,7 @@ class Airplane {
     int passengers;
     int passengerCapacity;
     int height;
-    int opperationTime;
+    int operationTime;
     int attemptgate;
 
     string currentTask;
@@ -303,17 +303,17 @@ public:
     void setSize(const string &size);
 
     /**
-     * Get the opperation time of the airplane
+     * Get the operation time of the airplane
      * @return int
      */
-    int getOpperationTime() const;
+    int getOperationTime() const;
 
     /**
-     * Sets the opperation time of the airplane
-     * Postcondition: Airplane::getOpperationTime() == opperationTime
-     * @param opperationTime
+     * Sets the operation time of the airplane
+     * Postcondition: Airplane::getOperationTime() == operationTime
+     * @param operationTime
      */
-    void setOpperationTime(int opperationTime);
+    void setOperationTime(int operationTime);
 
     /**
      * set the variables of the plane

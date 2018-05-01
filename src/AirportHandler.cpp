@@ -514,7 +514,7 @@ void AirportHandler::runSimulation(const string &iata) {
                 Airplane *Plane = AirportHandler::airplanes[i];
 
                 if (Plane->notFinished(Port)) {
-                    if (Plane->getOpperationTime() > 0) {
+                    if (Plane->getOperationTime() > 0) {
                         Plane->continueTask();
 
                     } else {
@@ -526,7 +526,7 @@ void AirportHandler::runSimulation(const string &iata) {
                     cout << Plane->getState() << endl;
                     cout << Plane->getGate();
                     cout << endl;
-                    Plane->setOpperationTime(Plane->getOpperationTime() - 1);
+                    Plane->setOperationTime(Plane->getOperationTime() - 1);
 
                 }
             }
