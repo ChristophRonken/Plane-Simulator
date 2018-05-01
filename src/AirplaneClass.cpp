@@ -309,12 +309,7 @@ void Airplane::setSquawkCode(int code){
 
     }
 
-<<<<<<< HEAD
-    ENSURE(Airplane::getSquawkCode() != "" , "squawkCode set");
-=======
     ENSURE(Airplane::getSquawkCode().empty() , "squawkCode set");
->>>>>>> 5af4fc1d4fd170f6d5533c1f1d109cdf96885a49
-
 }
 const string &Airplane::getSquawkCode() const {
     return squawkCode;
