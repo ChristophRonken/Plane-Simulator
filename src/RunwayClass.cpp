@@ -11,7 +11,7 @@ const string &Runway::getName() const {
 
 void Runway::setName(const string &name) {
     Runway::name = name;
-    ENSURE(Runway::name == name, "name set");
+    ENSURE(Runway::getName() == name, "name set");
 }
 
 Airport *Runway::getAirport() const {
@@ -20,7 +20,7 @@ Airport *Runway::getAirport() const {
 
 void Runway::setAirport(Airport *airport) {
     Runway::airport = airport;
-    ENSURE(Runway::airport == airport, "setAirport set");
+    ENSURE(Runway::getAirport() == airport, "setAirport set");
 }
 
 bool Runway::isOccupied() const {
@@ -29,7 +29,7 @@ bool Runway::isOccupied() const {
 
 void Runway::setOccupied(bool occupied) {
     Runway::occupied = occupied;
-    ENSURE(Runway::occupied == occupied, "occupied set");
+    ENSURE(Runway::isOccupied() == occupied, "occupied set");
 }
 
 Runway::Runway(const string &name, Airport *airport){
@@ -68,7 +68,7 @@ const string &Runway::getType() const {
 void Runway::setType(const string &type) {
     REQUIRE(type == "grass" || type == "asphalt", "valid runway type");
     Runway::type = type;
-    ENSURE(Runway::type == type, "type set");
+    ENSURE(Runway::getType() == type, "type set");
 }
 
 int Runway::getLength() const {
@@ -77,7 +77,7 @@ int Runway::getLength() const {
 
 void Runway::setLength(int length) {
     Runway::length = length;
-    ENSURE(Runway::length == length, "lenght set");
+    ENSURE(Runway::getLength() == length, "lenght set");
 }
 
 void Runway::setVar(string type, string value) {
@@ -104,7 +104,7 @@ void Runway::setVar(string type, string value) {
 
 void Runway::setTaxiRoute(TaxiRoute* taxi){
     Runway::taxiRoute = taxi;
-    ENSURE(Runway::taxiRoute == taxi, "taxiroute set");
+    ENSURE(Runway::getTaxiRoute() == taxi, "taxiroute set");
 }
 
 TaxiRoute* Runway::getTaxiRoute(){
@@ -114,12 +114,12 @@ TaxiRoute* Runway::getTaxiRoute(){
 
 void Runway::setHoldingShortOccupied(bool holdingShortOccupied){
     Runway::holdingShortOccupied = holdingShortOccupied;
-    ENSURE(Runway::holdingShortOccupied == holdingShortOccupied, "holding short occupied set");
+    ENSURE(Runway::getHoldingShortOccupied() == holdingShortOccupied, "holding short occupied set");
 }
 
 void Runway::setWaitingOnRunway(bool waitingOnRunway){
     Runway::waitingOnRunway = waitingOnRunway;
-    ENSURE(Runway::waitingOnRunway == waitingOnRunway, "wayting on runway set");
+    ENSURE(Runway::getWaitingOnRunway() == waitingOnRunway, "wayting on runway set");
 }
 
 bool Runway::getHoldingShortOccupied(){
@@ -136,7 +136,7 @@ bool Runway::getCrossing(){
 
 void Runway::setCrossing(bool crossing){
     Runway::crossing = crossing;
-    ENSURE(Runway::crossing == crossing, "crossing set");
+    ENSURE(Runway::getCrossing() == crossing, "crossing set");
 }
 
 bool Runway::getPermissionToCross(){
@@ -145,7 +145,7 @@ bool Runway::getPermissionToCross(){
 
 void Runway::setPermissionToCross(bool permissionToCross){
     Runway::permissionToCross = permissionToCross;
-    ENSURE(Runway::permissionToCross == permissionToCross, "permission to cross set");
+    ENSURE(Runway::getPermissionToCross() == permissionToCross, "permission to cross set");
 }
 
 bool Runway::propperlyInitialised() {
@@ -161,11 +161,11 @@ bool Runway::isValid() {
     return !(Runway::name.empty() || Runway::type.empty() || Runway::length == 0 || !Runway::taxiRoute->isValid() || !Runway::propperlyInitialised());
 }
 
-bool Runway::getonItsWay(){
+bool Runway::getOnItsWay(){
     return Runway::onItsWay;
 }
 
-void Runway::setonItsWay(bool onitsway){
-    Runway::onItsWay = onitsway;
-    ENSURE(Runway::onItsWay == onitsway, "on its way set");
+void Runway::setOnItsWay(bool onItsWay){
+    Runway::onItsWay = onItsWay;
+    ENSURE(Runway::getOnItsWay() == onItsWay, "on its way set");
 }
