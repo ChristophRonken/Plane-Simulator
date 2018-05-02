@@ -1,0 +1,75 @@
+[00:01][ATC]
+$ callsign, roger mayday, squawk seven seven zero zero, cleared ILS landing runway 11R.
+[00:01][AIR]
+$ portCallsign, callsign, arriving at ANR.
+[00:01][ATC]
+$callsign, radar contact, descend and maintain five thousand feet, squawk 1234.
+[00:01][AIR]
+$ Descend and maintain five thousand feet, squawking 1234, callsign.
+[00:01][ATC]
+$ callsign, hold south on the one eighty radial, expect further clearance at 00:01.
+[00:01][AIR]
+$ Holding south on the one eighty radial, callsign.
+[00:01][ATC]
+$callsign, radar contact, descend and maintain three thousand feet.
+[00:01][AIR]
+$ Descend and maintain five thousand feet, callsign.
+[00:01][ATC]
+$callsign, cleared ILS approach runway11R.
+[00:01][AIR]
+$ Cleared ILS approach runway 11R, callsign.
+[00:01][AIR]
+$ portCallsign, callsign, runway 11Rvacated.
+[00:01][AIR]
+$ portCallsign, callsign, requesting IFR clearancy to Destination.
+[00:01][ATC]
+$ callsign, portCallsign, cleared to Destination, maintain five thousand, expect flight level one zero zero - ten minutes after departure, squawk 1234.
+[00:01][AIR]
+Cleared to Destination, initial altitude five thousand, expecting one zero zero in ten, squawking 1234, callsign.
+[00:01][AIR]
+$ portCallsign, callsign at gate -1, requesting pushback.
+[00:01][ATC]
+$ callsign, portCallsign, pushback approved.
+[00:01][AIR]
+$ Pushback approved, callsign.
+[00:01][AIR]
+$ callsign is ready to taxi.
+[00:01][AIR]
+$ portCallsign, callsign, holding short at 11R.
+[00:01][ATC]
+$ callsign, hold position.
+[00:01][AIR]
+$ Holding position, callsign.
+[00:01][ATC]
+$ callsign, line-up runway 11R and wait.
+[00:01][AIR]
+$ Lining up runway 11R and waitcallsign[00:01][ATC]
+$ callsign, runway 11R cleared for take-off.
+[00:01][AIR]
+$ Runway 11Rcleared for take-off, callsign.
+[00:01][ATC]
+$ callsign, taxi to holding point CrossingA via A.
+[00:01][AIR]
+$ Taxi to holding point CrossingA via A, callsign.
+[00:01][ATC]
+$ callsign, taxi to runway 11R via A.
+[00:01][AIR]
+$ Taxi to runway 11R via A, callsign.
+[00:01][ATC]
+$ callsign, taxi to gate 5 via A.
+[00:01][AIR]
+$ Taxi to gate 5 via A, callsign.
+[00:01][AIR]
+$ portCallsign, callsign, holding short at  CrossingA.
+[00:01][ATC]
+$ callsign, cleared to cross CrossingA.
+[00:01][AIR]
+$ Cleared to cross runway CrossingA.
+[00:01][AIR]
+$ Mayday, mayday, mayday, portCallsign, callsign, out of fuel, request immidiate landing, 70 passengers on board.
+[00:01][ATC]
+$ callsign, roger mayday, squawk seven seven zero zero, cleared ILS landing runway 11R.
+[00:01][AIR]
+$ Mayday, mayday, mayday, portCallsign, callsign, out of fuel, performing emergency landing, 70 passengers on board.
+[00:01][ATC]
+$ callsign, roger mayday, squawk seven seven zero zero, emergency personal on standby, good luck!

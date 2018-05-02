@@ -1,0 +1,17 @@
+
+Airport:	Antwerp International Airport (ANR)
+->callsign:	Antwerp Tower
+->gates:	10
+->runways:	2
+
+Airplane:	Speedbird 466 (BAW466)
+->model:	Boeing 737
+->type:	military
+->engine:	jet
+->size:	small
+
+Airplane:	Speedbird 467 (BAW467)
+->model:	Boeing 737
+->type:	airline
+->engine:	jet
+->size:	medium
