@@ -749,8 +749,6 @@ public:
 
     void setWaitOnRunway(bool waitOnRunway);
 
-    bool isSimulationFinished() const;
-
     bool isAlreadyLinedUp() const;
 
     void setAlreadyLinedUp(bool alreadyLinedUp);

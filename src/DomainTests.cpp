@@ -208,6 +208,7 @@ namespace {
 
     TEST_F(FlightPlanDomain, isValid){
         myString = "destination";
+        flightPlan->setInterval(0);
         flightPlan->setDestination(myString);
         EXPECT_FALSE(flightPlan->isValid());
         myInt = 45;
@@ -865,13 +866,13 @@ namespace {
         airplane->setAirport(airport);
         airplane->setGate(3);
         flightPlan = new FlightPlan();
-        flightPlan->setDeparture(20);
         airplane->setFlightPlan(flightPlan);
         airplane->setEmergencyInAirport(true);
         airplane->refuel();
         EXPECT_EQ(airplane->getCurrentTask(), "taxi to gate");
         airplane->setEmergencyInAirport(false);
         airplane->setCurrentTask("refueling");
+        flightPlan->setDeparture(300);
         airplane->refuel();
         EXPECT_EQ(airplane->getCurrentTask(), "idle");
         flightPlan->setDeparture(0);

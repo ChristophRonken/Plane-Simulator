@@ -1742,7 +1742,7 @@ void Airplane::refuel() {
     REQUIRE(atGate(), "at gate");
     REQUIRE(Airplane::flightPlan != NULL, "flightplan assigned");
 
-    Airplane::setFuel(Airplane::getFuelCapacity());
+
     logMessage(getNumber() + " has been refueled");
 
     if (Airplane::emergencyInAirport) {
@@ -1762,6 +1762,7 @@ void Airplane::refuel() {
         }
 
     }
+    Airplane::setFuel(Airplane::getFuelCapacity());
 }
 
 void Airplane::descend(Airport * airport) {
@@ -2040,14 +2041,6 @@ void Airplane::setWaitOnRunway(bool waitOnRunway) {
     ENSURE(Airplane::waitOnRunway == waitOnRunway, "technicalChecked set");
 }
 
-
-bool Airplane::isSimulationFinished() const {
-    return Airplane::simulationFinished;
-}
-void Airplane::setSimulationFinished(bool simulationFinished) {
-    Airplane::simulationFinished = simulationFinished;
-    ENSURE(Airplane::simulationFinished == simulationFinished, "technicalChecked set");
-}
 
 
 
