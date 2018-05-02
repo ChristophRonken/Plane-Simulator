@@ -57,14 +57,14 @@ $ Cleared ILS approach runway 11R, Speedbird 467.
 [5:48][AIR]
 $ Antwerp Tower, Speedbird 467, runway 11Rvacated.
 [5:49][ATC]
-$ Speedbird 466, taxi to runway 11L via TPB.
-[5:49][AIR]
-$ Taxi to runway 11L via TPB, Speedbird 466.
-[5:49][ATC]
 $ Speedbird 467, taxi to gate 0 via TPA.
 [5:50][AIR]
 $ Taxi to gate 0 via TPA, Speedbird 467.
-[5:51][AIR]
+[5:55][ATC]
+$ Speedbird 466, taxi to runway 11L via TPB.
+[5:56][AIR]
+$ Taxi to runway 11L via TPB, Speedbird 466.
+[5:58][AIR]
 $ Antwerp Tower, Speedbird 466, holding short at 11L.
 [6:08][AIR]
 $ Antwerp Tower, Speedbird 467, requesting IFR clearancy to LCY.
