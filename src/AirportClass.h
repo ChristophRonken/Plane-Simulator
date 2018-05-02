@@ -136,7 +136,7 @@ public:
      * @param type of the var
      * @param value of the var
      */
-    void setVar(string type, string value);
+    void setVar(const string &type, const string &value);
 
     /**
      * adds a runway to the airport
@@ -151,7 +151,7 @@ public:
      * Postconditions: !Airport::runwayExists(name)
      * @param name
      */
-    void removeRunway(string name);
+    void removeRunway(const string &name);
 
     /**
      * prints the airports info in the console
@@ -204,7 +204,7 @@ public:
      * @param name
      * @return bool
      */
-    bool runwayExists(string name);
+    bool runwayExists(const string &name);
 
     /**
      * Get the Airplane that is currentle waiting at height 5000.
@@ -237,13 +237,13 @@ public:
      * if the runway doesn't exist, it return NULL
      * @return Runway
      */
-    Runway* getRunway(string name);
+    Runway* getRunway(const string &name);
 
     /**
      * Check if the airport is propperly initialised
      * @return
      */
-    bool propperlyInitialised();
+    bool properlyInitialised();
 
     /**
      * Check if the values of the airport are propperly initialised
