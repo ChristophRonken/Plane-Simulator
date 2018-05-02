@@ -328,18 +328,11 @@ namespace {
         EXPECT_FALSE(airplane->getEmergencyInAirport());
         EXPECT_FALSE(airplane->isOnItsWay());
         EXPECT_FALSE(airplane->getSimulationFinished());
-
-
-        /*
-
-        Airplane::emergencyInAirport = false;
-        Airplane::crossed = false;
-        Airplane::alreadyLinedUp = false;
-        Airplane::permissionToTakeOff = false;
-        Airplane::waitAtRunway = false;
-        Airplane::waitOnRunway = false;
-
-         */
+        EXPECT_FALSE(airplane->isCrossed());
+        EXPECT_FALSE(airplane->isAlreadyLinedUp());
+        EXPECT_FALSE(airplane->isWaitAtRunway());
+        EXPECT_FALSE(airplane->isWaitOnRunway());
+        EXPECT_FALSE(airplane->isPermissionToTakeOff());
     }
 
     TEST_F(AirplaneDomain, isReadyForDeparture) {
@@ -544,6 +537,11 @@ namespace {
         EXPECT_TRUE(airplane->validPlaneType("airline"));
         EXPECT_TRUE(airplane->validPlaneType("military"));
         EXPECT_TRUE(airplane->validPlaneType("emergency"));
+
+        airplane->setType("military");
+        airplane->setSize("small");
+        airplane->setEngine("jet");
+        EXPECT_FALSE(airplane->validPlaneType("emergency"));
     }
 
     TEST_F(AirplaneDomain, validGate){
@@ -701,4 +699,162 @@ namespace {
         EXPECT_FALSE(airplane->isPushback());
     }
 
+    TEST_F(AirplaneDomain, exitPlane) {
+        airport = new Airport();
+        airport->setGates(5);
+
+        airplane = new Airplane();
+        airplane->setAirport(airport);
+        airplane->setGate(3);
+        airplane->setEngine("propeller");
+        airplane->setSize("large");
+        airplane->setAirport(airport);
+        airplane->setCurrentTask("IFR");
+        airplane->setFlightPlan(flightPlan);
+        airplane->setPassengerCapacity(100);
+        airplane->setPassengers(0);
+        airplane->setEmergencyInAirport(true);
+        airplane->setCurrentTask("exit passengers");
+        airplane->exitPlane();
+        EXPECT_EQ(airplane->getCurrentTask(), "technical check");
+        EXPECT_EQ(airplane->getState(), "emergency check");
+        airplane->setCurrentTask("exit passengers");
+        airplane->setEmergencyInAirport(false);
+        airplane->exitPlane();
+        EXPECT_EQ(airplane->getCurrentTask(), "technical check");
+        EXPECT_EQ(airplane->getState(), "technical check");
+        airplane->setCurrentTask("exit passengers");
+        airplane->setPassengers(100);
+        airplane->exitPlane();
+        EXPECT_TRUE(airplane->getOperationTime() > 0);
+        EXPECT_TRUE(airplane->getPassengers() < 100);
+
+    }
+
+    TEST_F(AirplaneDomain, enterPlane) {
+        airport = new Airport();
+        airport->setGates(5);
+
+        airplane = new Airplane();
+        airplane->setAirport(airport);
+        airplane->setGate(3);
+        airplane->setEngine("propeller");
+        airplane->setSize("large");
+        airplane->setPassengerCapacity(100);
+        airplane->setPassengers(100);
+        airplane->setCurrentTask("board passengers");
+        airplane->enterPlane();
+        EXPECT_EQ(airplane->getCurrentTask(), "IFR");
+        EXPECT_EQ(airplane->getState(), "pushback");
+        airplane->setCurrentTask("board passengers");
+        airplane->setPassengers(50);
+        airplane->enterPlane();
+        EXPECT_TRUE(airplane->getOperationTime() > 0);
+        EXPECT_TRUE(airplane->getPassengers() > 50);
+    }
+
+    TEST_F(AirplaneDomain, technicalCheck) {
+        airplane = new Airplane();
+        airplane->setCurrentTask("technical check");
+        airport = new Airport();
+        airport->setGates(5);
+        airplane->setAirport(airport);
+        airplane->setGate(3);
+
+        airplane->setFuelCapacity(200000);
+        airplane->setFuel(200000);
+
+
+        airplane->technicalCheck();
+        EXPECT_TRUE(airplane->getTechnicalChecked());
+
+        airplane->setEmergencyInAirport(true);
+        airplane->technicalCheck();
+        EXPECT_EQ(airplane->getCurrentTask(), "taxi to gate");
+
+        airplane->setCurrentTask("technical check");
+        airplane->setFuelCapacity(200000);
+        airplane->setFuel(100000);
+
+        airplane->setEmergencyInAirport(true);
+        airplane->technicalCheck();
+        EXPECT_EQ(airplane->getCurrentTask(), "refueling");
+        EXPECT_EQ(airplane->getState(), "emergency refuel");
+        EXPECT_TRUE(airplane->getOperationTime() > 0);
+
+        airplane->setCurrentTask("technical check");
+        airplane->setFuelCapacity(200000);
+        airplane->setFuel(200000);
+
+        airplane->setEmergencyInAirport(false);
+        airplane->technicalCheck();
+        EXPECT_EQ(airplane->getCurrentTask(), "board passengers");
+        EXPECT_EQ(airplane->getState(), "board passengers");
+
+        airplane->setCurrentTask("technical check");
+        airplane->setFuelCapacity(200000);
+        airplane->setFuel(100000);
+
+        airplane->setEmergencyInAirport(false);
+        airplane->technicalCheck();
+        EXPECT_EQ(airplane->getCurrentTask(), "refueling");
+        EXPECT_EQ(airplane->getState(), "refuel");
+        EXPECT_TRUE(airplane->getOperationTime() > 0);
+    }
+
+    TEST_F(AirplaneDomain, refuel) {
+        airplane = new Airplane();
+        airplane->setCurrentTask("refueling");
+        airport = new Airport();
+        airport->setGates(5);
+        airplane->setAirport(airport);
+        airplane->setGate(3);
+        flightPlan = new FlightPlan();
+        flightPlan->setDeparture(20);
+        airplane->setFlightPlan(flightPlan);
+        airplane->setEmergencyInAirport(true);
+        airplane->refuel();
+        EXPECT_EQ(airplane->getCurrentTask(), "taxi to gate");
+        airplane->setEmergencyInAirport(false);
+        airplane->setCurrentTask("refueling");
+        airplane->refuel();
+        EXPECT_EQ(airplane->getCurrentTask(), "idle");
+        flightPlan->setDeparture(0);
+        airplane->setCurrentTask("refueling");
+        airplane->refuel();
+        EXPECT_EQ(airplane->getCurrentTask(), "board passengers");
+    }
+
+    TEST_F(AirplaneDomain, descend){
+        airplane = new Airplane();
+        airplane->setEngine("jet");
+        airplane->setHeight(2000);
+        airport = new Airport();
+        airplane->descend(airport);
+        EXPECT_EQ(airplane->getHeight(), 1000);
+        airplane->setEngine("propeller");
+        airplane->descend(airport);
+        EXPECT_EQ(airplane->getHeight(), 500);
+    }
+
+    TEST_F(AirplaneDomain, ascend){
+        airplane = new Airplane();
+        airplane->setEngine("propeller");
+        airplane->setHeight(2500);
+        airport = new Airport();
+        airplane->ascend(airport);
+        EXPECT_EQ(airplane->getHeight(), 3000);
+        airplane->setEngine("jet");
+        airplane->ascend(airport);
+        EXPECT_EQ(airplane->getHeight(), 4000);
+        airplane->ascend(airport);
+        EXPECT_EQ(airplane->getCurrentTask(), "finished");
+    }
+
+    TEST_F(AirplaneDomain, notFinished) {
+    airplane = new Airplane();
+    EXPECT_TRUE(airplane->notFinished());
+    airplane->setCurrentTask("finished");
+    EXPECT_FALSE(airplane->notFinished());
+    }
 }

@@ -236,7 +236,60 @@ namespace {
 
     }
 
+    TEST_F(AirplaneInput, exitPlane) {
+        airplane = new Airplane();
+        airplane->setCurrentTask("wrong task");
+        EXPECT_DEATH(airplane->exitPlane();, "correct state");
+        airplane->setCurrentTask("exit passengers");
+        EXPECT_DEATH(airplane->exitPlane();, "at gate");
+        airport = new Airport();
+        airport->setGates(5);
+        airplane->setAirport(airport);
+        airplane->setGate(3);
+        EXPECT_NO_FATAL_FAILURE(airplane->exitPlane(););
+    }
 
+    TEST_F(AirplaneInput, enterPlane) {
+        airplane = new Airplane();
+        airplane->setCurrentTask("wrong task");
+        EXPECT_DEATH(airplane->enterPlane();, "correct state");
+        airplane->setCurrentTask("board passengers");
+        EXPECT_DEATH(airplane->enterPlane();, "at gate");
+        airport = new Airport();
+        airport->setGates(5);
+        airplane->setAirport(airport);
+        airplane->setGate(3);
+        EXPECT_NO_FATAL_FAILURE(airplane->enterPlane(););
+    }
+
+    TEST_F(AirplaneInput, technicalCheck) {
+        airplane = new Airplane();
+        airplane->setCurrentTask("wrong task");
+        EXPECT_DEATH(airplane->technicalCheck();, "correct state");
+        airplane->setCurrentTask("technical check");
+        EXPECT_DEATH(airplane->technicalCheck();, "at gate");
+        airport = new Airport();
+        airport->setGates(5);
+        airplane->setAirport(airport);
+        airplane->setGate(3);
+        EXPECT_NO_FATAL_FAILURE(airplane->technicalCheck(););
+    }
+
+    TEST_F(AirplaneInput, refuel) {
+        airplane = new Airplane();
+        airplane->setCurrentTask("wrong task");
+        EXPECT_DEATH(airplane->refuel();, "correct state");
+        airplane->setCurrentTask("refueling");
+        EXPECT_DEATH(airplane->refuel();, "at gate");
+        airport = new Airport();
+        airport->setGates(5);
+        airplane->setAirport(airport);
+        airplane->setGate(3);
+        EXPECT_DEATH(airplane->refuel();, "flightplan assigned");
+        flightPlan = new FlightPlan();
+        airplane->setFlightPlan(flightPlan);
+        EXPECT_NO_FATAL_FAILURE(airplane->refuel(););
+    }
 
 
 }

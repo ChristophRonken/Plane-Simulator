@@ -60,9 +60,9 @@ Airplane::Airplane() {
 bool Airplane::getTechnicalChecked() const{
     return Airplane::technicalChecked;
 }
-void Airplane::setTechnicalChecked(bool boolean) {
-    Airplane::technicalChecked = boolean;
-    ENSURE(Airplane::technicalChecked == boolean, "technicalChecked set");
+void Airplane::setTechnicalChecked(bool technicalChecked) {
+    Airplane::technicalChecked = technicalChecked;
+    ENSURE(Airplane::technicalChecked == technicalChecked, "technicalChecked set");
 
 }
 
@@ -197,9 +197,7 @@ int Airplane::getGate() const {
     return Airplane::gate;
 }
 void Airplane::setGate(int gate) {
-    if (gate != -1){
-        REQUIRE(Airplane::atAirport(), "at Airport");
-    }
+    REQUIRE(gate == -1 || Airplane::atAirport(), "at Airport");
     REQUIRE(Airplane::validGate(gate), "validGate");
     Airplane::gate = gate;
     ENSURE(Airplane::gate == gate, "gate set");
@@ -1695,7 +1693,8 @@ void Airplane::takeOff() {
 }
 
 void Airplane::exitPlane(){
-    REQUIRE(Airplane::getCurrentTask() == "exit passengers" && Airplane::atGate(), "correct state");
+    REQUIRE(Airplane::getCurrentTask() == "exit passengers" , "correct state");
+    REQUIRE(Airplane::atGate(), "at gate");
     Airplane::setTaxiPoint("");
     Airplane::setTaxiCrossing("");
     if (Airplane::passengers <= 0) {
@@ -1714,25 +1713,29 @@ void Airplane::exitPlane(){
         }
         Airplane::currentTask = "technical check";
         return;
-    }else{
+    }
+    else {
         if (Airplane::size == "small"){
             Airplane::operationTime = kSmall*Airplane::kBoardingExitingTime;
             Airplane::passengers -= Airplane::passengerCapacity/(kSmall*Airplane::kBoardingExitingTime);
-        }else{
-            if (size == "medium"){
+        }
+        else if (size == "medium"){
                 Airplane::operationTime = kMedium*Airplane::kBoardingExitingTime;
                 Airplane::passengers -= Airplane::passengerCapacity/(kMedium*Airplane::kBoardingExitingTime);
-            }else{
-                Airplane::operationTime = kLarge*Airplane::kBoardingExitingTime;
-                Airplane::passengers -= Airplane::passengerCapacity/(kLarge*Airplane::kBoardingExitingTime);
+        }
+        else {
+            Airplane::operationTime = kLarge*Airplane::kBoardingExitingTime;
+            Airplane::passengers -= Airplane::passengerCapacity/(kLarge*Airplane::kBoardingExitingTime);
 
-            }
+
         }
     }
 }
 
 void Airplane::enterPlane(){
-    REQUIRE(Airplane::getCurrentTask() == "board passengers" && Airplane::atGate(), "correct state");
+    REQUIRE(Airplane::getCurrentTask() == "board passengers", "correct state");
+    REQUIRE(Airplane::atGate(), "at gate");
+
 
     if (Airplane::passengers >= Airplane::passengerCapacity) {
 
@@ -1763,13 +1766,15 @@ void Airplane::enterPlane(){
 }
 
 void Airplane::technicalCheck(){
-    REQUIRE(Airplane::getCurrentTask() == "technical check" && Airplane::atGate(), "correct state");
+    REQUIRE(Airplane::getCurrentTask() == "technical check", "correct state");
+    REQUIRE(Airplane::atGate(), "at gate");
 
-    Airplane::emergencyInAirport = false;
+
     if (!Airplane::technicalChecked && Airplane::size != "small"){
         if (Airplane::getSize() == "medium") {
             Airplane::operationTime = kMedium-1;
-        } else if (Airplane::getSize() == "large") {
+        }
+        else if (Airplane::getSize() == "large") {
             Airplane::operationTime = kLarge-1;
         }
         Airplane::technicalChecked = true;
@@ -1778,31 +1783,45 @@ void Airplane::technicalCheck(){
 
     logMessage(getNumber() + " has been checked for technical malfunction");
     if (emergencyInAirport){
-        Airplane::setState("emergency refuel");
+        if (Airplane::fuel == Airplane::fuelCapacity){
+            Airplane::currentTask = "taxi to gate";
+            return;
+        }
+        else {
+            Airplane::setState("emergency refuel");
+            Airplane::setOperationTime(ceil((Airplane::fuelCapacity - Airplane::fuel)/ Airplane::kFuelPerMinute));
+            Airplane::currentTask = "refueling";
+            return;
+        }
     }
     else {
         if (Airplane::fuel == Airplane::fuelCapacity){
             Airplane::currentTask = "board passengers";
             Airplane::setState("board passengers");
-        }else{
+            return;
+        }
+        else {
             Airplane::setState("refuel");
             Airplane::setOperationTime(ceil((Airplane::fuelCapacity - Airplane::fuel)/ Airplane::kFuelPerMinute));
             Airplane::currentTask = "refueling";
+            return;
         }
     }
-
-    return;
 }
 
 void Airplane::refuel() {
-    REQUIRE(Airplane::getCurrentTask() == "refueling" && atGate(), "correct state");
+    REQUIRE(Airplane::getCurrentTask() == "refueling", "correct state");
+    REQUIRE(atGate(), "at gate");
+    REQUIRE(Airplane::flightPlan != NULL, "flightplan assigned");
 
+    Airplane::setFuel(Airplane::getFuelCapacity());
     logMessage(getNumber() + " has been refueled");
 
     if (Airplane::emergencyInAirport) {
         Airplane::currentTask = "taxi to gate";
+    }
 
-    } else {
+    else {
         Airplane::setState("board passengers");
 
         // << getTimePassed() << ", " << flightPlan->getDeparture() << endl;
@@ -1815,11 +1834,6 @@ void Airplane::refuel() {
         }
 
     }
-
-    Airplane::setFuel(Airplane::getFuelCapacity());
-
-    return;
-
 }
 
 void Airplane::descend(Airport * airport) {
@@ -1841,7 +1855,8 @@ void Airplane::ascend(Airport* airport) {
     if (Airplane::engine == "jet"){
         Airplane::height += Airplane::kJetAscentionSpeed;
 
-    }else{
+    }
+    else {
         Airplane::height += Airplane::kProprellerAscentionSpeed;
 
     }
@@ -1934,14 +1949,10 @@ void Airplane::execTask(Airport* airport) {
         Airplane::refuel();
     }else if (Airplane::currentTask == "idle"){
         Airplane::currentTask = "board passengers";
-
     }
-
-
-
 }
 
-bool Airplane::notFinished(Airport* airport) {
+bool Airplane::notFinished() {
     return !(Airplane::currentTask == "finished");
 
 }
@@ -2048,7 +2059,6 @@ string Airplane::getInfo() {
 int Airplane::getAttemptGate() const {
     return Airplane::attemptGate;
 }
-
 void Airplane::setAttemptGate(int attemptGate) {
     Airplane::attemptGate = attemptGate;
     ENSURE(Airplane::getAttemptGate() == attemptGate, "attempt gate set");
@@ -2057,11 +2067,60 @@ void Airplane::setAttemptGate(int attemptGate) {
 bool Airplane::isOnItsWay() const {
     return onItsWay;
 }
-
 void Airplane::setOnItsWay(bool onItsWay) {
     Airplane::onItsWay = onItsWay;
-    ENSURE(Airplane::isOnItsWay() == onItsWay, "onItsWay set");
+    ENSURE(Airplane::onItsWay == onItsWay, "onItsWay set");
 }
+
+bool Airplane::isCrossed() const {
+    return Airplane::crossed;
+}
+void Airplane::setCrossed(bool crossed) {
+    Airplane::crossed = crossed;
+    ENSURE(Airplane::crossed == crossed, "crossed set");
+}
+
+bool Airplane::isAlreadyLinedUp() const {
+    return Airplane::alreadyLinedUp;
+}
+void Airplane::setAlreadyLinedUp(bool alreadyLinedUp) {
+    Airplane::alreadyLinedUp = alreadyLinedUp;
+    ENSURE(Airplane::alreadyLinedUp == alreadyLinedUp, "technicalChecked set");
+}
+
+bool Airplane::isPermissionToTakeOff() const {
+    return Airplane::permissionToTakeOff;
+}
+void Airplane::setPermissionToTakeOff(bool permissionToTakeOff) {
+    Airplane::permissionToTakeOff = permissionToTakeOff;
+    ENSURE(Airplane::permissionToTakeOff == permissionToTakeOff, "technicalChecked set");
+}
+
+bool Airplane::isWaitAtRunway() const {
+    return Airplane::waitAtRunway;
+}
+void Airplane::setWaitAtRunway(bool waitAtRunway) {
+    Airplane::waitAtRunway = waitAtRunway;
+    ENSURE(Airplane::waitAtRunway == waitAtRunway, "technicalChecked set");
+}
+
+bool Airplane::isWaitOnRunway() const {
+    return Airplane::waitOnRunway;
+}
+void Airplane::setWaitOnRunway(bool waitOnRunway) {
+    Airplane::waitOnRunway = waitOnRunway;
+    ENSURE(Airplane::waitOnRunway == waitOnRunway, "technicalChecked set");
+}
+
+
+bool Airplane::isSimulationFinished() const {
+    return Airplane::simulationFinished;
+}
+void Airplane::setSimulationFinished(bool simulationFinished) {
+    Airplane::simulationFinished = simulationFinished;
+    ENSURE(Airplane::simulationFinished == simulationFinished, "technicalChecked set");
+}
+
 
 
 

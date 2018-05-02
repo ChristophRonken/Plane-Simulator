@@ -450,7 +450,7 @@ bool AirportHandler::airportEmpty(Airport *airport) {
     if (airport->getFreeRunways().size() == airport->getRunways().size()){
         if (airport->getFreeGates().size() == unsigned (airport->getGates())){
             for (unsigned int i = 0; i < AirportHandler::airplanes.size(); i++){
-                if (AirportHandler::airplanes[i]->notFinished(airport)) {
+                if (AirportHandler::airplanes[i]->notFinished()) {
                     return false;
 
                 }
@@ -513,7 +513,7 @@ void AirportHandler::runSimulation(const string &iata) {
             for (unsigned int i = 0; i < AirportHandler::airplanes.size(); i++) {
                 Airplane *airplane = AirportHandler::airplanes[i];
 
-                if (airplane->notFinished(airport)) {
+                if (airplane->notFinished()) {
 
                     if (airplane->getOperationTime() > 0) {
                         airplane->continueTask(airport);

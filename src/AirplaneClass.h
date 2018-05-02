@@ -192,7 +192,7 @@ public:
 
     /**
      * Sets the gate index
-     * Preconditions: validGate(gate)
+     * Preconditions: validGate(gate) && (gate == -1 || Airport::atGate())
      * Postconditions: Airplane::getGate() == gate
      * @param gate
      */
@@ -354,20 +354,11 @@ public:
     /**
      * sends the plane to the given runway
      * if no runway was given, it will choose the first free runway
-     * Precondition: this->atAirport() && validRunway(Runway* ) &&
+     * Precondition: this->atAirport() && validRunway() &&
      *      Airplane::getCurrentTask() == "IFR" || Airplane::getCurrentTask() == "pushback"
-     *      || Airplane::getCurrentTask() == "request taxi && Airplane::flightPlan != NULL"
-     * @param runway
+     *      || Airplane::getCurrentTask() == "request taxi" && Airplane::flightPlan != NULL
      */
     void pushBack();
-
-    /**
-     * send the plane to gate x
-     * if no gate index is given, the first free gate is chosen
-     * Precondition: this->validGate() && this->atAirport()
-     * @param gate
-     */
-    void toGate(int gate = -1);
 
     /**
      * send the plane to exit the airport
@@ -380,7 +371,7 @@ public:
      * @param airport
      * @return bool
      */
-    bool notFinished(Airport* airport);
+    bool notFinished();
 
     /**
      * execute a task
@@ -747,9 +738,32 @@ public:
      */
     void ascend(Airport * airport);
 
+
     bool isOnItsWay() const;
 
     void setOnItsWay(bool onItsWay);
+
+    void setCrossed(bool crossed);
+
+    bool isCrossed() const;
+
+    bool isWaitAtRunway() const;
+
+    void setWaitAtRunway(bool waitAtRunway);
+
+    bool isWaitOnRunway() const;
+
+    void setWaitOnRunway(bool waitOnRunway);
+
+    bool isSimulationFinished() const;
+
+    bool isAlreadyLinedUp() const;
+
+    void setAlreadyLinedUp(bool alreadyLinedUp);
+
+    bool isPermissionToTakeOff() const;
+
+    void setPermissionToTakeOff(bool permissionToTakeOff);
 };
 
 void setTime(const string& time);
