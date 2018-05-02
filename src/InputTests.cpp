@@ -199,11 +199,44 @@ namespace {
 
     TEST_F(AirplaneInput, getDestination) {
         airplane = new Airplane();
-        flightPlan = new FlightPlan;
+        flightPlan = new FlightPlan();
         EXPECT_DEATH(airplane->getDestination(), "has a flightPlan");
         airplane->setFlightPlan(flightPlan);
         EXPECT_NO_FATAL_FAILURE(airplane->getDestination());
     }
+
+    TEST_F(AirplaneInput, pushBack) {
+        airplane = new Airplane();
+        airplane->setEngine("propeller");
+        airplane->setSize("large");
+
+        runway = new Runway();
+        runway->setLength(200);
+        runway->setName("naam");
+        runway->setType("asphalt");
+
+        airport = new Airport();
+        airport->addRunway(runway);
+
+        airplane->setCurrentTask("wrong state");
+        EXPECT_DEATH(airplane->pushBack(), "correct state");
+        airplane->setCurrentTask("IFR");
+        EXPECT_DEATH(airplane->pushBack(), "At airport");
+        airplane->setCurrentTask("pushback");
+        EXPECT_DEATH(airplane->pushBack(), "At airport");
+        airplane->setCurrentTask("request taxi");
+        EXPECT_DEATH(airplane->pushBack(), "At airport");
+        airplane->setAirport(airport);
+        EXPECT_DEATH(airplane->pushBack(), "Valid runway");
+        runway->setLength(3000);
+        EXPECT_DEATH(airplane->pushBack(), "flightplan assigned");
+        flightPlan = new FlightPlan();
+        airplane->setFlightPlan(flightPlan);
+        EXPECT_NO_FATAL_FAILURE(airplane->pushBack());
+
+    }
+
+
 
 
 }

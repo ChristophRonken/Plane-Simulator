@@ -286,6 +286,7 @@ namespace {
         Airplane *airplane6;
         Airplane *airplane7;
         Airplane *airplane8;
+        FlightPlan* flightPlan;
         Runway *runway;
         Runway *runway1;
         AirportHandler *D;
@@ -313,7 +314,7 @@ namespace {
         EXPECT_EQ(airplane->getPassengerCapacity(), 0);
         EXPECT_EQ(airplane->getHeight(), 0);
         EXPECT_EQ(airplane->getOperationTime(), 0);
-        EXPECT_EQ(airplane->getAttemptgate(), -1);
+        EXPECT_EQ(airplane->getAttemptGate(), -1);
         EXPECT_EQ(airplane->getCurrentTask(), "");
         EXPECT_EQ(airplane->getTaxiCrossing(), "");
         EXPECT_EQ(airplane->getTaxiPoint(), "");
@@ -555,7 +556,7 @@ namespace {
         EXPECT_TRUE(airplane->validGate(3));
         airport->setGateOccupied(3, true);
         EXPECT_FALSE(airplane->validGate(3));
-        airplane->setAttemptgate(3);
+        airplane->setAttemptGate(3);
         EXPECT_TRUE(airplane->validGate(3));
     }
 
@@ -566,16 +567,138 @@ namespace {
         runway = new Runway();
         runway->setLength(5000);
         runway->setType("asphalt");
-        runway->setOccupied(false);
         EXPECT_TRUE(airplane->validRunway(runway));
-        runway->setOccupied(true);
-        EXPECT_FALSE(airplane->validRunway(runway));
-        runway->setOccupied(false);
         runway->setLength(200);
         EXPECT_FALSE(airplane->validRunway(runway));
         runway->setLength(5000);
         runway->setType("grass");
         EXPECT_FALSE(airplane->validRunway(runway));
+    }
+
+    TEST_F(AirplaneDomain, validLandingSpot){
+        airplane = new Airplane();
+        airplane->setSize("medium");
+        airplane->setEngine("propeller");
+        runway = new Runway();
+        runway->setLength(5000);
+        runway->setType("asphalt");
+        runway->setName("name");
+        airport = new Airport();
+        airport->addRunway(runway);
+        EXPECT_TRUE(airplane->validLandingSpot(airport, runway));
+        runway->setOccupied(true);
+        EXPECT_FALSE(airplane->validLandingSpot(airport, runway));
+        runway->setOccupied(false);
+        runway->setLength(200);
+        EXPECT_FALSE(airplane->validLandingSpot(airport, runway));
+        runway->setLength(5000);
+        runway->setType("grass");
+        EXPECT_FALSE(airplane->validLandingSpot(airport, runway));
+    }
+
+    TEST_F(AirplaneDomain, permissionToDescend){
+        airplane = new Airplane();
+        airplane->setHeight(10000);
+        airplane1 = new Airplane;
+        runway = new Runway();
+        airport = new Airport();
+        runway->setName("naam");
+        runway->setType("asphalt");
+        runway->setLength(3000);
+        airport->addRunway(runway);
+        airport->setWait5000(airplane1);
+        EXPECT_FALSE(airplane->permissionToDescend(airplane->getHeight(), airport, runway));
+        airport->setWait5000(NULL);
+        airport->setWait3000(airplane1);
+        EXPECT_TRUE(airplane->permissionToDescend(airplane->getHeight(), airport, runway));
+        airplane->setHeight(5000);
+        EXPECT_FALSE(airplane->permissionToDescend(airplane->getHeight(), airport, runway));
+        airplane->setHeight(3000);
+        runway->setOccupied(true);
+        EXPECT_FALSE(airplane->permissionToDescend(airplane->getHeight(), airport, runway));
+        runway->setOccupied(false);
+        EXPECT_TRUE(airplane->permissionToDescend(airplane->getHeight(), airport, runway));
+    }
+
+    TEST_F(AirplaneDomain, isValid) {
+        airplane = new Airplane();
+        EXPECT_FALSE(airplane->isValid());
+        airplane->setSize("small");
+        EXPECT_FALSE(airplane->isValid());
+        airplane->setFuel(200);
+        EXPECT_FALSE(airplane->isValid());
+        airplane->setType("private");
+        EXPECT_FALSE(airplane->isValid());
+        airplane->setModel("model");
+        EXPECT_FALSE(airplane->isValid());
+        airplane->setNumber("52");
+        EXPECT_FALSE(airplane->isValid());
+        airplane->setCallsign("callsign");
+        EXPECT_FALSE(airplane->isValid());
+        airplane->setState("tired");
+        EXPECT_FALSE(airplane->isValid());
+        airplane->setEngine("propeller");
+        EXPECT_TRUE(airplane->isValid());
+    }
+
+    TEST_F(AirplaneDomain, pushBack) {
+        runway = new Runway();
+        runway->setName("naam");
+        runway->setType("asphalt");
+        runway->setLength(3000);
+
+        airport = new Airport();
+        airport->addRunway(runway);
+
+        flightPlan = new FlightPlan();
+
+        airplane = new Airplane();
+        airplane->setEngine("propeller");
+        airplane->setSize("large");
+        airplane->setAirport(airport);
+        airplane->setCurrentTask("IFR");
+        airplane->setFlightPlan(flightPlan);
+
+        runway->setOccupied(true);
+        EXPECT_DEATH(airplane->pushBack(), "Valid runway");
+        runway->setOccupied(false);
+        EXPECT_NO_FATAL_FAILURE(airplane->pushBack());
+        EXPECT_EQ(airplane->getState(), "pushback");
+        EXPECT_TRUE(airplane->isRequestMessageSend());
+        EXPECT_FALSE(airplane->isMessageMessageSend());
+        EXPECT_FALSE(airplane->isConfirmMessageSend());
+
+        EXPECT_NO_FATAL_FAILURE(airplane->pushBack());
+        EXPECT_TRUE(airplane->isRequestMessageSend());
+        EXPECT_TRUE(airplane->isMessageMessageSend());
+        EXPECT_FALSE(airplane->isConfirmMessageSend());
+
+        EXPECT_NO_FATAL_FAILURE(airplane->pushBack());
+        EXPECT_EQ(airplane->getCurrentTask(), "pushback");
+        EXPECT_FALSE(airplane->isRequestMessageSend());
+        EXPECT_FALSE(airplane->isMessageMessageSend());
+        EXPECT_FALSE(airplane->isConfirmMessageSend());
+
+        EXPECT_NO_FATAL_FAILURE(airplane->pushBack());
+        EXPECT_TRUE(airplane->isRequestMessageSend());
+        EXPECT_FALSE(airplane->isMessageMessageSend());
+        EXPECT_FALSE(airplane->isConfirmMessageSend());
+
+        EXPECT_NO_FATAL_FAILURE(airplane->pushBack());
+        EXPECT_TRUE(airplane->isRequestMessageSend());
+        EXPECT_TRUE(airplane->isMessageMessageSend());
+        EXPECT_FALSE(airplane->isConfirmMessageSend());
+
+        EXPECT_NO_FATAL_FAILURE(airplane->pushBack());
+        EXPECT_EQ(airplane->getCurrentTask(), "request taxi");
+        EXPECT_FALSE(airplane->isRequestMessageSend());
+        EXPECT_FALSE(airplane->isMessageMessageSend());
+        EXPECT_FALSE(airplane->isConfirmMessageSend());
+        EXPECT_TRUE(airplane->isPushback());
+
+        EXPECT_NO_FATAL_FAILURE(airplane->pushBack());
+        EXPECT_EQ(airplane->getCurrentTask(), "going to runway");
+        EXPECT_FALSE(airplane->isPushback());
     }
 
 }

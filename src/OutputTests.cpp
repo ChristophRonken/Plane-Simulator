@@ -564,6 +564,17 @@ namespace {
         EXPECT_TRUE(airplane->getSimulationFinished());
     }
 
+    TEST_F(AirplaneOutput, setOnItsWay) {
+        airplane = new Airplane();
+        airplane->setOnItsWay(true);
+        EXPECT_TRUE(airplane->isOnItsWay());
+    }
+
+    TEST_F(AirplaneOutput, setAttemptGate) {
+        airplane = new Airplane();
+        airplane->setAttemptGate(3);
+        EXPECT_EQ(airplane->getAttemptGate(), 3);
+    }
 
     class GlobalOutput: public ::testing::Test {
     protected:

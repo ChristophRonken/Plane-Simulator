@@ -356,10 +356,10 @@ public:
      * if no runway was given, it will choose the first free runway
      * Precondition: this->atAirport() && validRunway(Runway* ) &&
      *      Airplane::getCurrentTask() == "IFR" || Airplane::getCurrentTask() == "pushback"
-     *      || Airplane::getCurrentTask() == "request taxi"
+     *      || Airplane::getCurrentTask() == "request taxi && Airplane::flightPlan != NULL"
      * @param runway
      */
-    void pushBack(Runway* runway = NULL);
+    void pushBack();
 
     /**
      * send the plane to gate x
@@ -622,14 +622,14 @@ public:
      * Get the gate index the plane is trying to go to
      * @return int
      */
-    int getAttemptgate() const;
+    int getAttemptGate() const;
 
     /**
      * Set the gate index the plane is trying to go to
      * Postcondition: Airplane::getAttemptgate() == attemptgate
      * @param attemptgate
      */
-    void setAttemptgate(int attemptgate);
+    void setAttemptGate(int attemptgate);
 
     /**
      * Check if the airplane has permission to descend
