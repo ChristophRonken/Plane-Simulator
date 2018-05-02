@@ -779,6 +779,7 @@ namespace {
 
     TEST_F(CommunicationOutput, CommunicationMessageOutput){
 
+        // Nog een Fail
         EXPECT_NO_FATAL_FAILURE(EmergencyAbove3000ftMessage(plane, runway, "00:01"));
         EXPECT_NO_FATAL_FAILURE(initialCommunicationMessage(plane, airport, "00:01"));
         EXPECT_NO_FATAL_FAILURE(descendTo5000ftMessage(plane, "00:01"));
