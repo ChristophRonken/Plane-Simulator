@@ -63,7 +63,7 @@ public:
 
     /**
      * set the name of the airport
-     * Postconditions:
+     * Postconditions: Airport::getName() == name
      * @param name
      */
     void setName(const string &name);
@@ -76,7 +76,7 @@ public:
 
     /**
      * set the iata of the airport
-     * Postconditions:
+     * Postconditions: Airport::getIata() == iata
      * @param iata
      */
     void setIata(const string &iata);
@@ -89,7 +89,7 @@ public:
 
     /**
      * sets the callsign of the airport
-     * Postconditions:
+     * Postconditions: Airport::getCallsign() == callsign
      * @param callsign
      */
     void setCallsign(const string &callsign);
@@ -102,7 +102,8 @@ public:
 
     /**
      * set the amount of gates in the airport
-     * Postconditions:
+     * Postconditions: Airport::getGates() == gates
+     *      && Airport:getGatesOccupied().size() == unsigned(Airport::getGates())
      * @param gates
      */
     void setGates(int gates);
@@ -115,7 +116,8 @@ public:
 
     /**
      * set the runways in the airport
-     * Postconditions:
+     * Preconditions: Airport::validRunways(runways)
+     * Postconditions: Airport::getRunways() == runways
      * @param Runways
      */
     void setRunways(const vector<Runway *> &Runways);
@@ -128,14 +130,18 @@ public:
 
     /**
      * set wich gates are occupied through a vector
-     * Postconditions:
+     * Postconditions: Airport::getGatesOccupied() == gatesOccupied
      * @param GatesOccupied
      */
     void setGatesOccupied(const vector<bool> &GatesOccupied);
 
     /**
      * adds a runway to the airport
-     * Precondition: !runwayExists(string runway)
+     * Preconditions: !runwayExists(runway->getName())
+     *      && !runway->getName().empty()
+     *      && (runway->getType() == "asphalt" or runway->getType() == "grass")
+     *      && !Airport::runwayExists(runway->getName())
+     * Postcondition: Airport::runwayExists(runway->getName())
      * @param runway
      */
     void addRunway(Runway* runway);
@@ -143,15 +149,11 @@ public:
     /**
      * removes a runway from the airport
      * Precontition: Airport::runwayExists(name)
-     * Postconditions: !Airport::runwayExists(name)
+     *      && !name.empty()
+     * Postcondition: !Airport::runwayExists(name)
      * @param name
      */
     void removeRunway(const string &name);
-
-    /**
-     * prints the airports info in the console
-     */
-    void printInfo();
 
     /**
      * gets the airports info as a string
@@ -162,6 +164,7 @@ public:
     /**
      * set a certain gate to occ
      * Precondition: validGateIndex(i)
+     * Postcondition: Airport::getGateOccupied(i) == occ
      * @param int i : index of the gate
      * @param bool occ : occupied or not
      */
@@ -177,12 +180,14 @@ public:
 
     /**
      * Returns a vector with the indexes of all the free gates
+     * Postconditions: &result != NULL
      * @return FreeGates
      */
     vector<int> getFreeGates();
 
     /**
      * Returns a vector with the indexes of all the free Runways
+     * Postconditions: &result != NULL
      * @return FreeRunways
      */
     vector<int> getFreeRunways();
@@ -215,14 +220,14 @@ public:
 
     /**
      * Set the Airplane that is currently waiting at height 5000.
-     * Postcondition: Airport::wait5000 == plane
+     * Postcondition: Airport::getWait5000() == plane
      * @param plane
      */
     void setWait5000(Airplane* plane);
 
     /**
      * Set the Airplane that is currently waiting at height 3000.
-     * Postcondition: Airport::wait3000 == plane
+     * Postcondition: Airport::getWait3000() == plane
      * @param plane
      */
     void setWait3000(Airplane* plane);
@@ -246,6 +251,11 @@ public:
      */
     bool isValid();
 
+    /**
+     * Checks if a vetor of runways is valid to set as this airport's runways
+     * @param runways
+     * @return
+     */
     bool validRunways(vector<Runway*> runways);
 
 };
