@@ -10,7 +10,10 @@
 
 
 
-AirportHandler::AirportHandler() {}
+AirportHandler::AirportHandler() {
+    self = this;
+
+}
 
 AirportHandler::~AirportHandler() {
 
@@ -166,14 +169,52 @@ ESuccess AirportHandler::addXmlData(const string &fileName) {
                         string AttName = elemAtt->Value();
                         string AttValue = elemAtt->GetText();
 
-                        airport->setVar(AttName, string(AttValue));
+                        if (AttName  == "name"){
+                            airport->setName(AttValue);
+
+                        }
+
+                        else if (AttName  == "iata"){
+                            airport->setIata(AttValue);
+
+                        }
+
+                        else if (AttName  == "callsign"){
+                            airport->setCallsign(AttValue);
+
+                        }
+
+                        else if (AttName  == "gates"){
+                            if (isNumber(AttValue)){
+                                int i;
+                                istringstream(AttValue) >> i;
+                                airport->setGates(i);
+                            }
+                        }else{
+                            errStream << "XML PARTIAL IMPORT: Invalid attribute name at airport.\n" ;
+                            endResult = partialImport;
+
+                        }
                     }
 
-                    //airport->isValid();
+                    if (airport->isValid()){
+                        AirportHandler::airports.push_back(airport);
 
-                    AirportHandler::airports.push_back(airport);
+                    }else{
+                        errStream << "XML PARTIAL IMPORT: Invalid/Undefined attribute(s) at airport.\n" ;
+                        endResult = partialImport;
+
+                    }
+
 
                     continue;
+                }else{
+                    if (elemName != "RUNWAY" && elemName != "AIRPLANE"){
+                        errStream << "XML PARTIAL IMPORT: Invalid Element Name (not 'AIRPORT', 'RUNWAY' or 'AIRPLANE').\n" ;
+                        endResult = partialImport;
+
+                    }
+
                 }
             }
             // Runways
@@ -183,6 +224,8 @@ ESuccess AirportHandler::addXmlData(const string &fileName) {
                 if (elemName == "RUNWAY") {
                     Runway *Runw = new Runway();
 
+                    Airport* tempPort = NULL;
+
                     // Loop over Variables
                     //attributes
                     for (TiXmlElement *elemAtt = elem->FirstChildElement();
@@ -191,7 +234,30 @@ ESuccess AirportHandler::addXmlData(const string &fileName) {
                         string AttName = elemAtt->Value();
                         if (AttName != "airport" && AttName != "TAXIROUTE") {
                             string AttValue = elemAtt->GetText();
-                            Runw->setVar(AttName, string(AttValue));
+
+                            if (AttName == "name"){
+                                Runw->setName(AttValue);
+
+                            }
+
+                            else if (AttName == "type"){
+                                if (AttValue == "grass" || AttValue == "asphalt") {
+                                    Runw->setType(AttValue);
+                                }
+                            }
+
+                            else if (AttName == "length"){
+                                if (isNumber(AttValue)) {
+                                    int i;
+                                    istringstream(AttValue) >> i;
+                                    Runw->setLength(i);
+                                }
+                            }else{
+                                errStream << "XML PARTIAL IMPORT: invalid attribute name at runway.\n";
+                                endResult = partialImport;
+
+                            }
+
                         } else {
                             continue;
                         }
@@ -205,19 +271,44 @@ ESuccess AirportHandler::addXmlData(const string &fileName) {
                             string AttValue = elemAtt->GetText();
                             for (unsigned int i = 0; i < AirportHandler::airports.size(); i++) {
                                 if (AirportHandler::airports[i]->getIata() == AttValue) {
-                                    AirportHandler::airports[i]->addRunway(Runw);
+                                    tempPort = AirportHandler::airports[i];
                                     break;
                                 }
 
                             }
 
-                            if (Runw->getAirport() == NULL) {
+                            if (tempPort == NULL) {
                                 errStream << "XML PARTIAL IMPORT: Invalid value for attribute airport at Runway.\n" ;
                                 endResult = partialImport;
-                                delete Runw;
 
                             }
                         }
+                    }
+
+                    if (tempPort == NULL){
+                        errStream << "XML PARTIAL IMPORT: failed to create runway.(No/Non existing Airport)\n";
+                        endResult = partialImport;
+                        delete Runw;
+                        continue;
+                    }else{
+                        if (Runw->getName() != "" && (Runw->getType() == "grass" || Runw->getType() == "asphalt")) {
+                            if (!tempPort->runwayExists(Runw->getName())){
+                                tempPort->addRunway(Runw);
+                            }else{
+                                errStream << "XML PARTIAL IMPORT: failed to create runway.(Duplicate name)\n";
+                                endResult = partialImport;
+                                delete Runw;
+                                continue;
+
+                            }
+                        }else{
+                            errStream << "XML PARTIAL IMPORT: failed to create runway.(No name)\n";
+                            endResult = partialImport;
+                            delete Runw;
+                            continue;
+
+                        }
+
                     }
 
                     //taxipoint
@@ -261,11 +352,11 @@ ESuccess AirportHandler::addXmlData(const string &fileName) {
                     if (!Runw->isValid()) {
                         errStream << "XML PARTIAL IMPORT: failed to create runway.\n";
                         endResult = partialImport;
-                        Runw->getAirport()->removeRunway(Runw->getName());
+                        tempPort->removeRunway(Runw->getName());
 
                     }
-
                     continue;
+
                 }
             }
             // airplanes
@@ -322,8 +413,59 @@ ESuccess AirportHandler::addXmlData(const string &fileName) {
                         }
 
                         string AttValue = elemAtt->GetText();
-                        airplane->setVar(AttName, string(AttValue));
 
+                        if (AttName == "number"){
+                            airplane->setNumber(AttValue);
+
+                        } else if (AttName == "model"){
+                            airplane->setModel(AttValue);
+
+                        } else if (AttName == "callsign"){
+                            airplane->setCallsign(AttValue);
+
+                        } else if (AttName == "status"){
+                            if (AttValue == "Gate" || AttValue == "Approaching" ) {
+                                airplane->setState(AttValue);
+                            }
+                        } else if (AttName == "type"){
+                            if (airplane->validPlaneType(AttValue)){
+                                airplane->setType(AttValue);
+                            }
+                        } else if (AttName == "engine"){
+                            if (airplane->validEngineType(AttValue)) {
+                                airplane->setEngine(AttValue);
+
+                            }
+                        } else if (AttName == "size"){
+                            if (airplane->validSize(AttValue)) {
+                                airplane->setSize(AttValue);
+
+                            }
+                        } else if (AttName == "passengers"){
+                            if (isNumber(AttValue)) {
+                                int i;
+                                istringstream(AttValue) >> i;
+                                airplane->setPassengers(i);
+                                airplane->setPassengerCapacity(i);
+                            }
+                        } else if (AttName == "height"){
+                            if (isNumber(AttValue)) {
+                                int i;
+                                istringstream(AttValue) >> i;
+                                airplane->setHeight(i);
+                            }
+                        } else if (AttName == "fuel"){
+                            if (isNumber(AttValue)) {
+                                int i;
+                                istringstream(AttValue) >> i;
+                                airplane->setFuel(i);
+                                airplane->setFuelCapacity(i);
+                            }
+                        } else{
+                            errStream << "XML PARTIAL IMPORT: invalid attribute names at airplane. \n";
+                            endResult = partialImport;
+
+                        }
                     }
 
                     if (airplane->isValid()) {
@@ -355,10 +497,10 @@ ESuccess AirportHandler::addXmlData(const string &fileName) {
 
 string AirportHandler::timeToString(double passedTimeUnits){
 
-    passedTimeUnits += AirportHandler::gSimulationStartTime*60;
+    passedTimeUnits += AirportHandler::gSimulationStartTime*kHoursPerDay;
 
-    double hour = int(floor(passedTimeUnits/60))%24;
-    double minutes = int(passedTimeUnits)%60;
+    double hour = int(floor(passedTimeUnits/kMinutesPerHour))%kHoursPerDay;
+    double minutes = int(passedTimeUnits)%kMinutesPerHour;
 
     stringstream ss;
 
@@ -404,7 +546,7 @@ bool AirportHandler::validAirports(vector<Airport *> airports) {
 
     vector<string> names;
     for (unsigned int i = 0; i< airports.size(); i++){
-        string name = airports[i]->getCallsign();
+        string name = airports[i]->getIata();
         if (!(find(names.begin(), names.end(), name) == names.end() && name != "")){
             return false;
         }
@@ -483,9 +625,13 @@ bool AirportHandler::airportExists(const string &iata) {
 //simulation
 void AirportHandler::runSimulation(const string &iata) {
     REQUIRE(!AirportHandler::getAirports().empty(), "an airport to run a simulation on exists");
+    REQUIRE(!AirportHandler::getAirplanes().empty(), "an airplane to run a simulation on exists");
+    REQUIRE(!AirportHandler::getAirport(iata)->getRunways().empty(), "a runway to land on exists");
+
+    Airport* airport = getAirport(iata);
 
     for (unsigned int i = 0; i < AirportHandler::airplanes.size(); i++) {
-        AirportHandler::airplanes[i]->initSimulation(AirportHandler::airports[0]);
+        AirportHandler::airplanes[i]->initSimulation(airport);
 
     }
 
@@ -494,9 +640,7 @@ void AirportHandler::runSimulation(const string &iata) {
     double nowtime = time(NULL);
     double startTime = nowtime;
 
-    Airport* airport = AirportHandler::getAirport(iata);
-
-    while (!airportEmpty(AirportHandler::airports[0])) {
+    while (!airportEmpty(airport)) {
 
         double later = time(NULL);
         double deltaTime = difftime(later, nowtime);
@@ -522,10 +666,7 @@ void AirportHandler::runSimulation(const string &iata) {
                         airplane->execTask(airport);
 
                     }
-                    cout << "Tijd: " << getTime() << endl;
-                    cout << airplane->getCurrentTask() << endl;
-                    cout << airplane->getState() << endl;
-                    cout << airplane->getGate() << endl;
+
                     airplane->setOperationTime(airplane->getOperationTime() - 1);
 
                 }
@@ -533,28 +674,9 @@ void AirportHandler::runSimulation(const string &iata) {
             AirportHandler::GraphicalAirport3D(iata);
         }
     }
-
-
-    closeCommunicationLogFile();
-    closeLogFile();
-
 }
 
 
-//output
-void AirportHandler::printInfo() {
-
-    for (unsigned int i = 0; i < AirportHandler::airports.size() ; i++) {
-        AirportHandler::airports[i]->printInfo();
-
-    }
-
-    for (unsigned int i = 0; i < AirportHandler::airplanes.size(); i++) {
-        AirportHandler::airplanes[i]->printInfo();
-
-    }
-
-}
 string AirportHandler::getInfo() {
 
     string s;
@@ -1023,7 +1145,7 @@ void AirportHandler::GraphicalAirport3D(const string &iata) {
             s += "\n";
         }
         else {
-            cout << "WRONG STATE"<< endl;
+            //cout << "WRONG STATE"<< endl;
         }
     }
 

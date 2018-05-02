@@ -21,12 +21,23 @@ ofstream * getLogFile(){
 };
 
 ofstream* openNewLogFile(const string &name){
+
+    if (gOutputLog.is_open()){
+        gOutputLog.close();
+
+    }
+
     gOutputLog.open(name.c_str());
     return &gOutputLog;
 
 };
 
 ofstream* openNewCommunicationLogFile(const string &name){
+
+    if (gOutputCommunicationLog.is_open()){
+        gOutputCommunicationLog.close();
+
+    }
 
     gOutputCommunicationLog.open(name.c_str());
     return &gOutputCommunicationLog;
@@ -135,7 +146,8 @@ void afterLandingMessage(Airplane* airplane, Airport* airport, Runway* runway, c
 void IFRRequest(Airplane* airplane, const string &time){
     REQUIRE(getCommunicationLogFile()->is_open(), "CommFile is open");
     gOutputCommunicationLog << "[" << time << "][AIR]\n"
-                 << "$ " << airplane->getAirport()->getCallsign() << ", " << airplane->getCallsign() << ", requesting IFR clearancy to " << airplane->getDestination() << ".\n";
+                            << "$ " << airplane->getAirport()->getCallsign() << ", " << airplane->getCallsign()
+                            << ", requesting IFR clearancy to " << airplane->getDestination() << ".\n";
 
 
 };
@@ -287,27 +299,27 @@ void clearedToCrossConfirmation(const string &taxiCrossing, const string &time )
 //Emergency
 void EmergencyAbove3000ftRequest(Airplane* airplane, Airport* airport, const string &time){
     REQUIRE(getCommunicationLogFile()->is_open(), "CommFile is open");
-    gOutputCommunicationLog << "[" << time << "][AIR]"
+    gOutputCommunicationLog << "[" << time << "][AIR]\n"
                  << "$ Mayday, mayday, mayday, " << airport->getCallsign() << ", " << airplane->getCallsign() << ", out of fuel, request immidiate landing, "
                  << airplane->getPassengers() << " passengers on board.\n";
 
 };
 void EmergencyAbove3000ftMessage(Airplane* airplane, Runway* runway, const string &time){
     REQUIRE(getCommunicationLogFile()->is_open(), "CommFile is open");
-    gOutputCommunicationLog << "[" << time << "][ATC]"
+    gOutputCommunicationLog << "[" << time << "][ATC]\n"
                  << "$ " << airplane->getCallsign() << ", roger mayday, squawk seven seven zero zero, cleared ILS landing runway " << runway->getName() << ".\n";
 
 };
 void EmergencyBelow3000ftRequest(Airplane* airplane, Airport* airport, const string &time){
     REQUIRE(getCommunicationLogFile()->is_open(), "CommFile is open");
-    gOutputCommunicationLog << "[" << time << "][AIR]"
+    gOutputCommunicationLog << "[" << time << "][AIR]\n"
                  << "$ Mayday, mayday, mayday, " << airport->getCallsign() << ", " << airplane->getCallsign() << ", out of fuel, performing emergency landing, "
                  << airplane->getPassengers() << " passengers on board.\n";
 
 };
 void EmergencyBelow3000ftMessage(Airplane* airplane, const string &time){
     REQUIRE(getCommunicationLogFile()->is_open(), "CommFile is open");
-    gOutputCommunicationLog << "[" << time << "][ATC]"
+    gOutputCommunicationLog << "[" << time << "][ATC]\n"
                  << "$ " << airplane->getCallsign() << ", roger mayday, squawk seven seven zero zero, emergency personal on standby, good luck!\n";
 
 };

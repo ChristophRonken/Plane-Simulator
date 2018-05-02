@@ -30,15 +30,15 @@ set(RELEASE_SOURCE_FILES
         src/MessageSystem.h
         src/AirportHandler.cpp
         src/AirportHandler.h
-        LuchthavenV1.xml
-        TestVolledigeLuchthaven.xml
         gtest
         src/DesignByContract.h
         src/FlightPlan.cpp
         src/FlightPlan.h
         src/TaxiRoute.cpp
-        src/TaxiRoute.h src/Utils.cpp src/Utils.h
-        )
+        src/TaxiRoute.h
+        src/Utils.cpp
+        src/Utils.h)
+
 
 # Set source files for DEBUG target
 set(DEBUG_SOURCE_FILES
@@ -59,8 +59,6 @@ set(DEBUG_SOURCE_FILES
         src/MessageSystem.h
         src/AirportHandler.cpp
         src/AirportHandler.h
-        LuchthavenV1.xml
-        TestVolledigeLuchthaven.xml
         gtest
         src/Utils.cpp
         src/Utils.h
@@ -72,6 +70,7 @@ set(DEBUG_SOURCE_FILES
         src/OutputTests.cpp
         src/DomainTests.cpp
         src/TaxiRoute.h)
+
 
 # Create RELEASE target
 add_executable(LuchthavenV1 ${RELEASE_SOURCE_FILES})

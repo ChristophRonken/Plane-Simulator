@@ -1,0 +1,54 @@
+<AirportInfo>
+	<AIRPORT>
+		<name>Antwerp International Airport</name>
+		<iata>ANR</iata>
+		<callsign>Antwerp Tower</callsign>
+		<gates>10</gates>
+	</AIRPORT>
+
+	<AIRPORT>
+		<name>Failliet Airlines</name>
+		<iata>FA</iata>
+		<callsign>Faille</callsign>
+		<gates>5</gates>
+	</AIRPORT>
+
+	<RUNWAY>
+		<name>11R</name>
+		<airport>ANR</airport>
+		<length>1000</length>
+		<type>grass</type>
+		<TAXIROUTE>
+			<taxipoint>TPA</taxipoint>
+		</TAXIROUTE>
+	</RUNWAY>
+
+	<RUNWAY>
+		<name>11L</name>
+		<airport>ANR</airport>
+		<length>2500</length>
+		<type>dirt</type>
+		<TAXIROUTE>
+			<taxipoint>TPA</taxipoint>
+			<crossing>11R</crossing>
+			<taxipoint>TPB</taxipoint>
+		</TAXIROUTE>
+	</RUNWAY>
+
+	<RUNWAY>
+		<name>11S</name>
+		<airport>ANR</airport>
+		<length>2500</length>
+		<type>dirt</type>
+	</RUNWAY>
+
+	<RUNWAY>
+		<name>11T</name>
+		<type>dirt</type>
+		<TAXIROUTE>
+			<taxipoint>TPA</taxipoint>
+			<crossing>11R</crossing>
+			<taxipoint>TPB</taxipoint>
+		</TAXIROUTE>
+	</RUNWAY>
+</AirportInfo>

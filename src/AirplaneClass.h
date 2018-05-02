@@ -14,6 +14,7 @@
 #include "FlightPlan.h"
 #include "TaxiRoute.h"
 #include "DesignByContract.h"
+#include "Utils.h"
 
 using namespace std;
 
@@ -317,13 +318,6 @@ public:
      * @param operationTime
      */
     void setOperationTime(int operationTime);
-
-    /**
-     * set the variables of the plane
-     * @param type of the given variable
-     * @param value of the variable
-     */
-    void setVar(const string &type, const string &value);
 
     /**
      * prints the info of the plane in the console

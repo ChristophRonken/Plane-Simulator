@@ -15,6 +15,62 @@
 
 namespace {
 
+    class AirportHandlerDomain : public ::testing::Test {
+    protected:
+
+        AirportHandlerDomain() {
+
+        }
+
+        virtual void SetUp() {
+            openNewLogFile("SimulationTests.txt");
+            openNewCommunicationLogFile("SimulationCommTests.txt");
+
+            handler = new AirportHandler();
+            handler2 = new AirportHandler();
+            handler3 = new AirportHandler();
+            handler4 = new AirportHandler();
+
+        }
+
+        virtual void TearDown() {
+            openNewLogFile("DefaultLog.txt");
+            openNewLogFile("DefaultCommLog.txt");
+
+            delete handler;
+            delete handler2;
+            delete handler3;
+            delete handler4;
+
+        }
+
+        AirportHandler* handler;
+        AirportHandler* handler2;
+        AirportHandler* handler3;
+        AirportHandler* handler4;
+
+    };
+
+    TEST_F(AirportHandlerDomain, RunSimulation){
+
+        // No Airports
+        handler->addXmlData("XMLTests/TestVolledigeLuchthaven16.xml");
+        EXPECT_DEATH(handler->runSimulation(""), "Assertion.*failed");
+
+        // Correcte Luchthaven + airplanes
+        handler2->addXmlData("XMLTests/TestVolledigeLuchthaven10.xml");
+        EXPECT_NO_FATAL_FAILURE(handler2->runSimulation("ANR"));
+
+        // No runways
+        handler3->addXmlData("XMLTests/TestVolledigeLuchthaven2.xml");
+        EXPECT_DEATH(handler3->runSimulation("ANR"), "Assertion.*failed");
+
+        // No Airplanes
+        handler4->addXmlData("XMLTests/TestVolledigeLuchthaven9.xml");
+        EXPECT_DEATH(handler4->runSimulation("ANR"), "Assertion.*failed");
+
+    }
+
 
     class RunwayDomain : public ::testing::Test {
     protected:
@@ -73,14 +129,11 @@ namespace {
     }
 
     TEST_F(RunwayDomain, setVar) {
-        myString = "name";
-        EXPECT_NO_FATAL_FAILURE(runway->setVar(myString, "Rname"));
-        myString = "type";
-        EXPECT_NO_FATAL_FAILURE(runway->setVar(myString, "Rtype"));
-        myString = "length";
-        EXPECT_NO_FATAL_FAILURE(runway->setVar(myString, "200"));
+        EXPECT_NO_FATAL_FAILURE(runway->setName( "Rname"));
+        EXPECT_DEATH(runway->setType("Rtype"), "Assertion.*failed");
+        EXPECT_NO_FATAL_FAILURE(runway->setLength(200));
         EXPECT_EQ(runway->getName(), "Rname");
-        EXPECT_EQ(runway->getType(), "Rtype");
+        EXPECT_NE(runway->getType(), "Rtype");
         EXPECT_EQ(runway->getLength(), 200);
     }
 
@@ -135,6 +188,8 @@ namespace {
         }
 
         virtual void SetUp() {
+            openNewLogFile("AirplaneLog.txt");
+            openNewCommunicationLogFile("AirplaneCommLog.txt");
             flightPlan = new FlightPlan();
         }
 
