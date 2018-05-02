@@ -1,2 +1,15 @@
-Runway Deleted (name)
-Runway Deleted (name)
+100 passengers exited  at gate 3 of 
+100 passengers exited  at gate 3 of 
+100 passengers entered  at gate 3 of 
+ has been checked for technical malfunction
+ has been checked for technical malfunction
+ has been checked for technical malfunction
+ has been checked for technical malfunction
+ has been refueled
+ has been refueled
+ has been refueled
+ is approaching  at 1000ft.
+ is approaching  at 500ft.
+ is leaving  at 3000ft.
+ is leaving  at 4000ft.
+ is leaving  at 5000ft.

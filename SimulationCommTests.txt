@@ -1,17 +1,17 @@
 [5:24][AIR]
 $ Antwerp Tower, Cessna 843, requesting IFR clearancy to LCY.
 [5:25][ATC]
-$ Cessna 843, Antwerp Tower, cleared to LCY, maintain five thousand, expect flight level one zero zero - ten minutes after departure, squawk 688.
+$ Cessna 843, Antwerp Tower, cleared to LCY, maintain five thousand, expect flight level one zero zero - ten minutes after departure, squawk 554.
 [5:25][AIR]
 $ Antwerp Tower, Speedbird 466, requesting IFR clearancy to LCY.
 [5:26][AIR]
-Cleared to LCY, initial altitude five thousand, expecting one zero zero in ten, squawking 688, Cessna 843.
+Cleared to LCY, initial altitude five thousand, expecting one zero zero in ten, squawking 554, Cessna 843.
 [5:26][ATC]
-$ Speedbird 466, Antwerp Tower, cleared to LCY, maintain five thousand, expect flight level one zero zero - ten minutes after departure, squawk 3325.
+$ Speedbird 466, Antwerp Tower, cleared to LCY, maintain five thousand, expect flight level one zero zero - ten minutes after departure, squawk 3398.
 [5:27][AIR]
 $ Antwerp Tower, Cessna 843 at gate 0, requesting pushback.
 [5:27][AIR]
-Cleared to LCY, initial altitude five thousand, expecting one zero zero in ten, squawking 3325, Speedbird 466.
+Cleared to LCY, initial altitude five thousand, expecting one zero zero in ten, squawking 3398, Speedbird 466.
 [5:28][ATC]
 $ Cessna 843, Antwerp Tower, pushback approved.
 [5:28][AIR]
@@ -29,11 +29,11 @@ $ Cessna 843, taxi to runway 11R via TPA.
 [5:31][AIR]
 $ Speedbird 466 is ready to taxi.
 [5:31][ATC]
-$Speedbird 467, radar contact, descend and maintain five thousand feet, squawk 3681.
+$Speedbird 467, radar contact, descend and maintain five thousand feet, squawk 3338.
 [5:32][AIR]
 $ Taxi to runway 11R via TPA, Cessna 843.
 [5:32][AIR]
-$ Descend and maintain five thousand feet, squawking 3681, Speedbird 467.
+$ Descend and maintain five thousand feet, squawking 3338, Speedbird 467.
 [5:33][ATC]
 $ Speedbird 466, taxi to holding point 11R via TPA.
 [5:34][AIR]
@@ -69,9 +69,9 @@ $ Antwerp Tower, Speedbird 466, holding short at 11L.
 [6:08][AIR]
 $ Antwerp Tower, Speedbird 467, requesting IFR clearancy to LCY.
 [6:09][ATC]
-$ Speedbird 467, Antwerp Tower, cleared to LCY, maintain five thousand, expect flight level one zero zero - ten minutes after departure, squawk 3681.
+$ Speedbird 467, Antwerp Tower, cleared to LCY, maintain five thousand, expect flight level one zero zero - ten minutes after departure, squawk 3338.
 [6:10][AIR]
-Cleared to LCY, initial altitude five thousand, expecting one zero zero in ten, squawking 3681, Speedbird 467.
+Cleared to LCY, initial altitude five thousand, expecting one zero zero in ten, squawking 3338, Speedbird 467.
 [6:10][AIR]
 $ Antwerp Tower, Speedbird 467 at gate 0, requesting pushback.
 [6:11][ATC]

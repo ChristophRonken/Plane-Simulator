@@ -420,6 +420,8 @@ bool Airplane::validLandingSpot(Airport *airport, Runway *runway) {
         return false;
     }
 
+    Airplane::airport = airport;
+
     if (runway == NULL) {
         return Airplane::validRunway(runway);
     }
@@ -444,9 +446,9 @@ bool Airplane::validGate(int gate) {
 bool Airplane::validRunway(Runway* runway){
 
     if (runway == NULL){
-        vector<int> runway = Airplane::airport->getFreeRunways();
-        for (int i = 0; (unsigned)i<runway.size(); i++){
-            Runway *runway = Airplane::airport->getRunways()[i];
+        vector<int> runways = Airplane::airport->getFreeRunways();
+        for (int i = 0; (unsigned)i<runways.size(); i++){
+            Runway *runway = Airplane::airport->getRunways()[runways[i]];
             if (Airplane::size == "small"){
                 if (Airplane::engine == "propeller"){
                     if (runway->getLength() >= kRunwayLengthA){
@@ -1294,14 +1296,16 @@ void Airplane::emergencyLanding(Airport* airport){
     }
 }
 
-void Airplane::land(Airport *airport, Runway* runway) {
-    REQUIRE(Airplane::currentTask == "try to land" || Airplane::currentTask == "landing" || Airplane::currentTask == "descending to 5000ft."  || Airplane::currentTask == "descending to 3000ft." || Airplane::currentTask == "descending to 0ft.", "correct task");
+void Airplane::land(Airport *airport) {
+    REQUIRE(Airplane::getCurrentTask() == "try to land" || Airplane::getCurrentTask() == "landing"
+            || Airplane::getCurrentTask() == "descending to 5000ft."  || Airplane::getCurrentTask() == "descending to 3000ft."
+            || Airplane::getCurrentTask() == "descending to 0ft.", "correct task");
+    REQUIRE(Airplane::validLandingSpot(airport), "Valid landing spot");
+
 
     const string &tijd = getTime();
     if (Airplane::currentTask != "landing") {
         if (Airplane::state != "Approaching" && Airplane::state != "on final approach") {
-            REQUIRE(Airplane::state == "Airborne", "Plane is not airborne");
-            REQUIRE(validLandingSpot(airport, runway), "Valid landing spot");
 
             Airplane::setState("Approaching");
 
@@ -1475,7 +1479,7 @@ void Airplane::land(Airport *airport, Runway* runway) {
             Airplane::height -= Airplane::kJetDescentionSpeed;
 
 
-            ENSURE(Airplane::runway == runway, "Landed");
+
         }
     }
     else {
@@ -1486,13 +1490,17 @@ void Airplane::land(Airport *airport, Runway* runway) {
 
     }
 
+    ENSURE( Airplane::getState() == "At runway" || Airplane::getRunway() != NULL, "Landed");
+
+
 }
 
 void Airplane::takeOff() {
-    REQUIRE(Airplane::currentTask == "taking off" || Airplane::currentTask == "at holding point", "correct state");
+    REQUIRE(Airplane::getCurrentTask() == "taking off" || Airplane::getCurrentTask() == "at holding point", "correct state");
+    REQUIRE(Airplane::getHeight() == 0, "Plane not on ground");
+
     const string &tijd = getTime();
 
-    REQUIRE(Airplane::getHeight() == 0, "Plane not on ground");
     if (Airplane::currentTask == "at holding point") {
         if (!Airplane::requestMessageSend) {
             holdingShortAtRunway(this, Airplane::runway, tijd);
@@ -1608,12 +1616,12 @@ void Airplane::takeOff() {
         Airplane::height += Airplane::kJetAscentionSpeed;
     }
 
-    ENSURE(Airplane::runway == NULL && Airplane::state == "Airborne" && Airplane::airport == NULL && Airplane::height != 0, "Airborne");
-
     Airplane::currentTask = "taking-Off";
 
     Airplane::setSimulationFinished(true);
-    return;
+
+    ENSURE(Airplane::getRunway() == NULL && Airplane::getState() == "Airborne" && Airplane::getAirport() == NULL
+           && Airplane::getHeight() != 0, "Airborne");
 
 }
 
@@ -1966,10 +1974,6 @@ void Airplane::continueTask(Airport * airport) {
 
 
 //Output
-void Airplane::printInfo() {
-    cout << Airplane::getInfo() << endl;
-
-}
 
 string Airplane::getInfo() {
     string str;

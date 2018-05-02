@@ -12,5 +12,3 @@ $ , , pushback approved.
 $ Pushback approved, .
 [6:24][AIR]
 $  is ready to taxi.
-[6:24][AIR]
-$  is ready to taxi.

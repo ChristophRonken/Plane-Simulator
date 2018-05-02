@@ -319,10 +319,6 @@ public:
      */
     void setOperationTime(int operationTime);
 
-    /**
-     * prints the info of the plane in the console
-     */
-    void printInfo();
 
     /**
      * gets the info of the plane as a string
@@ -339,16 +335,23 @@ public:
     /**
      * lands the plane in the given airport
      * A runway is optional
-     * Precondition: this->validLandingSpot(Airport*, Runway* )
+     * Precondition: Airplane::validLandingSpot(airport)
+     *      && (Airplane::getCurrentTask() == "try to land"
+     *      || Airplane::getCurrentTask() == "landing"
+            || Airplane::getCurrentTask() == "descending to 5000ft."
+            || Airplane::getCurrentTask() == "descending to 3000ft."
+            || Airplane::getCurrentTask() == "descending to 0ft.")
+     * Postconditions:  Airplane::getState() == "At runway"
+     *      || Airplane::getRunway() != NULL
      * @param airport
      * @param R
      */
-    void land(Airport* airport , Runway* R = NULL);
+    void land(Airport* airport);
 
     /**
      * sends the plane to the given runway
      * if no runway was given, it will choose the first free runway
-     * Precondition: this->atAirport() && validRunway() &&
+     * Precondition: Airplane::atAirport() && validRunway() &&
      *      Airplane::getCurrentTask() == "IFR" || Airplane::getCurrentTask() == "pushback"
      *      || Airplane::getCurrentTask() == "request taxi" && Airplane::flightPlan != NULL
      */
@@ -356,7 +359,13 @@ public:
 
     /**
      * send the plane to exit the airport
-     * Precondition: this->readyForTakeOff()
+     * Precondition: Airplane::readyForTakeOff()
+     *      && (Airplane::getCurrentTask() == "taking off"
+     *      || Airplane::getCurrentTask() == "at holding point")
+     * Postconditions: Airplane::getRunway() == NULL
+     *      && Airplane::getState() == "Airborne"
+     *      && Airplane::getAirport() == NULL
+     *      && Airplane::getHeight() != 0
      */
     void takeOff();
 
