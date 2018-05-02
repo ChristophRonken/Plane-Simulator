@@ -80,28 +80,6 @@ void Runway::setLength(int length) {
     ENSURE(Runway::getLength() == length, "lenght set");
 }
 
-void Runway::setVar(string type, string value) {
-
-    if (type == "name"){
-        Runway::name = value;
-        return ;
-    }
-
-    else if (type == "type"){
-        Runway::type = value;
-        return;
-    }
-
-    else if (type == "length"){
-
-        int i;
-        istringstream(value) >> i;
-        Runway::length = i;
-
-        return;
-    }
-}
-
 void Runway::setTaxiRoute(TaxiRoute* taxi){
     Runway::taxiRoute = taxi;
     ENSURE(Runway::getTaxiRoute() == taxi, "taxiroute set");

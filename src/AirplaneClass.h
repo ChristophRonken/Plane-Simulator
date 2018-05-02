@@ -14,6 +14,7 @@
 #include "FlightPlan.h"
 #include "TaxiRoute.h"
 #include "DesignByContract.h"
+#include "Utils.h"
 
 using namespace std;
 
@@ -319,13 +320,6 @@ public:
     void setOperationTime(int operationTime);
 
     /**
-     * set the variables of the plane
-     * @param type of the given variable
-     * @param value of the variable
-     */
-    void setVar(const string &type, const string &value);
-
-    /**
      * prints the info of the plane in the console
      */
     void printInfo();
@@ -360,14 +354,6 @@ public:
      * @param runway
      */
     void pushBack();
-
-    /**
-     * send the plane to gate x
-     * if no gate index is given, the first free gate is chosen
-     * Precondition: this->validGate() && this->atAirport()
-     * @param gate
-     */
-    void toGate(int gate = -1);
 
     /**
      * send the plane to exit the airport

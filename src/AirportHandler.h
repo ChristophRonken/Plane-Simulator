@@ -17,13 +17,16 @@
 
 enum ESuccess {importAborted, partialImport, success};
 
+const int kMinutesPerHour = 60;
+const int kHoursPerDay = 24;
+
 class AirportHandler {
 
     AirportHandler* self;
 
     vector<Airport*> airports;
     vector<Airplane*> airplanes;
-    const static double gTimeUnit = 0.1;   // in seconds
+    const static double gTimeUnit = 0.000001;   // in seconds/virtualMinute
     const static double gSimulationStartTime = 12; // in hours
     vector<int> occupiedColor;
     vector<int> freeColor;
@@ -59,7 +62,6 @@ public:
 
     /**
      * Add airplanes, airports and runways from an given xml file.
-     * Preconditions: AirportHandler::validFileName(string)
      * @param fileName
      */
     ESuccess addXmlData(const string &fileName);
@@ -115,11 +117,6 @@ public:
     string getInfo();
 
     /**
-     * Prints info of the planes and airports in the console
-     */
-    void printInfo();
-
-    /**
      * Outputs a file, with the info of the airplanes and airports, to the working directory
      */
     void fileOutput(const string &fileName = "AirportInfo.txt");;
@@ -127,6 +124,8 @@ public:
     /**
      * Run a simultaion of an airport
      * Preconditions: !AirportHandler::getAirports().empty()
+     *      && !AirportHandler::getAirplanes().empty()
+     *      && !AirportHandler::getAirport(iata)->getRunways().empty()
      * @param name of the airport to run a simulation on
      */
     void runSimulation(const string &name);
@@ -222,7 +221,6 @@ public:
      * @return bool
      */
     bool propperlyInitialised();
-
 
 };
 

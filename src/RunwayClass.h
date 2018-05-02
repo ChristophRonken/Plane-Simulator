@@ -116,14 +116,6 @@ public:
     void setLength(int length);
 
     /**
-     * Set the value of the variable with name == type
-     * If the type is invalid, nothing happens
-     * @param type
-     * @param value
-     */
-    void setVar(string type, string value);
-
-    /**
      * Set the taxiRoute
      * Postconditions: Runway::getTaxiRoute() == taxi
      * @param taxi

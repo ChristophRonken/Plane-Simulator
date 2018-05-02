@@ -3,7 +3,6 @@
 //
 
 #include "AirportClass.h"
-#include <algorithm>
 
 Airport::Airport() {
     Airport::name = "";
@@ -34,7 +33,6 @@ Airport::Airport(const string &name, const string &iata, const string &callsign,
 };
 
 Airport::~Airport() {
-
 
     for (unsigned int i = 0; i < Airport::runways.size(); i++){
 
@@ -82,9 +80,11 @@ const vector<Runway *> &Airport::getRunways() const {
     return Airport::runways;
 }
 void Airport::setRunways(const vector<Runway *> &runways) {
-    for (unsigned int i=0; i< runways.size(); i++){
-        Airport::addRunway(runways[i]);
-    }
+
+    REQUIRE(validRunways(runways), "valid runways");
+
+    Airport::runways = runways;
+
     ENSURE(Airport::runways == runways, "Runways set");
 }
 
@@ -175,39 +175,6 @@ Runway* Airport::getRunway(const string &name){
     return NULL;
 
 }
-void Airport::setVar(const string &type, const string &value) {
-    if (type == "name"){
-        Airport::setName(value);
-        return;
-    }
-
-    else if (type == "iata"){
-        Airport::setIata(value);
-        return;
-    }
-
-    else if (type == "callsign"){
-        Airport::setCallsign(value);
-        return;
-    }
-
-    else if (type == "gates"){
-        if (isNumber(value)){
-            int i;
-            istringstream(value) >> i;
-            Airport::setGates(i);
-        }
-        return;
-
-    }
-
-    else{
-        ENSURE(false, "Invalid input type");
-
-    }
-
-}
-
 
 //add remove
 void Airport::addRunway(Runway *runway) {
@@ -293,4 +260,23 @@ bool Airport::properlyInitialised() {
 
 bool Airport::isValid() {
     return !(!Airport::properlyInitialised() || Airport::name.empty() || Airport::iata.empty() || Airport::callsign.empty() || Airport::gates == 0);
+}
+
+bool Airport::validRunways(vector<Runway *> runways) {
+    vector<string> names;
+    for (unsigned int i = 0; i< runways.size(); i++){
+        string name = runways[i]->getName();
+        if (!(find(names.begin(), names.end(), name) == names.end() && name != "")){
+            return false;
+        }
+
+        if (runways[i]->getType() != "grass" && runways[i]->getType() != "asphalt"){
+            return false;
+
+        }
+
+        names.push_back(name);
+    }
+
+    return true;
 }

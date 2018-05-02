@@ -11,6 +11,8 @@
 #include "RunwayClass.h"
 #include "MessageSystem.h"
 #include <vector>
+#include <algorithm>
+#include "Utils.h"
 
 
 using namespace std;
@@ -132,13 +134,6 @@ public:
     void setGatesOccupied(const vector<bool> &GatesOccupied);
 
     /**
-     * sets the var of the airport
-     * @param type of the var
-     * @param value of the var
-     */
-    void setVar(const string &type, const string &value);
-
-    /**
      * adds a runway to the airport
      * Precondition: !runwayExists(string runway)
      * @param runway
@@ -250,6 +245,8 @@ public:
      * @return bool
      */
     bool isValid();
+
+    bool validRunways(vector<Runway*> runways);
 
 };
 

@@ -2,4 +2,4 @@
 TPA | 
 11L | ==========
 TPB | 
-Gates [      V   ]
+Gates [          ]
