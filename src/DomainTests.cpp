@@ -57,13 +57,18 @@ namespace {
         handler->addXmlData("XMLTests/TestVolledigeLuchthaven16.xml");
         EXPECT_DEATH(handler->runSimulation(""), "Assertion.*failed");
 
+        cout << "1" << endl;
         // Correcte Luchthaven + airplanes
         handler2->addXmlData("XMLTests/TestVolledigeLuchthaven10.xml");
         EXPECT_NO_FATAL_FAILURE(handler2->runSimulation("ANR"));
 
+        cout << "2" << endl;
+
         // No runways
         handler3->addXmlData("XMLTests/TestVolledigeLuchthaven2.xml");
         EXPECT_DEATH(handler3->runSimulation("ANR"), "Assertion.*failed");
+
+        cout << "3" << endl;
 
         // No Airplanes
         handler4->addXmlData("XMLTests/TestVolledigeLuchthaven9.xml");

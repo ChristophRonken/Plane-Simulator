@@ -713,5 +713,21 @@ namespace {
         EXPECT_NO_FATAL_FAILURE(airplane->refuel(););
     }
 
+    TEST_F(AirplaneInput, taxiToRunway) {
+        airplane = new Airplane();
+        airplane->setCurrentTask("wrong task");
+        EXPECT_DEATH(airplane->taxiToRunway();, "correct state");
+        airplane->setCurrentTask("refueling");
+        EXPECT_DEATH(airplane->refuel();, "at gate");
+        airport = new Airport();
+        airport->setGates(5);
+        airplane->setAirport(airport);
+        airplane->setGate(3);
+        EXPECT_DEATH(airplane->refuel();, "flightplan assigned");
+        flightPlan = new FlightPlan();
+        airplane->setFlightPlan(flightPlan);
+        EXPECT_NO_FATAL_FAILURE(airplane->refuel(););
+    }
+
 
 }

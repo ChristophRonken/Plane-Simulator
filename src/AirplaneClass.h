@@ -628,9 +628,9 @@ public:
     /**
      * Make the airplane taxi to a (given) runway if possible
      * Preconditions: Airplane::getCurrentTask() == "going to runway" &&
-     * (Airplane::getRunway() != NULL || Airplane::getAttemptRunway() != NULL)
+     * (Airplane::getAttemptRunway() != NULL
      */
-    void taxiToRunway(Runway* runway = NULL);
+    void taxiToRunway();
 
     /**
      * Make the airplane taxi to a given gate
