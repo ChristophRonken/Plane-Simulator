@@ -220,7 +220,7 @@ void lineUpRunwayMessage(Airplane* airplane, Runway* runway, const string &time)
 void lineUpRunwayConfirmation(Airplane* airplane, Runway* runway, const string &time){
     REQUIRE(getCommunicationLogFile()->is_open(), "CommFile is open");
     gOutputCommunicationLog << "[" << time << "][AIR]\n"
-                 << "$ Lining up runway " << runway->getName() << " and wait" << airplane->getCallsign();
+                 << "$ Lining up runway " << runway->getName() << " and wait" << airplane->getCallsign() << ".\n";
 
 };
 
