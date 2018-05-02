@@ -11,6 +11,7 @@
 #include "AirportHandler.h"
 #include "MessageSystem.h"
 #include "RunwayClass.h"
+#include "Utils.h"
 
 namespace {
 /*
@@ -1076,7 +1077,7 @@ TEST_F(CommunicationTests, taxiToRunway) {
 
 }
 
-*/
+
     class XMLReaderTest : public ::testing::Test {
     protected:
         // You should make the members protected s.t. they can be
@@ -1353,7 +1354,8 @@ TEST_F(CommunicationTests, taxiToRunway) {
     }
 }
 
-
+*/
+}
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();

@@ -103,6 +103,9 @@ public:
 
     Airplane();
 
+    bool getTechnicalChecked() const;
+    void setTechnicalChecked(bool boolean);
+
     /**
      * get the ID number
      * @return
@@ -707,14 +710,14 @@ public:
      * Check if the simulation was finished
      * @return bool
      */
-    bool getsimulationFinished();
+    bool getSimulationFinished();
 
    /**
     * Set if the simulation was finished
     * Postcondition: Airplane::getsimulationFinished() == finished
     * @param finished
     */
-    void setsimulationFinished(bool finished);
+    void setSimulationFinished(bool finished);
 
     /**
      * Get the current task the plane is performing

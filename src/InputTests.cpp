@@ -119,4 +119,91 @@ namespace {
         EXPECT_NO_FATAL_FAILURE(airport->removeRunway("name"));
         EXPECT_DEATH(airport->removeRunway("name"), "Runway exists");
     }
+
+    class AirplaneInput: public ::testing::Test {
+    protected:
+        // You should make the members protected s.t. they can be
+        // accessed from sub-classes.
+
+        AirplaneInput() {
+
+
+        }
+
+        // virtual void SetUp() will be called before each test is run.  You
+        // should define it if you need to initialize the variables.
+        // Otherwise, this can be skipped.
+        virtual void SetUp() {
+
+
+        }
+
+        // virtual void TearDown() will be called after each test is run.
+        // You should define it if there is cleanup work to do.  Otherwise,
+        // you don't have to provide it.
+        virtual void TearDown() {
+        }
+
+        // Declares the variables your tests want to use.
+        Airport *airport;
+        Airport *airport1;
+        Airplane *airplane;
+        Airplane *airplane1;
+        Airplane *airplane2;
+        Runway *runway;
+        Runway *runway1;
+        FlightPlan* flightPlan;
+        AirportHandler *D;
+    };
+
+
+    TEST_F(AirplaneInput, setType) {
+        airplane = new Airplane();
+        EXPECT_DEATH(airplane->setType(""), "Valid type?");
+        EXPECT_DEATH(airplane->setType("falsetype"), "Valid type?");
+        EXPECT_NO_FATAL_FAILURE(airplane->setType("military"));
+        EXPECT_NO_FATAL_FAILURE(airplane->setType("private"));
+        EXPECT_NO_FATAL_FAILURE(airplane->setType("emergency"));
+        EXPECT_NO_FATAL_FAILURE(airplane->setType("airline"));
+
+    }
+
+    TEST_F(AirplaneInput, setEngine) {
+        airplane = new Airplane();
+        EXPECT_DEATH(airplane->setEngine(""), "valid Engine");
+        EXPECT_DEATH(airplane->setEngine("falsetype"), "valid Engine");
+        EXPECT_NO_FATAL_FAILURE(airplane->setEngine("propeller"));
+        EXPECT_NO_FATAL_FAILURE(airplane->setEngine("jet"));
+    }
+
+    TEST_F(AirplaneInput, setSize) {
+        airplane = new Airplane();
+        EXPECT_DEATH(airplane->setSize(""), "valid size");
+        EXPECT_DEATH(airplane->setSize("falsetype"), "valid size");
+        EXPECT_NO_FATAL_FAILURE(airplane->setSize("small"));
+        EXPECT_NO_FATAL_FAILURE(airplane->setSize("medium"));
+        EXPECT_NO_FATAL_FAILURE(airplane->setSize("large"));
+    }
+
+    TEST_F(AirplaneInput, setGate) {
+        airplane = new Airplane();
+        airport = new Airport();
+        EXPECT_NO_FATAL_FAILURE(airplane->setGate(-1));
+        EXPECT_DEATH(airplane->setGate(6), "at Airport");
+        airplane->setAirport(airport);
+        airport->setGates(5);
+        EXPECT_NO_FATAL_FAILURE(airplane->setGate(-1));
+        EXPECT_NO_FATAL_FAILURE(airplane->setGate(3));
+        EXPECT_DEATH(airplane->setGate(6), "validGate");
+    }
+
+    TEST_F(AirplaneInput, getDestination) {
+        airplane = new Airplane();
+        flightPlan = new FlightPlan;
+        EXPECT_DEATH(airplane->getDestination(), "has a flightPlan");
+        airplane->setFlightPlan(flightPlan);
+        EXPECT_NO_FATAL_FAILURE(airplane->getDestination());
+    }
+
+
 }

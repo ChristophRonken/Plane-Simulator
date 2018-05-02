@@ -248,4 +248,334 @@ namespace {
         airport->setGates(5);
         EXPECT_TRUE(airport->isValid());
     }
+
+
+    class AirplaneDomain : public ::testing::Test {
+    protected:
+        // You should make the members protected s.t. they can be
+        // accessed from sub-classes.
+
+        AirplaneDomain() {
+
+
+        }
+
+        // virtual void SetUp() will be called before each test is run.  You
+        // should define it if you need to initialize the variables.
+        // Otherwise, this can be skipped.
+        virtual void SetUp() {
+
+
+        }
+
+        // virtual void TearDown() will be called after each test is run.
+        // You should define it if there is cleanup work to do.  Otherwise,
+        // you don't have to provide it.
+        virtual void TearDown() {
+        }
+
+        // Declares the variables your tests want to use.
+        Airport *airport;
+        Airport *airport1;
+        Airplane *airplane;
+        Airplane *airplane1;
+        Airplane *airplane2;
+        Airplane *airplane3;
+        Airplane *airplane4;
+        Airplane *airplane5;
+        Airplane *airplane6;
+        Airplane *airplane7;
+        Airplane *airplane8;
+        Runway *runway;
+        Runway *runway1;
+        AirportHandler *D;
+    };
+
+    TEST_F(AirplaneDomain, defaultConstructor) {
+        airplane = new Airplane();
+        EXPECT_TRUE(airplane->properlyInitialised());
+        EXPECT_EQ(airplane->getNumber(), "");
+        EXPECT_EQ(airplane->getCallsign(), "");
+        EXPECT_EQ(airplane->getModel(), "");
+        EXPECT_EQ(airplane->getState(), "");
+        EXPECT_EQ(airplane->getType(), "");
+        EXPECT_EQ(airplane->getEngine(), "");
+        EXPECT_EQ(airplane->getSize(), "");
+        EXPECT_EQ(airplane->getSquawkCode(), "");
+        EXPECT_TRUE(airplane->getAirport() == NULL);
+        EXPECT_TRUE(airplane->getRunway() == NULL);
+        EXPECT_TRUE(airplane->getFlightPlan() == NULL);
+        EXPECT_TRUE(airplane->getTaxiRoute() == NULL);
+        EXPECT_TRUE(airplane->getAttemptRunway() == NULL);
+        EXPECT_EQ(airplane->getGate(), -1);
+        EXPECT_EQ(airplane->getFuel(), 0);
+        EXPECT_EQ(airplane->getPassengers(), 0);
+        EXPECT_EQ(airplane->getPassengerCapacity(), 0);
+        EXPECT_EQ(airplane->getHeight(), 0);
+        EXPECT_EQ(airplane->getOperationTime(), 0);
+        EXPECT_EQ(airplane->getAttemptgate(), -1);
+        EXPECT_EQ(airplane->getCurrentTask(), "");
+        EXPECT_EQ(airplane->getTaxiCrossing(), "");
+        EXPECT_EQ(airplane->getTaxiPoint(), "");
+        EXPECT_FALSE(airplane->getTechnicalChecked());
+        EXPECT_FALSE(airplane->isIFRAuthorized());
+        EXPECT_FALSE(airplane->isRequestMessageSend());
+        EXPECT_FALSE(airplane->isConfirmMessageSend());
+        EXPECT_FALSE(airplane->isConfirmMessageSend());
+        EXPECT_FALSE(airplane->isPushback());
+        EXPECT_FALSE(airplane->isTaxiRequest());
+        EXPECT_FALSE(airplane->getEmergencyInAirport());
+        EXPECT_FALSE(airplane->isOnItsWay());
+        EXPECT_FALSE(airplane->getSimulationFinished());
+
+
+        /*
+
+        Airplane::emergencyInAirport = false;
+        Airplane::crossed = false;
+        Airplane::alreadyLinedUp = false;
+        Airplane::permissionToTakeOff = false;
+        Airplane::waitAtRunway = false;
+        Airplane::waitOnRunway = false;
+
+         */
+    }
+
+    TEST_F(AirplaneDomain, isReadyForDeparture) {
+        airplane = new Airplane();
+        airplane->setPassengers(50);
+        airplane->setPassengerCapacity(150);
+        airplane->setFuel(10);
+        airplane->setFuelCapacity(100);
+        EXPECT_FALSE(airplane->isReadyForDeparture());
+        airplane->setPassengerCapacity(50);
+        EXPECT_FALSE(airplane->isReadyForDeparture());
+        airplane->setPassengerCapacity(150);
+        EXPECT_FALSE(airplane->isReadyForDeparture());
+        airplane->setFuelCapacity(10);
+        EXPECT_FALSE(airplane->isReadyForDeparture());
+        airplane->setPassengerCapacity(50);
+        EXPECT_TRUE(airplane->isReadyForDeparture());
+    }
+
+    TEST_F(AirplaneDomain, readyForTakeOff) {
+        airplane = new Airplane();
+        airplane->setPassengers(50);
+        airplane->setPassengerCapacity(50);
+        airplane->setFuel(10);
+        airplane->setFuelCapacity(10);
+        EXPECT_FALSE(airplane->readyForTakeOff());
+        airport = new Airport();
+        airplane->setAirport(airport);
+        EXPECT_FALSE(airplane->readyForTakeOff());
+        runway = new Runway();
+        airplane->setRunway(runway);
+        EXPECT_FALSE(airplane->readyForTakeOff());
+        airplane->setState("Waiting for departure");
+        EXPECT_TRUE(airplane->readyForTakeOff());
+    }
+
+    TEST_F(AirplaneDomain, atAirport) {
+        airplane = new Airplane();
+        EXPECT_FALSE(airplane->atAirport());
+        airport = new Airport;
+        airplane->setAirport(airport);
+        EXPECT_TRUE(airplane->atAirport());
+    }
+
+    TEST_F(AirplaneDomain, atGate) {
+        airplane = new Airplane();
+        EXPECT_FALSE(airplane->atGate());
+        airport = new Airport;
+        airport->setGates(5);
+        airplane->setAirport(airport);
+        airplane->setGate(3);
+        airplane->setState("Waiting for departure");
+        EXPECT_TRUE(airplane->atGate());
+    }
+
+    TEST_F(AirplaneDomain, validSize) {
+        airplane = new Airplane();
+        EXPECT_FALSE(airplane->validSize("wrongsize"));
+        EXPECT_TRUE(airplane->validSize("small"));
+        EXPECT_TRUE(airplane->validSize("medium"));
+        EXPECT_TRUE(airplane->validSize("large"));
+
+        airplane->setType("private");
+        EXPECT_TRUE(airplane->validSize("small"));
+        EXPECT_TRUE(airplane->validSize("medium"));
+        EXPECT_FALSE(airplane->validSize("large"));
+
+        airplane->setType("airline");
+        EXPECT_FALSE(airplane->validSize("small"));
+        EXPECT_TRUE(airplane->validSize("medium"));
+        EXPECT_TRUE(airplane->validSize("large"));
+
+        airplane->setType("military");
+        EXPECT_TRUE(airplane->validSize("small"));
+        EXPECT_FALSE(airplane->validSize("medium"));
+        EXPECT_TRUE(airplane->validSize("large"));
+
+        airplane->setType("emergency");
+        EXPECT_TRUE(airplane->validSize("small"));
+        EXPECT_FALSE(airplane->validSize("medium"));
+        EXPECT_FALSE(airplane->validSize("large"));
+
+        airplane = new Airplane();
+        airplane->setType("private");
+        airplane->setEngine("jet");
+        EXPECT_TRUE(airplane->validSize("small"));
+        EXPECT_TRUE(airplane->validSize("medium"));
+        EXPECT_FALSE(airplane->validSize("large"));
+
+        airplane1 = new Airplane();
+        airplane1->setType("private");
+        airplane1->setEngine("propeller");
+        EXPECT_TRUE(airplane1->validSize("small"));
+        EXPECT_FALSE(airplane1->validSize("medium"));
+        EXPECT_FALSE(airplane1->validSize("large"));
+
+        airplane2 = new Airplane();
+        airplane2->setType("airline");
+        airplane2->setEngine("jet");
+        EXPECT_FALSE(airplane2->validSize("small"));
+        EXPECT_TRUE(airplane2->validSize("medium"));
+        EXPECT_TRUE(airplane2->validSize("large"));
+
+        airplane3 = new Airplane();
+        airplane3->setType("airline");
+        airplane3->setEngine("propeller");
+        EXPECT_FALSE(airplane3->validSize("small"));
+        EXPECT_TRUE(airplane3->validSize("medium"));
+        EXPECT_FALSE(airplane3->validSize("large"));
+
+        airplane4 = new Airplane();
+        airplane4->setType("military");
+        airplane4->setEngine("jet");
+        EXPECT_TRUE(airplane4->validSize("small"));
+        EXPECT_FALSE(airplane4->validSize("medium"));
+        EXPECT_FALSE(airplane4->validSize("large"));
+
+        airplane5 = new Airplane();
+        airplane5->setType("military");
+        airplane5->setEngine("propeller");
+        EXPECT_FALSE(airplane5->validSize("small"));
+        EXPECT_FALSE(airplane5->validSize("medium"));
+        EXPECT_TRUE(airplane5->validSize("large"));
+
+        airplane6 = new Airplane();
+        airplane6->setType("emergency");
+        airplane6->setEngine("propeller");
+        EXPECT_TRUE(airplane6->validSize("small"));
+        EXPECT_FALSE(airplane6->validSize("medium"));
+        EXPECT_FALSE(airplane6->validSize("large"));
+    }
+
+    TEST_F(AirplaneDomain, validEngineType) {
+        airplane = new Airplane();
+        EXPECT_FALSE(airplane->validEngineType("wrongengine"));
+        EXPECT_TRUE(airplane->validEngineType("propeller"));
+        EXPECT_TRUE(airplane->validEngineType("jet"));
+
+        airplane->setType("private");
+        EXPECT_TRUE(airplane->validEngineType("propeller"));
+        EXPECT_TRUE(airplane->validEngineType("jet"));
+
+        airplane->setType("airline");
+        EXPECT_TRUE(airplane->validEngineType("propeller"));
+        EXPECT_TRUE(airplane->validEngineType("jet"));
+
+        airplane->setType("military");
+        EXPECT_TRUE(airplane->validEngineType("propeller"));
+        EXPECT_TRUE(airplane->validEngineType("jet"));
+
+        airplane->setType("emergency");
+        EXPECT_TRUE(airplane->validEngineType("propeller"));
+        EXPECT_FALSE(airplane->validEngineType("jet"));
+
+        airplane = new Airplane();
+        airplane->setType("private");
+        airplane->setSize("small");
+        EXPECT_TRUE(airplane->validEngineType("propeller"));
+        EXPECT_TRUE(airplane->validEngineType("jet"));
+
+        airplane1 = new Airplane();
+        airplane1->setType("private");
+        airplane1->setSize("medium");
+        EXPECT_FALSE(airplane1->validEngineType("propeller"));
+        EXPECT_TRUE(airplane1->validEngineType("jet"));
+
+        airplane2 = new Airplane();
+        airplane2->setType("airline");
+        airplane2->setSize("medium");
+        EXPECT_TRUE(airplane2->validEngineType("propeller"));
+        EXPECT_TRUE(airplane2->validEngineType("jet"));
+
+        airplane3 = new Airplane();
+        airplane3->setType("airline");
+        airplane3->setSize("large");
+        EXPECT_FALSE(airplane3->validEngineType("propeller"));
+        EXPECT_TRUE(airplane3->validEngineType("jet"));
+
+        airplane4 = new Airplane();
+        airplane4->setType("military");
+        airplane4->setSize("small");
+        EXPECT_FALSE(airplane4->validEngineType("propeller"));
+        EXPECT_TRUE(airplane4->validEngineType("jet"));
+
+        airplane5 = new Airplane();
+        airplane5->setType("military");
+        airplane5->setSize("large");
+        EXPECT_TRUE(airplane5->validEngineType("propeller"));
+        EXPECT_FALSE(airplane5->validEngineType("jet"));
+
+        airplane6 = new Airplane();
+        airplane6->setType("emergency");
+        airplane6->setSize("small");
+        EXPECT_TRUE(airplane6->validEngineType("propeller"));
+        EXPECT_FALSE(airplane6->validEngineType("jet"));
+    }
+
+    TEST_F(AirplaneDomain, validPlaneType) {
+        airplane = new Airplane();
+        EXPECT_FALSE(airplane->validPlaneType("wrongtype"));
+        EXPECT_TRUE(airplane->validPlaneType("private"));
+        EXPECT_TRUE(airplane->validPlaneType("airline"));
+        EXPECT_TRUE(airplane->validPlaneType("military"));
+        EXPECT_TRUE(airplane->validPlaneType("emergency"));
+    }
+
+    TEST_F(AirplaneDomain, validGate){
+        airplane = new Airplane();
+        EXPECT_TRUE(airplane->validGate(-1));
+        EXPECT_DEATH(airplane->validGate(5), "");
+        airport = new Airport();
+        airplane->setAirport(airport);
+        airport->setGates(5);
+        EXPECT_TRUE(airplane->validGate(3));
+        airport->setGateOccupied(3, true);
+        EXPECT_FALSE(airplane->validGate(3));
+        airplane->setAttemptgate(3);
+        EXPECT_TRUE(airplane->validGate(3));
+    }
+
+    TEST_F(AirplaneDomain, validRunway){
+        airplane = new Airplane();
+        airplane->setSize("medium");
+        airplane->setEngine("propeller");
+        runway = new Runway();
+        runway->setLength(5000);
+        runway->setType("asphalt");
+        runway->setOccupied(false);
+        EXPECT_TRUE(airplane->validRunway(runway));
+        runway->setOccupied(true);
+        EXPECT_FALSE(airplane->validRunway(runway));
+        runway->setOccupied(false);
+        runway->setLength(200);
+        EXPECT_FALSE(airplane->validRunway(runway));
+        runway->setLength(5000);
+        runway->setType("grass");
+        EXPECT_FALSE(airplane->validRunway(runway));
+    }
+
 }

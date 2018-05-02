@@ -633,7 +633,7 @@ void AirportHandler::GraphicalAirport3D(const string &iata) {
 
     REQUIRE(AirportHandler::airportExists(iata), "Airport exists");
 
-    string document = "3Doutput" + getTime() + ".ini";
+    string document = "3Dfiles/3Doutput" + getTime() + ".ini";
     const char * documentname = document.c_str();
 
     Airport* airport = AirportHandler::getAirport(iata);
@@ -642,7 +642,7 @@ void AirportHandler::GraphicalAirport3D(const string &iata) {
     // makes vector with all airplanes in the simulation
     vector<Airplane*> unfinishedAirplanes;
     for (unsigned int i=0; i<getAirplanes().size(); i++){
-        if (!getAirplanes()[i]->getsimulationFinished()){
+        if (!getAirplanes()[i]->getSimulationFinished()){
             unfinishedAirplanes.push_back(getAirplanes()[i]);
         }
     }

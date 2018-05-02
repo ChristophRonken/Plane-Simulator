@@ -312,13 +312,305 @@ namespace {
     }
 
     TEST_F(AirportOutput, removeRunway) {
-        cout << "ok" << airport->getRunways().size() << endl;
         runway->setName("name");
         runway->setType("asphalt");
         runway->setLength(200);
-
-        EXPECT_NO_FATAL_FAILURE(airport->addRunway(runway));
+        airport->addRunway(runway);
         EXPECT_NO_FATAL_FAILURE(airport->removeRunway("name"));
         EXPECT_FALSE(airport->runwayExists("name"));
     }
+
+    class AirplaneOutput: public ::testing::Test {
+    protected:
+        // You should make the members protected s.t. they can be
+        // accessed from sub-classes.
+
+        AirplaneOutput() {
+
+
+        }
+
+        // virtual void SetUp() will be called before each test is run.  You
+        // should define it if you need to initialize the variables.
+        // Otherwise, this can be skipped.
+        virtual void SetUp() {
+
+
+        }
+
+        // virtual void TearDown() will be called after each test is run.
+        // You should define it if there is cleanup work to do.  Otherwise,
+        // you don't have to provide it.
+        virtual void TearDown() {
+        }
+
+        // Declares the variables your tests want to use.
+        Airport *airport;
+        Airport *airport1;
+        Airplane *airplane;
+        Airplane *airplane1;
+        Airplane *airplane2;
+        Runway *runway;
+        Runway *runway1;
+        FlightPlan* flightPlan;
+        TaxiRoute* taxiRoute;
+        AirportHandler *D;
+    };
+
+    TEST_F(AirplaneOutput, setTechnicalChecked) {
+        airplane = new Airplane();
+        airplane->setTechnicalChecked(true);
+        EXPECT_TRUE(airplane->getTechnicalChecked());
+    }
+
+    TEST_F(AirplaneOutput, setNumber) {
+        airplane = new Airplane();
+        airplane->setNumber("70");
+        EXPECT_EQ(airplane->getNumber(), "70");
+    }
+
+    TEST_F(AirplaneOutput, setCallsign) {
+        airplane = new Airplane();
+        airplane->setCallsign("callsign");
+        EXPECT_EQ(airplane->getCallsign(), "callsign");
+    }
+
+    TEST_F(AirplaneOutput, setModel) {
+        airplane = new Airplane();
+        airplane->setModel("model");
+        EXPECT_EQ(airplane->getModel(), "model");
+    }
+
+    TEST_F(AirplaneOutput, setState) {
+        airplane = new Airplane();
+        airplane->setState("state");
+        EXPECT_EQ(airplane->getState(), "state");
+    }
+
+    TEST_F(AirplaneOutput, setFuel) {
+        airplane = new Airplane();
+        airplane->setFuel(5);
+        EXPECT_EQ(airplane->getFuel(), 5);
+    }
+
+    TEST_F(AirplaneOutput, setHeight) {
+        airplane = new Airplane();
+        airplane->setHeight(1000);
+        EXPECT_EQ(airplane->getHeight(), 1000);
+    }
+
+    TEST_F(AirplaneOutput, setFuelCapacity) {
+        airplane = new Airplane();
+        airplane->setFuelCapacity(10000);
+        EXPECT_EQ(airplane->getFuelCapacity(), 10000);
+    }
+
+    TEST_F(AirplaneOutput, setPassengers) {
+        airplane = new Airplane();
+        airplane->setPassengers(100);
+        EXPECT_EQ(airplane->getPassengers(), 100);
+    }
+
+    TEST_F(AirplaneOutput, setPassengerCapacity) {
+        airplane = new Airplane();
+        airplane->setPassengerCapacity(100);
+        EXPECT_EQ(airplane->getPassengerCapacity(), 100);
+    }
+
+    TEST_F(AirplaneOutput, setAirport) {
+        airplane = new Airplane();
+        airport = new Airport();
+        airplane->setAirport(airport);
+        EXPECT_EQ(airplane->getAirport(), airport);
+    }
+
+    TEST_F(AirplaneOutput, setType) {
+        airplane = new Airplane();
+        EXPECT_NO_FATAL_FAILURE(airplane->setType("military"));
+        EXPECT_EQ(airplane->getType(),"military");
+    }
+
+    TEST_F(AirplaneOutput, setEngine) {
+        airplane = new Airplane();
+        airplane->setEngine("propeller");
+        EXPECT_EQ(airplane->getEngine(), "propeller");
+    }
+
+    TEST_F(AirplaneOutput, setSize) {
+        airplane = new Airplane();
+        airplane->setSize("small");
+        EXPECT_EQ(airplane->getSize(), "small");
+    }
+
+    TEST_F(AirplaneOutput, setOperationTime) {
+        airplane = new Airplane();
+        airplane->setOperationTime(100);
+        EXPECT_EQ(airplane->getOperationTime(), 100);
+    }
+
+    TEST_F(AirplaneOutput, setRunway) {
+        airplane = new Airplane();
+        runway = new Runway();
+        airplane->setRunway(runway);
+        EXPECT_EQ(airplane->getRunway(), runway);
+    }
+
+    TEST_F(AirplaneOutput, setGate) {
+        airplane = new Airplane();
+        airport = new Airport();
+        airplane->setAirport(airport);
+        airport->setGates(5);
+        airplane->setGate(4);
+        EXPECT_EQ(airplane->getGate(), 4);
+    }
+
+    TEST_F(AirplaneOutput, setAttemptRunway) {
+        airplane = new Airplane();
+        runway = new Runway();
+        airplane->setAttemptRunway(runway);
+        EXPECT_EQ(airplane->getAttemptRunway(), runway);
+    }
+
+    TEST_F(AirplaneOutput, setFlightPlan) {
+        airplane = new Airplane();
+        flightPlan = new FlightPlan();
+        airplane->setFlightPlan(flightPlan);
+        EXPECT_EQ(airplane->getFlightPlan(), flightPlan);
+    }
+
+    TEST_F(AirplaneOutput, setTaxiRoute) {
+        airplane = new Airplane();
+        taxiRoute = new TaxiRoute();
+        airplane->setTaxiRoute(taxiRoute);
+        EXPECT_EQ(airplane->getTaxiRoute(), taxiRoute);
+    }
+
+    TEST_F(AirplaneOutput, setTaxiPoint) {
+        airplane = new Airplane();
+        airplane->setTaxiPoint("point");
+        EXPECT_EQ(airplane->getTaxiPoint(), "point");
+    }
+
+    TEST_F(AirplaneOutput, setTaxiCrossing) {
+        airplane = new Airplane();
+        airplane->setTaxiCrossing("crossing");
+        EXPECT_EQ(airplane->getTaxiCrossing(), "crossing");
+    }
+
+    TEST_F(AirplaneOutput, setIfrAuthorised) {
+        airplane = new Airplane();
+        airplane->setIFRAuthorized(true);
+        EXPECT_TRUE(airplane->isIFRAuthorized());
+    }
+
+    TEST_F(AirplaneOutput, setPushback) {
+        airplane = new Airplane();
+        airplane->setPushback(true);
+        EXPECT_TRUE(airplane->isPushback());
+    }
+
+    TEST_F(AirplaneOutput, setRequestMessageSend) {
+        airplane = new Airplane();
+        airplane->setRequestMessageSend(true);
+        EXPECT_TRUE(airplane->isRequestMessageSend());
+    }
+
+    TEST_F(AirplaneOutput, setMessageMessageSend) {
+        airplane = new Airplane();
+        airplane->setMessageMessageSend(true);
+        EXPECT_TRUE(airplane->isMessageMessageSend());
+    }
+
+    TEST_F(AirplaneOutput, setConfirmMessageSend) {
+        airplane = new Airplane();
+        airplane->setConfirmMessageSend(true);
+        EXPECT_TRUE(airplane->isConfirmMessageSend());
+    }
+
+    TEST_F(AirplaneOutput, setTaxiRequest) {
+        airplane = new Airplane();
+        airplane->setTaxiRequest(true);
+        EXPECT_TRUE(airplane->isTaxiRequest());
+    }
+
+    TEST_F(AirplaneOutput, setEmergencyInAirport) {
+        airplane = new Airplane();
+        airplane->setEmergencyInAirport(true);
+        EXPECT_TRUE(airplane->getEmergencyInAirport());
+    }
+
+    TEST_F(AirplaneOutput, setSquawkCode) {
+        airplane = new Airplane();
+        airplane->setSquawkCode();
+        EXPECT_NE(airplane->getSquawkCode(), "");
+    }
+
+    TEST_F(AirplaneOutput, getDestination) {
+        airplane = new Airplane();
+        flightPlan = new FlightPlan;
+        airplane->setFlightPlan(flightPlan);
+        EXPECT_EQ(airplane->getDestination(), "");
+    }
+
+    TEST_F(AirplaneOutput, setCurrentTask) {
+        airplane = new Airplane();
+        airplane->setCurrentTask("task");
+        EXPECT_EQ(airplane->getCurrentTask(), "task");
+    }
+
+    TEST_F(AirplaneOutput, setSimulationFinished) {
+        airplane = new Airplane();
+        airplane->setSimulationFinished(true);
+        EXPECT_TRUE(airplane->getSimulationFinished());
+    }
+
+
+    class GlobalOutput: public ::testing::Test {
+    protected:
+        // You should make the members protected s.t. they can be
+        // accessed from sub-classes.
+
+        GlobalOutput() {
+
+
+        }
+
+        // virtual void SetUp() will be called before each test is run.  You
+        // should define it if you need to initialize the variables.
+        // Otherwise, this can be skipped.
+        virtual void SetUp() {
+
+
+        }
+
+        // virtual void TearDown() will be called after each test is run.
+        // You should define it if there is cleanup work to do.  Otherwise,
+        // you don't have to provide it.
+        virtual void TearDown() {
+        }
+
+        // Declares the variables your tests want to use.
+        string myString;
+        int myInt;
+    };
+
+    TEST_F(GlobalOutput, setTime) {
+        myString = "7";
+        setTime(myString);
+        EXPECT_EQ(getTime(), myString);
+    }
+
+    TEST_F(GlobalOutput, setTimePassed) {
+        myInt = 6;
+        setTimePassed(myInt);
+        EXPECT_EQ(getTimePassed(), myInt);
+    }
+
+    TEST_F(GlobalOutput, setStartingTime) {
+        myInt = 6;
+        setStartingTime(myInt);
+        EXPECT_EQ(getStartingTime(), myInt);
+    }
+
+
 }
