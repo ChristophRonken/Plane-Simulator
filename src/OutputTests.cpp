@@ -719,7 +719,6 @@ namespace {
         // should define it if you need to initialize the variables.
         // Otherwise, this can be skipped.
         virtual void SetUp() {
-            openNewCommunicationLogFile("CommTest.txt");
 
             runway = new Runway();
             runway->setType("grass");
@@ -779,6 +778,7 @@ namespace {
 
     TEST_F(CommunicationOutput, CommunicationMessageOutput){
 
+        openNewCommunicationLogFile("CommTest.txt");
         // Nog een Fail
         EXPECT_NO_FATAL_FAILURE(EmergencyAbove3000ftMessage(plane, runway, "00:01"));
         EXPECT_NO_FATAL_FAILURE(initialCommunicationMessage(plane, airport, "00:01"));
@@ -818,6 +818,8 @@ namespace {
         EXPECT_NO_FATAL_FAILURE(EmergencyAbove3000ftMessage(plane, runway, "00:01"));
         EXPECT_NO_FATAL_FAILURE(EmergencyBelow3000ftRequest(plane, airport, "00:01"));
         EXPECT_NO_FATAL_FAILURE(EmergencyBelow3000ftMessage(plane, "00:01"));
+
+        closeCommunicationLogFile();
 
         EXPECT_TRUE(FileCompare("CommTest.txt", "CommTestResult.txt"));
 

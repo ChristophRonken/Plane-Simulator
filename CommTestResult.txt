@@ -43,7 +43,8 @@ $ Holding position, callsign.
 [00:01][ATC]
 $ callsign, line-up runway 11R and wait.
 [00:01][AIR]
-$ Lining up runway 11R and waitcallsign[00:01][ATC]
+$ Lining up runway 11R and waitcallsign.
+[00:01][ATC]
 $ callsign, runway 11R cleared for take-off.
 [00:01][AIR]
 $ Runway 11Rcleared for take-off, callsign.
