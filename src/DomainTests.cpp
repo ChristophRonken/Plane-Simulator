@@ -1096,7 +1096,14 @@ namespace {
 
 
     }
+
+    TEST_F(AirplaneDomain, TakeOfff){
+
+        airplane = new Airplane();
+        EXPECT_DEATH(airplane->takeOff(), "Assertion.*failed");
+
+        airport = new Airport();
+        airplane->setAirport(airport);
+        EXPECT_DEATH(airplane->takeOff(), "Assertion.*failed");
+    }
 }
-
-
-

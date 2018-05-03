@@ -58,6 +58,7 @@ class Airplane {
     int height;
     int operationTime;
     int attemptGate;
+    int crossingIndex;
 
     string currentTask;
 

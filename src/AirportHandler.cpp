@@ -497,7 +497,7 @@ ESuccess AirportHandler::addXmlData(const string &fileName) {
 
 string AirportHandler::timeToString(double passedTimeUnits){
 
-    passedTimeUnits += AirportHandler::gSimulationStartTime*kHoursPerDay;
+    passedTimeUnits += AirportHandler::gSimulationStartTime*kMinutesPerHour;
 
     double hour = int(floor(passedTimeUnits/kMinutesPerHour))%kHoursPerDay;
     double minutes = int(passedTimeUnits)%kMinutesPerHour;
