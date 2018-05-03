@@ -951,12 +951,11 @@ void Airplane::taxiToRunway(){
     Airplane::taxiRoute = attemptRunway->getTaxiRoute();
 
     if (Airplane::taxiPoint.empty() && Airplane::taxiCrossing.empty()){
-        Airplane::taxiPoint = Airplane::taxiRoute->getTaxiPoints()[0];
+        Airplane::taxiPoint = Airplane::attemptRunway->getTaxiRoute()->getTaxiPoints()[0];
         Airplane::setState("at taxipoint");
         Airplane::operationTime = 1;
         return;
     }
-
     if (Airplane::taxiPoint != ""){
         for (unsigned int i=0; i < Airplane::taxiRoute->getTaxiPoints().size(); i++){
             if (Airplane::taxiPoint == Airplane::taxiRoute->getTaxiPoints()[i]){
@@ -977,16 +976,14 @@ void Airplane::taxiToRunway(){
                         Airplane::messageMessageSend = false;
                         Airplane::confirmMessageSend = false;
                         Airplane::runway = attemptRunway;
-
+                        Airplane::setWaitAtRunway(true);
                         Airplane::setState("at holding point");
-
                         Airplane::currentTask = "at holding point";
                         Airplane::onItsWay = false;
-                        attemptRunway->setOnItsWay(false);
-
-                        Airplane::operationTime = 1;
-                        attemptRunway->setHoldingShortOccupied(true);
+                        Airplane::attemptRunway->setOnItsWay(false);
+                        Airplane::attemptRunway->setHoldingShortOccupied(true);
                         Airplane::attemptRunway = NULL;
+                        Airplane::operationTime = 1;
                         return;
                     }
                 }
@@ -1027,13 +1024,13 @@ void Airplane::taxiToRunway(){
 
                     if (!Airplane::getAirport()->getRunway(Airplane::taxiCrossing)->getPermissionToCross()){
                         Airplane::operationTime = 1;
-                        Airplane::requestMessageSend = false;
                         return;
                     }
                     else {
                         clearedToCrossMessage(this, Airplane::taxiRoute->getTaxiCrossings()[i], tijd);
                         Airplane::messageMessageSend = true;
-                        setOperationTime(1);
+                        Airplane::operationTime = 1;
+                        Airplane::getAirport()->getRunway(Airplane::taxiCrossing)->setCrossing(true);
                         return;
                     }
                 }
@@ -1049,7 +1046,6 @@ void Airplane::taxiToRunway(){
                         Airplane::messageMessageSend = false;
                         Airplane::confirmMessageSend = false;
                         Airplane::crossed = false;
-                        Airplane::getAirport()->getRunway(Airplane::taxiCrossing)->setPermissionToCross(true);
                         Airplane::setTaxiPoint(taxiRoute->getTaxiPoints()[i+1]);
                         Airplane::setState("at taxipoint");
                         Airplane::setOperationTime(5);
@@ -1057,18 +1053,11 @@ void Airplane::taxiToRunway(){
                         return;
                     }
                     else {
-                        if (Airplane::getAirport()->getRunway(Airplane::taxiCrossing)->getPermissionToCross()){
-                            Airplane::crossed = true;
-                            Airplane::getAirport()->getRunway(Airplane::taxiCrossing)->setPermissionToCross(false);
-                            Airplane::setState("crossing taxicrossing");
-                            Airplane::setOperationTime(1);
-                            return;
-                        }
-                        else{
-                            Airplane::setState("at taxicrossing");
-                            Airplane::setOperationTime(1);
-                            return;
-                        }
+                        Airplane::crossed = true;
+                        Airplane::setState("crossing taxicrossing");
+                        Airplane::setOperationTime(1);
+                        return;
+
                     }
                 }
             }

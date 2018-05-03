@@ -575,6 +575,7 @@ namespace {
         Runway *runway;
         Runway *runway1;
         FlightPlan* flightPlan;
+        TaxiRoute* taxiRoute;
         AirportHandler *D;
     };
 
@@ -714,19 +715,36 @@ namespace {
     }
 
     TEST_F(AirplaneInput, taxiToRunway) {
-        airplane = new Airplane();
-        airplane->setCurrentTask("wrong task");
-        EXPECT_DEATH(airplane->taxiToRunway();, "correct state");
-        airplane->setCurrentTask("refueling");
-        EXPECT_DEATH(airplane->refuel();, "at gate");
+        runway = new Runway();
+        runway->setLength(5000);
+        runway->setType("asphalt");
+        runway->setName("name");
+
+        runway1 = new Runway();
+        runway1->setLength(5000);
+        runway1->setType("asphalt");
+        runway1->setName("name1");
+
         airport = new Airport();
-        airport->setGates(5);
+        airport->addRunway(runway);
+        airport->addRunway(runway1);
+        airport->setGates(7);
+
+        airplane = new Airplane();
         airplane->setAirport(airport);
-        airplane->setGate(3);
-        EXPECT_DEATH(airplane->refuel();, "flightplan assigned");
-        flightPlan = new FlightPlan();
-        airplane->setFlightPlan(flightPlan);
-        EXPECT_NO_FATAL_FAILURE(airplane->refuel(););
+
+        airplane->setGate(5);
+
+        taxiRoute = new TaxiRoute();
+        taxiRoute->addTaxiPoint("point");
+
+        EXPECT_DEATH(airplane->taxiToRunway(), "correct state");
+        airplane->setCurrentTask("going to runway");
+        EXPECT_DEATH(airplane->taxiToRunway();, "destination runway was set");
+        airplane->setAttemptRunway(runway1);
+        EXPECT_DEATH(airplane->taxiToRunway();, "");
+        runway1->setTaxiRoute(taxiRoute);
+        EXPECT_NO_FATAL_FAILURE(airplane->taxiToRunway());
     }
 
 
