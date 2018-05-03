@@ -1136,6 +1136,7 @@ namespace {
     }
 
     TEST_F(AirplaneDomain, takeOff) {
+        /*
         runway1 = new Runway();
         runway1->setLength(5000);
         runway1->setType("asphalt");
@@ -1190,12 +1191,14 @@ namespace {
         EXPECT_TRUE(runway1->isOccupied());
         EXPECT_TRUE(runway1->getPermissionToCross());
 
+
         airplane->takeOff();
         EXPECT_TRUE(airplane->isRequestMessageSend());
         EXPECT_FALSE(airplane->isMessageMessageSend());
         EXPECT_FALSE(airplane->isConfirmMessageSend());
         EXPECT_FALSE(airplane->isPermissionToTakeOff());
         EXPECT_TRUE(airplane->isWaitOnRunway());
+         */
 
 
 
@@ -1209,5 +1212,43 @@ namespace {
         airport = new Airport();
         airplane->setAirport(airport);
         EXPECT_DEATH(airplane->takeOff(), "Assertion.*failed");
+    }
+
+    TEST_F(AirplaneDomain, land){
+        runway1 = new Runway();
+        runway1->setLength(5000);
+        runway1->setType("asphalt");
+        runway1->setName("name1");
+
+        airport = new Airport();
+        airport->addRunway(runway1);
+
+        airplane = new Airplane();
+        airplane->setSize("medium");
+        airplane->setEngine("jet");
+        airplane->setAirport(airport);
+
+        airplane->setCurrentTask("try to land");
+        airplane->setHeight(10000);
+        airplane->land(airport);
+        EXPECT_EQ(airplane->getAttemptRunway(), runway1);
+        airplane->land(airport);
+        EXPECT_TRUE(airplane->isRequestMessageSend());
+        airplane->land(airport);
+        EXPECT_FALSE(airplane->isConfirmMessageSend());
+        airplane->land(airport);
+        EXPECT_TRUE(airplane->isRequestMessageSend());
+        airplane->land(airport);
+        EXPECT_EQ(airplane->getCurrentTask(), "descend to 5000ft.");
+        airplane->land(airport);
+        EXPECT_TRUE(airplane->isRequestMessageSend());
+        airplane->land(airport);
+        EXPECT_FALSE(airplane->isConfirmMessageSend());
+        airplane->land(airport);
+        EXPECT_FALSE(airplane->isRequestMessageSend());
+        airplane->land(airport);
+        EXPECT_EQ(airplane->getCurrentTask(), "descend to 3000ft.");
+
+
     }
 }
