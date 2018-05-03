@@ -1080,7 +1080,7 @@ namespace {
         airplane->taxiToGate();
         EXPECT_EQ(airplane->getState(), "at taxicrossing");
         EXPECT_EQ(airplane->getTaxiPoint(), "");
-        EXPECT_EQ(airplane->getTaxiCrossing(), "name");
+        EXPECT_EQ(airplane->getTaxiCrossing(), "");
         EXPECT_FALSE(airplane->isMessageMessageSend());
         EXPECT_FALSE(airplane->isConfirmMessageSend());
 
@@ -1091,14 +1091,14 @@ namespace {
 
         airplane->taxiToGate();
         EXPECT_FALSE(airplane->isRequestMessageSend());
-        EXPECT_FALSE(airplane->isMessageMessageSend());
+        EXPECT_TRUE(airplane->isMessageMessageSend());
         EXPECT_FALSE(airplane->isConfirmMessageSend());
         EXPECT_FALSE(runway->getCrossing());
 
         airplane->taxiToGate();
         EXPECT_FALSE(airplane->isRequestMessageSend());
-        EXPECT_FALSE(airplane->isMessageMessageSend());
-        EXPECT_FALSE(airplane->isConfirmMessageSend());
+        EXPECT_TRUE(airplane->isMessageMessageSend());
+        EXPECT_TRUE(airplane->isConfirmMessageSend());
         EXPECT_FALSE(airplane->isCrossed());
 
         airplane->taxiToGate();
@@ -1107,9 +1107,11 @@ namespace {
         EXPECT_FALSE(airplane->isConfirmMessageSend());
         EXPECT_FALSE(airplane->isCrossed());
 
+        EXPECT_EQ(airplane->getState(), "at taxicrossing");
+
         airplane->taxiToGate();
         EXPECT_FALSE(airplane->isCrossed());
-        EXPECT_EQ(airplane->getState(), "crossing taxicrossing");
+        EXPECT_EQ(airplane->getState(), "at taxipoint");
 
         EXPECT_FALSE(airplane->isCrossed());
         EXPECT_EQ(airplane->getState(), "at taxipoint");
@@ -1130,9 +1132,10 @@ namespace {
         airplane->taxiToGate();
         EXPECT_FALSE(airplane->isMessageMessageSend());
         EXPECT_FALSE(airplane->isConfirmMessageSend());
-        EXPECT_EQ(airplane->getGate(), airplane->getAttemptGate());
+        EXPECT_NE(airplane->getGate(), airplane->getAttemptGate());
         EXPECT_TRUE(airplane->isOnItsWay());
-        EXPECT_TRUE(runway1->getOnItsWay());
+        EXPECT_FALSE(runway1->getOnItsWay());
+
     }
 
     TEST_F(AirplaneDomain, takeOff) {
@@ -1261,6 +1264,5 @@ namespace {
         airplane->land(airport);
         airplane->land(airport);
         EXPECT_EQ(airplane->getCurrentTask(), "on final approach");
-
     }
 }

@@ -60,3 +60,5 @@ $ Holding south on the one eighty radial, .
 $ , hold south on the one eighty radial, expect further clearance at 13:36.
 [13:36][AIR]
 $ Holding south on the one eighty radial, .
+[13:36][ATC]
+$ , hold south on the one eighty radial, expect further clearance at 13:36.
