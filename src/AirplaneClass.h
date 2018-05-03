@@ -744,39 +744,123 @@ public:
      */
     void ascend(Airport * airport);
 
-
+    /**
+     * Returns boolean onItsWay
+     * @return onItsWay
+     */
     bool isOnItsWay() const;
 
+
+    /**
+    * sets bool onItsWay
+    * Postconditions: Airplane::isOnItsWay() == onItsWay
+    * @param onItsWay
+    */
     void setOnItsWay(bool onItsWay);
 
+    /**
+    * sets bool crossed
+    * Postconditions: Airplane::isCrossed() == crossed
+    * @param crossed
+    */
     void setCrossed(bool crossed);
 
+    /**
+    * Returns boolean crossed
+     * @return crossed
+    */
     bool isCrossed() const;
 
+    /**
+     * Returns boolean isWaitAtRunway
+     * @return isWaitAtRunway
+     */
     bool isWaitAtRunway() const;
 
+    /**
+    * sets bool waitAtRunway
+    * Postconditions: Airplane::isWaitAtRunway() == waitAtRunway
+    * @param waitAtRunway
+    */
     void setWaitAtRunway(bool waitAtRunway);
 
+    /**
+     * Returns boolean isWaitOnRunway
+     * @return isWaitOnRunway
+     */
     bool isWaitOnRunway() const;
 
+    /**
+    * sets bool waitOnRunway
+    * Postconditions: Airplane::isWaitOnRunway() == waitOnRunway
+    * @param waitOnRunway
+    */
     void setWaitOnRunway(bool waitOnRunway);
 
+    /**
+     * Returns boolean alreadyLinedUp
+     * @return alreadyLinedUp
+     */
     bool isAlreadyLinedUp() const;
 
+    /**
+    * sets bool alreadyLinedUp
+    * Postconditions: Airplane::isAlreadyLinedUp() == alreadyLinedUp
+    * @param alreadyLinedUp
+    */
     void setAlreadyLinedUp(bool alreadyLinedUp);
 
+    /**
+     * Returns boolean isPermissionToTakeOff
+     * @return isPermissionToTakeOff
+     */
     bool isPermissionToTakeOff() const;
 
+    /**
+    * sets bool permissionToTakeOff
+     * Postconditions: Airplane::isPermissionToTakeOff() == permissionToTakeOff
+    * @param permissionToTakeOff
+    */
     void setPermissionToTakeOff(bool permissionToTakeOff);
 };
 
+/**
+* sets string gTime
+ * Postconditions: getTime() == time
+* @param time
+*/
 void setTime(const string& time);
+
+/**
+ * Returns string gTime
+ * @return gTime
+ */
 const string &getTime();
 
+/**
+* sets string gTimePassed
+ * Postconditions: getTimePassed() == time
+* @param time
+*/
 void setTimePassed(int time);
+
+/**
+ * Returns string gTimePassed
+ * @return gTimePassed
+ */
 int getTimePassed();
 
+/**
+* sets string gStartingTime
+ * Postconditions: getStartingTime() == time
+* @param time
+*/
 void setStartingTime(int time);
+
+/**
+ * Returns string gStartingTime
+ * @return gStartingTime
+ */
 int getStartingTime();
 
 
