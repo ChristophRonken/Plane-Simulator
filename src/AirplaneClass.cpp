@@ -1620,10 +1620,12 @@ void Airplane::takeOff() {
         Airplane::operationTime = Airplane::kHeightLevelC;
         Airplane::height = Airplane::kProprellerAscentionSpeed;
     }
-    else if (Airplane::getEngine() == "jet"){
+    else {
         Airplane::operationTime = Airplane::kHeightLevelC;
         Airplane::height = Airplane::kJetAscentionSpeed;
     }
+
+
 
     Airplane::currentTask = "taking-Off";
     Airplane::setSimulationFinished(true);
