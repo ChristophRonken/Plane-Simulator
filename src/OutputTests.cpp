@@ -823,6 +823,60 @@ namespace {
 
         EXPECT_TRUE(FileCompare("CommTest.txt", "CommTestResult.txt"));
 
+        EXPECT_DEATH(EmergencyAbove3000ftMessage(plane, runway, "00:01"), "Assertion.*failed");
+        EXPECT_DEATH(initialCommunicationMessage(plane, airport, "00:01"), "Assertion.*failed");
+        EXPECT_DEATH(descendTo5000ftMessage(plane, "00:01"), "Assertion.*failed");
+        EXPECT_DEATH(descendTo5000ftConfirmation(plane, "00:01"), "Assertion.*failed");
+        EXPECT_DEATH(waitBeforeDescendMessage(plane, "00:01"), "Assertion.*failed");
+        EXPECT_DEATH(waitBeforeDescendConfirmation(plane, "00:01"), "Assertion.*failed");
+        EXPECT_DEATH(descendTo3000ftMessage(plane, "00:01"), "Assertion.*failed");
+        EXPECT_DEATH(descendTo3000ftConfirmation(plane, "00:01"), "Assertion.*failed");
+        EXPECT_DEATH(finalApproachMessage(plane, runway, "00:01"), "Assertion.*failed");
+        EXPECT_DEATH(finalApproachConfirmation(plane, runway, "00:01"), "Assertion.*failed");
+        EXPECT_DEATH(afterLandingMessage(plane, airport, runway, "00:01"), "Assertion.*failed");
+        EXPECT_DEATH(IFRRequest(plane, "00:01"), "Assertion.*failed");
+        EXPECT_DEATH(IFRMessage(plane, "00:01"), "Assertion.*failed");
+        EXPECT_DEATH(IFRConfirmation(plane, "00:01"), "Assertion.*failed");
+        EXPECT_DEATH(pushbackRequest(plane, "00:01"), "Assertion.*failed");
+        EXPECT_DEATH(pushbackMessage(plane, "00:01"), "Assertion.*failed");
+        EXPECT_DEATH(pushbackConfirmation(plane, "00:01"), "Assertion.*failed");
+        EXPECT_DEATH(readyToTaxiMessage(plane, "00:01"), "Assertion.*failed");
+        EXPECT_DEATH(holdingShortAtRunway(plane, runway, "00:01"), "Assertion.*failed");
+        EXPECT_DEATH(waitAtRunwayMessage(plane, "00:01"), "Assertion.*failed");
+        EXPECT_DEATH(waitAtRunwayConfirmation(plane, "00:01"), "Assertion.*failed");
+        EXPECT_DEATH(lineUpRunwayMessage(plane, runway, "00:01"), "Assertion.*failed");
+        EXPECT_DEATH(lineUpRunwayConfirmation(plane, runway, "00:01"), "Assertion.*failed");
+        EXPECT_DEATH(clearedForTakeOffMessage(plane, runway, "00:01"), "Assertion.*failed");
+        EXPECT_DEATH(clearedForTakeOffConfirmation(plane, runway, "00:01"), "Assertion.*failed");
+        EXPECT_DEATH(toHoldingPointMessage(plane,"CrossingA","A", "00:01"), "Assertion.*failed");
+        EXPECT_DEATH(toHoldingPointConfirmation(plane,"CrossingA","A", "00:01"), "Assertion.*failed");
+        EXPECT_DEATH(toRunwayMessage(plane, runway,"A", "00:01"), "Assertion.*failed");
+        EXPECT_DEATH(toRunwayConfirmation(plane, runway,"A", "00:01"), "Assertion.*failed");
+        EXPECT_DEATH(toGateMessage(plane, 5, "A", "00:01"), "Assertion.*failed");
+        EXPECT_DEATH(toGateConfirmation(plane, 5, "A", "00:01"), "Assertion.*failed");
+        EXPECT_DEATH(clearedToCrossRequest(plane,"CrossingA", "00:01" ), "Assertion.*failed");
+        EXPECT_DEATH(clearedToCrossMessage(plane,"CrossingA", "00:01" ), "Assertion.*failed");
+        EXPECT_DEATH(clearedToCrossConfirmation("CrossingA", "00:01" ), "Assertion.*failed");
+        EXPECT_DEATH(EmergencyAbove3000ftRequest(plane, airport, "00:01"), "Assertion.*failed");
+        EXPECT_DEATH(EmergencyAbove3000ftMessage(plane, runway, "00:01"), "Assertion.*failed");
+        EXPECT_DEATH(EmergencyBelow3000ftRequest(plane, airport, "00:01"), "Assertion.*failed");
+        EXPECT_DEATH(EmergencyBelow3000ftMessage(plane, "00:01"), "Assertion.*failed");
+
     }
+
+    TEST_F(CommunicationOutput, LogMessageOutput){
+
+        openNewLogFile("LogTest.txt");
+
+        EXPECT_NO_FATAL_FAILURE(logMessage("random text"));
+
+        closeLogFile();
+
+        EXPECT_DEATH(logMessage("after Closure"), "Assertion.*failed");
+
+        EXPECT_TRUE(FileCompare("LogTest.txt", "LogTestResult.txt"));
+
+    }
+
 
 }
