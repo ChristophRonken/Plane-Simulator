@@ -1155,7 +1155,10 @@ void Airplane::taxiToGate(int gate){
                 Airplane::taxiPoint = "";
                 Airplane::setState("at taxicrossing");
                 Airplane::crossingIndex -= 1;
-                Airplane::taxiCrossing = taxiRoute->getTaxiCrossings()[crossingIndex-1];
+
+                if (crossingIndex != 0) {
+                    Airplane::taxiCrossing = taxiRoute->getTaxiCrossings()[crossingIndex - 1];
+                }
                 Airplane::messageMessageSend = false;
                 Airplane::confirmMessageSend = false;
                 Airplane::setOperationTime(5);
