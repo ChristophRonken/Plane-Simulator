@@ -976,7 +976,7 @@ void AirportHandler::GraphicalAirport3D(const string &iata) {
             s += "color = (1, 0, 1)\n";
             s += "\n";
         }
-        else if (state == "technical check"){
+        else if (state == "technical check" || state == "Gate"){
             s += "[Figure" + intToString(i + airport->getRunways().size() + airport->getGates()+longesttaxi->getTaxiPoints().size() + longesttaxi->getTaxiCrossings().size()) + "]\n";
             s += "type = \"Sphere\"\n";
             s += "n = 2\n";
@@ -1145,7 +1145,7 @@ void AirportHandler::GraphicalAirport3D(const string &iata) {
             s += "\n";
         }
         else {
-            //cout << "WRONG STATE"<< endl;
+            //cout << "WRONG STATE: "<< airplane->getState()<< endl;
         }
     }
 
