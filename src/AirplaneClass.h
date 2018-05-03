@@ -363,6 +363,8 @@ public:
      * Precondition: Airplane::readyForTakeOff()
      *      && (Airplane::getCurrentTask() == "taking off"
      *      || Airplane::getCurrentTask() == "at holding point")
+     *      && Airplane::getRunway() != NULL
+     *      && Airplane::getAirport() != NULL
      * Postconditions: Airplane::getRunway() == NULL
      *      && Airplane::getState() == "Airborne"
      *      && Airplane::getAirport() == NULL

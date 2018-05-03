@@ -1618,17 +1618,20 @@ void Airplane::takeOff() {
 
     if (Airplane::getEngine() == "propeller"){
         Airplane::operationTime = Airplane::kHeightLevelC;
-        Airplane::height += Airplane::kProprellerAscentionSpeed;
+        Airplane::height = Airplane::kProprellerAscentionSpeed;
     }
-    else if (Airplane::getEngine() == "jet"){
+    else {
         Airplane::operationTime = Airplane::kHeightLevelC;
-        Airplane::height += Airplane::kJetAscentionSpeed;
+        Airplane::height = Airplane::kJetAscentionSpeed;
     }
+
+
 
     Airplane::currentTask = "taking-Off";
     Airplane::setSimulationFinished(true);
 
-    ENSURE(Airplane::getRunway() == NULL && Airplane::getState() == "Airborne" && Airplane::getAirport() == NULL
+    ENSURE(Airplane::getRunway() == NULL && Airplane::getState() == "Airborne"
+           && Airplane::getAirport() == NULL
            && Airplane::getHeight() != 0, "Airborne");
 
 }
