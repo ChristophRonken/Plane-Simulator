@@ -913,4 +913,27 @@ namespace {
     airplane->setCurrentTask("finished");
     EXPECT_FALSE(airplane->notFinished());
     }
+
+    TEST_F(AirplaneDomain, TakeOfff){
+
+        airplane = new Airplane();
+        EXPECT_DEATH(airplane->takeOff(), "Assertion.*failed");
+
+        airport = new Airport();
+        airplane->setAirport(airport);
+        EXPECT_DEATH(airplane->takeOff(), "Assertion.*failed");
+
+
+
+
+
+    }
+
+
+
+
 }
+
+
+
+

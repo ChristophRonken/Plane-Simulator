@@ -13,13 +13,12 @@ int main(int argc, char **argv){
 
     AirportHandler* D = new AirportHandler();
 
-    if (D->addXmlData("TestVolledigeLuchthaven.xml") != 0) { ;
+    D->addXmlData("XMLTests/TestVolledigeLuchthaven10.xml");
         cout << D->getAirplanes().size();
         D->fileOutput();
 
         D->runSimulation("ANR");
 
-    }
 
     delete D;
 
