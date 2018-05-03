@@ -1249,6 +1249,11 @@ namespace {
         EXPECT_FALSE(airplane->isConfirmMessageSend());
         airplane->land(airport);
         EXPECT_TRUE(airplane->isRequestMessageSend());
+        airplane->setHeight(5000);
+        airplane->land(airport);
+        EXPECT_FALSE(airplane->isRequestMessageSend());
+        airplane->land(airport);
+        EXPECT_FALSE(airplane->isConfirmMessageSend());
         airplane->land(airport);
         EXPECT_EQ(airplane->getCurrentTask(), "descending to 3000ft.");
 

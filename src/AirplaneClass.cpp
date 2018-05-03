@@ -1391,7 +1391,8 @@ void Airplane::land(Airport *airport) {
             }
         }
 
-        if (Airplane::height == Airplane::kHeightLevelB) {Airplane::operationTime = 6;
+        if (Airplane::height == Airplane::kHeightLevelB) {
+            Airplane::operationTime = 6;
             if (!Airplane::requestMessageSend) {
                 Airplane::requestMessageSend = true;
                 if (permissionToDescend(Airplane::height, airport, runway)) {
