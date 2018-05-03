@@ -761,6 +761,9 @@ namespace {
         airplane = new Airplane();
         airplane->setAirport(airport);
         airplane->setCurrentTask("wrong task");
+
+        flightPlan = new FlightPlan();
+        airplane->setFlightPlan(flightPlan);
         EXPECT_DEATH(airplane->takeOff();, "correct state");
         airplane->setHeight(200);
         airplane->setCurrentTask("at holding point");
@@ -811,15 +814,13 @@ namespace {
         runway1->setName("name1");
 
         airport = new Airport();
-        airport->addRunway(runway);
         airport->addRunway(runway1);
         airport->setGates(7);
 
         airplane = new Airplane();
-
-        airplane->setCurrentTask("wrong task");
-        EXPECT_DEATH(airplane->takeOff();, "Valid landing spot");
         airplane->setHeight(200);
+        airplane->setCurrentTask("wrong task");
+        EXPECT_DEATH(airplane->land(airport);, "correct task");
         airplane->setCurrentTask("try to land");
         EXPECT_DEATH(airplane->land(airport);, "Valid landing spot");
         airplane->setCurrentTask("landing");
