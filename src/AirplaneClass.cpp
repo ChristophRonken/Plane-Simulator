@@ -1313,8 +1313,6 @@ void Airplane::land(Airport *airport) {
     REQUIRE(Airplane::getCurrentTask() == "try to land" || Airplane::getCurrentTask() == "landing"
             || Airplane::getCurrentTask() == "descending to 5000ft."  || Airplane::getCurrentTask() == "descending to 3000ft."
             || Airplane::getCurrentTask() == "descending to 0ft.", "correct task");
-    REQUIRE(Airplane::validLandingSpot(airport), "Valid landing spot");
-
 
     const string &tijd = getTime();
     if (Airplane::currentTask != "landing") {

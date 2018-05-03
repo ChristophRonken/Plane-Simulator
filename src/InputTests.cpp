@@ -822,17 +822,15 @@ namespace {
         airplane->setCurrentTask("wrong task");
         EXPECT_DEATH(airplane->land(airport);, "correct task");
         airplane->setCurrentTask("try to land");
-        EXPECT_DEATH(airplane->land(airport);, "Valid landing spot");
+        EXPECT_NO_FATAL_FAILURE(airplane->land(airport));
         airplane->setCurrentTask("landing");
         EXPECT_DEATH(airplane->land(airport);, "Valid landing spot");
         airplane->setCurrentTask("descending to 5000ft.");
-        EXPECT_DEATH(airplane->land(airport);, "Valid landing spot");
+        EXPECT_NO_FATAL_FAILURE(airplane->land(airport));
         airplane->setCurrentTask("descending to 3000ft.");
-        EXPECT_DEATH(airplane->land(airport);, "Valid landing spot");
+        EXPECT_NO_FATAL_FAILURE(airplane->land(airport));
         airplane->setCurrentTask("descending to 0ft.");
-        EXPECT_DEATH(airplane->land(airport);, "Valid landing spot");
-        runway1->setLength(3000);
-        //EXPECT_NO_FATAL_FAILURE(airplane->land(airport));
+        EXPECT_NO_FATAL_FAILURE(airplane->land(airport));
 
     }
 }

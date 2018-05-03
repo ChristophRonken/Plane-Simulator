@@ -1215,6 +1215,11 @@ namespace {
     }
 
     TEST_F(AirplaneDomain, land){
+        runway = new Runway();
+        runway->setLength(5000);
+        runway->setType("asphalt");
+        runway->setName("name");
+
         runway1 = new Runway();
         runway1->setLength(5000);
         runway1->setType("asphalt");
@@ -1222,6 +1227,7 @@ namespace {
 
         airport = new Airport();
         airport->addRunway(runway1);
+        airport->addRunway(runway);
 
         airplane = new Airplane();
         airplane->setSize("medium");
@@ -1239,16 +1245,22 @@ namespace {
         airplane->land(airport);
         EXPECT_TRUE(airplane->isRequestMessageSend());
         airplane->land(airport);
-        EXPECT_EQ(airplane->getCurrentTask(), "descend to 5000ft.");
+        EXPECT_EQ(airplane->getCurrentTask(), "descending to 5000ft.");
+        airplane->setHeight(5000);
         airplane->land(airport);
-        EXPECT_TRUE(airplane->isRequestMessageSend());
         airplane->land(airport);
-        EXPECT_FALSE(airplane->isConfirmMessageSend());
         airplane->land(airport);
-        EXPECT_FALSE(airplane->isRequestMessageSend());
+        EXPECT_EQ(airplane->getCurrentTask(), "descending to 3000ft.");
+        airplane->setHeight(3000);
         airplane->land(airport);
-        EXPECT_EQ(airplane->getCurrentTask(), "descend to 3000ft.");
-
+        airplane->land(airport);
+        airplane->land(airport);
+        airplane->land(airport);
+        EXPECT_EQ(airplane->getCurrentTask(), "descending to 0ft");
+        airplane->land(airport);
+        airplane->land(airport);
+        airplane->land(airport);
+        EXPECT_EQ(airplane->getCurrentTask(), "on final approach");
 
     }
 }
