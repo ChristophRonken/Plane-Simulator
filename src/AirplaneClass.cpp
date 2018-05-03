@@ -1121,11 +1121,13 @@ void Airplane::taxiToGate(int gate){
                 if (!Airplane::messageMessageSend){
                     toGateMessage(this, Airplane::attemptGate, Airplane::taxiPoint, tijd);
                     Airplane::messageMessageSend = true;
+                    Airplane::setGate(attemptGate);
                     return;
                 }
                 else if (!Airplane::confirmMessageSend){
                     toGateConfirmation(this, Airplane::attemptGate, Airplane::taxiPoint, tijd);
                     Airplane::confirmMessageSend = true;
+                    Airplane::setGate(attemptGate);
                     return;
                 }
                 else{
@@ -1158,6 +1160,7 @@ void Airplane::taxiToGate(int gate){
 
                 if (crossingIndex != 0) {
                     Airplane::taxiCrossing = taxiRoute->getTaxiCrossings()[crossingIndex - 1];
+                    Airplane::setGate(attemptGate);
                 }
                 Airplane::messageMessageSend = false;
                 Airplane::confirmMessageSend = false;
