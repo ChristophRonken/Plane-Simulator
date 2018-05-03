@@ -763,15 +763,15 @@ namespace {
         airplane->setCurrentTask("wrong task");
 
         flightPlan = new FlightPlan();
-        airplane->setFlightPlan(flightPlan);
-        EXPECT_DEATH(airplane->takeOff();, "correct state");
+        airplane->setRunway(runway1);
+        EXPECT_DEATH(airplane->takeOff();, "");
         airplane->setHeight(200);
         airplane->setCurrentTask("at holding point");
-        EXPECT_DEATH(airplane->takeOff();, "Plane not on ground");
+        EXPECT_DEATH(airplane->takeOff();, "");
         airplane->setCurrentTask("taking off");
-        EXPECT_DEATH(airplane->takeOff();, "Plane not on ground");
+        EXPECT_DEATH(airplane->takeOff();, "");
         airplane->setHeight(0);
-        //EXPECT_NO_FATAL_FAILURE(airplane->takeOff());
+        EXPECT_NO_FATAL_FAILURE(airplane->takeOff());
     }
 
     TEST_F(AirplaneInput, taxiToGate) {
