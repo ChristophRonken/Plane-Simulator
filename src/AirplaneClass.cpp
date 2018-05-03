@@ -1085,6 +1085,7 @@ void Airplane::taxiToGate(int gate){
 
     REQUIRE(Airplane::currentTask == "going to gate", "correct task");
     REQUIRE(Airplane::validGate(gate), "valid gate number");
+
     if(!Airplane::onItsWay) {
 
         if (gate == -1) {
@@ -1097,7 +1098,9 @@ void Airplane::taxiToGate(int gate){
         Airplane::airport->setGateOccupied(Airplane::attemptGate, true);
         Airplane::onItsWay = true;
     }
+
     const string &tijd = getTime();
+
     if (Airplane::runway != NULL){
         Airplane::taxiRoute = Airplane::runway->getTaxiRoute();
         Airplane::runway->setOccupied(false);
@@ -1105,12 +1108,13 @@ void Airplane::taxiToGate(int gate){
         Airplane::runway = NULL;
     }
 
-    if (Airplane::taxiPoint == "" && Airplane::taxiCrossing == ""){
+    if (Airplane::taxiPoint == "" && Airplane::taxiCrossing == "" && Airplane::taxiPoint != "at last point" ){
         Airplane::setState("at taxipoint");
         Airplane::taxiPoint = Airplane::taxiRoute->getTaxiPoints()[Airplane::taxiRoute->getTaxiPoints().size()-1];
         crossingIndex = Airplane::taxiRoute->getTaxiPoints().size()-1;
         return;
     }
+
     if (!Airplane::taxiPoint.empty()){
         if (Airplane::taxiPoint == Airplane::taxiRoute->getTaxiPoints()[crossingIndex]){
             if (crossingIndex == 0){
@@ -1150,10 +1154,12 @@ void Airplane::taxiToGate(int gate){
             else{
                 Airplane::taxiPoint = "";
                 Airplane::setState("at taxicrossing");
+                Airplane::crossingIndex -= 1;
                 Airplane::taxiCrossing = taxiRoute->getTaxiCrossings()[crossingIndex-1];
                 Airplane::messageMessageSend = false;
                 Airplane::confirmMessageSend = false;
                 Airplane::setOperationTime(5);
+
                 return;
             }
         }
@@ -1184,7 +1190,7 @@ void Airplane::taxiToGate(int gate){
             else{
                 if (Airplane::crossed){
                     Airplane::taxiCrossing = "";
-                    Airplane::taxiPoint = Airplane::taxiRoute->getTaxiPoints()[crossingIndex+1];
+                    Airplane::taxiPoint = Airplane::taxiRoute->getTaxiPoints()[crossingIndex-1];
                     Airplane::requestMessageSend = false;
                     Airplane::messageMessageSend = false;
                     Airplane::confirmMessageSend = false;
@@ -1201,6 +1207,7 @@ void Airplane::taxiToGate(int gate){
                         Airplane::getAirport()->getRunway(Airplane::taxiCrossing)->setHoldingShortOccupied(false);
                         Airplane::setState("crossing taxicrossing");
                         Airplane::setOperationTime(1);
+                        crossingIndex -= 1;
                         return;
                     }
                     else{
@@ -1624,8 +1631,6 @@ void Airplane::takeOff() {
         Airplane::operationTime = Airplane::kHeightLevelC;
         Airplane::height = Airplane::kJetAscentionSpeed;
     }
-
-
 
     Airplane::currentTask = "taking-Off";
     Airplane::setSimulationFinished(true);
