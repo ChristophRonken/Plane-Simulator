@@ -747,5 +747,91 @@ namespace {
         EXPECT_NO_FATAL_FAILURE(airplane->taxiToRunway());
     }
 
+    TEST_F(AirplaneInput, takeOff) {
+        runway1 = new Runway();
+        runway1->setLength(5000);
+        runway1->setType("asphalt");
+        runway1->setName("name1");
 
+        airport = new Airport();
+        airport->addRunway(runway);
+        airport->addRunway(runway1);
+        airport->setGates(7);
+
+        airplane = new Airplane();
+        airplane->setAirport(airport);
+        airplane->setCurrentTask("wrong task");
+        EXPECT_DEATH(airplane->takeOff();, "correct state");
+        airplane->setHeight(200);
+        airplane->setCurrentTask("at holding point");
+        EXPECT_DEATH(airplane->takeOff();, "Plane not on ground");
+        airplane->setCurrentTask("taking off");
+        EXPECT_DEATH(airplane->takeOff();, "Plane not on ground");
+        airplane->setHeight(0);
+        //EXPECT_NO_FATAL_FAILURE(airplane->takeOff());
+    }
+
+    TEST_F(AirplaneInput, taxiToGate) {
+        runway = new Runway();
+        runway->setLength(5000);
+        runway->setType("asphalt");
+        runway->setName("name");
+
+        runway1 = new Runway();
+        runway1->setLength(5000);
+        runway1->setType("asphalt");
+        runway1->setName("name1");
+
+        airport = new Airport();
+        airport->addRunway(runway);
+        airport->addRunway(runway1);
+        airport->setGates(7);
+
+        airplane = new Airplane();
+        airplane->setAirport(airport);
+        airplane->setRunway(runway1);
+
+        taxiRoute = new TaxiRoute();
+        taxiRoute->addTaxiPoint("point");
+        taxiRoute->addTaxiPoint("point1");
+        taxiRoute->addTaxiCrossing("name");
+
+        runway1->setTaxiRoute(taxiRoute);
+
+        EXPECT_DEATH(airplane->taxiToGate(3), "correct task");
+        airplane->setCurrentTask("going to gate");
+        EXPECT_DEATH(airplane->taxiToGate(9);, "valid gate number");
+        EXPECT_NO_FATAL_FAILURE(airplane->taxiToGate(5));
+    }
+
+    TEST_F(AirplaneInput, land){
+        runway1 = new Runway();
+        runway1->setLength(10);
+        runway1->setType("asphalt");
+        runway1->setName("name1");
+
+        airport = new Airport();
+        airport->addRunway(runway);
+        airport->addRunway(runway1);
+        airport->setGates(7);
+
+        airplane = new Airplane();
+
+        airplane->setCurrentTask("wrong task");
+        EXPECT_DEATH(airplane->takeOff();, "Valid landing spot");
+        airplane->setHeight(200);
+        airplane->setCurrentTask("try to land");
+        EXPECT_DEATH(airplane->land(airport);, "Valid landing spot");
+        airplane->setCurrentTask("landing");
+        EXPECT_DEATH(airplane->land(airport);, "Valid landing spot");
+        airplane->setCurrentTask("descending to 5000ft.");
+        EXPECT_DEATH(airplane->land(airport);, "Valid landing spot");
+        airplane->setCurrentTask("descending to 3000ft.");
+        EXPECT_DEATH(airplane->land(airport);, "Valid landing spot");
+        airplane->setCurrentTask("descending to 0ft.");
+        EXPECT_DEATH(airplane->land(airport);, "Valid landing spot");
+        runway1->setLength(3000);
+        EXPECT_NO_FATAL_FAILURE(airplane->land(airport));
+
+    }
 }
