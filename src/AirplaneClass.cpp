@@ -1493,6 +1493,7 @@ void Airplane::land(Airport *airport) {
             logMessage("Airplane (" + Airplane::number + ") is now at runway " + runway->getName() + "\n");
 
             Airplane::setState("At runway");
+            height = 0;
             Airplane::height -= Airplane::kJetDescentionSpeed;
 
 
@@ -1501,6 +1502,7 @@ void Airplane::land(Airport *airport) {
     }
     else {
         afterLandingMessage(this, Airplane::airport, Airplane::runway, tijd);
+        height = 0;
         Airplane::currentTask = "going to gate";
         Airplane::operationTime = 1;
         return;
@@ -1639,7 +1641,8 @@ void Airplane::takeOff() {
         Airplane::height = Airplane::kJetAscentionSpeed;
     }
 
-    Airplane::currentTask = "taking-Off";
+    Airplane::operationTime = kHeightLevelA;
+    Airplane::currentTask = "taking off";
     Airplane::setSimulationFinished(true);
 
     ENSURE(Airplane::getRunway() == NULL && Airplane::getState() == "Airborne"
@@ -1980,7 +1983,7 @@ void Airplane::continueTask(Airport * airport) {
     }
 
 
-    if (Airplane::currentTask == "taking-Off"){
+    if (Airplane::currentTask == "taking off"){
         Airplane::ascend(airport);
 
     }

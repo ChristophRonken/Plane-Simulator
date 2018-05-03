@@ -1139,7 +1139,7 @@ namespace {
     }
 
     TEST_F(AirplaneDomain, takeOff) {
-        /*
+
         runway1 = new Runway();
         runway1->setLength(5000);
         runway1->setType("asphalt");
@@ -1153,6 +1153,7 @@ namespace {
 
         airplane->setCurrentTask("at holding point");
         airplane->setOnItsWay(true);
+        airplane->setHeight(0);
         airplane->setRunway(runway1);
         runway1->setOnItsWay(true);
         runway1->setHoldingShortOccupied(true);
@@ -1169,40 +1170,47 @@ namespace {
         EXPECT_TRUE(runway1->getHoldingShortOccupied());
 
         //runway is occupied
+        airplane->setHeight(0);
         runway1->setCrossing(false);
         runway1->setWaitingOnRunway(false);
         runway1->setOccupied(true);
         airplane->takeOff();
         EXPECT_FALSE(airplane->isMessageMessageSend());
         EXPECT_FALSE(airplane->isWaitAtRunway());
+
+        airplane->setHeight(0);
+        airplane->setRunway(runway1);
+        airplane->setAirport(airport);
         airplane->takeOff();
-        EXPECT_FALSE(airplane->isRequestMessageSend());
+        EXPECT_TRUE(airplane->isRequestMessageSend());
         EXPECT_FALSE(airplane->isMessageMessageSend());
         EXPECT_FALSE(airplane->isWaitAtRunway());
         EXPECT_TRUE(runway1->getHoldingShortOccupied());
 
-
         //something is crossing
         runway1->setCrossing(true);
         runway1->setOccupied(false);
+        airplane->setHeight(0);
+        airplane->setRunway(runway1);
+        airplane->setAirport(airport);
         airplane->takeOff();
         EXPECT_TRUE(airplane->isRequestMessageSend());
         EXPECT_FALSE(airplane->isMessageMessageSend());
         EXPECT_FALSE(airplane->isConfirmMessageSend());
         EXPECT_FALSE(airplane->isPermissionToTakeOff());
         EXPECT_FALSE(airplane->isWaitOnRunway());
-        EXPECT_TRUE(runway1->isOccupied());
+        EXPECT_FALSE(runway1->isOccupied());
         EXPECT_TRUE(runway1->getPermissionToCross());
 
-
+        airplane->setHeight(0);
+        airplane->setRunway(runway1);
+        airplane->setAirport(airport);
         airplane->takeOff();
         EXPECT_TRUE(airplane->isRequestMessageSend());
         EXPECT_FALSE(airplane->isMessageMessageSend());
         EXPECT_FALSE(airplane->isConfirmMessageSend());
         EXPECT_FALSE(airplane->isPermissionToTakeOff());
-        EXPECT_TRUE(airplane->isWaitOnRunway());
-         */
-
+        EXPECT_FALSE(airplane->isWaitOnRunway());
 
 
     }
