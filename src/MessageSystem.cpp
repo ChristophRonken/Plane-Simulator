@@ -154,7 +154,8 @@ void IFRRequest(Airplane* airplane, const string &time){
 void IFRMessage(Airplane* airplane, const string &time){
     REQUIRE(getCommunicationLogFile()->is_open(), "CommFile is open");
     gOutputCommunicationLog << "[" << time << "][ATC]\n"
-                 << "$ " << airplane->getCallsign() << ", " << airplane->getAirport()->getCallsign() << ", cleared to " << airplane->getDestination() << ", maintain five thousand, "
+                    << "$ " << airplane->getCallsign() << ", " << airplane->getAirport()->getCallsign()
+                    << ", cleared to " << airplane->getDestination() << ", maintain five thousand, "
                     "expect flight level one zero zero - ten minutes after departure, squawk " << airplane->getSquawkCode() << ".\n";
 
 };

@@ -1268,8 +1268,12 @@ namespace {
         airplane->land(airport);
         airplane->land(airport);
         EXPECT_EQ(airplane->getCurrentTask(), "descending to 0ft.");
-        airplane->land(airport);
+        airplane->setHeight(1000);
         airplane->land(airport);
         EXPECT_EQ(airplane->getCurrentTask(), "landing");
+        airplane->setHeight(0);
+        airplane->land(airport);
+        EXPECT_EQ(airplane->getCurrentTask(), "going to gate");
+
     }
 }
