@@ -1493,7 +1493,7 @@ void Airplane::land(Airport *airport) {
             Airplane::setState("At runway");
             Airplane::height -= Airplane::kJetDescentionSpeed;
 
-
+            return;
 
         }
     }

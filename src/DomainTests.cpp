@@ -1235,7 +1235,7 @@ namespace {
         airplane = new Airplane();
         airplane->setSize("medium");
         airplane->setEngine("jet");
-        airplane->setAirport(airport);
+
 
         airplane->setCurrentTask("try to land");
         airplane->setHeight(10000);
@@ -1259,10 +1259,9 @@ namespace {
         airplane->land(airport);
         airplane->land(airport);
         airplane->land(airport);
-        EXPECT_EQ(airplane->getCurrentTask(), "descending to 0ft");
+        EXPECT_EQ(airplane->getCurrentTask(), "descending to 0ft.");
         airplane->land(airport);
         airplane->land(airport);
-        airplane->land(airport);
-        EXPECT_EQ(airplane->getCurrentTask(), "on final approach");
+        EXPECT_EQ(airplane->getCurrentTask(), "landing");
     }
 }

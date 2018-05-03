@@ -809,22 +809,23 @@ namespace {
 
     TEST_F(AirplaneInput, land){
         runway1 = new Runway();
-        runway1->setLength(10);
+        runway1->setLength(10000);
         runway1->setType("asphalt");
         runway1->setName("name1");
 
         airport = new Airport();
         airport->addRunway(runway1);
-        airport->setGates(7);
 
         airplane = new Airplane();
-        airplane->setHeight(200);
+        airplane->setHeight(3000);
+        airplane->setSize("medium");
+        airplane->setEngine("jet");
         airplane->setCurrentTask("wrong task");
         EXPECT_DEATH(airplane->land(airport);, "correct task");
         airplane->setCurrentTask("try to land");
         EXPECT_NO_FATAL_FAILURE(airplane->land(airport));
         airplane->setCurrentTask("landing");
-        EXPECT_DEATH(airplane->land(airport);, "Valid landing spot");
+        EXPECT_NO_FATAL_FAILURE(airplane->land(airport));
         airplane->setCurrentTask("descending to 5000ft.");
         EXPECT_NO_FATAL_FAILURE(airplane->land(airport));
         airplane->setCurrentTask("descending to 3000ft.");
