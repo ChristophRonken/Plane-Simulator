@@ -40,6 +40,12 @@ Airplane (BAW467) is now at runway 11R
 
 60 passengers exited Speedbird 467 at gate 0 of Antwerp International Airport
 BAW467 has been checked for technical malfunction
+Sending airplane BAW466 for departure
+Airplane (BAW466) is taking off at Antwerp International Airport
+BAW466 is leaving Antwerp International Airport at 2000ft.
+BAW466 is leaving Antwerp International Airport at 3000ft.
+BAW466 is leaving Antwerp International Airport at 4000ft.
+BAW466 is leaving Antwerp International Airport at 5000ft.
 60 passengers entered Speedbird 467 at gate 0 of Antwerp International Airport
 Gate (0) is now unoccupied
 Sending airplane BAW467 for departure

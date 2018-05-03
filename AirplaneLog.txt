@@ -13,3 +13,6 @@
  is leaving  at 3000ft.
  is leaving  at 4000ft.
  is leaving  at 5000ft.
+Gate (5) is now unoccupied
+Sending airplane  for departure
+Airplane () is taking off at 
