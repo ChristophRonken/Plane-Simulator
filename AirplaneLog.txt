@@ -35,7 +35,7 @@ Preparing airplane () for landing in
  is approaching  at 3000ft.
  is approaching  at 3000ft.
  is approaching  at 3000ft.
- is approaching  at 0ft.
+ is approaching  at 1000ft.
  is landing at Runwayname1
 Airplane () landed in 
 Airplane () is now at runway name1
