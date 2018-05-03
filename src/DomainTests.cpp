@@ -1257,19 +1257,27 @@ namespace {
         EXPECT_TRUE(airplane->isRequestMessageSend());
         airplane->land(airport);
         EXPECT_EQ(airplane->getCurrentTask(), "descending to 5000ft.");
+
         airplane->setHeight(5000);
         airplane->land(airport);
         airplane->land(airport);
         airplane->land(airport);
         EXPECT_EQ(airplane->getCurrentTask(), "descending to 3000ft.");
+
         airplane->setHeight(3000);
         airplane->land(airport);
         airplane->land(airport);
         airplane->land(airport);
         airplane->land(airport);
         EXPECT_EQ(airplane->getCurrentTask(), "descending to 0ft.");
-        airplane->land(airport);
+
+        airplane->setHeight(1000);
         airplane->land(airport);
         EXPECT_EQ(airplane->getCurrentTask(), "landing");
+
+        airplane->setHeight(0);
+        airplane->land(airport);
+        EXPECT_EQ(airplane->getCurrentTask(), "going to gate");
+
     }
 }

@@ -556,7 +556,7 @@ namespace {
         // should define it if you need to initialize the variables.
         // Otherwise, this can be skipped.
         virtual void SetUp() {
-
+            openNewCommunicationLogFile("AirplaneInput.txt");
 
         }
 
@@ -813,10 +813,13 @@ namespace {
         runway1->setType("asphalt");
         runway1->setName("name1");
 
+
+
         airport = new Airport();
         airport->addRunway(runway1);
 
         airplane = new Airplane();
+        airplane->setCallsign("callsign");
         airplane->setHeight(3000);
         airplane->setSize("medium");
         airplane->setEngine("jet");

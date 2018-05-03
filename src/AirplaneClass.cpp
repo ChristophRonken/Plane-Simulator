@@ -1499,6 +1499,7 @@ void Airplane::land(Airport *airport) {
         }
     }
     else {
+        Airplane::airport = airport;
         afterLandingMessage(this, Airplane::airport, Airplane::runway, tijd);
         height = 0;
         Airplane::currentTask = "going to gate";
