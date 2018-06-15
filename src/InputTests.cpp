@@ -187,6 +187,7 @@ namespace {
         EXPECT_EQ(handler->getAirports().size(), unsigned(0));
         EXPECT_TRUE(FileCompare("XMLTests/TestVolledigeLuchthaven16Error.txt", "XMLTests/TestVolledigeLuchthaven16ErrorResult.txt"));
 
+
         // Name right
         EXPECT_EQ(handler->getAirplanes()[0]->getNumber(), "BAW466");
         EXPECT_EQ(handler->getAirplanes()[1]->getNumber(), "BAW467");
@@ -244,6 +245,7 @@ namespace {
         EXPECT_EQ(F1->getDeparture(), 20);
         EXPECT_EQ(F1->getArrival(), 40);
         EXPECT_EQ(F1->getInterval(), 2);
+
 
     }
 

@@ -359,17 +359,51 @@ ESuccess AirportHandler::addXmlData(const string &fileName) {
 
                 }
             }
+
             // airplanes
             for (TiXmlElement *elem = root->FirstChildElement(); elem != NULL; elem = elem->NextSiblingElement()) {
                 string elemName = elem->Value();
 
                 if (elemName == "AIRPLANE") {
-                    Airplane *airplane = new Airplane();
+
+                    Airplane *airplane = NULL;
+
+                    for (TiXmlElement *elemAtt = elem->FirstChildElement();
+                         elemAtt != NULL; elemAtt = elemAtt->NextSiblingElement()) {
+                        string attName = elemAtt->Value();
+                        if (attName == "type") {
+                            string attValue = elemAtt->GetText();
+
+                            if (attValue == "private") {
+                                airplane = new AirplanePrivate();
+
+                            } else if (attValue == "airline") {
+                                airplane = new AirplaneAirline();
+
+                            } else if (attValue == "militairy") {
+                                airplane = new AirplaneMilitairy();
+
+                            } else if (attValue == "emergency") {
+                                airplane = new AirplaneEmergency();
+
+                            }
+                            break;
+
+                        }
+                    }
+
+                    if (airplane == NULL){
+                        errStream << "XML PARTIAL IMPORT: invalid or no type attribute for plane\n";
+                        endResult = partialImport;
+                        continue;
+
+                    }
 
                     for (TiXmlElement *elemAtt = elem->FirstChildElement();
                          elemAtt != NULL; elemAtt = elemAtt->NextSiblingElement()) {
                         string AttName = elemAtt->Value();
 
+                        string type;
 
                         if (AttName == "FLIGHTPLAN") {
                             FlightPlan *Flight = new FlightPlan();

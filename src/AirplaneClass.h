@@ -41,9 +41,9 @@ class Airplane {
     string callsign;
     string model;
     string state;
-    string type;
     string engine;
     string size;
+    string type;
     string squawkCode;
 
     Airport* airport;
@@ -101,9 +101,12 @@ class Airplane {
     const static int kHeightLevelB = 5000;
     const static int kHeightLevelC = 3000;
 
+protected:
+
+
 public:
 
-    Airplane();
+    Airplane(string type = "none")  ;
 
     virtual ~Airplane();
 
@@ -823,8 +826,10 @@ public:
 /// Airplane Subtypes
 
 class AirplaneMilitairy : public Airplane {
-    static const string type;
 public:
+
+    AirplaneMilitairy();
+
     bool validEngineType(string type);
 
     bool validSize(string size);
@@ -834,8 +839,10 @@ public:
 };
 
 class AirplanePrivate : public Airplane {
-    static const string type;
 public:
+
+    AirplanePrivate();
+
     bool validEngineType(string type);
 
     bool validSize(string size);
@@ -844,18 +851,24 @@ public:
 };
 
 class AirplaneAirline : public Airplane {
-    static const string type;
 public:
+
+    AirplaneAirline();
+
     bool validEngineType(string type);
 
     bool validSize(string size);
 
     bool validRunway(Runway* runway = NULL);
+
+
 };
 
 class AirplaneEmergency : public Airplane {
-    static const string type;
 public:
+
+    AirplaneEmergency();
+
     bool validEngineType(string type);
 
     bool validSize(string size);

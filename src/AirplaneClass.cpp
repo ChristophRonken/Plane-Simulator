@@ -11,13 +11,12 @@ int gTimePassed;
 int gStartingTime;
 
 
-Airplane::Airplane() {
+Airplane::Airplane(string type) : type(type) {
     Airplane::self = this;
     Airplane::number = "";
     Airplane::callsign = "";
     Airplane::model = "";
     Airplane::state = "";
-    Airplane::type = "";
     Airplane::engine = "";
     Airplane::size = "";
     Airplane::squawkCode = "";
@@ -150,7 +149,7 @@ void Airplane::setAirport(Airport *airport){
 }
 
 const string &Airplane::getType() const {
-    return type;
+    return Airplane::type;
 }
 
 
@@ -1897,6 +1896,10 @@ bool AirplaneMilitairy::validRunway(Runway *runway) {
     return Airplane::validRunway(runway);
 }
 
+AirplaneMilitairy::AirplaneMilitairy() : Airplane("militairy") {
+}
+
+
 // Private airplanes
 bool AirplanePrivate::validEngineType(string type) {
 
@@ -1926,6 +1929,10 @@ bool AirplanePrivate::validRunway(Runway *runway) {
     return Airplane::validRunway(runway);
 }
 
+AirplanePrivate::AirplanePrivate() : Airplane("private") {
+}
+
+
 // Airline airplanes
 bool AirplaneAirline::validEngineType(string type) {
 
@@ -1953,6 +1960,11 @@ bool AirplaneAirline::validRunway(Runway *runway) {
     return Airplane::validRunway(runway);
 }
 
+AirplaneAirline::AirplaneAirline() : Airplane("airline") {
+
+}
+
+
 // Emergency airplanes
 bool AirplaneEmergency::validEngineType(string type) {
 
@@ -1968,4 +1980,8 @@ bool AirplaneEmergency::validSize(string size) {
 
 bool AirplaneEmergency::validRunway(Runway *runway) {
     return Airplane::validRunway(runway);
+}
+
+AirplaneEmergency::AirplaneEmergency() : Airplane("emergency") {
+
 }
