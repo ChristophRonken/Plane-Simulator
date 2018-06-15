@@ -1940,6 +1940,7 @@ bool AirplaneAirline::validEngineType(string type) {
         return type == "jet";
     }
     else{
+
         return true;
     }
 
@@ -1948,7 +1949,7 @@ bool AirplaneAirline::validEngineType(string type) {
 bool AirplaneAirline::validSize(string size) {
 
     if (AirplaneAirline::getEngine() == "propeller"){
-        return size != "medium";
+        return size == "medium";
     }
     else{
         return size != "small";
