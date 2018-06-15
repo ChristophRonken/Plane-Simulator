@@ -105,6 +105,8 @@ public:
 
     Airplane();
 
+    virtual ~Airplane();
+
     bool getTechnicalChecked() const;
     void setTechnicalChecked(bool boolean);
 
@@ -402,7 +404,7 @@ public:
      * @param type
      * @return bool
      */
-    bool validPlaneType(const string &type);
+    virtual bool validPlaneType(const string &type);
 
     /**
      * Check if the gate index is both valid and unoccupied
@@ -661,14 +663,14 @@ public:
      * @param engine
      * @return bool
      */
-    bool validEngineType(const string &engine);
+    virtual bool validEngineType(const string &engine);
 
     /**
      * check if the input value would be a valid size for the airplane
      * @param size
      * @return bool
      */
-    bool validSize(const string &size);
+    virtual bool validSize(const string &size);
 
     /**
      * Let passengers exit the plane
@@ -822,6 +824,38 @@ public:
     * @param permissionToTakeOff
     */
     void setPermissionToTakeOff(bool permissionToTakeOff);
+};
+
+class AirplaneMilitairy : public Airplane {
+
+    bool validEngineType(string type);
+
+    bool validSize(string size);
+
+};
+
+class AirplanePrivate : public Airplane {
+
+    bool validEngineType(string type);
+
+    bool validSize(string size);
+
+};
+
+class AirplaneAirline : public Airplane {
+
+    bool validEngineType(string type);
+
+    bool validSize(string size);
+
+};
+
+class AirplaneEmergency : public Airplane {
+
+    bool validEngineType(string type);
+
+    bool validSize(string size);
+
 };
 
 /**

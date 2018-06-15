@@ -2066,14 +2066,103 @@ void Airplane::setWaitOnRunway(bool waitOnRunway) {
     ENSURE(Airplane::waitOnRunway == waitOnRunway, "technicalChecked set");
 }
 
+Airplane::~Airplane() {
+
+}
 
 
+/// Validation Functions
 
+// Militairy airplanes
+bool AirplaneMilitairy::validEngineType(string type) {
 
+    if (AirplaneMilitairy::getSize() == "small"){
+        return type == "jet";
+    }else{
+        if (AirplaneMilitairy::getSize() == "large") {
+            return type == "propeller";
+        }else{
+            return true;
 
+        }
+    }
 
+}
 
+bool AirplaneMilitairy::validSize(string size) {
 
+    if (AirplaneMilitairy::getEngine() == "jet"){
+        return size == "small";
+    }
+    else{
+        if (AirplaneMilitairy::getEngine() == "propeller") {
+            return size == "large";
 
+        }else{
+            return size != "medium";
 
+        }
+    }
 
+}
+
+// Private airplanes
+bool AirplanePrivate::validEngineType(string type) {
+
+    if (AirplanePrivate::getSize() == "medium"){
+        return type == "jet";
+
+    }
+    else{
+        return true;
+
+    }
+
+}
+
+bool AirplanePrivate::validSize(string size) {
+
+    if (AirplanePrivate::getEngine() == "propeller"){
+        return size == "small";
+    }
+    else{
+        return size != "large";
+    }
+
+}
+
+// Airline airplanes
+bool AirplaneAirline::validEngineType(string type) {
+
+    if (AirplaneAirline::getSize() == "large"){
+        return type == "jet";
+    }
+    else{
+        return true;
+    }
+
+}
+
+bool AirplaneAirline::validSize(string size) {
+
+    if (AirplaneAirline::getEngine() == "propeller"){
+        return size != "medium";
+    }
+    else{
+        return size != "small";
+    }
+
+}
+
+// Emergency airplanes
+bool AirplaneEmergency::validEngineType(string type) {
+
+    return type == "propeller";
+
+}
+
+bool AirplaneEmergency::validSize(string size) {
+
+    return size == "small";
+
+}
