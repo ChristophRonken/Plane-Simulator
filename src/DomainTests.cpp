@@ -452,70 +452,70 @@ namespace {
         EXPECT_TRUE(airplane->validSize("medium"));
         EXPECT_TRUE(airplane->validSize("large"));
 
-        airplane->setType("private");
+        //airplane->setType("private");
         EXPECT_TRUE(airplane->validSize("small"));
         EXPECT_TRUE(airplane->validSize("medium"));
         EXPECT_FALSE(airplane->validSize("large"));
 
-        airplane->setType("airline");
+        //airplane->setType("airline");
         EXPECT_FALSE(airplane->validSize("small"));
         EXPECT_TRUE(airplane->validSize("medium"));
         EXPECT_TRUE(airplane->validSize("large"));
 
-        airplane->setType("military");
+        //airplane->setType("military");
         EXPECT_TRUE(airplane->validSize("small"));
         EXPECT_FALSE(airplane->validSize("medium"));
         EXPECT_TRUE(airplane->validSize("large"));
 
-        airplane->setType("emergency");
+        //airplane->setType("emergency");
         EXPECT_TRUE(airplane->validSize("small"));
         EXPECT_FALSE(airplane->validSize("medium"));
         EXPECT_FALSE(airplane->validSize("large"));
 
         airplane = new Airplane();
-        airplane->setType("private");
+        //airplane->setType("private");
         airplane->setEngine("jet");
         EXPECT_TRUE(airplane->validSize("small"));
         EXPECT_TRUE(airplane->validSize("medium"));
         EXPECT_FALSE(airplane->validSize("large"));
 
         airplane1 = new Airplane();
-        airplane1->setType("private");
+        //airplane1->setType("private");
         airplane1->setEngine("propeller");
         EXPECT_TRUE(airplane1->validSize("small"));
         EXPECT_FALSE(airplane1->validSize("medium"));
         EXPECT_FALSE(airplane1->validSize("large"));
 
         airplane2 = new Airplane();
-        airplane2->setType("airline");
+        //airplane2->setType("airline");
         airplane2->setEngine("jet");
         EXPECT_FALSE(airplane2->validSize("small"));
         EXPECT_TRUE(airplane2->validSize("medium"));
         EXPECT_TRUE(airplane2->validSize("large"));
 
         airplane3 = new Airplane();
-        airplane3->setType("airline");
+        //airplane3->setType("airline");
         airplane3->setEngine("propeller");
         EXPECT_FALSE(airplane3->validSize("small"));
         EXPECT_TRUE(airplane3->validSize("medium"));
         EXPECT_FALSE(airplane3->validSize("large"));
 
         airplane4 = new Airplane();
-        airplane4->setType("military");
+        //airplane4->setType("military");
         airplane4->setEngine("jet");
         EXPECT_TRUE(airplane4->validSize("small"));
         EXPECT_FALSE(airplane4->validSize("medium"));
         EXPECT_FALSE(airplane4->validSize("large"));
 
         airplane5 = new Airplane();
-        airplane5->setType("military");
+        //airplane5->setType("military");
         airplane5->setEngine("propeller");
         EXPECT_FALSE(airplane5->validSize("small"));
         EXPECT_FALSE(airplane5->validSize("medium"));
         EXPECT_TRUE(airplane5->validSize("large"));
 
         airplane6 = new Airplane();
-        airplane6->setType("emergency");
+        //airplane6->setType("emergency");
         airplane6->setEngine("propeller");
         EXPECT_TRUE(airplane6->validSize("small"));
         EXPECT_FALSE(airplane6->validSize("medium"));
@@ -528,77 +528,63 @@ namespace {
         EXPECT_TRUE(airplane->validEngineType("propeller"));
         EXPECT_TRUE(airplane->validEngineType("jet"));
 
-        airplane->setType("private");
+        //airplane->setType("private");
         EXPECT_TRUE(airplane->validEngineType("propeller"));
         EXPECT_TRUE(airplane->validEngineType("jet"));
 
-        airplane->setType("airline");
+        //airplane->setType("airline");
         EXPECT_TRUE(airplane->validEngineType("propeller"));
         EXPECT_TRUE(airplane->validEngineType("jet"));
 
-        airplane->setType("military");
+        //airplane->setType("military");
         EXPECT_TRUE(airplane->validEngineType("propeller"));
         EXPECT_TRUE(airplane->validEngineType("jet"));
 
-        airplane->setType("emergency");
+        //airplane->setType("emergency");
         EXPECT_TRUE(airplane->validEngineType("propeller"));
         EXPECT_FALSE(airplane->validEngineType("jet"));
 
         airplane = new Airplane();
-        airplane->setType("private");
+        //airplane->setType("private");
         airplane->setSize("small");
         EXPECT_TRUE(airplane->validEngineType("propeller"));
         EXPECT_TRUE(airplane->validEngineType("jet"));
 
         airplane1 = new Airplane();
-        airplane1->setType("private");
+        //airplane1->setType("private");
         airplane1->setSize("medium");
         EXPECT_FALSE(airplane1->validEngineType("propeller"));
         EXPECT_TRUE(airplane1->validEngineType("jet"));
 
         airplane2 = new Airplane();
-        airplane2->setType("airline");
+        //airplane2->setType("airline");
         airplane2->setSize("medium");
         EXPECT_TRUE(airplane2->validEngineType("propeller"));
         EXPECT_TRUE(airplane2->validEngineType("jet"));
 
         airplane3 = new Airplane();
-        airplane3->setType("airline");
+        //airplane3->setType("airline");
         airplane3->setSize("large");
         EXPECT_FALSE(airplane3->validEngineType("propeller"));
         EXPECT_TRUE(airplane3->validEngineType("jet"));
 
         airplane4 = new Airplane();
-        airplane4->setType("military");
+        //airplane4->setType("military");
         airplane4->setSize("small");
         EXPECT_FALSE(airplane4->validEngineType("propeller"));
         EXPECT_TRUE(airplane4->validEngineType("jet"));
 
         airplane5 = new Airplane();
-        airplane5->setType("military");
+        //airplane5->setType("military");
         airplane5->setSize("large");
         EXPECT_TRUE(airplane5->validEngineType("propeller"));
         EXPECT_FALSE(airplane5->validEngineType("jet"));
 
         airplane6 = new Airplane();
-        airplane6->setType("emergency");
+        //airplane6->setType("emergency");
         airplane6->setSize("small");
         EXPECT_TRUE(airplane6->validEngineType("propeller"));
         EXPECT_FALSE(airplane6->validEngineType("jet"));
-    }
-
-    TEST_F(AirplaneDomain, validPlaneType) {
-        airplane = new Airplane();
-        EXPECT_FALSE(airplane->validPlaneType("wrongtype"));
-        EXPECT_TRUE(airplane->validPlaneType("private"));
-        EXPECT_TRUE(airplane->validPlaneType("airline"));
-        EXPECT_TRUE(airplane->validPlaneType("military"));
-        EXPECT_TRUE(airplane->validPlaneType("emergency"));
-
-        airplane->setType("military");
-        airplane->setSize("small");
-        airplane->setEngine("jet");
-        EXPECT_FALSE(airplane->validPlaneType("emergency"));
     }
 
     TEST_F(AirplaneDomain, validGate) {
@@ -682,7 +668,7 @@ namespace {
         EXPECT_FALSE(airplane->isValid());
         airplane->setFuel(200);
         EXPECT_FALSE(airplane->isValid());
-        airplane->setType("private");
+        //airplane->setType("private");
         EXPECT_FALSE(airplane->isValid());
         airplane->setModel("model");
         EXPECT_FALSE(airplane->isValid());

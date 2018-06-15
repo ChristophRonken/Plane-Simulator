@@ -1,5 +1,3 @@
 XML PARTIAL IMPORT: invalid or non defined Airplane values
 XML PARTIAL IMPORT: invalid or non defined Airplane values
 XML PARTIAL IMPORT: invalid or non defined Airplane values
-XML PARTIAL IMPORT: invalid or non defined Airplane values
-XML PARTIAL IMPORT: invalid or non defined Airplane values

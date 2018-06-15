@@ -579,18 +579,6 @@ namespace {
         AirportHandler *D;
     };
 
-
-    TEST_F(AirplaneInput, setType) {
-        airplane = new Airplane();
-        EXPECT_DEATH(airplane->setType(""), "Valid type?");
-        EXPECT_DEATH(airplane->setType("falsetype"), "Valid type?");
-        EXPECT_NO_FATAL_FAILURE(airplane->setType("military"));
-        EXPECT_NO_FATAL_FAILURE(airplane->setType("private"));
-        EXPECT_NO_FATAL_FAILURE(airplane->setType("emergency"));
-        EXPECT_NO_FATAL_FAILURE(airplane->setType("airline"));
-
-    }
-
     TEST_F(AirplaneInput, setEngine) {
         airplane = new Airplane();
         EXPECT_DEATH(airplane->setEngine(""), "valid Engine");

@@ -428,9 +428,8 @@ ESuccess AirportHandler::addXmlData(const string &fileName) {
                                 airplane->setState(AttValue);
                             }
                         } else if (AttName == "type"){
-                            if (airplane->validPlaneType(AttValue)){
-                                airplane->setType(AttValue);
-                            }
+
+
                         } else if (AttName == "engine"){
                             if (airplane->validEngineType(AttValue)) {
                                 airplane->setEngine(AttValue);

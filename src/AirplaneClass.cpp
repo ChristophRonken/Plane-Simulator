@@ -150,13 +150,9 @@ void Airplane::setAirport(Airport *airport){
 }
 
 const string &Airplane::getType() const {
-    return Airplane::type;
+    return type;
 }
-void Airplane::setType(const string &type) {
-    REQUIRE(Airplane::validPlaneType(type), "Valid type?");
-    Airplane::type = type;
-    ENSURE( Airplane::type == type, "type set");
-}
+
 
 const string &Airplane::getEngine() const {
     return Airplane::engine;
@@ -552,221 +548,12 @@ bool Airplane::validRunway(Runway* runway){
     return false;
 }
 
-bool Airplane::validPlaneType(const string &type) {
-
-    if (type != "private" && type != "airline" && type != "military" && type != "emergency"){
-        return false;
-    }
-
-    else if (Airplane::size == "small"){
-
-        if (type == "airline"){
-            return false;
-
-        }
-
-        if (Airplane::engine == "propeller"){
-            if (type == "military"){
-                return false;
-
-            }
-        }
-
-        if (Airplane::engine == "jet"){
-            if (type == "emergency"){
-                return false;
-
-            }
-        }
-    }
-
-    else if (Airplane::size == "medium"){
-        if (type == "military" || type == "emergency"){
-            return false;
-
-        }
-
-        if (Airplane::engine == "propeller"){
-            if (type == "private"){
-                return false;
-
-            }
-        }
-    }
-
-    else if (Airplane::size == "large") {
-        if (type == "emergency" || type == "private"){
-            return false;
-
-        }
-
-        if (Airplane::engine == "jet"){
-            if (type == "military"){
-                return false;
-
-            }
-        }
-
-        if (Airplane::engine == "propeller" ){
-            if (type == "airline"){
-                return false;
-
-            }
-        }
-    }
-
-
-    return true;
-
-}
-
 bool Airplane::validEngineType(const string &engine) {
-
-    if (engine != "propeller" && engine != "jet"){
-        return false;
-    }
-
-    else if (Airplane::type != "private" && Airplane::type != "airline" && Airplane::type != "military" && Airplane::type != "emergency"){
-        return true;
-    }
-
-    else if (Airplane::size != "small" && Airplane::size != "medium" && Airplane::size != "large"){
-        if (Airplane::type == "private"){
-            return true;
-        }
-        else if (Airplane::type == "airline"){
-            return true;
-
-        }
-        else if (Airplane::type == "military"){
-            return true;
-        }
-        else{
-            return engine == "propeller";
-        }
-    }
-
-    else {
-        if (Airplane::type == "private"){
-            if (Airplane::size == "small"){
-                return true;
-            }
-            else if (Airplane::size == "medium"){
-                return engine == "jet";
-            }
-            else{
-                return false;
-            }
-        }
-        else if (Airplane::type == "airline"){
-            if (Airplane::size == "small"){
-                return false;
-            }
-            else if (Airplane::size == "medium"){
-                return true;
-            }
-            else{
-                return engine == "jet";
-            }
-        }
-        else if (Airplane::type == "military"){
-            if (Airplane::size == "small"){
-                return engine == "jet";
-            }
-            else if (Airplane::size == "medium"){
-                return false;
-            }
-            else{
-                return engine == "propeller";
-            }
-        }
-        else{
-            if (Airplane::size == "small"){
-                return engine == "propeller";
-            }
-            else if (Airplane::size == "medium"){
-                return false;
-            }
-            else{
-                return false;
-            }
-        }
-    }
+    return true;
 }
 
 bool Airplane::validSize(const string &size) {
-    if (size != "small" && size != "medium" && size != "large") {
-        return false;
-    }
-
-    else if (Airplane::type != "private" && Airplane::type != "airline" && Airplane::type != "military" && Airplane::type != "emergency"){
-        return true;
-    }
-
-    else if (Airplane::engine != "propeller" && Airplane::engine != "jet"){
-        if (Airplane::type == "private"){
-            if (size == "large"){
-                return false;
-            }
-            else{
-                return true;
-            }
-        }
-        else if (Airplane::type == "airline"){
-            if (size == "small"){
-                return false;
-            }
-            else{
-                return true;
-            }
-        }
-        else if (Airplane::type == "military"){
-            if (size == "medium"){
-                return false;
-            }
-            else{
-                return true;
-            }
-        }
-        else{
-            return size == "small";
-        }
-    }
-
-    else {
-        if (Airplane::type == "private"){
-            if (Airplane::engine == "jet"){
-                return size != "large";
-            }
-            else{
-                return size == "small";
-            }
-        }
-        else if (Airplane::type == "airline"){
-            if (Airplane::engine == "jet"){
-                return size != "small";
-            }
-            else{
-                return size == "medium";
-            }
-        }
-        else if (Airplane::type == "military"){
-            if (Airplane::engine == "jet"){
-                return size == "small";
-            }
-            else{
-                return size == "large";
-            }
-        }
-        else {
-            if (Airplane::engine == "jet"){
-                return false;
-            }
-            else{
-                return size == "small";
-            }
-        }
-    }
+    return true;
 }
 
 bool Airplane::atAirport() {
@@ -836,13 +623,13 @@ bool Airplane::properlyInitialised() {
 
 bool Airplane::isValid() {
 
-    if (Airplane::size.empty() || Airplane::fuel == 0 || Airplane::type.empty() || Airplane::model.empty() || Airplane::number.empty()
+    if (Airplane::size.empty() || Airplane::fuel == 0 || Airplane::model.empty() || Airplane::number.empty()
         || Airplane::callsign.empty() || Airplane::state.empty() || Airplane::engine.empty()){
 
         return false;
     }
 
-    return (validSize(Airplane::size) && validEngineType(Airplane::engine) && validPlaneType(Airplane::type) && Airplane::properlyInitialised());
+    return (validSize(Airplane::size) && validEngineType(Airplane::engine) && Airplane::properlyInitialised());
 
 }
 
@@ -2106,6 +1893,10 @@ bool AirplaneMilitairy::validSize(string size) {
 
 }
 
+bool AirplaneMilitairy::validRunway(Runway *runway) {
+    return Airplane::validRunway(runway);
+}
+
 // Private airplanes
 bool AirplanePrivate::validEngineType(string type) {
 
@@ -2131,6 +1922,10 @@ bool AirplanePrivate::validSize(string size) {
 
 }
 
+bool AirplanePrivate::validRunway(Runway *runway) {
+    return Airplane::validRunway(runway);
+}
+
 // Airline airplanes
 bool AirplaneAirline::validEngineType(string type) {
 
@@ -2154,6 +1949,10 @@ bool AirplaneAirline::validSize(string size) {
 
 }
 
+bool AirplaneAirline::validRunway(Runway *runway) {
+    return Airplane::validRunway(runway);
+}
+
 // Emergency airplanes
 bool AirplaneEmergency::validEngineType(string type) {
 
@@ -2165,4 +1964,8 @@ bool AirplaneEmergency::validSize(string size) {
 
     return size == "small";
 
+}
+
+bool AirplaneEmergency::validRunway(Runway *runway) {
+    return Airplane::validRunway(runway);
 }

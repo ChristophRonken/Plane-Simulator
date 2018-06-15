@@ -400,13 +400,6 @@ public:
     void initSimulation(Airport *airport);
 
     /**
-     * Check if the string type would be a valid airplane type
-     * @param type
-     * @return bool
-     */
-    virtual bool validPlaneType(const string &type);
-
-    /**
      * Check if the gate index is both valid and unoccupied
      * @param gate
      * @return bool
@@ -419,7 +412,7 @@ public:
      * @param runway
      * @return bool
      */
-    bool validRunway(Runway* runway = NULL);
+    virtual bool validRunway(Runway* runway = NULL);
 
     /**
      * Check if the location to land is valid
@@ -826,35 +819,48 @@ public:
     void setPermissionToTakeOff(bool permissionToTakeOff);
 };
 
-class AirplaneMilitairy : public Airplane {
 
+/// Airplane Subtypes
+
+class AirplaneMilitairy : public Airplane {
+    static const string type;
+public:
     bool validEngineType(string type);
 
     bool validSize(string size);
+
+    bool validRunway(Runway* runway = NULL);
 
 };
 
 class AirplanePrivate : public Airplane {
-
+    static const string type;
+public:
     bool validEngineType(string type);
 
     bool validSize(string size);
 
+    bool validRunway(Runway* runway = NULL);
 };
 
 class AirplaneAirline : public Airplane {
-
+    static const string type;
+public:
     bool validEngineType(string type);
 
     bool validSize(string size);
 
+    bool validRunway(Runway* runway = NULL);
 };
 
 class AirplaneEmergency : public Airplane {
-
+    static const string type;
+public:
     bool validEngineType(string type);
 
     bool validSize(string size);
+
+    bool validRunway(Runway* runway = NULL);
 
 };
 

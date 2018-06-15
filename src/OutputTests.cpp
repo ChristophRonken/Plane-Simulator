@@ -506,12 +506,6 @@ namespace {
         EXPECT_EQ(airplane->getAirport(), airport);
     }
 
-    TEST_F(AirplaneOutput, setType) {
-        airplane = new Airplane();
-        EXPECT_NO_FATAL_FAILURE(airplane->setType("military"));
-        EXPECT_EQ(airplane->getType(),"military");
-    }
-
     TEST_F(AirplaneOutput, setEngine) {
         airplane = new Airplane();
         airplane->setEngine("propeller");
@@ -746,7 +740,7 @@ namespace {
             plane->setFuel(10000);
             plane->setState("Gate");
             plane->setPassengers(70);
-            plane->setType("private");
+            //plane->setType("private");
             plane->setSize("small");
             plane->setHeight(300);
             plane->setCallsign("callsign");
