@@ -24,6 +24,20 @@ class Runway;
 enum ESqauwkCode {privateSmallSquawk, privateMediumSquawk, airlineMediumPropellerSquawk, airlineMediumJetSquawk,
                     airlineLargeSquawk, militarySquawk, emegencySquawk};
 
+enum EState {   init, incoming, descending, descendARMS, descendWait, descendBRMS, descendCRMS, onFinalApproach, onRunway,
+
+                outOfFuel, iEmergencyRMS, oEmergencyRMS, iEmergencyMMS, oEmergencyMMS, eLanded,
+                eUnboardingPassengers, gUnboardingPassengers,
+                eTechnicalCheck, gTechnicalCheck,
+                eRefuel, gRefuel,
+
+                inGate,
+                boardPassengers,
+                ifr, ifrRMS, ifrMMS, ifrCMS, pushbackRMS, pushbackMMS, pushbackCMS, taxiRequest, onTaxiPoint,
+                taxiPointMMS, taxiPointCMS, onTaxiCrossing, taxiCrossingRMS, taxiCrossingMMS, taxiCrossingCMS,
+                taxiCrossingNF, onHoldingPoint, holdingPointRMS, holdingPointMMS, holdingpointCMS, ascending,
+                flying, simulationFinished };
+
 const int kSmall = 1;
 const int kMedium = 2;
 const int kLarge = 3;
@@ -40,7 +54,7 @@ class Airplane {
     string number;
     string callsign;
     string model;
-    string state;
+    EState state;
     string engine;
     string size;
     string type;
@@ -67,27 +81,14 @@ class Airplane {
     string taxiPoint;
     string taxiCrossing;
 
-    bool technicalChecked;
-
-    bool ifrAuthorized;
-    bool pushback;
-
-    bool requestMessageSend;
-    bool messageMessageSend;
-    bool confirmMessageSend;
-
-    bool taxiRequest;
-
-    bool emergencyInAirport;
-    bool crossed;
-
     bool alreadyLinedUp;
     bool permissionToTakeOff;
+
+    bool technicalChecked;
 
     bool waitAtRunway;
     bool waitOnRunway;
 
-    bool onItsWay;
     bool simulationFinished;
 
     const static int kFuelPerMinute = 10000;
@@ -156,14 +157,14 @@ public:
      * get current state of the plane
      * @return state
      */
-    const string &getState() const;
+    const EState &getState() const;
 
     /**
      * sets the state of the plane
      * Postcondition: Airplane::getState() == state
      * @param state
      */
-    void setState(const string &state);
+    void setState(const EState &state);
 
     /**
      *returns a pointer to the current airport
@@ -523,97 +524,6 @@ public:
     void setTaxiCrossing(const string &taxiCrossing);
 
     /**
-     * Check if the IFR authorized the plane to initialize the departure procedure 
-     * @return bool
-     */
-    bool isIFRAuthorized() const;
-
-    /**
-     * Set if the IFR authorized the plane to initialize the departure procedure
-     * Postconditions: Airplane::isIFRAuthorized() == ifrAuthorized
-     * @param ifrAuthorized
-     */
-    void setIFRAuthorized(bool ifrAuthorized);
-
-    /**
-     * Checl if pushback from gate is allowed
-     * @return bool
-     */
-    bool isPushback() const;
-
-    /**
-     * Set if pushnack from gate is allowed
-     * Postconditions: Airplane::isPushback() == pushback
-     * @param pushback 
-     */
-    void setPushback(bool pushback);
-
-    /**
-     * Check if a request message is send for the next task
-     * @return bool
-     */
-    bool isRequestMessageSend() const;
-
-    /**
-     * Set if a request message was send for the upcoming task
-     * Postconditions: Airplane::isRequestMessageSend() == requestMessageSend
-     * @param requestMessageSend
-     */
-    void setRequestMessageSend(bool requestMessageSend);
-
-    /**
-     * Check if the ATC send the airplane an instruction message for the upcoming task
-     * @return bool
-     */
-    bool isMessageMessageSend() const;
-
-    /**
-     * Set if the ATC send the airplane an instruction message for the upcoming task
-     * Postconditions: Airplane::isMessageMessageSend() == messageMessageSend
-     * @param messageMessageSend
-     */
-    void setMessageMessageSend(bool messageMessageSend);
-
-    /**
-     * Check if the airplane send a confirmation message notifying the ATC it will perform it's instructions
-     * @return bool
-     */
-    bool isConfirmMessageSend() const;
-
-    /**
-     * Set if the airplane send a confirmation message notifying the ATC it will perform it's instructions
-     * Postconditions: Airplane::isConfirmMessageSend() == confirmMessageSend
-     * @param confirmMessageSend
-     */
-    void setConfirmMessageSend(bool confirmMessageSend);
-
-    /**
-     * Geen idee waar deze voor is
-     * @return bool
-     */
-    bool getEmergencyInAirport() const;
-
-    /**
-     * zie hierboven
-     * Postconditions: Airplane::getEmergencyInAirport() == emergencyInAirport
-     * @param emergencyInAirport
-     */
-    void setEmergencyInAirport(bool emergencyInAirport);
-
-    /**
-     * Check if the current task is a waiting for taxi instructions
-     * @return
-     */
-    bool isTaxiRequest() const;
-
-    /**
-     * Set if the current task is waiting for taxi instructions
-     * Postconditions: Airplane::isTaxiRequest() == taxiRequest
-     * @param taxiRequest
-     */
-    void setTaxiRequest(bool taxiRequest);
-
-    /**
      * Get the gate index the plane is trying to go to
      * @return int
      */
@@ -743,33 +653,6 @@ public:
     void ascend(Airport * airport);
 
     /**
-     * Returns boolean onItsWay
-     * @return onItsWay
-     */
-    bool isOnItsWay() const;
-
-
-    /**
-    * sets bool onItsWay
-    * Postconditions: Airplane::isOnItsWay() == onItsWay
-    * @param onItsWay
-    */
-    void setOnItsWay(bool onItsWay);
-
-    /**
-    * sets bool crossed
-    * Postconditions: Airplane::isCrossed() == crossed
-    * @param crossed
-    */
-    void setCrossed(bool crossed);
-
-    /**
-    * Returns boolean crossed
-     * @return crossed
-    */
-    bool isCrossed() const;
-
-    /**
      * Returns boolean isWaitAtRunway
      * @return isWaitAtRunway
      */
@@ -820,6 +703,12 @@ public:
     * @param permissionToTakeOff
     */
     void setPermissionToTakeOff(bool permissionToTakeOff);
+
+
+    /**
+    * reduces fuel accordingly to the plane type
+    */
+    void useFuel();
 };
 
 
