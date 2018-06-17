@@ -58,7 +58,7 @@ class Airplane {
     string engine;
     string size;
     string type;
-    string squawkCode;
+
 
     Airport* airport;
     Runway* runway;
@@ -73,6 +73,7 @@ class Airplane {
     int operationTime;
     int attemptGate;
     int crossingIndex;
+    int squawkCode;
 
     string currentTask;
 
@@ -456,7 +457,7 @@ public:
      * Get the current squawk code
      * @return bool
      */
-    const string &getSquawkCode() const;
+    int getSquawkCode() const;
 
     /**
      * Set the flight plan of this airplane

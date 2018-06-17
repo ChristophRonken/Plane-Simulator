@@ -19,7 +19,7 @@ Airplane::Airplane(string type) : type(type) {
     Airplane::state = init;
     Airplane::engine = "";
     Airplane::size = "";
-    Airplane::squawkCode = "";
+    Airplane::squawkCode = 0;
     Airplane::airport = NULL;
     Airplane::runway = NULL;
     Airplane::attemptRunway = NULL;
@@ -269,24 +269,22 @@ void Airplane::setSquawkCode(int code){
         }
 
         if (index == privateSmallSquawk) {
-            int randNumb = rand() % 776 + 1;
-            Airplane::squawkCode = intToString(randNumb);
+            Airplane::squawkCode = 0000001;
 
         }else{
-            int randNumb = rand() % 777;
-            int code = 1000*index + randNumb;
-            Airplane::squawkCode = intToString(code);
+            int code = 1000*index;
+            Airplane::squawkCode = code;
 
         }
 
     }else{
-        Airplane::squawkCode = intToString(code);
+        Airplane::squawkCode = 1;
 
     }
 
-    ENSURE(!Airplane::getSquawkCode().empty() , "squawkCode set");
+    ENSURE(Airplane::getSquawkCode() != 0 , "squawkCode set");
 }
-const string &Airplane::getSquawkCode() const {
+int Airplane::getSquawkCode() const {
     return Airplane::squawkCode;
 }
 

@@ -222,6 +222,9 @@ public:
      */
     bool propperlyInitialised();
 
+    void sortPlanesBySquawk();
+
+
 };
 
 
