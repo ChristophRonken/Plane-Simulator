@@ -1320,4 +1320,18 @@ bool AirportHandler::propperlyInitialised() {
     return (this == AirportHandler::self);
 }
 
+void AirportHandler::sortPlanesBySquawk() {
+
+    for (unsigned int i = 0; i < airplanes.size(); i++){
+        for (unsigned int j = airplanes.size() - i; j > 1; j--){
+            if (airplanes[i]->getSquawkCode() < airplanes[i-1]->getSquawkCode() ){
+                Airplane* a = airplanes[i];
+                airplanes[i] = airplanes[j];
+                airplanes[j] = a;
+            }
+        }
+    }
+
+}
+
 

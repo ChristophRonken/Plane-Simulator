@@ -573,48 +573,6 @@ namespace {
         EXPECT_EQ(airplane->getTaxiCrossing(), "crossing");
     }
 
-    TEST_F(AirplaneOutput, setIfrAuthorised) {
-        airplane = new Airplane();
-        airplane->setIFRAuthorized(true);
-        EXPECT_TRUE(airplane->isIFRAuthorized());
-    }
-
-    TEST_F(AirplaneOutput, setPushback) {
-        airplane = new Airplane();
-        airplane->setPushback(true);
-        EXPECT_TRUE(airplane->isPushback());
-    }
-
-    TEST_F(AirplaneOutput, setRequestMessageSend) {
-        airplane = new Airplane();
-        airplane->setRequestMessageSend(true);
-        EXPECT_TRUE(airplane->isRequestMessageSend());
-    }
-
-    TEST_F(AirplaneOutput, setMessageMessageSend) {
-        airplane = new Airplane();
-        airplane->setMessageMessageSend(true);
-        EXPECT_TRUE(airplane->isMessageMessageSend());
-    }
-
-    TEST_F(AirplaneOutput, setConfirmMessageSend) {
-        airplane = new Airplane();
-        airplane->setConfirmMessageSend(true);
-        EXPECT_TRUE(airplane->isConfirmMessageSend());
-    }
-
-    TEST_F(AirplaneOutput, setTaxiRequest) {
-        airplane = new Airplane();
-        airplane->setTaxiRequest(true);
-        EXPECT_TRUE(airplane->isTaxiRequest());
-    }
-
-    TEST_F(AirplaneOutput, setEmergencyInAirport) {
-        airplane = new Airplane();
-        airplane->setEmergencyInAirport(true);
-        EXPECT_TRUE(airplane->getEmergencyInAirport());
-    }
-
     TEST_F(AirplaneOutput, setSquawkCode) {
         airplane = new Airplane();
         airplane->setSquawkCode();
@@ -638,12 +596,6 @@ namespace {
         airplane = new Airplane();
         airplane->setSimulationFinished(true);
         EXPECT_TRUE(airplane->getSimulationFinished());
-    }
-
-    TEST_F(AirplaneOutput, setOnItsWay) {
-        airplane = new Airplane();
-        airplane->setOnItsWay(true);
-        EXPECT_TRUE(airplane->isOnItsWay());
     }
 
     TEST_F(AirplaneOutput, setAttemptGate) {
