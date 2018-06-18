@@ -675,7 +675,8 @@ void AirportHandler::runSimulation(const string &iata) {
     double nowtime = time(NULL);
     double startTime = nowtime;
 
-    while (!airportEmpty(airport)) {
+    bool end = false;
+    while (!airportEmpty(airport) && !end) {
         double later = time(NULL);
         double deltaTime = difftime(later, nowtime);
 
@@ -692,6 +693,11 @@ void AirportHandler::runSimulation(const string &iata) {
                 Airplane *airplane = AirportHandler::airplanes[i];
 
                 if (airplane->notFinished()) {
+
+                    if ( (nowtime - startTime)/AirportHandler::gTimeUnit - 1 > 136.329){
+                        cout << "yes" << endl;
+                        end = true;
+                    };
                     cout << timeToString((nowtime - startTime)/AirportHandler::gTimeUnit - 1) << ": " << airplane->getCurrentTask() << " " << airplane->getState() << endl;
                     if (airplane->getOperationTime() > 0) {
                         airplane->continueTask(airport);

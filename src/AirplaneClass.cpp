@@ -330,7 +330,6 @@ bool Airplane::getSimulationFinished(){
 }
 void Airplane::setSimulationFinished(bool finished){
     Airplane::simulationFinished = finished;
-    Airplane::state = simulationIsFinished;
     ENSURE(Airplane::simulationFinished == finished , "simulation finished set");
 }
 

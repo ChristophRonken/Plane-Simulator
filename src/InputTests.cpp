@@ -738,6 +738,11 @@ namespace {
     }
 
     TEST_F(AirplaneInput, takeOff) {
+        runway = new Runway();
+        runway->setLength(5000);
+        runway->setType("asphalt");
+        runway->setName("name");
+
         runway1 = new Runway();
         runway1->setLength(5000);
         runway1->setType("asphalt");
@@ -759,6 +764,7 @@ namespace {
         airplane->setCurrentTask("at holding point");
         EXPECT_DEATH(airplane->takeOff();, "");
         airplane->setCurrentTask("taking off");
+        airplane->setState( holdingpointCMS);
         EXPECT_DEATH(airplane->takeOff();, "");
         airplane->setHeight(0);
         EXPECT_NO_FATAL_FAILURE(airplane->takeOff());
