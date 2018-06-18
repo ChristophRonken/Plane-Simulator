@@ -57,17 +57,17 @@ namespace {
         handler->addXmlData("XMLTests/TestVolledigeLuchthaven16.xml");
         EXPECT_DEATH(handler->runSimulation(""), "Assertion.*failed");
 
-        // Correcte Luchthaven + airplanes
-        handler2->addXmlData("XMLTests/TestVolledigeLuchthaven10.xml");
-        EXPECT_NO_FATAL_FAILURE(handler2->runSimulation("ANR"));
-
         // No runways
         handler3->addXmlData("XMLTests/TestVolledigeLuchthaven2.xml");
         EXPECT_DEATH(handler3->runSimulation("ANR"), "Assertion.*failed");
 
         // No Airplanes
         handler4->addXmlData("XMLTests/TestVolledigeLuchthaven9.xml");
-        EXPECT_DEATH(handler4->runSimulation("ANR"), "Assertion.*failed");
+        EXPECT_NO_FATAL_FAILURE(handler4->runSimulation("ANR"));
+
+        // Correcte Luchthaven + airplanes
+        EXPECT_EQ(handler2->addXmlData("XMLTests/TestVolledigeLuchthaven10.xml"), success);
+        EXPECT_NO_FATAL_FAILURE(handler2->runSimulation("ANR"));
 
     }
 
@@ -355,11 +355,11 @@ namespace {
         EXPECT_EQ(airplane->getNumber(), "");
         EXPECT_EQ(airplane->getCallsign(), "");
         EXPECT_EQ(airplane->getModel(), "");
-        EXPECT_EQ(airplane->getState(), "");
+        EXPECT_EQ(airplane->getState(), init);
         EXPECT_EQ(airplane->getType(), "");
         EXPECT_EQ(airplane->getEngine(), "");
         EXPECT_EQ(airplane->getSize(), "");
-        EXPECT_EQ(airplane->getSquawkCode(), "");
+        EXPECT_EQ(airplane->getSquawkCode(), 0);
         EXPECT_TRUE(airplane->getAirport() == NULL);
         EXPECT_TRUE(airplane->getRunway() == NULL);
         EXPECT_TRUE(airplane->getFlightPlan() == NULL);
@@ -413,7 +413,7 @@ namespace {
         runway = new Runway();
         airplane->setRunway(runway);
         EXPECT_FALSE(airplane->readyForTakeOff());
-        airplane->setState("Waiting for departure");
+        airplane->setState(onRunway);
         EXPECT_TRUE(airplane->readyForTakeOff());
     }
 
@@ -432,7 +432,7 @@ namespace {
         airport->setGates(5);
         airplane->setAirport(airport);
         airplane->setGate(3);
-        airplane->setState("Waiting for departure");
+        airplane->setState(onRunway);
         EXPECT_TRUE(airplane->atGate());
     }
 
@@ -667,7 +667,7 @@ namespace {
         EXPECT_FALSE(airplane->isValid());
         airplane->setCallsign("callsign");
         EXPECT_FALSE(airplane->isValid());
-        airplane->setState(flying);
+        airplane->setState(incoming);
         EXPECT_FALSE(airplane->isValid());
         airplane->setEngine("propeller");
         EXPECT_TRUE(airplane->isValid());
@@ -695,7 +695,7 @@ namespace {
         EXPECT_DEATH(airplane->pushBack(), "Valid runway");
         runway->setOccupied(false);
         EXPECT_NO_FATAL_FAILURE(airplane->pushBack());
-        EXPECT_EQ(airplane->getState(), "pushback");
+        EXPECT_EQ(airplane->getState(), pushbackRMS);
 
         EXPECT_NO_FATAL_FAILURE(airplane->pushBack());
 
@@ -734,11 +734,11 @@ namespace {
         airplane->setCurrentTask("exit passengers");
         airplane->exitPlane();
         EXPECT_EQ(airplane->getCurrentTask(), "technical check");
-        EXPECT_EQ(airplane->getState(), "emergency check");
+        EXPECT_EQ(airplane->getState(), eTechnicalCheck);
         airplane->setCurrentTask("exit passengers");
         airplane->exitPlane();
         EXPECT_EQ(airplane->getCurrentTask(), "technical check");
-        EXPECT_EQ(airplane->getState(), "technical check");
+        EXPECT_EQ(airplane->getState(), gTechnicalCheck);
         airplane->setCurrentTask("exit passengers");
         airplane->setPassengers(100);
         airplane->exitPlane();
@@ -761,7 +761,7 @@ namespace {
         airplane->setCurrentTask("board passengers");
         airplane->enterPlane();
         EXPECT_EQ(airplane->getCurrentTask(), "IFR");
-        EXPECT_EQ(airplane->getState(), "pushback");
+        EXPECT_EQ(airplane->getState(), pushbackRMS);
         airplane->setCurrentTask("board passengers");
         airplane->setPassengers(50);
         airplane->enterPlane();
@@ -793,7 +793,7 @@ namespace {
 
         airplane->technicalCheck();
         EXPECT_EQ(airplane->getCurrentTask(), "refueling");
-        EXPECT_EQ(airplane->getState(), "emergency refuel");
+        EXPECT_EQ(airplane->getState(), eRefuel);
         EXPECT_TRUE(airplane->getOperationTime() > 0);
 
         airplane->setCurrentTask("technical check");
@@ -802,7 +802,7 @@ namespace {
 
         airplane->technicalCheck();
         EXPECT_EQ(airplane->getCurrentTask(), "board passengers");
-        EXPECT_EQ(airplane->getState(), "board passengers");
+        EXPECT_EQ(airplane->getState(), boardPassengers);
 
         airplane->setCurrentTask("technical check");
         airplane->setFuelCapacity(200000);
@@ -810,7 +810,7 @@ namespace {
 
         airplane->technicalCheck();
         EXPECT_EQ(airplane->getCurrentTask(), "refueling");
-        EXPECT_EQ(airplane->getState(), "refuel");
+        EXPECT_EQ(airplane->getState(), gRefuel);
         EXPECT_TRUE(airplane->getOperationTime() > 0);
     }
 
@@ -902,7 +902,7 @@ namespace {
 
         airplane->taxiToRunway();
         EXPECT_EQ(airplane->getGate(), -1);
-        EXPECT_EQ(airplane->getState(), "at taxipoint");
+        EXPECT_EQ(airplane->getState(), onTaxiPoint);
         EXPECT_EQ(airplane->getTaxiPoint(), "point");
         EXPECT_EQ(airplane->getTaxiCrossing(), "");
 
@@ -911,7 +911,7 @@ namespace {
         airplane->taxiToRunway();
 
         airplane->taxiToRunway();
-        EXPECT_EQ(airplane->getState(), "at taxicrossing");
+        EXPECT_EQ(airplane->getState(), onTaxiCrossing);
         EXPECT_EQ(airplane->getTaxiPoint(), "");
         EXPECT_EQ(airplane->getTaxiCrossing(), "name");
 
@@ -929,11 +929,11 @@ namespace {
         EXPECT_FALSE(runway->getCrossing());
 
         airplane->taxiToRunway();
-        EXPECT_EQ(airplane->getState(), "crossing taxicrossing");
+        EXPECT_EQ(airplane->getState(), taxiCrossingNF);
 
 
         airplane->taxiToRunway();
-        EXPECT_EQ(airplane->getState(), "at taxipoint");
+        EXPECT_EQ(airplane->getState(), onTaxiPoint);
         EXPECT_EQ(airplane->getTaxiPoint(), "point1");
         EXPECT_EQ(airplane->getTaxiCrossing(), "");
 
@@ -943,7 +943,7 @@ namespace {
 
         airplane->taxiToRunway();
         EXPECT_EQ(airplane->getRunway(), runway1);
-        EXPECT_EQ(airplane->getState(), "at holding point");
+        EXPECT_EQ(airplane->getState(),  onHoldingPoint);
         EXPECT_EQ(airplane->getCurrentTask(), "at holding point");
         EXPECT_FALSE(runway1->getOnItsWay());
         EXPECT_TRUE(runway1->getHoldingShortOccupied());
@@ -980,7 +980,7 @@ namespace {
         airplane->setRunway(runway1);
 
         airplane->taxiToGate();
-        EXPECT_EQ(airplane->getState(), "at taxipoint");
+        EXPECT_EQ(airplane->getState(), onTaxiPoint);
         EXPECT_EQ(airplane->getTaxiPoint(), "point1");
         EXPECT_EQ(airplane->getTaxiCrossing(), "");
 
@@ -990,7 +990,7 @@ namespace {
         airplane->taxiToGate();
 
         airplane->taxiToGate();
-        EXPECT_EQ(airplane->getState(), "at taxicrossing");
+        EXPECT_EQ(airplane->getState(),  onTaxiCrossing);
         EXPECT_EQ(airplane->getTaxiPoint(), "");
         EXPECT_EQ(airplane->getTaxiCrossing(), "");
 
@@ -1001,12 +1001,12 @@ namespace {
         airplane->taxiToGate();
         airplane->taxiToGate();
 
-        EXPECT_EQ(airplane->getState(), "at taxicrossing");
+        EXPECT_EQ(airplane->getState(),  onTaxiCrossing);
 
         airplane->taxiToGate();
-        EXPECT_EQ(airplane->getState(), "at taxipoint");
+        EXPECT_EQ(airplane->getState(), onTaxiPoint);
 
-        EXPECT_EQ(airplane->getState(), "at taxipoint");
+        EXPECT_EQ(airplane->getState(), onTaxiPoint);
         EXPECT_EQ(airplane->getTaxiPoint(), "point1");
         EXPECT_EQ(airplane->getTaxiCrossing(), "");
 

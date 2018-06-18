@@ -330,6 +330,7 @@ bool Airplane::getSimulationFinished(){
 }
 void Airplane::setSimulationFinished(bool finished){
     Airplane::simulationFinished = finished;
+    Airplane::state = simulationIsFinished;
     ENSURE(Airplane::simulationFinished == finished , "simulation finished set");
 }
 
@@ -1087,6 +1088,8 @@ void Airplane::land(Airport *airport) {
                 Airplane::state = descending;
                 return;
             }
+
+            return;
         }
 
         else if (Airplane::height == Airplane::kHeightLevelC) {
@@ -1151,15 +1154,16 @@ void Airplane::land(Airport *airport) {
             Airplane::state = landing;
             return;
         }
+        return;
     }
     else {
+
         afterLandingMessage(this, Airplane::airport, Airplane::runway, tijd);
         Airplane::currentTask = "going to gate";
         Airplane::state = onRunway;
         Airplane::operationTime = 1;
         Airplane::attemptRunway = NULL;
         return;
-
     }
 
     ENSURE( Airplane::getState() == onRunway || Airplane::getRunway() != NULL, "Landed");
@@ -1575,7 +1579,7 @@ void Airplane::execTask(Airport* airport) {
 }
 
 bool Airplane::notFinished() {
-    return !(Airplane::currentTask == "finished");
+    return (Airplane::state != simulationIsFinished );
 
 }
 

@@ -463,12 +463,6 @@ namespace {
         EXPECT_EQ(airplane->getModel(), "model");
     }
 
-    TEST_F(AirplaneOutput, setState) {
-        airplane = new Airplane();
-        airplane->setState("state");
-        EXPECT_EQ(airplane->getState(), "state");
-    }
-
     TEST_F(AirplaneOutput, setFuel) {
         airplane = new Airplane();
         airplane->setFuel(5);
@@ -576,7 +570,7 @@ namespace {
     TEST_F(AirplaneOutput, setSquawkCode) {
         airplane = new Airplane();
         airplane->setSquawkCode();
-        EXPECT_NE(airplane->getSquawkCode(), "");
+        EXPECT_NE(airplane->getSquawkCode(), 1);
     }
 
     TEST_F(AirplaneOutput, getDestination) {
@@ -690,7 +684,7 @@ namespace {
             plane = new Airplane();
             plane->setNumber("number");
             plane->setFuel(10000);
-            plane->setState("Gate");
+            plane->setState(inGate);
             plane->setPassengers(70);
             //plane->setType("private");
             plane->setSize("small");
