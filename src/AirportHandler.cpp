@@ -140,7 +140,7 @@ ESuccess AirportHandler::addXmlData(const string &fileName) {
     // Open XML
     const char *cstr = fileName.c_str();
     TiXmlDocument doc(cstr);
-    //doc.LoadFile();
+    doc.LoadFile();
 
     if(!doc.LoadFile()) {
         errStream << "XML IMPORT ABORTED: " << doc.ErrorDesc() << endl;
@@ -675,9 +675,7 @@ void AirportHandler::runSimulation(const string &iata) {
     double nowtime = time(NULL);
     double startTime = nowtime;
 
-    bool end = false;
-
-    while (!airportEmpty(airport) && !end) {
+    while (!airportEmpty(airport)) {
         double later = time(NULL);
         double deltaTime = difftime(later, nowtime);
 
@@ -690,16 +688,10 @@ void AirportHandler::runSimulation(const string &iata) {
             setTime(timeToString(passedTimeUnits));
             setTimePassed(passedTimeUnits);
 
-            bool end = true;
-
             for (unsigned int i = 0; i < AirportHandler::airplanes.size(); i++) {
                 Airplane *airplane = AirportHandler::airplanes[i];
 
                 if (airplane->notFinished()) {
-                    if ( (nowtime - startTime)/AirportHandler::gTimeUnit - 1 > 136.329){
-                        cout << "yes" << endl;
-                        end = true;
-                    };
                     cout << timeToString((nowtime - startTime)/AirportHandler::gTimeUnit - 1) << ": " << airplane->getCurrentTask() << " " << airplane->getState() << endl;
                     if (airplane->getOperationTime() > 0) {
                         airplane->continueTask(airport);
@@ -710,13 +702,9 @@ void AirportHandler::runSimulation(const string &iata) {
                     }
 
                     airplane->setOperationTime(airplane->getOperationTime() - 1);
-                    end = false;
+
                 }
             }
-            if (end) {
-                break;
-            }
-
             AirportHandler::GraphicalAirport3D(iata);
         }
     }
