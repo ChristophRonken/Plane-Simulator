@@ -863,11 +863,8 @@ void Airplane::taxiToGate(int gate) {
                 Airplane::taxiPoint = "";
                 Airplane::state = onTaxiCrossing;
                 Airplane::crossingIndex -= 1;
-
-                if (crossingIndex != 0) {
-                    Airplane::taxiCrossing = taxiRoute->getTaxiCrossings()[crossingIndex - 1];
-                }
-                Airplane::airport->getRunway(taxiRoute->getTaxiCrossings()[crossingIndex])->setHoldingShortOccupied(false);
+                Airplane::taxiCrossing = taxiRoute->getTaxiCrossings()[crossingIndex];
+                //Airplane::airport->getRunway(taxiRoute->getTaxiCrossings()[crossingIndex])->setHoldingShortOccupied(false);
                 Airplane::setOperationTime(5);
 
                 return;
@@ -909,7 +906,8 @@ void Airplane::taxiToGate(int gate) {
                     Airplane::getAirport()->getRunway(Airplane::taxiCrossing)->setPermissionToCross(false);
                     Airplane::state = taxiCrossingNF;
                     Airplane::setOperationTime(1);
-                    crossingIndex -= 1;
+
+                    cout << "yep" << endl;
                     return;
                 } else {
                     Airplane::state = onTaxiCrossing;
@@ -917,15 +915,15 @@ void Airplane::taxiToGate(int gate) {
                     return;
                 }
             }
-
-
             else if (Airplane::state == taxiCrossingNF){
+                cout << "yep" << endl;
                 Airplane::getAirport()->getRunway(Airplane::taxiCrossing)->setPermissionToCross(true);
                 Airplane::getAirport()->getRunway(Airplane::taxiCrossing)->setHoldingShortOccupied(true);
-                Airplane::setTaxiPoint(taxiRoute->getTaxiPoints()[crossingIndex-1]);
+                Airplane::setTaxiPoint(taxiRoute->getTaxiPoints()[crossingIndex]);
                 Airplane::state = onTaxiPoint;
                 Airplane::setOperationTime(5);
                 Airplane::taxiCrossing = "";
+                cout << crossingIndex << endl;
                 return;
             }
         }
