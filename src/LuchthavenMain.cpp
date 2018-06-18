@@ -13,7 +13,7 @@ int main(int argc, char **argv){
 
     AirportHandler* D = new AirportHandler();
 
-    D->addXmlData("XMLTests/TestVolledigeLuchthaven10.xml");
+    D->addXmlData("LuchthavenV1.xml");
 
         D->fileOutput();
 

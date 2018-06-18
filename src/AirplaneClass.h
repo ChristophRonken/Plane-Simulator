@@ -24,19 +24,16 @@ class Runway;
 enum ESqauwkCode {privateSmallSquawk, privateMediumSquawk, airlineMediumPropellerSquawk, airlineMediumJetSquawk,
                     airlineLargeSquawk, militarySquawk, emegencySquawk};
 
-enum EState {   init, incoming, descending, descendARMS, descendWait, descendBRMS, descendCRMS, onFinalApproach, onRunway,
-
-                outOfFuel, iEmergencyRMS, oEmergencyRMS, iEmergencyMMS, oEmergencyMMS, eLanded,
-                eUnboardingPassengers, gUnboardingPassengers,
-                eTechnicalCheck, gTechnicalCheck,
-                eRefuel, gRefuel,
-
-                inGate,
-                boardPassengers,
-                ifr, ifrRMS, ifrMMS, ifrCMS, pushbackRMS, pushbackMMS, pushbackCMS, taxiRequest, onTaxiPoint,
-                taxiPointMMS, taxiPointCMS, onTaxiCrossing, taxiCrossingRMS, taxiCrossingMMS, taxiCrossingCMS,
-                taxiCrossingNF, onHoldingPoint, holdingPointRMS, holdingPointMMS, holdingpointCMS, ascending,
-                flying, simulationFinished };
+enum EState {   init, incoming, descending, descendARMS, descendWait,
+                descendBRMS, descendCRMS, onFinalApproach, landing, onRunway,
+                outOfFuel,iEmergencyRMS, oEmergencyRMS, iEmergencyMMS, oEmergencyMMS,
+                eLanded, eUnboardingPassengers, gUnboardingPassengers, eTechnicalCheck, gTechnicalCheck,
+                eRefuel, gRefuel, inGate, boardPassengers, ifr,
+                ifrRMS, ifrMMS, ifrCMS, pushbackRMS, pushbackMMS,
+                pushbackCMS, taxiRequest, onTaxiPoint, taxiPointMMS, taxiPointCMS,
+                onTaxiCrossing, taxiCrossingRMS, taxiCrossingMMS, taxiCrossingCMS, taxiCrossingNF,
+                onHoldingPoint, holdingPointRMS, holdingPointMMS, holdingpointCMS, ascending,
+                simulationIsFinished };
 
 const int kSmall = 1;
 const int kMedium = 2;
