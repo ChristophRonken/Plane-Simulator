@@ -414,7 +414,7 @@ bool Airplane::validRunway(Runway* runway){
                     continue;
                 }
                 else if (Airplane::engine == "jet"){
-                    if (runway->getLength() >= kHeightLevelC && runway->getType() == "asphalt"){
+                    if (runway->getLength() >= kRunwayLengthE && runway->getType() == "asphalt"){
                         return true;
                     }
                     continue;
@@ -1105,11 +1105,14 @@ void Airplane::land(Airport *airport) {
 
                     for (unsigned int i = 0; i < runways.size(); i++) {
                         if (!runways[i]->isOccupied()) {
-                            Airplane::attemptRunway = runways[i];
-                            break;
+                            if (validRunway(runways[i])) {
+                                Airplane::attemptRunway = runways[i];
+                                break;
 
+                            }
                         }
                     }
+
                 }
 
                 if (permissionToDescend(Airplane::height, airport, attemptRunway)) {

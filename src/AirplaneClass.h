@@ -53,6 +53,7 @@ const int kRunwayLengthA = 500;
 const int kRunwayLengthB = 1000;
 const int kRunwayLengthC = 1500;
 const int kRunwayLengthD = 2000;
+const int kRunwayLengthE = 3000;
 
 class Airplane {
 
