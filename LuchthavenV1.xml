@@ -9,10 +9,22 @@
     <RUNWAY>
         <name>11R</name>
         <airport>ANR</airport>
+        <length>1000</length>
+        <type>asphalt</type>
+        <TAXIROUTE>
+            <taxipoint>TPA</taxipoint>
+        </TAXIROUTE>
+    </RUNWAY>
+
+    <RUNWAY>
+        <name>11L</name>
+        <airport>ANR</airport>
         <length>10000</length>
         <type>asphalt</type>
         <TAXIROUTE>
             <taxipoint>TPA</taxipoint>
+            <crossing>11R</crossing>
+            <taxipoint>TPB</taxipoint>
         </TAXIROUTE>
     </RUNWAY>
 

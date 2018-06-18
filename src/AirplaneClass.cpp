@@ -643,7 +643,7 @@ void Airplane::pushBack() {
     }
 
     else if(Airplane::currentTask == "request taxi") {
-        //Airplane::state == taxiRequest;
+        Airplane::state = taxiRequest;
         Airplane::currentTask = "going to runway";
         readyToTaxiMessage(this, tijd);
         return;

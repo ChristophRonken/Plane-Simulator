@@ -675,7 +675,9 @@ void AirportHandler::runSimulation(const string &iata) {
     double nowtime = time(NULL);
     double startTime = nowtime;
 
-    while (!airportEmpty(airport)) {
+    bool end = false;
+
+    while (!airportEmpty(airport) && !end) {
         double later = time(NULL);
         double deltaTime = difftime(later, nowtime);
 
@@ -692,7 +694,11 @@ void AirportHandler::runSimulation(const string &iata) {
                 Airplane *airplane = AirportHandler::airplanes[i];
 
                 if (airplane->notFinished()) {
-                    cout << getTime() << ": " << airplane->getCurrentTask() << " " << airplane->getState() << endl;
+                    if ( (nowtime - startTime)/AirportHandler::gTimeUnit - 1 > 136.329){
+                        cout << "yes" << endl;
+                        end = true;
+                    };
+                    cout << timeToString((nowtime - startTime)/AirportHandler::gTimeUnit - 1) << ": " << airplane->getCurrentTask() << " " << airplane->getState() << endl;
                     if (airplane->getOperationTime() > 0) {
                         airplane->continueTask(airport);
 
@@ -956,7 +962,6 @@ void AirportHandler::GraphicalAirport3D(const string &iata) {
             s += "color = (0, 1, 0)\n";
             s += "\n";
             figureNumber += 1;
-            cout << intToString(ceil(airplane->getHeight()/200)) << endl;
         }
         //emergency (in)
         else if (state == outOfFuel || state == iEmergencyRMS || state == iEmergencyMMS){
@@ -1224,64 +1229,68 @@ void AirportHandler::GraphicalAirport3D(const string &iata) {
             s += "color = (1, 1, 1)\n";
             s += "\n";
         }
+        //onTaxiCrossing, going to gate
+        else if ((state == onTaxiCrossing || state == taxiCrossingRMS || state == taxiCrossingMMS || state == taxiCrossingCMS) && airplane->getCurrentTask() == "going to gate") {
+            for (unsigned int j = 0; j < longesttaxi->getTaxiCrossings().size(); j++) {
+                if (airplane->getTaxiCrossing() == longesttaxi->getTaxiCrossings()[j]) {
+                    s += "[Figure" + intToString(figureNumber) + "]\n";
+                    s += "type = \"Sphere\"\n";
+                    s += "n = 2\n";
+                    s += "scale = 2\n";
+                    s += "rotateX = 0\n";
+                    s += "rotateY = 0\n";
+                    s += "rotateZ = 0\n";
+                    s += "center = (" + intToString((airport->getGates() - 1) * 6 / 2) + ", " +
+                         intToString(20 * (j + 1) + 5) + ", 0)\n";
+                    s += "color = (1, 1, 1)\n";
+                    s += "\n";
+                    figureNumber += 1;
+                }
+            }
+        }
+        //onTaxiCrossing, going to runway
+        else if ((state == onTaxiCrossing || state == taxiCrossingRMS || state == taxiCrossingMMS || state == taxiCrossingCMS) && airplane->getCurrentTask() == "going to runway"){
+            for (unsigned int j = 0; j < longesttaxi->getTaxiCrossings().size(); j++) {
+                if (airplane->getTaxiCrossing() == longesttaxi->getTaxiCrossings()[j]) {
+                    s += "[Figure" + intToString(figureNumber) + "]\n";
+                    s += "type = \"Sphere\"\n";
+                    s += "n = 2\n";
+                    s += "scale = 2\n";
+                    s += "rotateX = 0\n";
+                    s += "rotateY = 0\n";
+                    s += "rotateZ = 0\n";
+                    s += "center = (" + intToString((airport->getGates() - 1) * 6 / 2) + ", " +
+                         intToString(20 * (j + 1) - 5) + ", 0)\n";
+                    s += "color = (1, 1, 1)\n";
+                    s += "\n";
+                    figureNumber += 1;
+                }
+            }
+        }
+        // crossing
+        else if (state == taxiCrossingNF){
+            for (unsigned int j = 0; j < longesttaxi->getTaxiCrossings().size(); j++) {
+                if (unfinishedAirplanes[i]->getTaxiCrossing() == longesttaxi->getTaxiCrossings()[j]) {
+                    s += "[Figure" + intToString(figureNumber) + "]\n";
+                    s += "type = \"Sphere\"\n";
+                    s += "n = 2\n";
+                    s += "scale = 2\n";
+                    s += "rotateX = 0\n";
+                    s += "rotateY = 0\n";
+                    s += "rotateZ = 0\n";
+                    s += "center = (" + intToString((airport->getGates() - 1) * 6 / 2) + ", " +
+                         intToString(20 * (j + 1)) + ", 0)\n";
+                    s += "color = (1, 1, 1)\n";
+                    s += "\n";
+                    figureNumber += 1;
+                }
+            }
+        }
+
            /*
-           else if (state == "at taxicrossing" && airplane->getCurrentTask() == "going to gate"){
-               for (unsigned int j = 0; j < longesttaxi->getTaxiCrossings().size(); j++) {
-                   if (airplane->getTaxiCrossing() == longesttaxi->getTaxiCrossings()[j]) {
-                       s += "[Figure" + intToString(i + airport->getRunways().size()
-                                                    + airport->getGates()+longesttaxi->getTaxiPoints().size()
-                                                    + longesttaxi->getTaxiCrossings().size()) + "]\n";
-                       s += "type = \"Sphere\"\n";
-                       s += "n = 2\n";
-                       s += "scale = 2\n";
-                       s += "rotateX = 0\n";
-                       s += "rotateY = 0\n";
-                       s += "rotateZ = 0\n";
-                       s += "center = (" + intToString((airport->getGates() - 1) * 6 / 2) + ", " +
-                            intToString(20 * (j + 1) + 5) + ", 0)\n";
-                       s += "color = (1, 1, 1)\n";
-                       s += "\n";
-                   }
-               }
-           }
-           else if (state == "at taxicrossing" && airplane->getCurrentTask() == "going to runway"){
-               for (unsigned int j = 0; j < longesttaxi->getTaxiCrossings().size(); j++) {
-                   if (airplane->getTaxiCrossing() == longesttaxi->getTaxiCrossings()[j]) {
-                       s += "[Figure" + intToString(i + airport->getRunways().size()
-                                                    + airport->getGates()+longesttaxi->getTaxiPoints().size()
-                                                    + longesttaxi->getTaxiCrossings().size()) + "]\n";
-                       s += "type = \"Sphere\"\n";
-                       s += "n = 2\n";
-                       s += "scale = 2\n";
-                       s += "rotateX = 0\n";
-                       s += "rotateY = 0\n";
-                       s += "rotateZ = 0\n";
-                       s += "center = (" + intToString((airport->getGates() - 1) * 6 / 2) + ", " +
-                            intToString(20 * (j + 1) - 5) + ", 0)\n";
-                       s += "color = (1, 1, 1)\n";
-                       s += "\n";
-                   }
-               }
-           }
-           else if (state == "crossing taxicrossing"){
-               for (unsigned int j = 0; j < longesttaxi->getTaxiCrossings().size(); j++) {
-                   if (unfinishedAirplanes[i]->getTaxiCrossing() == longesttaxi->getTaxiCrossings()[j]) {
-                       s += "[Figure" + intToString(i + airport->getRunways().size()
-                                                    + airport->getGates()+longesttaxi->getTaxiPoints().size()
-                                                    + longesttaxi->getTaxiCrossings().size()) + "]\n";
-                       s += "type = \"Sphere\"\n";
-                       s += "n = 2\n";
-                       s += "scale = 2\n";
-                       s += "rotateX = 0\n";
-                       s += "rotateY = 0\n";
-                       s += "rotateZ = 0\n";
-                       s += "center = (" + intToString((airport->getGates() - 1) * 6 / 2) + ", " +
-                            intToString(20 * (j + 1)) + ", 0)\n";
-                       s += "color = (1, 1, 1)\n";
-                       s += "\n";
-                   }
-               }
-           }
+
+
+
 
 
            else if (state == "lined up"){
