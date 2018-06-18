@@ -3,9 +3,9 @@ $ callsign, roger mayday, squawk seven seven zero zero, cleared ILS landing runw
 [00:01][AIR]
 $ portCallsign, callsign, arriving at ANR.
 [00:01][ATC]
-$callsign, radar contact, descend and maintain five thousand feet, squawk 1234.
+$callsign, radar contact, descend and maintain five thousand feet, squawk 1.
 [00:01][AIR]
-$ Descend and maintain five thousand feet, squawking 1234, callsign.
+$ Descend and maintain five thousand feet, squawking 1, callsign.
 [00:01][ATC]
 $ callsign, hold south on the one eighty radial, expect further clearance at 00:01.
 [00:01][AIR]
@@ -23,9 +23,9 @@ $ portCallsign, callsign, runway 11Rvacated.
 [00:01][AIR]
 $ portCallsign, callsign, requesting IFR clearancy to Destination.
 [00:01][ATC]
-$ callsign, portCallsign, cleared to Destination, maintain five thousand, expect flight level one zero zero - ten minutes after departure, squawk 1234.
+$ callsign, portCallsign, cleared to Destination, maintain five thousand, expect flight level one zero zero - ten minutes after departure, squawk 1.
 [00:01][AIR]
-Cleared to Destination, initial altitude five thousand, expecting one zero zero in ten, squawking 1234, callsign.
+Cleared to Destination, initial altitude five thousand, expecting one zero zero in ten, squawking 1, callsign.
 [00:01][AIR]
 $ portCallsign, callsign at gate -1, requesting pushback.
 [00:01][ATC]

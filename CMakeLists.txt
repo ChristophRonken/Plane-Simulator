@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.6)
-project(PSE-V1)
+project(LuchthavenV1)
 
 set(CMAKE_CXX_STANDARD 98)
 set(CMAKE_CXX_FLAGS "-Wall -Werror")
@@ -30,14 +30,14 @@ set(RELEASE_SOURCE_FILES
         src/MessageSystem.h
         src/AirportHandler.cpp
         src/AirportHandler.h
-        gtest
         src/DesignByContract.h
         src/FlightPlan.cpp
         src/FlightPlan.h
         src/TaxiRoute.cpp
         src/TaxiRoute.h
         src/Utils.cpp
-        src/Utils.h)
+        src/Utils.h
+        )
 
 
 # Set source files for DEBUG target
@@ -69,7 +69,8 @@ set(DEBUG_SOURCE_FILES
         src/InputTests.cpp
         src/OutputTests.cpp
         src/DomainTests.cpp
-        src/TaxiRoute.h)
+        src/TaxiRoute.h
+        )
 
 
 # Create RELEASE target

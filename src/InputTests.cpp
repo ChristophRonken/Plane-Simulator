@@ -209,8 +209,8 @@ namespace {
         EXPECT_EQ(handler->getAirplanes()[1]->getModel(), "Boeing 737");
 
         // Status right
-        EXPECT_EQ(handler->getAirplanes()[0]->getState(), "Approaching");
-        EXPECT_EQ(handler->getAirplanes()[1]->getState(), "Gate");
+        EXPECT_EQ(handler->getAirplanes()[0]->getState(), incoming);
+        EXPECT_EQ(handler->getAirplanes()[1]->getState(), inGate);
 
         // Size right
         EXPECT_EQ(handler->getAirplanes()[0]->getSize(), "medium");
@@ -803,8 +803,6 @@ namespace {
         runway1->setType("asphalt");
         runway1->setName("name1");
 
-
-
         airport = new Airport();
         airport->addRunway(runway1);
 
@@ -814,10 +812,11 @@ namespace {
         airplane->setSize("medium");
         airplane->setEngine("jet");
         airplane->setCurrentTask("wrong task");
+        airplane->setState(incoming);
         EXPECT_DEATH(airplane->land(airport);, "correct task");
         airplane->setCurrentTask("try to land");
         EXPECT_NO_FATAL_FAILURE(airplane->land(airport));
-        airplane->setCurrentTask("landing");
+        //airplane->setCurrentTask("landing");
         EXPECT_NO_FATAL_FAILURE(airplane->land(airport));
         airplane->setCurrentTask("descending to 5000ft.");
         EXPECT_NO_FATAL_FAILURE(airplane->land(airport));

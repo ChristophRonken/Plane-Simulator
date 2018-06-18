@@ -140,7 +140,7 @@ ESuccess AirportHandler::addXmlData(const string &fileName) {
     // Open XML
     const char *cstr = fileName.c_str();
     TiXmlDocument doc(cstr);
-    doc.LoadFile();
+    //doc.LoadFile();
 
     if(!doc.LoadFile()) {
         errStream << "XML IMPORT ABORTED: " << doc.ErrorDesc() << endl;
@@ -690,6 +690,8 @@ void AirportHandler::runSimulation(const string &iata) {
             setTime(timeToString(passedTimeUnits));
             setTimePassed(passedTimeUnits);
 
+            bool end = true;
+
             for (unsigned int i = 0; i < AirportHandler::airplanes.size(); i++) {
                 Airplane *airplane = AirportHandler::airplanes[i];
 
@@ -708,9 +710,13 @@ void AirportHandler::runSimulation(const string &iata) {
                     }
 
                     airplane->setOperationTime(airplane->getOperationTime() - 1);
-
+                    end = false;
                 }
             }
+            if (end) {
+                break;
+            }
+
             AirportHandler::GraphicalAirport3D(iata);
         }
     }
