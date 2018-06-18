@@ -15,13 +15,11 @@ int main(int argc, char **argv){
 
     D->addXmlData("LuchthavenV1.xml");
 
-        D->fileOutput();
+    D->fileOutput();
 
-        D->runSimulation("ANR");
-
+    D->runSimulation("ANR");
 
     delete D;
-
 
     return 0;
 }
