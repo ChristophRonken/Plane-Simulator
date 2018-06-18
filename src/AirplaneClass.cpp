@@ -756,7 +756,8 @@ void Airplane::taxiToRunway(){
                     Airplane::getAirport()->getRunway(Airplane::taxiCrossing)->setPermissionToCross(false);
                     Airplane::state = taxiCrossingNF;
                     Airplane::setOperationTime(1);
-                    crossingIndex += 1;
+
+                    cout << "done" << endl;
                     return;
                 } else {
                     Airplane::state = onTaxiCrossing;
@@ -771,6 +772,7 @@ void Airplane::taxiToRunway(){
                 Airplane::state = onTaxiPoint;
                 Airplane::setOperationTime(5);
                 Airplane::taxiCrossing = "";
+                crossingIndex += 1;
                 return;
 
             }
