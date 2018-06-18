@@ -526,11 +526,17 @@ bool Airplane::permissionToDescend(int height, Airport* airport, Runway* runway)
     }
     else if (height == Airplane::kHeightLevelC){
         if (runway->isOccupied()){
+
             return false;
         }
         else{
-            airport->setWait3000(NULL);
-            return true;
+            if (validRunway(runway)) { ;
+                airport->setWait3000(NULL);
+                return true;
+            }else{
+                return false;
+
+            }
         }
     }
     else {
