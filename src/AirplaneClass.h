@@ -34,17 +34,7 @@ enum EState {   init, incoming, descending, descendARMS, descendWait,
                 onTaxiCrossing, taxiCrossingRMS, taxiCrossingMMS, taxiCrossingCMS, taxiCrossingNF,
                 onHoldingPoint, holdingPointRMS, holdingPointMMS, holdingpointCMS, ascending,
                 simulationIsFinished };
-/*
-, , , , ,
-, , , , ,
-, , , , ,
-, , , , ,
-, , , , ,
-, , , , ,
-, , , , ,
-onTaxiCrossing, taxiCrossingRMS, taxiCrossingMMS, taxiCrossingCMS, taxiCrossingNF,
-, , , , ,
-*/
+
 const int kSmall = 1;
 const int kMedium = 2;
 const int kLarge = 3;

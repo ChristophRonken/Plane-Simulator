@@ -900,7 +900,6 @@ void AirportHandler::GraphicalAirport3D(const string &iata) {
         s += "\n";
         figureNumber += 1;
     }
-
     // draws all taxicrossings
     for (unsigned int i=0; i<longesttaxi->getTaxiCrossings().size(); i++){
         s += "[Figure" + intToString(figureNumber) + "]\n";
@@ -1167,7 +1166,7 @@ void AirportHandler::GraphicalAirport3D(const string &iata) {
                     s += "rotateX = 0\n";
                     s += "rotateY = 0\n";
                     s += "rotateZ = 0\n";
-                    s += "center = (" + intToString((airport->getGates() - 1) * 6 / 2 + 15) + ", " +
+                    s += "center = (" + intToString((airport->getGates() - 1) * 6 / 2 + 10) + ", " +
                     intToString(20 * (j + 1) - 5) + ", 0)\n";
                     s += "color = (1, 1, 1)\n";
                     s += "\n";
