@@ -756,8 +756,6 @@ void Airplane::taxiToRunway(){
                     Airplane::getAirport()->getRunway(Airplane::taxiCrossing)->setPermissionToCross(false);
                     Airplane::state = taxiCrossingNF;
                     Airplane::setOperationTime(1);
-
-                    cout << "done" << endl;
                     return;
                 } else {
                     Airplane::state = onTaxiCrossing;
@@ -1277,8 +1275,7 @@ void Airplane::takeOff() {
     Airplane::runway->setPermissionToCross(true);
     Airplane::waitOnRunway = false;
 
-    Airplane::setAirport(NULL);
-    Airplane::setRunway(NULL);
+
     Airplane::state = ascending;
 
     if (Airplane::getEngine() == "propeller"){
@@ -1294,8 +1291,8 @@ void Airplane::takeOff() {
     Airplane::currentTask = "taking off";
     Airplane::setSimulationFinished(true);
 
-    ENSURE(Airplane::getRunway() == NULL && Airplane::getState() == ascending
-           && Airplane::getAirport() == NULL
+    ENSURE(Airplane::getState() == ascending
+
            && Airplane::getHeight() != 0, "Airborne");
 
 }
@@ -1496,7 +1493,8 @@ void Airplane::ascend(Airport* airport) {
     if (Airplane::height >= Airplane::kHeightLevelB){
         Airplane::state = simulationIsFinished;
         Airplane::currentTask = "finished";
-
+        Airplane::setAirport(NULL);
+        Airplane::setRunway(NULL);
     }
 
     logMessage(Airplane::number + " is leaving " + airport->getName() + " at " + intToString(Airplane::height) + "ft.");

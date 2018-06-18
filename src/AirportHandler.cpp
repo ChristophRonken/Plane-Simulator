@@ -682,12 +682,19 @@ void AirportHandler::runSimulation(const string &iata) {
 
         if (deltaTime >= AirportHandler::gTimeUnit){
 
+
             nowtime += AirportHandler::gTimeUnit ;
 
             double passedTimeUnits = (nowtime - startTime)/AirportHandler::gTimeUnit;
-
+            string tijdnu = getTime();
+            while (tijdnu == timeToString(passedTimeUnits)){
+                nowtime += AirportHandler::gTimeUnit ;
+                passedTimeUnits = (nowtime - startTime)/AirportHandler::gTimeUnit;
+            }
             setTime(timeToString(passedTimeUnits));
             setTimePassed(passedTimeUnits);
+
+            AirportHandler::GraphicalAirport3D(iata);
 
             for (unsigned int i = 0; i < AirportHandler::airplanes.size(); i++) {
                 Airplane *airplane = AirportHandler::airplanes[i];
@@ -698,7 +705,7 @@ void AirportHandler::runSimulation(const string &iata) {
                         cout << "yes" << endl;
                         end = true;
                     };
-                    cout << timeToString((nowtime - startTime)/AirportHandler::gTimeUnit - 1) << ": " << airplane->getCurrentTask() << " " << airplane->getState() << endl;
+                    cout << getTime() << ": " << airplane->getCurrentTask() << " " << airplane->getState() << endl;
                     if (airplane->getOperationTime() > 0) {
                         airplane->continueTask(airport);
 
@@ -711,7 +718,7 @@ void AirportHandler::runSimulation(const string &iata) {
 
                 }
             }
-            AirportHandler::GraphicalAirport3D(iata);
+
         }
     }
 }
@@ -804,7 +811,7 @@ void AirportHandler::GraphicalAirport3D(const string &iata) {
     // makes vector with all airplanes in the simulation
     vector<Airplane*> unfinishedAirplanes;
     for (unsigned int i=0; i<getAirplanes().size(); i++){
-        if (!getAirplanes()[i]->getSimulationFinished()){
+        if (getAirplanes()[i]->getState() != simulationIsFinished){
             unfinishedAirplanes.push_back(getAirplanes()[i]);
         }
     }
@@ -1223,11 +1230,12 @@ void AirportHandler::GraphicalAirport3D(const string &iata) {
             for (unsigned int j=0; j<airport->getRunways().size(); j++){
                 if (airplane->getRunway() == airport->getRunways()[j]){
                     s += "center = ("+ intToString((airport->getGates()-1)*6 /2  - 10) + ", "
-                         + intToString(20*(j+1)) + intToString(ceil(airplane->getHeight()/200)) + ")\n";
+                         + intToString(20*(j+1)) + ", " + intToString(ceil(airplane->getHeight()/200)) + ")\n";
                 }
             }
             s += "color = (1, 1, 1)\n";
             s += "\n";
+            figureNumber += 1;
         }
         //onTaxiCrossing, going to gate
         else if ((state == onTaxiCrossing || state == taxiCrossingRMS || state == taxiCrossingMMS || state == taxiCrossingCMS) && airplane->getCurrentTask() == "going to gate") {
@@ -1315,17 +1323,7 @@ void AirportHandler::GraphicalAirport3D(const string &iata) {
 
             */
         else {
-            s += "[Figure" + intToString(figureNumber) + "]\n";
-            s += "type = \"Sphere\"\n";
-            s += "n = 2\n";
-            s += "scale = 2\n";
-            s += "rotateX = 0\n";
-            s += "rotateY = 0\n";
-            s += "rotateZ = 0\n";
-            s += "center = (0,0,0)\n";
-            s += "color = (-2, -2, -2)\n";
-            figureNumber += 1;
-            //cout << "WRONG STATE"<< endl;
+            cout << "WRONG STATE"<< endl;
         }
     }
     fstream file;
