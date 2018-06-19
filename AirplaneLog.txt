@@ -1,3 +1,14 @@
+0 passengers exited  at gate 3 of 
+0 passengers entered  at gate 3 of 
+ has been refueled
+Gate (5) is now unoccupied
+Sending airplane  for departure
+Airplane () is taking off at 
+ is approaching  at 3000ft.
+Preparing airplane () for landing in 
+ is approaching  at 3000ft.
+ is approaching  at 3000ft.
+ is approaching  at 3000ft.
 100 passengers exited  at gate 3 of 
 100 passengers exited  at gate 3 of 
 100 passengers entered  at gate 3 of 
