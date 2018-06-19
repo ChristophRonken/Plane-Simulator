@@ -6,8 +6,8 @@
 #include <sys/stat.h>
 #include "gtest/gtest.h"
 
-#include "AirplaneClass.h"
-#include "AirportClass.h"
+#include "Airplane.h"
+#include "Airport.h"
 #include "AirportHandler.h"
 #include "MessageSystem.h"
 #include "RunwayClass.h"

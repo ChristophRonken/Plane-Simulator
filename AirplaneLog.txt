@@ -14,3 +14,31 @@
 Gate (5) is now unoccupied
 Sending airplane  for departure
 Airplane () is taking off at 
+Sending airplane  for departure
+Airplane () is taking off at 
+Sending airplane  for departure
+Airplane () is taking off at 
+Sending airplane  for departure
+Airplane () is taking off at 
+Sending airplane  for departure
+Airplane () is taking off at 
+ is approaching  at 10000ft.
+ is approaching  at 10000ft.
+ is approaching  at 10000ft.
+ is approaching  at 10000ft.
+ is approaching  at 10000ft.
+ is approaching  at 5000ft.
+ is approaching  at 5000ft.
+ is approaching  at 5000ft.
+ is approaching  at 3000ft.
+ is waiting at a height of 3000
+ is approaching  at 3000ft.
+Preparing airplane () for landing in 
+ is approaching  at 3000ft.
+ is approaching  at 3000ft.
+ is approaching  at 1000ft.
+ is approaching  at 0ft.
+ is landing at Runwayname1
+Airplane () landed in 
+Airplane () is now at runway name1
+

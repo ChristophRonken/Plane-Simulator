@@ -2,7 +2,7 @@
 // Created by oliviervh on 01.03.18.
 //
 
-#include "AirportClass.h"
+#include "Airport.h"
 
 Airport::Airport() {
     Airport::name = "";

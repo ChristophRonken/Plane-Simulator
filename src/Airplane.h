@@ -9,7 +9,7 @@
 #include <cmath>
 #include <map>
 
-#include "AirportClass.h"
+#include "Airport.h"
 #include "RunwayClass.h"
 #include "FlightPlan.h"
 #include "TaxiRoute.h"
@@ -100,7 +100,7 @@ class Airplane {
     const static int kHeightLevelA = 10000;
     const static int kHeightLevelB = 5000;
     const static int kHeightLevelC = 3000;
-
+    const static int kHeightLevelD = 1000;
 protected:
 
 
@@ -568,7 +568,7 @@ public:
      * @param engine
      * @return bool
      */
-    virtual bool validEngineType(const string &engine);
+    virtual bool validEngineType(const string &type);
 
     /**
      * check if the input value would be a valid size for the airplane
@@ -718,9 +718,9 @@ public:
 
     AirplaneMilitairy();
 
-    bool validEngineType(string type);
+    virtual bool validEngineType(const string &type);
 
-    bool validSize(string size);
+    virtual bool validSize(const string &size);
 
     bool validRunway(Runway* runway = NULL);
 
@@ -731,9 +731,9 @@ public:
 
     AirplanePrivate();
 
-    bool validEngineType(string type);
+    virtual bool validEngineType(const string &type);
 
-    bool validSize(string size);
+    virtual bool validSize(const string &size);
 
     bool validRunway(Runway* runway = NULL);
 };
@@ -743,9 +743,9 @@ public:
 
     AirplaneAirline();
 
-    bool validEngineType(string type);
+    virtual bool validEngineType(const string &type);
 
-    bool validSize(string size);
+    virtual bool validSize(const string &size);
 
     bool validRunway(Runway* runway = NULL);
 
@@ -757,9 +757,9 @@ public:
 
     AirplaneEmergency();
 
-    bool validEngineType(string type);
+    virtual bool validEngineType(const string &type);
 
-    bool validSize(string size);
+    virtual bool validSize(const string &size);
 
     bool validRunway(Runway* runway = NULL);
 

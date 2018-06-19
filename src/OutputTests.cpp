@@ -7,8 +7,8 @@
 #include <sys/stat.h>
 #include "gtest/gtest.h"
 
-#include "AirplaneClass.h"
-#include "AirportClass.h"
+#include "Airplane.h"
+#include "Airport.h"
 #include "AirportHandler.h"
 #include "MessageSystem.h"
 #include "RunwayClass.h"
@@ -570,7 +570,7 @@ namespace {
     TEST_F(AirplaneOutput, setSquawkCode) {
         airplane = new Airplane();
         airplane->setSquawkCode();
-        EXPECT_NE(airplane->getSquawkCode(), 1);
+        EXPECT_NE(airplane->getSquawkCode(), 0);
     }
 
     TEST_F(AirplaneOutput, getDestination) {

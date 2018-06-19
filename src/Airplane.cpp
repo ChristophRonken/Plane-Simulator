@@ -2,7 +2,7 @@
 // Created by oliviervh on 01.03.18.
 //
 
-#include "AirplaneClass.h"
+#include "Airplane.h"
 #include <string>
 #include <cstdlib>
 #include <iostream>
@@ -150,7 +150,7 @@ const string &Airplane::getEngine() const {
     return Airplane::engine;
 }
 void Airplane::setEngine(const string &engine) {
-    REQUIRE(Airplane::validEngineType(engine), "valid Engine");
+    REQUIRE(this->validEngineType(engine), "valid Engine");
     Airplane::engine = engine;
     ENSURE(Airplane::engine == engine, "engine set");
 
@@ -160,7 +160,7 @@ const string &Airplane::getSize() const {
     return Airplane::size;
 }
 void Airplane::setSize(const string &size) {
-    REQUIRE(Airplane::validSize(size), "valid size");
+    REQUIRE(this->validSize(size), "valid size");
     Airplane::size = size;
     ENSURE(Airplane::size == size, "size set");
 }
@@ -482,12 +482,12 @@ bool Airplane::validRunway(Runway* runway){
     return false;
 }
 
-bool Airplane::validEngineType(const string &engine) {
-    return true;
+bool Airplane::validEngineType(const string &type) {
+    return type == "propeller" || type == "jet";
 }
 
 bool Airplane::validSize(const string &size) {
-    return true;
+    return size == "small" || size == "medium" || size == "large";
 }
 
 bool Airplane::atAirport() {
@@ -568,7 +568,7 @@ bool Airplane::isValid() {
         return false;
     }
 
-    return (validSize(Airplane::size) && validEngineType(Airplane::engine) && Airplane::properlyInitialised());
+    return (validSize(Airplane::size) && this->validEngineType(Airplane::engine) && Airplane::properlyInitialised());
 
 }
 
@@ -674,11 +674,16 @@ void Airplane::taxiToRunway(){
 
     if (Airplane::taxiPoint.empty() && Airplane::taxiCrossing.empty()){
         Airplane::taxiPoint = Airplane::attemptRunway->getTaxiRoute()->getTaxiPoints()[0];
-        Airplane::airport->getRunway(taxiRoute->getTaxiCrossings()[crossingIndex])->setHoldingShortOccupied(true);
-        Airplane::state = onTaxiPoint;
-        Airplane::operationTime = 1;
-        Airplane::attemptRunway->setOnItsWay(true);
-        return;
+
+        if (taxiRoute->getTaxiCrossings().size() > unsigned(crossingIndex)) {
+            Airplane::airport->getRunway(taxiRoute->getTaxiCrossings()[crossingIndex])->setHoldingShortOccupied(true);
+            Airplane::state = onTaxiPoint;
+            Airplane::operationTime = 1;
+            Airplane::attemptRunway->setOnItsWay(true);
+            return;
+        } else {
+            return;
+        }
     }
 
     if (!Airplane::taxiPoint.empty()){
@@ -1023,7 +1028,7 @@ void Airplane::land(Airport *airport) {
             || Airplane::getCurrentTask() == "descending to 5000ft."  || Airplane::getCurrentTask() == "descending to 3000ft."
             || Airplane::getCurrentTask() == "descending to 0ft.", "correct task");
     REQUIRE(Airplane::getHeight() == 0 || Airplane::getHeight() == kHeightLevelA || Airplane::getHeight() == kHeightLevelB
-            || Airplane::getHeight() == kHeightLevelC, "correct height");
+            || Airplane::getHeight() == kHeightLevelC || Airplane::getHeight() == kHeightLevelD, "correct height");
 
     const string &tijd = getTime();
     if (Airplane::currentTask != "landing") {
@@ -1111,7 +1116,6 @@ void Airplane::land(Airport *airport) {
 
             return;
         }
-
         else if (Airplane::height == Airplane::kHeightLevelC) {
             if (Airplane::state == descending) {
 
@@ -1474,14 +1478,14 @@ void Airplane::refuel() {
         while(std::getline(ss, token, ':')) {
             timeValues.push_back(atoi(token.c_str()));
         }
-        if (timeValues[1] == (Airplane::flightPlan->getDeparture() - boardingTime + 60)%60){
+        if (gTimePassed >= (Airplane::flightPlan->getDeparture() - boardingTime + 60)%60){
             Airplane::currentTask = "board passengers";
             Airplane::state = boardPassengers;
         }
         else{
             Airplane::currentTask = "idle";
             Airplane::state = idle;
-            Airplane::operationTime = ((Airplane::flightPlan->getDeparture() - boardingTime + 60)%60-timeValues[1] + 60)%60;
+            Airplane::operationTime = ((Airplane::flightPlan->getDeparture() - boardingTime + 60)%60-gTimePassed + 60)%60;
         }
     }
 }
@@ -1538,7 +1542,9 @@ void Airplane::ascend(Airport* airport) {
     if (Airplane::height >= Airplane::kHeightLevelB){
         Airplane::state = simulationIsFinished;
         Airplane::currentTask = "finished";
-        Airplane::runway->setOccupied(false);
+        if (runway != NULL) {
+            Airplane::runway->setOccupied(false);
+        }
         Airplane::setAirport(NULL);
         Airplane::setRunway(NULL);
     }
@@ -1790,8 +1796,12 @@ Airplane::~Airplane() {
 /// Validation Functions
 
 // Militairy airplanes
-bool AirplaneMilitairy::validEngineType(string type) {
+bool AirplaneMilitairy::validEngineType(const string &type) {
 
+    if (type != "propeller" && type != "jet"){
+        return false;
+
+    }
     if (AirplaneMilitairy::getSize() == "small"){
         return type == "jet";
     }else{
@@ -1805,8 +1815,10 @@ bool AirplaneMilitairy::validEngineType(string type) {
 
 }
 
-bool AirplaneMilitairy::validSize(string size) {
-
+bool AirplaneMilitairy::validSize(const string &size) {
+    if (size != "small" && size != "medium" && size != "large"){
+        return false;
+    }
     if (AirplaneMilitairy::getEngine() == "jet"){
         return size == "small";
     }
@@ -1831,7 +1843,11 @@ AirplaneMilitairy::AirplaneMilitairy() : Airplane("militairy") {
 
 
 // Private airplanes
-bool AirplanePrivate::validEngineType(string type) {
+bool AirplanePrivate::validEngineType(const string &type) {
+    if (type != "propeller" && type != "jet"){
+        return false;
+
+    }
 
     if (AirplanePrivate::getSize() == "medium"){
         return type == "jet";
@@ -1844,8 +1860,10 @@ bool AirplanePrivate::validEngineType(string type) {
 
 }
 
-bool AirplanePrivate::validSize(string size) {
-
+bool AirplanePrivate::validSize(const string &size) {
+    if (size != "small" && size != "medium" && size != "large"){
+        return false;
+    }
     if (AirplanePrivate::getEngine() == "propeller"){
         return size == "small";
     }
@@ -1864,8 +1882,12 @@ AirplanePrivate::AirplanePrivate() : Airplane("private") {
 
 
 // Airline airplanes
-bool AirplaneAirline::validEngineType(string type) {
+bool AirplaneAirline::validEngineType(const string &type) {
 
+    if (type != "propeller" && type != "jet"){
+        return false;
+
+    }
     if (AirplaneAirline::getSize() == "large"){
         return type == "jet";
     }
@@ -1876,7 +1898,11 @@ bool AirplaneAirline::validEngineType(string type) {
 
 }
 
-bool AirplaneAirline::validSize(string size) {
+bool AirplaneAirline::validSize(const string &size) {
+
+    if (size != "small" && size != "medium" && size != "large"){
+        return false;
+    }
 
     if (AirplaneAirline::getEngine() == "propeller"){
         return size == "medium";
@@ -1897,13 +1923,13 @@ AirplaneAirline::AirplaneAirline() : Airplane("airline") {
 
 
 // Emergency airplanes
-bool AirplaneEmergency::validEngineType(string type) {
+bool AirplaneEmergency::validEngineType(const string &type) {
 
     return type == "propeller";
 
 }
 
-bool AirplaneEmergency::validSize(string size) {
+bool AirplaneEmergency::validSize(const string &size) {
 
     return size == "small";
 

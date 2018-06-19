@@ -14,10 +14,10 @@ link_directories(gtest/lib)
 # Set source files for RELEASE target
 set(RELEASE_SOURCE_FILES
         src/LuchthavenMain.cpp
-        src/AirportClass.cpp
-        src/AirportClass.h
-        src/AirplaneClass.h
-        src/AirplaneClass.cpp
+        src/Airport.cpp
+        src/Airport.h
+        src/Airplane.h
+        src/Airplane.cpp
         xml/tinystr.cpp
         xml/tinystr.h
         xml/tinyxml.cpp
@@ -43,10 +43,10 @@ set(RELEASE_SOURCE_FILES
 # Set source files for DEBUG target
 set(DEBUG_SOURCE_FILES
         src/LuchthavenDebug.cpp
-        src/AirportClass.cpp
-        src/AirportClass.h
-        src/AirplaneClass.h
-        src/AirplaneClass.cpp
+        src/Airport.cpp
+        src/Airport.h
+        src/Airplane.h
+        src/Airplane.cpp
         xml/tinystr.cpp
         xml/tinystr.h
         xml/tinyxml.cpp

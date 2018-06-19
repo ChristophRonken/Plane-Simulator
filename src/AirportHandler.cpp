@@ -3,7 +3,7 @@
 //
 
 #include "AirportHandler.h"
-#include "AirplaneClass.h"
+#include "Airplane.h"
 #include <algorithm>
 #include <vector>
 
@@ -380,7 +380,7 @@ ESuccess AirportHandler::addXmlData(const string &fileName) {
                             } else if (attValue == "airline") {
                                 airplane = new AirplaneAirline();
 
-                            } else if (attValue == "militairy") {
+                            } else if (attValue == "military") {
                                 airplane = new AirplaneMilitairy();
 
                             } else if (attValue == "emergency") {
