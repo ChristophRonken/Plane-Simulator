@@ -33,7 +33,7 @@ enum EState {   init, incoming, descending, descendARMS, descendWait,
                 pushbackCMS, taxiRequest, onTaxiPoint, taxiPointMMS, taxiPointCMS,
                 onTaxiCrossing, taxiCrossingRMS, taxiCrossingMMS, taxiCrossingCMS, taxiCrossingNF,
                 onHoldingPoint, holdingPointRMS, holdingPointMMS, holdingpointCMS, ascending,
-                simulationIsFinished };
+                simulationIsFinished, idle};
 
 const int kSmall = 1;
 const int kMedium = 2;

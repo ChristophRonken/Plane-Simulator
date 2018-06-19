@@ -5,6 +5,8 @@
 #include "AirplaneClass.h"
 #include <string>
 #include <cstdlib>
+#include <iostream>
+#include <sstream>
 
 string gTime;
 int gTimePassed;
@@ -1383,17 +1385,17 @@ void Airplane::enterPlane(){
         if (Airplane::size == "small"){
             Airplane::operationTime = kSmall*Airplane::kBoardingExitingTime;
             Airplane::passengers += Airplane::passengerCapacity / (kSmall*Airplane::kBoardingExitingTime);
-        }else {
-            if (Airplane::size == "medium"){
+        }
+        else if (Airplane::size == "medium"){
                 Airplane::operationTime = kMedium*Airplane::kBoardingExitingTime;
                 Airplane::passengers += Airplane::passengerCapacity / (kMedium*Airplane::kBoardingExitingTime);
 
-            }else{
-                Airplane::operationTime = kLarge*Airplane::kBoardingExitingTime;
-                Airplane::passengers += Airplane::passengerCapacity / (kLarge*Airplane::kBoardingExitingTime);
-
-            }
         }
+        else{
+            Airplane::operationTime = kLarge*Airplane::kBoardingExitingTime;
+            Airplane::passengers += Airplane::passengerCapacity / (kLarge*Airplane::kBoardingExitingTime);
+        }
+        return;
     }
 }
 
@@ -1444,19 +1446,35 @@ void Airplane::refuel() {
     }
 
     else {
-        Airplane::state = boardPassengers;
 
-        // << getTimePassed() << ", " << flightPlan->getDeparture() << endl;
-        if (getTimePassed() > Airplane::flightPlan->getDeparture()) { ;
-            Airplane::currentTask = "board passengers";
-
-        }else{
-            Airplane::currentTask = "idle";
-            Airplane::operationTime = Airplane::flightPlan->getDeparture() - getTimePassed();
+        int boardingTime;
+        if (Airplane::size == "small"){
+            boardingTime = kSmall*Airplane::kBoardingExitingTime + 1;
+        }
+        else if (Airplane::size == "medium"){
+            boardingTime = kMedium*Airplane::kBoardingExitingTime + 1;
+        }
+        else if (Airplane::size == "large"){
+            boardingTime = kLarge*Airplane::kBoardingExitingTime + 1;
         }
 
+        string input = getTime();
+        istringstream ss(input);
+        string token;
+        vector<int> timeValues;
+        while(std::getline(ss, token, ':')) {
+            timeValues.push_back(atoi(token.c_str()));
+        }
+        if (timeValues[1] == (Airplane::flightPlan->getDeparture() - boardingTime + 60)%60){
+            Airplane::currentTask = "board passengers";
+            Airplane::state = boardPassengers;
+        }
+        else{
+            Airplane::currentTask = "idle";
+            Airplane::state = idle;
+            Airplane::operationTime = ((Airplane::flightPlan->getDeparture() - boardingTime + 60)%60-timeValues[1] + 60)%60;
+        }
     }
-    Airplane::setFuel(Airplane::getFuelCapacity());
 }
 
 void Airplane::useFuel(){
@@ -1591,6 +1609,7 @@ void Airplane::execTask(Airport* airport) {
         Airplane::refuel();
     }else if (Airplane::currentTask == "idle"){
         Airplane::currentTask = "board passengers";
+        Airplane::state = boardPassengers;
     }
 }
 

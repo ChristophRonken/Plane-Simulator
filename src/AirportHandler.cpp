@@ -1050,6 +1050,20 @@ void AirportHandler::GraphicalAirport3D(const string &iata) {
             s += "\n";
             figureNumber += 1;
         }
+        //idle
+        else if (state == idle){
+            s += "[Figure" + intToString(figureNumber) + "]\n";
+            s += "type = \"Sphere\"\n";
+            s += "n = 2\n";
+            s += "scale = 2\n";
+            s += "rotateX = 0\n";
+            s += "rotateY = 0\n";
+            s += "rotateZ = 0\n";
+            s += "center = (" + intToString(unfinishedAirplanes[i]->getGate() * 6) + ", 0, 0)\n";
+            s += "color = (0.2, 0.2, 0.2)\n";
+            s += "\n";
+            figureNumber += 1;
+        }
         //inGate and taxiRequest
         else if (state == inGate || state == taxiRequest){
             s += "[Figure" + intToString(figureNumber) + "]\n";
