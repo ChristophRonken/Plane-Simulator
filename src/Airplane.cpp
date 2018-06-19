@@ -948,7 +948,6 @@ cout << "hierzo" << endl;
 }
 
 void Airplane::emergencyLanding(Airport* airport){
-    cout << "ok:" << endl;
     REQUIRE(Airplane::currentTask == "emergency crash" || Airplane::currentTask == "emergency landing" || Airplane::currentTask == "crash", "correct state");
 
     const string &tijd = getTime();
@@ -1291,7 +1290,6 @@ void Airplane::takeOff() {
                 else{
                     Airplane::setOperationTime(1);
                 }
-                cout << Airplane::getCurrentTask() << endl;
                 Airplane::alreadyLinedUp = false;
                 Airplane::runway->setHoldingShortOccupied(false);
                 return;
@@ -1434,7 +1432,6 @@ void Airplane::technicalCheck(){
     REQUIRE(Airplane::getCurrentTask() == "technical check", "correct state");
     REQUIRE(Airplane::atGate() || Airplane::emergencySequenceInitiated, "at gate or emergency");
 
-cout << "okayyyy" << endl;
     if (!Airplane::technicalChecked && Airplane::size != "small"){
         if (Airplane::getSize() == "medium") {
             Airplane::operationTime = kMedium-1;
