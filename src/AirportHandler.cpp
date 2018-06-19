@@ -700,21 +700,26 @@ void AirportHandler::runSimulation(const string &iata) {
                 Airplane *airplane = AirportHandler::airplanes[i];
 
                 if (airplane->notFinished()) {
+                    if (airplane->getHeight() > 0){
+                        airplane->useFuel();
+                        airplane->useFuel();
+                        airplane->useFuel();
+                    }
 
                     if ( (nowtime - startTime)/AirportHandler::gTimeUnit - 1 > 136.329){
                         cout << "yes" << endl;
                         end = true;
                     };
                     cout << getTime() << ": " << airplane->getCurrentTask() << " " << airplane->getState() << endl;
+
                     if (airplane->getOperationTime() > 0) {
                         airplane->continueTask(airport);
 
                     } else {
                         airplane->execTask(airport);
-
                     }
-
                     airplane->setOperationTime(airplane->getOperationTime() - 1);
+                    cout << "fuel: " << airplane->getFuel() << endl << endl;
 
                 }
             }

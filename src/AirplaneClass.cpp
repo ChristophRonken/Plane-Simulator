@@ -859,14 +859,20 @@ void Airplane::taxiToGate(int gate) {
                 return;
             }
             else  if (Airplane::state == taxiPointCMS) {
-
+                cout << Airplane::crossingIndex << endl;
                 Airplane::taxiPoint = "";
                 Airplane::state = onTaxiCrossing;
-                Airplane::crossingIndex -= 1;
-                Airplane::taxiCrossing = taxiRoute->getTaxiCrossings()[crossingIndex];
-                //Airplane::airport->getRunway(taxiRoute->getTaxiCrossings()[crossingIndex])->setHoldingShortOccupied(false);
+                Airplane::taxiCrossing = taxiRoute->getTaxiCrossings()[crossingIndex-1];
+                cout << "huh" << endl;
+                if (crossingIndex == (signed)taxiRoute->getTaxiCrossings().size()){
+                    Airplane::airport->getRunways()[Airplane::airport->getRunways().size()-1]->setHoldingShortOccupied(false);
+                }
+                else{
+                    Airplane::airport->getRunway(taxiRoute->getTaxiCrossings()[crossingIndex])->setHoldingShortOccupied(false);
+                }
+                cout << "okay" << endl;
                 Airplane::setOperationTime(5);
-
+                Airplane::crossingIndex -= 1;
                 return;
             }
         }
@@ -874,7 +880,6 @@ void Airplane::taxiToGate(int gate) {
     else if (!Airplane::taxiCrossing.empty()){
         if (Airplane::taxiCrossing == Airplane::taxiRoute->getTaxiCrossings()[crossingIndex]){
             if (Airplane::state == onTaxiCrossing) {
-                Airplane::airport->getRunway(taxiRoute->getTaxiCrossings()[crossingIndex])->setHoldingShortOccupied(true);
                 clearedToCrossRequest(this, Airplane::taxiRoute->getTaxiCrossings()[crossingIndex], tijd);
                 Airplane::state = taxiCrossingRMS;
                 Airplane::operationTime = 1;
@@ -1410,14 +1415,14 @@ void Airplane::technicalCheck(){
     logMessage(getNumber() + " has been checked for technical malfunction");
     if (Airplane::state == eTechnicalCheck){
         Airplane::state = eRefuel;
-        Airplane::setOperationTime(ceil((Airplane::fuelCapacity - Airplane::fuel)/ Airplane::kFuelPerMinute));
+        Airplane::setOperationTime(ceil((Airplane::fuelCapacity - Airplane::fuel)/ Airplane::kFuelPerMinute)+1);
         Airplane::currentTask = "refueling";
         return;
 
     }
     else if (Airplane::state == gTechnicalCheck){
         Airplane::state = gRefuel;
-        Airplane::setOperationTime(ceil((Airplane::fuelCapacity - Airplane::fuel)/ Airplane::kFuelPerMinute));
+        Airplane::setOperationTime(ceil((Airplane::fuelCapacity - Airplane::fuel)/ Airplane::kFuelPerMinute)+1);
         Airplane::currentTask = "refueling";
         return;
 
@@ -1484,8 +1489,6 @@ void Airplane::descend(Airport * airport) {
 
     if (Airplane::engine == "jet"){
         Airplane::height -= Airplane::kJetDescentionSpeed;
-
-
     }else{
         Airplane::height -= Airplane::kProprellerDescentionSpeed;
 
@@ -1499,11 +1502,9 @@ void Airplane::ascend(Airport* airport) {
 
     if (Airplane::engine == "jet"){
         Airplane::height += Airplane::kJetAscentionSpeed;
-
     }
     else {
         Airplane::height += Airplane::kProprellerAscentionSpeed;
-
     }
 
     if (Airplane::height >= Airplane::kHeightLevelB){
@@ -1663,10 +1664,8 @@ void Airplane::continueTask(Airport * airport) {
 
     }
 
-
     if (Airplane::currentTask == "taking off"){
         Airplane::ascend(airport);
-
     }
 
     if (Airplane::currentTask == "descending to 5000ft." || Airplane::currentTask == "descending to 3000ft." || Airplane::currentTask == "descending to 0ft."){
