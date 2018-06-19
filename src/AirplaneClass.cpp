@@ -1616,51 +1616,71 @@ void Airplane::continueTask(Airport * airport) {
         if (Airplane::size == "small") {
             if (Airplane::passengers + Airplane::passengerCapacity / (kSmall*Airplane::kBoardingExitingTime) <= Airplane::passengerCapacity) {
                 Airplane::passengers += Airplane::passengerCapacity / (kSmall*Airplane::kBoardingExitingTime);
-                return;
             }
+            if (Airplane::passengers >= Airplane::passengerCapacity){
+                Airplane::passengers = Airplane::passengerCapacity;
+                Airplane::operationTime = 1;
+            }
+            return;
 
 
         }else if (size == "medium"){
             if (Airplane::passengers + Airplane::passengerCapacity / (kMedium*Airplane::kBoardingExitingTime) <= Airplane::passengerCapacity) {
                 Airplane::passengers += Airplane::passengerCapacity / (kMedium*Airplane::kBoardingExitingTime);
-                return;
             }
+            if (Airplane::passengers >= Airplane::passengerCapacity){
+                Airplane::passengers = Airplane::passengerCapacity;
+                Airplane::operationTime = 1;
+            }
+            return;
 
 
         }else if (Airplane::size == "large"){
             if (Airplane::passengers + Airplane::passengerCapacity/(kLarge*Airplane::kBoardingExitingTime) <= Airplane::passengerCapacity) {
                 Airplane::passengers += Airplane::passengerCapacity / (kLarge*Airplane::kBoardingExitingTime);
-                return;
             }
-
+            if (Airplane::passengers >= Airplane::passengerCapacity){
+                Airplane::passengers = Airplane::passengerCapacity;
+                Airplane::operationTime = 1;
+            }
+            return;
         }
-        Airplane::passengers = Airplane::passengerCapacity;
-        Airplane::operationTime = 1;
     }
 
     if (Airplane::currentTask == "exit passengers"){
+
         if (Airplane::size == "small") {
             if (Airplane::passengers - Airplane::passengerCapacity / (kSmall*Airplane::kBoardingExitingTime) >= 0) {
                 Airplane::passengers -= Airplane::passengerCapacity / (kSmall*Airplane::kBoardingExitingTime);
-                return;
             }
+            if (Airplane::passengers <= 0){
+                Airplane::passengers = 0;
+                Airplane::operationTime = 1;
+            }
+            return;
 
 
         }else if (size == "medium"){
             if (Airplane::passengers - Airplane::passengerCapacity / (kMedium*Airplane::kBoardingExitingTime) >= 0) {
                 Airplane::passengers -= Airplane::passengerCapacity / (kMedium*Airplane::kBoardingExitingTime);
             }
+            if (Airplane::passengers <= 0){
+                Airplane::passengers = 0;
+                Airplane::operationTime = 1;
+            }
+            return;
 
 
-        }else if (size == "large"){
+        }else if (Airplane::size == "large"){
             if (Airplane::passengers - Airplane::passengerCapacity/(kLarge*Airplane::kBoardingExitingTime) >= 0) {
                 Airplane::passengers -= Airplane::passengerCapacity / (kLarge*Airplane::kBoardingExitingTime);
-                return;
             }
-
+            if (Airplane::passengers <= 0){
+                Airplane::passengers = 0;
+                Airplane::operationTime = 1;
+            }
+            return;
         }
-        Airplane::passengers = 0;
-        Airplane::operationTime = 1;
 
     }
 
