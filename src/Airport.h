@@ -8,7 +8,7 @@
 #include <iostream>
 #include <sstream>
 #include "Airplane.h"
-#include "RunwayClass.h"
+#include "Runway.h"
 #include "MessageSystem.h"
 #include <vector>
 #include <algorithm>

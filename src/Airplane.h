@@ -10,7 +10,7 @@
 #include <map>
 
 #include "Airport.h"
-#include "RunwayClass.h"
+#include "Runway.h"
 #include "FlightPlan.h"
 #include "TaxiRoute.h"
 #include "DesignByContract.h"

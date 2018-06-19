@@ -11,7 +11,7 @@
 #include <ctime>
 #include "Airplane.h"
 #include "Airport.h"
-#include "RunwayClass.h"
+#include "Runway.h"
 #include "DesignByContract.h"
 #include "Utils.h"
 

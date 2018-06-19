@@ -2,7 +2,7 @@
 // Created by oliviervh on 01.03.18.
 //
 
-#include "RunwayClass.h"
+#include "Runway.h"
 #include "AirportHandler.h"
 
 const string &Runway::getName() const {

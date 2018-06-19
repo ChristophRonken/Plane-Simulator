@@ -24,8 +24,8 @@ set(RELEASE_SOURCE_FILES
         xml/tinyxml.h
         xml/tinyxmlerror.cpp
         xml/tinyxmlparser.cpp
-        src/RunwayClass.cpp
-        src/RunwayClass.h
+        src/Runway.cpp
+        src/Runway.h
         src/MessageSystem.cpp
         src/MessageSystem.h
         src/AirportHandler.cpp
@@ -53,8 +53,8 @@ set(DEBUG_SOURCE_FILES
         xml/tinyxml.h
         xml/tinyxmlerror.cpp
         xml/tinyxmlparser.cpp
-        src/RunwayClass.cpp
-        src/RunwayClass.h
+        src/Runway.cpp
+        src/Runway.h
         src/MessageSystem.cpp
         src/MessageSystem.h
         src/AirportHandler.cpp

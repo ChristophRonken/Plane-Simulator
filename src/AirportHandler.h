@@ -10,7 +10,7 @@
 #include <cmath>
 #include "Airport.h"
 #include "Airplane.h"
-#include "RunwayClass.h"
+#include "Runway.h"
 #include "TaxiRoute.h"
 #include "FlightPlan.h"
 #include "../xml/tinyxml.h"

@@ -12,7 +12,7 @@
 #include "Airport.h"
 #include "AirportHandler.h"
 #include "MessageSystem.h"
-#include "RunwayClass.h"
+#include "Runway.h"
 namespace {
     class AirplaneDomain : public ::testing::Test {
     protected:
