@@ -1,0 +1,6 @@
+<map id="Airplane" name="Airplane">
+<area shape="rect" id="node2" href="$classAirplaneAirline.html" title="Airplane Subtype. " alt="" coords="5,80,111,107"/>
+<area shape="rect" id="node3" href="$classAirplaneEmergency.html" title="Airplane Subtype. " alt="" coords="135,80,269,107"/>
+<area shape="rect" id="node4" href="$classAirplaneMilitairy.html" title="Airplane Subtype. " alt="" coords="294,80,409,107"/>
+<area shape="rect" id="node5" href="$classAirplanePrivate.html" title="Airplane Subtype. " alt="" coords="433,80,544,107"/>
+</map>

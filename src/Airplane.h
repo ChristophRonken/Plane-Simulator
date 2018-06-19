@@ -794,7 +794,7 @@ public:
 };
 
 
-/// Airplane Subtypes
+/// Airplane Subtype
 
 class AirplaneMilitairy : public Airplane {
 public:
@@ -809,6 +809,8 @@ public:
 
 };
 
+/// Airplane Subtype
+
 class AirplanePrivate : public Airplane {
 public:
 
@@ -820,6 +822,8 @@ public:
 
     bool validRunway(Runway* runway = NULL);
 };
+
+/// Airplane Subtype
 
 class AirplaneAirline : public Airplane {
 public:
@@ -834,6 +838,8 @@ public:
 
 
 };
+
+/// Airplane Subtype
 
 class AirplaneEmergency : public Airplane {
 public:
