@@ -87,6 +87,7 @@ class Airplane {
 
     bool waitAtRunway;
     bool waitOnRunway;
+    bool emergencySequenceInitiated;
 
     bool simulationFinished;
 
@@ -703,11 +704,23 @@ public:
     */
     void setPermissionToTakeOff(bool permissionToTakeOff);
 
-
     /**
     * reduces fuel accordingly to the plane type
     */
     void useFuel();
+
+    /**
+    * Returns boolean emergencySequenceInitiated
+    * @return emergencySequenceInitiated
+    */
+    bool isEmergencySequenceInitiated() const;
+
+    /**
+    * sets bool emergencySequenceInitiated
+     * Postconditions: Airplane::isEmergencySequenceInitiated() == emergencySequenceInitiated
+    * @param emergencySequenceInitiated
+    */
+    void setEmergencySequenceInitiated(bool emergencySequenceInitiated);
 };
 
 
