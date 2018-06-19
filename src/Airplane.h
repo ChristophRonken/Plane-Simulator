@@ -21,8 +21,13 @@ using namespace std;
 class Airport;
 class Runway;
 
-enum ESqauwkCode {privateSmallSquawk, privateMediumSquawk, airlineMediumPropellerSquawk, airlineMediumJetSquawk,
-                    airlineLargeSquawk, militarySquawk, emegencySquawk};
+const int kPrivateSmallSquawk = 0001;
+const int kPrivateMediumSquawk = 1000;
+const int kAirlineMediumPropellerSquawk = 2000;
+const int kAirlineMediumJetSquawk = 3000;
+const int kAirlineLargeSquawk = 4000;
+const int kMilitarySquawk  = 5000;
+const int kEmegencySquawk =  6000;
 
 enum EState {   init, incoming, descending, descendARMS, descendWait,
                 descendBRMS, descendCRMS, onFinalApproach, landing, onRunway,

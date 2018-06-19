@@ -235,53 +235,44 @@ void Airplane::setTaxiCrossing(const string &taxiCrossing) {
 
 void Airplane::setSquawkCode(int code){
 
-    int index = 0;
-
     if (code == 0){
         if (Airplane::type == "private"){
             if (Airplane::size == "small"){
-                index = privateSmallSquawk;
-
+                squawkCode = kPrivateSmallSquawk;
+                return;
             }else{
-                index = privateMediumSquawk;
-
+                squawkCode = kPrivateMediumSquawk;
+                return;
             }
         }
         if (Airplane::type == "airline"){
             if (Airplane::size == "medium"){
                 if (Airplane::engine == "propeller"){
-                    index = airlineMediumPropellerSquawk;
-
+                    squawkCode = kAirlineMediumPropellerSquawk;
+                    return;
                 }else{
-                    index = airlineMediumJetSquawk;
-
+                    squawkCode = kAirlineMediumJetSquawk;
+                    return;
                 }
 
             }else{
-                index = airlineLargeSquawk;
-
+                squawkCode = kAirlineLargeSquawk;
+                return;
             }
         }
         if (Airplane::type == "military"){
-            index = militarySquawk;
-
+            squawkCode = kMilitarySquawk;
+            return;
         }
         if (Airplane::type == "emergency"){
-            index = emegencySquawk;
-
+            squawkCode = kEmegencySquawk;
+            return;
         }
 
-        if (index == privateSmallSquawk) {
-            Airplane::squawkCode = 0000001;
-
-        }else{
-            int code = 1000*index;
-            Airplane::squawkCode = code;
-
-        }
+        squawkCode = 1;
 
     }else{
-        Airplane::squawkCode = 1;
+        Airplane::squawkCode = code;
 
     }
 

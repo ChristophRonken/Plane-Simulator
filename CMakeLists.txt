@@ -70,7 +70,7 @@ set(DEBUG_SOURCE_FILES
         src/OutputTests.cpp
         src/DomainTests.cpp
         src/TaxiRoute.h
-        )
+        src/AirplaneDomainTests.cpp)
 
 
 # Create RELEASE target
