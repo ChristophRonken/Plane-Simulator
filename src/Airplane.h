@@ -9,7 +9,7 @@
 #include <cmath>
 #include <map>
 
-#include "AirportClass.h"
+#include "Airport.h"
 #include "RunwayClass.h"
 #include "FlightPlan.h"
 #include "TaxiRoute.h"

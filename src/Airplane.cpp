@@ -2,7 +2,7 @@
 // Created by oliviervh on 01.03.18.
 //
 
-#include "AirplaneClass.h"
+#include "Airplane.h"
 #include <string>
 #include <cstdlib>
 #include <iostream>

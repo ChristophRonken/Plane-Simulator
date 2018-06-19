@@ -9,8 +9,8 @@
 #include <sstream>
 #include <fstream>
 #include <ctime>
-#include "AirplaneClass.h"
-#include "AirportClass.h"
+#include "Airplane.h"
+#include "Airport.h"
 #include "RunwayClass.h"
 #include "DesignByContract.h"
 #include "Utils.h"

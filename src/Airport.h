@@ -7,7 +7,7 @@
 
 #include <iostream>
 #include <sstream>
-#include "AirplaneClass.h"
+#include "Airplane.h"
 #include "RunwayClass.h"
 #include "MessageSystem.h"
 #include <vector>

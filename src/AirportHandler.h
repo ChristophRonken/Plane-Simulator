@@ -8,8 +8,8 @@
 #include <fstream>
 #include <ctime>
 #include <cmath>
-#include "AirportClass.h"
-#include "AirplaneClass.h"
+#include "Airport.h"
+#include "Airplane.h"
 #include "RunwayClass.h"
 #include "TaxiRoute.h"
 #include "FlightPlan.h"
