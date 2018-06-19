@@ -689,8 +689,7 @@ void AirportHandler::runSimulation(const string &iata) {
         double deltaTime = difftime(later, nowtime);
 
         if (deltaTime >= AirportHandler::gTimeUnit){
-
-
+            sortPlanesBySquawk();
             nowtime += AirportHandler::gTimeUnit ;
 
             double passedTimeUnits = (nowtime - startTime)/AirportHandler::gTimeUnit;
