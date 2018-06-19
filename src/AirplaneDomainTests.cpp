@@ -810,15 +810,15 @@ namespace {
         flightPlan = new FlightPlan();
         airplane->setFlightPlan(flightPlan);
         airplane->refuel();
-        EXPECT_EQ(airplane->getCurrentTask(), "board passengers");
+        EXPECT_EQ(airplane->getCurrentTask(), "idle");
         airplane->setCurrentTask("refueling");
         flightPlan->setDeparture(300);
         airplane->refuel();
-        EXPECT_EQ(airplane->getCurrentTask(), "board passengers");
+        EXPECT_EQ(airplane->getCurrentTask(), "idle");
         flightPlan->setDeparture(0);
         airplane->setCurrentTask("refueling");
         airplane->refuel();
-        EXPECT_EQ(airplane->getCurrentTask(), "board passengers");
+        EXPECT_EQ(airplane->getCurrentTask(), "idle");
     }
 
     TEST_F(AirplaneDomain, descend) {
