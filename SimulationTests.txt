@@ -1,18 +1,3 @@
-N11843 has been checked for technical malfunction
-N11843 has been refueled
-60 passengers entered Cessna 843 at gate 0 of Antwerp International Airport
-Gate (0) is now unoccupied
-Sending airplane N11843 for departure
-Airplane (N11843) is taking off at Antwerp International Airport
-N11843 is leaving Antwerp International Airport at 1000ft.
-N11843 is leaving Antwerp International Airport at 1500ft.
-N11843 is leaving Antwerp International Airport at 2000ft.
-N11843 is leaving Antwerp International Airport at 2500ft.
-N11843 is leaving Antwerp International Airport at 3000ft.
-N11843 is leaving Antwerp International Airport at 3500ft.
-N11843 is leaving Antwerp International Airport at 4000ft.
-N11843 is leaving Antwerp International Airport at 4500ft.
-N11843 is leaving Antwerp International Airport at 5000ft.
 BAW466 has been checked for technical malfunction
 N11843 has been checked for technical malfunction
 BAW466 has been refueled
@@ -20,39 +5,28 @@ N11843 has been refueled
 60 passengers entered Cessna 843 at gate 0 of Antwerp International Airport
 60 passengers entered Speedbird 466 at gate 1 of Antwerp International Airport
 Gate (0) is now unoccupied
+BAW467 is approaching Antwerp International Airport at 10000ft.
 Gate (1) is now unoccupied
 BAW467 is approaching Antwerp International Airport at 10000ft.
-BAW467 is approaching Antwerp International Airport at 10000ft.
 BAW467 is approaching Antwerp International Airport at 9000ft.
-Sending airplane N11843 for departure
-Airplane (N11843) is taking off at Antwerp International Airport
 BAW467 is approaching Antwerp International Airport at 8000ft.
-N11843 is leaving Antwerp International Airport at 1000ft.
 BAW467 is approaching Antwerp International Airport at 7000ft.
-N11843 is leaving Antwerp International Airport at 1500ft.
 BAW467 is approaching Antwerp International Airport at 6000ft.
-N11843 is leaving Antwerp International Airport at 2000ft.
 BAW467 is approaching Antwerp International Airport at 5000ft.
-N11843 is leaving Antwerp International Airport at 2500ft.
 BAW467 is approaching Antwerp International Airport at 5000ft.
-N11843 is leaving Antwerp International Airport at 3000ft.
 BAW467 is approaching Antwerp International Airport at 5000ft.
-N11843 is leaving Antwerp International Airport at 3500ft.
 BAW467 is approaching Antwerp International Airport at 4000ft.
-N11843 is leaving Antwerp International Airport at 4000ft.
 BAW467 is approaching Antwerp International Airport at 3000ft.
-N11843 is leaving Antwerp International Airport at 4500ft.
 BAW467 is approaching Antwerp International Airport at 3000ft.
 Preparing airplane (BAW467) for landing in Antwerp International Airport
-N11843 is leaving Antwerp International Airport at 5000ft.
 BAW467 is approaching Antwerp International Airport at 3000ft.
 BAW467 is approaching Antwerp International Airport at 2000ft.
 BAW467 is approaching Antwerp International Airport at 1000ft.
 BAW467 is approaching Antwerp International Airport at 0ft.
 BAW467 is approaching Antwerp International Airport at 0ft.
-BAW467 is landing at Runway11R
+BAW467 is landing at Runway11L
 Airplane (BAW467) landed in ANR
-Airplane (BAW467) is now at runway 11R
+Airplane (BAW467) is now at runway 11L
 
 Sending airplane BAW466 for departure
 Airplane (BAW466) is taking off at Antwerp International Airport

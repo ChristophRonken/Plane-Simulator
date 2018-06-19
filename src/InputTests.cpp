@@ -210,7 +210,7 @@ namespace {
 
         // Status right
         EXPECT_EQ(handler->getAirplanes()[0]->getState(), incoming);
-        EXPECT_EQ(handler->getAirplanes()[1]->getState(), inGate);
+        EXPECT_EQ(handler->getAirplanes()[1]->getState(), gTechnicalCheck);
 
         // Size right
         EXPECT_EQ(handler->getAirplanes()[0]->getSize(), "medium");
@@ -583,16 +583,16 @@ namespace {
 
     TEST_F(AirplaneInput, setEngine) {
         airplane = new Airplane();
-        EXPECT_DEATH(airplane->setEngine(""), "valid Engine");
-        EXPECT_DEATH(airplane->setEngine("falsetype"), "valid Engine");
+        EXPECT_DEATH(airplane->setEngine(""), "Assertion.*failed");
+        EXPECT_DEATH(airplane->setEngine("falsetype"), "Assertion.*failed");
         EXPECT_NO_FATAL_FAILURE(airplane->setEngine("propeller"));
         EXPECT_NO_FATAL_FAILURE(airplane->setEngine("jet"));
     }
 
     TEST_F(AirplaneInput, setSize) {
         airplane = new Airplane();
-        EXPECT_DEATH(airplane->setSize(""), "valid size");
-        EXPECT_DEATH(airplane->setSize("falsetype"), "valid size");
+        EXPECT_DEATH(airplane->setSize(""), "Assertion.*failed");
+        EXPECT_DEATH(airplane->setSize("falsetype"), "Assertion.*failed");
         EXPECT_NO_FATAL_FAILURE(airplane->setSize("small"));
         EXPECT_NO_FATAL_FAILURE(airplane->setSize("medium"));
         EXPECT_NO_FATAL_FAILURE(airplane->setSize("large"));
@@ -652,7 +652,7 @@ namespace {
     TEST_F(AirplaneInput, exitPlane) {
         airplane = new Airplane();
         airplane->setCurrentTask("wrong task");
-        EXPECT_DEATH(airplane->exitPlane();, "correct state");
+        EXPECT_DEATH(airplane->exitPlane();, "Assertion.*failed");
         airplane->setCurrentTask("exit passengers");
         EXPECT_DEATH(airplane->exitPlane();, "at gate");
         airport = new Airport();
@@ -701,7 +701,7 @@ namespace {
         EXPECT_DEATH(airplane->refuel();, "flightplan assigned");
         flightPlan = new FlightPlan();
         airplane->setFlightPlan(flightPlan);
-        EXPECT_NO_FATAL_FAILURE(airplane->refuel(););
+        EXPECT_NO_FATAL_FAILURE(airplane->refuel());
     }
 
     TEST_F(AirplaneInput, taxiToRunway) {
@@ -727,6 +727,8 @@ namespace {
 
         taxiRoute = new TaxiRoute();
         taxiRoute->addTaxiPoint("point");
+        taxiRoute->addTaxiCrossing("name");
+        taxiRoute->addTaxiCrossing("name1");
 
         EXPECT_DEATH(airplane->taxiToRunway(), "correct state");
         airplane->setCurrentTask("going to runway");
@@ -735,6 +737,7 @@ namespace {
         EXPECT_DEATH(airplane->taxiToRunway();, "");
         runway1->setTaxiRoute(taxiRoute);
         EXPECT_NO_FATAL_FAILURE(airplane->taxiToRunway());
+
     }
 
     TEST_F(AirplaneInput, takeOff) {

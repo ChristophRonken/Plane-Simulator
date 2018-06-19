@@ -2,4 +2,4 @@ XML PARTIAL IMPORT: Invalid/Undefined attribute(s) at airport.
 XML PARTIAL IMPORT: failed to create runway.(No/Non existing Airport)
 XML PARTIAL IMPORT: Invalid value for attribute airport at Runway.
 XML PARTIAL IMPORT: failed to create runway.(No/Non existing Airport)
-XML PARTIAL IMPORT: invalid or non defined Airplane values
+XML PARTIAL IMPORT: invalid or no type attribute for plane

@@ -63,7 +63,7 @@ namespace {
 
         // No Airplanes
         handler4->addXmlData("XMLTests/TestVolledigeLuchthaven9.xml");
-        EXPECT_NO_FATAL_FAILURE(handler4->runSimulation("ANR"));
+        EXPECT_DEATH(handler4->runSimulation("ANR"), "Assertion.*failed");
 
         // Correcte Luchthaven + airplanes
         EXPECT_EQ(handler2->addXmlData("XMLTests/TestVolledigeLuchthaven10.xml"), success);
@@ -356,7 +356,7 @@ namespace {
         EXPECT_EQ(airplane->getCallsign(), "");
         EXPECT_EQ(airplane->getModel(), "");
         EXPECT_EQ(airplane->getState(), init);
-        EXPECT_EQ(airplane->getType(), "");
+        EXPECT_EQ(airplane->getType(), "none");
         EXPECT_EQ(airplane->getEngine(), "");
         EXPECT_EQ(airplane->getSize(), "");
         EXPECT_EQ(airplane->getSquawkCode(), 0);
@@ -413,7 +413,7 @@ namespace {
         runway = new Runway();
         airplane->setRunway(runway);
         EXPECT_FALSE(airplane->readyForTakeOff());
-        airplane->setState(onRunway);
+        airplane->setState(holdingpointCMS);
         EXPECT_TRUE(airplane->readyForTakeOff());
     }
 
@@ -437,142 +437,161 @@ namespace {
     }
 
     TEST_F(AirplaneDomain, validSize) {
-        airplane = new Airplane();
+        airplane = new AirplanePrivate();
         EXPECT_FALSE(airplane->validSize("wrongsize"));
         EXPECT_TRUE(airplane->validSize("small"));
         EXPECT_TRUE(airplane->validSize("medium"));
-        EXPECT_TRUE(airplane->validSize("large"));
+        EXPECT_FALSE(airplane->validSize("large"));
+        delete airplane;
 
+        airplane = new AirplanePrivate();
         //airplane->setType("private");
         EXPECT_TRUE(airplane->validSize("small"));
         EXPECT_TRUE(airplane->validSize("medium"));
         EXPECT_FALSE(airplane->validSize("large"));
+        delete airplane;
 
+        airplane = new AirplaneAirline();
         //airplane->setType("airline");
         EXPECT_FALSE(airplane->validSize("small"));
         EXPECT_TRUE(airplane->validSize("medium"));
         EXPECT_TRUE(airplane->validSize("large"));
+        delete airplane;
 
+        airplane = new AirplaneMilitairy();
         //airplane->setType("military");
         EXPECT_TRUE(airplane->validSize("small"));
         EXPECT_FALSE(airplane->validSize("medium"));
         EXPECT_TRUE(airplane->validSize("large"));
+        delete airplane;
 
+        airplane = new AirplaneEmergency();
         //airplane->setType("emergency");
         EXPECT_TRUE(airplane->validSize("small"));
         EXPECT_FALSE(airplane->validSize("medium"));
         EXPECT_FALSE(airplane->validSize("large"));
+        delete airplane;
 
-        airplane = new Airplane();
+        airplane = new AirplanePrivate();
         //airplane->setType("private");
         airplane->setEngine("jet");
         EXPECT_TRUE(airplane->validSize("small"));
         EXPECT_TRUE(airplane->validSize("medium"));
         EXPECT_FALSE(airplane->validSize("large"));
+        delete airplane;
 
-        airplane1 = new Airplane();
+        airplane1 = new AirplanePrivate();
         //airplane1->setType("private");
         airplane1->setEngine("propeller");
         EXPECT_TRUE(airplane1->validSize("small"));
         EXPECT_FALSE(airplane1->validSize("medium"));
         EXPECT_FALSE(airplane1->validSize("large"));
+        delete airplane;
 
-        airplane2 = new Airplane();
+        airplane2 = new AirplaneAirline();
         //airplane2->setType("airline");
         airplane2->setEngine("jet");
         EXPECT_FALSE(airplane2->validSize("small"));
         EXPECT_TRUE(airplane2->validSize("medium"));
         EXPECT_TRUE(airplane2->validSize("large"));
+        delete airplane;
 
-        airplane3 = new Airplane();
+        airplane3 = new AirplaneAirline();
         //airplane3->setType("airline");
         airplane3->setEngine("propeller");
         EXPECT_FALSE(airplane3->validSize("small"));
         EXPECT_TRUE(airplane3->validSize("medium"));
         EXPECT_FALSE(airplane3->validSize("large"));
+        delete airplane;
 
-        airplane4 = new Airplane();
+        airplane4 = new AirplaneMilitairy();
         //airplane4->setType("military");
         airplane4->setEngine("jet");
         EXPECT_TRUE(airplane4->validSize("small"));
         EXPECT_FALSE(airplane4->validSize("medium"));
         EXPECT_FALSE(airplane4->validSize("large"));
+        delete airplane;
 
-        airplane5 = new Airplane();
+        airplane5 = new AirplaneMilitairy();
         //airplane5->setType("military");
         airplane5->setEngine("propeller");
         EXPECT_FALSE(airplane5->validSize("small"));
         EXPECT_FALSE(airplane5->validSize("medium"));
         EXPECT_TRUE(airplane5->validSize("large"));
+        delete airplane;
 
-        airplane6 = new Airplane();
+        airplane6 = new AirplaneEmergency();
         //airplane6->setType("emergency");
         airplane6->setEngine("propeller");
         EXPECT_TRUE(airplane6->validSize("small"));
         EXPECT_FALSE(airplane6->validSize("medium"));
         EXPECT_FALSE(airplane6->validSize("large"));
+        delete airplane;
     }
 
     TEST_F(AirplaneDomain, validEngineType) {
-        airplane = new Airplane();
+        airplane = new AirplanePrivate();
         EXPECT_FALSE(airplane->validEngineType("wrongengine"));
         EXPECT_TRUE(airplane->validEngineType("propeller"));
         EXPECT_TRUE(airplane->validEngineType("jet"));
 
+        airplane = new AirplanePrivate();
         //airplane->setType("private");
         EXPECT_TRUE(airplane->validEngineType("propeller"));
         EXPECT_TRUE(airplane->validEngineType("jet"));
 
+        airplane = new AirplaneAirline();
         //airplane->setType("airline");
         EXPECT_TRUE(airplane->validEngineType("propeller"));
         EXPECT_TRUE(airplane->validEngineType("jet"));
 
+        airplane = new AirplaneMilitairy();
         //airplane->setType("military");
         EXPECT_TRUE(airplane->validEngineType("propeller"));
         EXPECT_TRUE(airplane->validEngineType("jet"));
 
+        airplane = new AirplaneEmergency();
         //airplane->setType("emergency");
         EXPECT_TRUE(airplane->validEngineType("propeller"));
         EXPECT_FALSE(airplane->validEngineType("jet"));
 
-        airplane = new Airplane();
+        airplane = new AirplanePrivate();
         //airplane->setType("private");
         airplane->setSize("small");
         EXPECT_TRUE(airplane->validEngineType("propeller"));
         EXPECT_TRUE(airplane->validEngineType("jet"));
 
-        airplane1 = new Airplane();
+        airplane1 = new AirplanePrivate();
         //airplane1->setType("private");
         airplane1->setSize("medium");
         EXPECT_FALSE(airplane1->validEngineType("propeller"));
         EXPECT_TRUE(airplane1->validEngineType("jet"));
 
-        airplane2 = new Airplane();
+        airplane2 = new AirplaneAirline();
         //airplane2->setType("airline");
         airplane2->setSize("medium");
         EXPECT_TRUE(airplane2->validEngineType("propeller"));
         EXPECT_TRUE(airplane2->validEngineType("jet"));
 
-        airplane3 = new Airplane();
+        airplane3 = new AirplaneAirline();
         //airplane3->setType("airline");
         airplane3->setSize("large");
         EXPECT_FALSE(airplane3->validEngineType("propeller"));
         EXPECT_TRUE(airplane3->validEngineType("jet"));
 
-        airplane4 = new Airplane();
+        airplane4 = new AirplaneMilitairy();
         //airplane4->setType("military");
         airplane4->setSize("small");
         EXPECT_FALSE(airplane4->validEngineType("propeller"));
         EXPECT_TRUE(airplane4->validEngineType("jet"));
 
-        airplane5 = new Airplane();
+        airplane5 = new AirplaneMilitairy();
         //airplane5->setType("military");
         airplane5->setSize("large");
         EXPECT_TRUE(airplane5->validEngineType("propeller"));
         EXPECT_FALSE(airplane5->validEngineType("jet"));
 
-        airplane6 = new Airplane();
-        //airplane6->setType("emergency");
+        airplane6 = new AirplaneEmergency();
         airplane6->setSize("small");
         EXPECT_TRUE(airplane6->validEngineType("propeller"));
         EXPECT_FALSE(airplane6->validEngineType("jet"));
@@ -631,6 +650,8 @@ namespace {
     TEST_F(AirplaneDomain, permissionToDescend) {
         airplane = new Airplane();
         airplane->setHeight(10000);
+        airplane->setSize("large");
+        airplane->setEngine("jet");
         airplane1 = new Airplane;
         runway = new Runway();
         airport = new Airport();
@@ -650,6 +671,7 @@ namespace {
         EXPECT_FALSE(airplane->permissionToDescend(airplane->getHeight(), airport, runway));
         runway->setOccupied(false);
         EXPECT_TRUE(airplane->permissionToDescend(airplane->getHeight(), airport, runway));
+
     }
 
     TEST_F(AirplaneDomain, isValid) {
@@ -689,13 +711,14 @@ namespace {
         airplane->setSize("large");
         airplane->setAirport(airport);
         airplane->setCurrentTask("IFR");
+        airplane->setState(ifr);
         airplane->setFlightPlan(flightPlan);
 
         runway->setOccupied(true);
         EXPECT_DEATH(airplane->pushBack(), "Valid runway");
         runway->setOccupied(false);
         EXPECT_NO_FATAL_FAILURE(airplane->pushBack());
-        EXPECT_EQ(airplane->getState(), pushbackRMS);
+        EXPECT_EQ(airplane->getState(), ifrRMS);
 
         EXPECT_NO_FATAL_FAILURE(airplane->pushBack());
 
@@ -728,17 +751,18 @@ namespace {
         airplane->setSize("large");
         airplane->setAirport(airport);
         airplane->setCurrentTask("IFR");
+        airplane->setState(ifr);
         airplane->setFlightPlan(flightPlan);
         airplane->setPassengerCapacity(100);
         airplane->setPassengers(0);
         airplane->setCurrentTask("exit passengers");
         airplane->exitPlane();
         EXPECT_EQ(airplane->getCurrentTask(), "technical check");
-        EXPECT_EQ(airplane->getState(), eTechnicalCheck);
+        EXPECT_EQ(airplane->getState(), ifr);
         airplane->setCurrentTask("exit passengers");
         airplane->exitPlane();
         EXPECT_EQ(airplane->getCurrentTask(), "technical check");
-        EXPECT_EQ(airplane->getState(), gTechnicalCheck);
+        EXPECT_EQ(airplane->getState(), ifr);
         airplane->setCurrentTask("exit passengers");
         airplane->setPassengers(100);
         airplane->exitPlane();
@@ -761,7 +785,7 @@ namespace {
         airplane->setCurrentTask("board passengers");
         airplane->enterPlane();
         EXPECT_EQ(airplane->getCurrentTask(), "IFR");
-        EXPECT_EQ(airplane->getState(), pushbackRMS);
+        EXPECT_EQ(airplane->getState(), ifr);
         airplane->setCurrentTask("board passengers");
         airplane->setPassengers(50);
         airplane->enterPlane();
@@ -772,6 +796,7 @@ namespace {
     TEST_F(AirplaneDomain, technicalCheck) {
         airplane = new Airplane();
         airplane->setCurrentTask("technical check");
+        airplane->setState(gTechnicalCheck);
         airport = new Airport();
         airport->setGates(5);
         airplane->setAirport(airport);
@@ -785,15 +810,15 @@ namespace {
         EXPECT_TRUE(airplane->getTechnicalChecked());
 
         airplane->technicalCheck();
-        EXPECT_EQ(airplane->getCurrentTask(), "taxi to gate");
+        EXPECT_EQ(airplane->getCurrentTask(), "refueling");
 
         airplane->setCurrentTask("technical check");
         airplane->setFuelCapacity(200000);
         airplane->setFuel(100000);
 
         airplane->technicalCheck();
-        EXPECT_EQ(airplane->getCurrentTask(), "refueling");
-        EXPECT_EQ(airplane->getState(), eRefuel);
+        EXPECT_EQ(airplane->getCurrentTask(), "technical check");
+        EXPECT_EQ(airplane->getState(), gRefuel);
         EXPECT_TRUE(airplane->getOperationTime() > 0);
 
         airplane->setCurrentTask("technical check");
@@ -801,15 +826,15 @@ namespace {
         airplane->setFuel(200000);
 
         airplane->technicalCheck();
-        EXPECT_EQ(airplane->getCurrentTask(), "board passengers");
-        EXPECT_EQ(airplane->getState(), boardPassengers);
+        EXPECT_EQ(airplane->getCurrentTask(), "technical check");
+        EXPECT_EQ(airplane->getState(), gRefuel);
 
         airplane->setCurrentTask("technical check");
         airplane->setFuelCapacity(200000);
         airplane->setFuel(100000);
 
         airplane->technicalCheck();
-        EXPECT_EQ(airplane->getCurrentTask(), "refueling");
+        EXPECT_EQ(airplane->getCurrentTask(), "technical check");
         EXPECT_EQ(airplane->getState(), gRefuel);
         EXPECT_TRUE(airplane->getOperationTime() > 0);
     }
@@ -824,11 +849,11 @@ namespace {
         flightPlan = new FlightPlan();
         airplane->setFlightPlan(flightPlan);
         airplane->refuel();
-        EXPECT_EQ(airplane->getCurrentTask(), "taxi to gate");
+        EXPECT_EQ(airplane->getCurrentTask(), "board passengers");
         airplane->setCurrentTask("refueling");
         flightPlan->setDeparture(300);
         airplane->refuel();
-        EXPECT_EQ(airplane->getCurrentTask(), "idle");
+        EXPECT_EQ(airplane->getCurrentTask(), "board passengers");
         flightPlan->setDeparture(0);
         airplane->setCurrentTask("refueling");
         airplane->refuel();
@@ -864,8 +889,9 @@ namespace {
     TEST_F(AirplaneDomain, notFinished) {
         airplane = new Airplane();
         EXPECT_TRUE(airplane->notFinished());
-        airplane->setCurrentTask("finished");
+        airplane->setState(simulationIsFinished);
         EXPECT_FALSE(airplane->notFinished());
+
     }
 
     TEST_F(AirplaneDomain, taxiToRunway) {
@@ -992,7 +1018,7 @@ namespace {
         airplane->taxiToGate();
         EXPECT_EQ(airplane->getState(),  onTaxiCrossing);
         EXPECT_EQ(airplane->getTaxiPoint(), "");
-        EXPECT_EQ(airplane->getTaxiCrossing(), "");
+        EXPECT_EQ(airplane->getTaxiCrossing(), "name");
 
         airplane->taxiToGate();
         airplane->taxiToGate();
@@ -1001,13 +1027,13 @@ namespace {
         airplane->taxiToGate();
         airplane->taxiToGate();
 
-        EXPECT_EQ(airplane->getState(),  onTaxiCrossing);
+        EXPECT_EQ(airplane->getState(), taxiCrossingNF);
 
         airplane->taxiToGate();
         EXPECT_EQ(airplane->getState(), onTaxiPoint);
 
         EXPECT_EQ(airplane->getState(), onTaxiPoint);
-        EXPECT_EQ(airplane->getTaxiPoint(), "point1");
+        EXPECT_EQ(airplane->getTaxiPoint(), "point");
         EXPECT_EQ(airplane->getTaxiCrossing(), "");
 
         airplane->taxiToGate();
@@ -1015,7 +1041,7 @@ namespace {
         airplane->taxiToGate();
 
         airplane->taxiToGate();
-        EXPECT_NE(airplane->getGate(), airplane->getAttemptGate());
+        EXPECT_EQ(airplane->getGate(), airplane->getAttemptGate());
         EXPECT_FALSE(runway1->getOnItsWay());
 
     }
@@ -1044,7 +1070,7 @@ namespace {
         airplane->takeOff();
         EXPECT_TRUE(runway1->getOnItsWay());
         EXPECT_FALSE(airplane->isWaitAtRunway());
-        EXPECT_TRUE(runway1->getHoldingShortOccupied());
+        EXPECT_FALSE(runway1->getHoldingShortOccupied());
 
         //runway is occupied
         airplane->setHeight(0);
@@ -1059,7 +1085,7 @@ namespace {
         airplane->setAirport(airport);
         airplane->takeOff();
         EXPECT_FALSE(airplane->isWaitAtRunway());
-        EXPECT_TRUE(runway1->getHoldingShortOccupied());
+        EXPECT_FALSE(runway1->getHoldingShortOccupied());
 
         //something is crossing
         runway1->setCrossing(true);
@@ -1070,7 +1096,7 @@ namespace {
         airplane->takeOff();
         EXPECT_FALSE(airplane->isPermissionToTakeOff());
         EXPECT_FALSE(airplane->isWaitOnRunway());
-        EXPECT_FALSE(runway1->isOccupied());
+        EXPECT_TRUE(runway1->isOccupied());
         EXPECT_TRUE(runway1->getPermissionToCross());
 
         airplane->setHeight(0);
@@ -1111,12 +1137,11 @@ namespace {
         airplane = new Airplane();
         airplane->setSize("medium");
         airplane->setEngine("jet");
-
+        airplane->setState(descendARMS);
 
         airplane->setCurrentTask("try to land");
         airplane->setHeight(10000);
         airplane->land(airport);
-        EXPECT_EQ(airplane->getAttemptRunway(), runway1);
         airplane->land(airport);
         airplane->land(airport);
         airplane->land(airport);
@@ -1129,20 +1154,22 @@ namespace {
         airplane->land(airport);
         EXPECT_EQ(airplane->getCurrentTask(), "descending to 3000ft.");
 
+
         airplane->setHeight(3000);
         airplane->land(airport);
         airplane->land(airport);
         airplane->land(airport);
         airplane->land(airport);
         EXPECT_EQ(airplane->getCurrentTask(), "descending to 0ft.");
+        EXPECT_EQ(airplane->getAttemptRunway(), runway1);
 
         airplane->setHeight(1000);
         airplane->land(airport);
-        EXPECT_EQ(airplane->getCurrentTask(), "landing");
+        EXPECT_EQ(airplane->getCurrentTask(), "descending to 0ft.");
 
         airplane->setHeight(0);
         airplane->land(airport);
-        EXPECT_EQ(airplane->getCurrentTask(), "going to gate");
+        EXPECT_EQ(airplane->getCurrentTask(), "landing");
 
     }
 }

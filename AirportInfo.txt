@@ -6,6 +6,12 @@ Airport:	Antwerp International Airport (ANR)
 
 Airplane:	Speedbird 466 (BAW466)
 ->model:	Boeing 737
+->type:	militairy
+->engine:	jet
+->size:	small
+
+Airplane:	Speedbird 467 (BAW467)
+->model:	Boeing 737
 ->type:	airline
 ->engine:	jet
 ->size:	medium
