@@ -32,6 +32,7 @@ const vector<Airport *> &AirportHandler::getAirports() const {
 }
 void AirportHandler::setAirports(const vector<Airport *> &airports) {
 
+    REQUIRE(properlyInitialised(), "properly initialised");
     REQUIRE(AirportHandler::validAirports(airports), "Valid airports");
 
     AirportHandler::airports = airports;
@@ -44,6 +45,7 @@ const vector<Airplane *> &AirportHandler::getAirplanes() const {
 }
 void AirportHandler::setAirplanes(const vector<Airplane *> &airplanes) {
 
+    REQUIRE(properlyInitialised(), "properly initialised");
     REQUIRE(AirportHandler::validAirplanes(airplanes), "Valid airplanes");
 
     AirportHandler::airplanes = airplanes;
@@ -53,6 +55,9 @@ void AirportHandler::setAirplanes(const vector<Airplane *> &airplanes) {
 }
 
 Airport *AirportHandler::getAirport(const string &iata) {
+
+    REQUIRE(properlyInitialised(), "properly initialised");
+
     for (unsigned int i = 0; i < AirportHandler::airports.size(); i++){
         if (AirportHandler::airports[i]->getIata() == iata){
             return AirportHandler::airports[i];
@@ -65,6 +70,7 @@ Airport *AirportHandler::getAirport(const string &iata) {
 //add remove
 void AirportHandler::addAirplane(Airplane *airplane) {
 
+    REQUIRE(properlyInitialised(), "properly initialised");
     REQUIRE(AirportHandler::validAirplane(airplane), "Valid airplane");
 
     AirportHandler::airplanes.push_back(airplane);
@@ -74,6 +80,7 @@ void AirportHandler::addAirplane(Airplane *airplane) {
 
 void AirportHandler::removeAirplane(const string &number){
 
+    REQUIRE(properlyInitialised(), "properly initialised");
     REQUIRE(AirportHandler::airplaneExists(number), "Airplane exists");
 
     for (unsigned int i = 0; i < AirportHandler::airplanes.size(); i++) {
@@ -94,6 +101,7 @@ void AirportHandler::removeAirplane(const string &number){
 
 void AirportHandler::addAirport(Airport *airport) {
 
+    REQUIRE(properlyInitialised(), "properly initialised");
     REQUIRE(AirportHandler::validAirport(airport), "Valid airport");
 
     AirportHandler::airports.push_back(airport);
@@ -103,6 +111,7 @@ void AirportHandler::addAirport(Airport *airport) {
 
 void AirportHandler::removeAirport(const string &iata){
 
+    REQUIRE(properlyInitialised(), "properly initialised");
     REQUIRE(airportExists(iata), "Airport exists");
 
     for (unsigned int i = 0; i < AirportHandler::airports.size(); i++) {
@@ -128,6 +137,8 @@ void AirportHandler::removeAirport(const string &iata){
 }
 
 ESuccess AirportHandler::addXmlData(const string &fileName) {
+
+    REQUIRE(properlyInitialised(), "properly initialised");
 
     string errorFile = fileName.substr(0, fileName.size() - 4) + "Error.txt";
 
@@ -1357,7 +1368,7 @@ void AirportHandler::GraphicalAirport3D(const string &iata) {
 
 }
 
-bool AirportHandler::propperlyInitialised() {
+bool AirportHandler::properlyInitialised() {
     return (this == AirportHandler::self);
 }
 

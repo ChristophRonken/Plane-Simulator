@@ -49,7 +49,7 @@ namespace {
 
     TEST_F(AirportHandlerFunctionDomain, Constructor){
         handlerNoInit = new AirportHandler();
-        EXPECT_TRUE(handlerNoInit->propperlyInitialised());
+        EXPECT_TRUE(handlerNoInit->properlyInitialised());
 
     }
 

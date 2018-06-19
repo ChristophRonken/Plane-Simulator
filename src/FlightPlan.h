@@ -35,6 +35,7 @@ public:
 
     /**
      * Sets the destination of the flight plan
+     * Preconditions: propperlyInitialised()
      * Postconditions: FlightPlan::getDestination() == destination
      * @param destination
      */
@@ -42,12 +43,14 @@ public:
 
     /**
      * Returns the departure time of the flight plan
+     * Preconditions: propperlyInitialised()
      * @return int
      */
     int getDeparture() const;
 
     /**
      * Sets the departure time of the flight plan
+     * Preconditions: propperlyInitialised()
      * Postconditions: FlightPlan::getDeparture() == departure
      * @param departure
      */
@@ -61,6 +64,7 @@ public:
 
     /**
      * Sets the interval between arriving and departing again
+     * Preconditions: propperlyInitialised()
      * Postconditions: FlightPlan::getInterval() == interval
      * @param interval
      */
@@ -74,6 +78,7 @@ public:
 
     /**
      * Sets the arrival time
+     * Preconditions: propperlyInitialised()
      * Postconditions: FlightPlan::getArrival() == arrival
      * @param arrival
      */

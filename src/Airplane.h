@@ -116,7 +116,17 @@ public:
 
     virtual ~Airplane();
 
+    /**
+     * Get if the plane has been checked
+     * @return
+     */
     bool getTechnicalChecked() const;
+
+    /**
+     * Set if the plane has been technically checked
+     * Preconditions: propperlyInitialised()
+     * @param boolean
+     */
     void setTechnicalChecked(bool boolean);
 
     /**
@@ -127,6 +137,7 @@ public:
 
     /**
      * Set ID number
+     * Preconditions: propperlyInitialised()
      * Postcondition: Airplane::getNumber() == number
      * @param number
      */
@@ -140,6 +151,7 @@ public:
 
     /**
      * sets the planes callsign
+     * Preconditions: propperlyInitialised()
      * Postcondition: Airplane::getCallsign() == callsign
      * @param callsign
      */
@@ -153,6 +165,7 @@ public:
 
     /**
      * set planes model
+     * Preconditions: propperlyInitialised()
      * Postcondition: Airplane::getModel() == model
      * @param model
      */
@@ -166,6 +179,7 @@ public:
 
     /**
      * sets the state of the plane
+     * Preconditions: propperlyInitialised()
      * Postcondition: Airplane::getState() == state
      * @param state
      */
@@ -179,6 +193,7 @@ public:
 
     /**
      * sets the current airport
+     * Preconditions: propperlyInitialised()
      * Postcondition: Airplane::getAirport() == airport
      * @param airport
      */
@@ -192,6 +207,7 @@ public:
 
     /**
      * sets the current runway
+     * Preconditions: propperlyInitialised()
      * Postcondition: Airplane::getRunway() == runway
      * @param runway
      */
@@ -205,6 +221,7 @@ public:
 
     /**
      * Sets the gate index
+     * Preconditions: propperlyInitialised()
      * Preconditions: validGate(gate) && (gate == -1 || Airport::atGate())
      * Postconditions: Airplane::getGate() == gate
      * @param gate
@@ -219,6 +236,7 @@ public:
 
     /**
      * Sets the amount of fuel
+     * Preconditions: propperlyInitialised()
      * Postcondition: Airplane::getFuel() == fuel
      * @param fuel
      */
@@ -232,6 +250,7 @@ public:
 
     /**
      * Sets the max fuel capacity
+     * Preconditions: propperlyInitialised()
      * Postcondition: Airplane::getFuelCapacity() == fuelCapacity
      * @param fuelCapacity
      */
@@ -245,6 +264,7 @@ public:
 
     /**
      * sets the amount of passengers
+     * Preconditions: propperlyInitialised()
      * Postcondition: Airplane::getPassengers() == passengers
      * @param passengers
      */
@@ -258,6 +278,7 @@ public:
 
     /**
      * sets the max passenger capacity
+     * Preconditions: propperlyInitialised()
      * Postcondition: Airplane::getPassengerCapacity() == passengerCapacity
      * @param passengerCapacity
      */
@@ -271,6 +292,7 @@ public:
 
     /**
      * Set the current flying height of the airplane
+     * Preconditions: propperlyInitialised()
      * Postcondition: Airplane::getHeight() == height
      * @param height
      */
@@ -283,21 +305,14 @@ public:
     const string &getType() const;
 
     /**
-     * Set the type of the airplane
-     * Preconditions: Airplane::validPlaneType(type)
-     * Postcondition: Airplane::getType() == type)
-     * @param type
-     */
-    void setType(const string &type);
-
-    /**
      * Get the engine of the airplane
      * @return engine
      */
     const string &getEngine() const;
 
     /**
-     * Sets the engine of the airplane
+     * Sets the engine of the airplan
+     * Preconditions: propperlyInitialised()e
      * Preconditions: Airplane::validEngine(engine)
      * Postcondition: Airplane::getEngine() == engine
      * @param engine
@@ -312,6 +327,7 @@ public:
 
     /**
      * Sets the size of the airplane
+     * Preconditions: propperlyInitialised()
      * Preconditions: Airplane::validSize(size)
      * Postcondition: Airplane::getSize() == size
      * @param size
@@ -326,6 +342,7 @@ public:
 
     /**
      * Sets the operation time of the airplane
+     * Preconditions: propperlyInitialised()
      * Postcondition: Airplane::getOperationTime() == operationTime
      * @param operationTime
      */
@@ -339,7 +356,8 @@ public:
     string getInfo();
 
     /**
-     * retursn true if the plane is ready for departure
+     * returns true if the plane is ready for departure
+     * Preconditions: propperlyInitialised()
      * @return readyForDeparture
      */
     bool isReadyForDeparture() const;
@@ -347,6 +365,7 @@ public:
     /**
      * lands the plane in the given airport
      * A runway is optional
+     * Preconditions: propperlyInitialised()
      * Precondition: Airplane::validLandingSpot(airport)
      *      && (Airplane::getCurrentTask() == "try to land"
      *      || Airplane::getCurrentTask() == "landing"
@@ -363,6 +382,7 @@ public:
     /**
      * sends the plane to the given runway
      * if no runway was given, it will choose the first free runway
+     * Preconditions: propperlyInitialised()
      * Precondition: Airplane::atAirport() && validRunway() &&
      *      Airplane::getCurrentTask() == "IFR" || Airplane::getCurrentTask() == "pushback"
      *      || Airplane::getCurrentTask() == "request taxi" && Airplane::flightPlan != NULL
@@ -371,6 +391,7 @@ public:
 
     /**
      * send the plane to exit the airport
+     * Preconditions: propperlyInitialised()
      * Precondition: Airplane::readyForTakeOff()
      *      && (Airplane::getCurrentTask() == "taking off"
      *      || Airplane::getCurrentTask() == "at holding point")
@@ -385,6 +406,7 @@ public:
 
     /**
      * Check if the plane finished all it's tasks
+     * Preconditions: propperlyInitialised()
      * @param airport
      * @return bool
      */
@@ -392,24 +414,28 @@ public:
 
     /**
      * execute a task
+     * Preconditions: propperlyInitialised()
      * @param airport
      */
     void execTask(Airport* airport);
 
     /**
      * Get the destination of this airplane
+     * Preconditions: propperlyInitialised()
      * @return string
      */
     const string &getDestination();
 
     /**
      * Initialize the plane's variables to start a simulation
+     * Preconditions: propperlyInitialised()
      * @param airport
      */
     void initSimulation(Airport *airport);
 
     /**
      * Check if the gate index is both valid and unoccupied
+     * Preconditions: propperlyInitialised()
      * @param gate
      * @return bool
      */
@@ -418,6 +444,7 @@ public:
     /**
      * Check if this airplane can take off/land on the given Runway.
      * If no runway is given, it will see if a Runway exists with the same requirements
+     * Preconditions: propperlyInitialised()
      * @param runway
      * @return bool
      */
@@ -425,6 +452,7 @@ public:
 
     /**
      * Check if the location to land is valid
+     * Preconditions: propperlyInitialised()
      * @param airport
      * @param runway
      * @return bool
@@ -433,18 +461,21 @@ public:
 
     /**
      * Check if the airplane is at an airport
+     * Preconditions: propperlyInitialised()
      * @return bool
      */
     bool atAirport();
 
     /**
      * Check if the airplane is at a gate
+     * Preconditions: propperlyInitialised()
      * @return bool
      */
     bool atGate();
 
     /**
      * Check if the airplane is ready for take-off
+     * Preconditions: propperlyInitialised()
      * @return bool
      */
     bool readyForTakeOff();
@@ -452,6 +483,7 @@ public:
     /**
      * Set the squawk code of this plane
      * If none was given, it will generate an appropriate code
+     * Preconditions: propperlyInitialised()
      * Postconditions: !Airplane::getSquawkCode().empty()
      * @param code
      */
@@ -465,6 +497,7 @@ public:
 
     /**
      * Set the flight plan of this airplane
+     * Preconditions: propperlyInitialised()
      * Postconditions: Airplane::getFlightPlan() == flightPlan
      * @param Flight
      */
@@ -484,6 +517,7 @@ public:
 
     /**
      * Set the runway the airplane is trying to go to.
+     * Preconditions: propperlyInitialised()
      * Postconditions: Airplane::getAttemptRunway() == attemptRunway
      * @param attemptRunway
      */
@@ -497,6 +531,7 @@ public:
 
     /**
      * Set the taxiRoute the plane is taking
+     * Preconditions: propperlyInitialised()
      * Postconditions: Airplane::getTaxiRoute() == taxiRoute
      * @param taxiRoute
      */
@@ -510,6 +545,7 @@ public:
 
     /**
      * set the taxipoint the plane is on
+     * Preconditions: propperlyInitialised()
      * Postconditions: Airplane::getTaxiPoint() == taxiPoint
      * @param taxiPoint
      */
@@ -523,6 +559,7 @@ public:
 
     /**
      * Set the taxiCrossing the plane is on
+     * Preconditions: propperlyInitialised()
      * Postconditions: Airplane::getTaxiCrossing() == taxiCrossing
      * @param taxiCrossing
      */
@@ -536,6 +573,7 @@ public:
 
     /**
      * Set the gate index the plane is trying to go to
+     * Preconditions: propperlyInitialised()
      * Postcondition: Airplane::getAttemptgate() == attemptgate
      * @param attemptgate
      */
@@ -543,6 +581,7 @@ public:
 
     /**
      * Check if the airplane has permission to descend
+     * Preconditions: propperlyInitialised()
      * @param height
      * @param airport
      * @param Runway
@@ -552,25 +591,29 @@ public:
 
     /**
      * Make the airplane taxi to a (given) runway if possible
+     * Preconditions: propperlyInitialised()
      * Preconditions: Airplane::getCurrentTask() == "going to runway" &&
-     * (Airplane::getAttemptRunway() != NULL
+     *      (Airplane::getAttemptRunway() != NULL
      */
     void taxiToRunway();
 
     /**
      * Make the airplane taxi to a given gate
+     * Preconditions: propperlyInitialised()
      * @param gate
      */
     void taxiToGate(int gate = -1);
 
     /**
      * Perform an emergency landing
+     * Preconditions: propperlyInitialised()
      * @param airport
      */
     void emergencyLanding(Airport*);
 
     /**
      * Check if the input value would be a valid engine type for the airplane.
+     * Preconditions: propperlyInitialised()
      * @param engine
      * @return bool
      */
@@ -578,6 +621,7 @@ public:
 
     /**
      * check if the input value would be a valid size for the airplane
+     * Preconditions: propperlyInitialised()
      * @param size
      * @return bool
      */
@@ -585,27 +629,32 @@ public:
 
     /**
      * Let passengers exit the plane
+     * Preconditions: propperlyInitialised()
      */
     void exitPlane();
 
     /**
      * Let passengers enter the plane
+     * Preconditions: propperlyInitialised()
      */
     void enterPlane();
 
     /**
      * Perform a technical Check on the airplane
+     * Preconditions: propperlyInitialised()
      */
     void technicalCheck();
 
     /**
      * Refuel the airplane
+     * Preconditions: propperlyInitialised()
      */
     void refuel();
 
 
     /**
      * Check if the plane was properly initialized
+     * Preconditions: propperlyInitialised()
      * @return bool
      */
     bool properlyInitialised();
@@ -618,12 +667,14 @@ public:
 
     /**
      * Check if the simulation was finished
+     * Preconditions: propperlyInitialised()
      * @return bool
      */
     bool getSimulationFinished();
 
    /**
     * Set if the simulation was finished
+    * Preconditions: propperlyInitialised()
     * Postcondition: Airplane::getsimulationFinished() == finished
     * @param finished
     */
@@ -631,12 +682,14 @@ public:
 
     /**
      * Get the current task the plane is performing
+     * Preconditions: propperlyInitialised()
      * @return string
      */
     const string &getCurrentTask() const;
 
     /**
      * Set the current task the plane is performing
+     * Preconditions: propperlyInitialised()
      * Postconditions: Airplane::getCurrentTask() == currentTask
      * @param currentTask
      */
@@ -644,27 +697,32 @@ public:
 
     /**
      * Preform tasks that happen over a longer period
+     * Preconditions: propperlyInitialised()
      */
     void continueTask(Airport * airport);
 
     /**
      * Descend X ft
+     * Preconditions: propperlyInitialised()
      */
     void descend(Airport * airport);
 
     /**
      * Ascend X ft
+     * Preconditions: propperlyInitialised()
      */
     void ascend(Airport * airport);
 
     /**
      * Returns boolean isWaitAtRunway
+     * Preconditions: propperlyInitialised()
      * @return isWaitAtRunway
      */
     bool isWaitAtRunway() const;
 
     /**
     * sets bool waitAtRunway
+     * Preconditions: propperlyInitialised()
     * Postconditions: Airplane::isWaitAtRunway() == waitAtRunway
     * @param waitAtRunway
     */
@@ -672,12 +730,14 @@ public:
 
     /**
      * Returns boolean isWaitOnRunway
+     * Preconditions: propperlyInitialised()
      * @return isWaitOnRunway
      */
     bool isWaitOnRunway() const;
 
     /**
     * sets bool waitOnRunway
+     * Preconditions: propperlyInitialised()
     * Postconditions: Airplane::isWaitOnRunway() == waitOnRunway
     * @param waitOnRunway
     */
@@ -685,12 +745,14 @@ public:
 
     /**
      * Returns boolean alreadyLinedUp
+     * Preconditions: propperlyInitialised()
      * @return alreadyLinedUp
      */
     bool isAlreadyLinedUp() const;
 
     /**
     * sets bool alreadyLinedUp
+     * Preconditions: propperlyInitialised()
     * Postconditions: Airplane::isAlreadyLinedUp() == alreadyLinedUp
     * @param alreadyLinedUp
     */
@@ -698,12 +760,14 @@ public:
 
     /**
      * Returns boolean isPermissionToTakeOff
+     * Preconditions: propperlyInitialised()
      * @return isPermissionToTakeOff
      */
     bool isPermissionToTakeOff() const;
 
     /**
     * sets bool permissionToTakeOff
+     * Preconditions: propperlyInitialised()
      * Postconditions: Airplane::isPermissionToTakeOff() == permissionToTakeOff
     * @param permissionToTakeOff
     */
@@ -711,6 +775,7 @@ public:
 
     /**
     * reduces fuel accordingly to the plane type
+    * Preconditions: propperlyInitialised()
     */
     void useFuel();
 

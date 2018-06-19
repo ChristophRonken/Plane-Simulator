@@ -57,6 +57,7 @@ public:
 
     /**
      * set the name of the runway
+     * Preconditions: propperlyInitialised()
      * Postconditions: Runway::getName() == name
      * @param name
      */
@@ -70,6 +71,7 @@ public:
 
     /**
      * sets the airport the runway is located at
+     * Preconditions: propperlyInitialised()
      * Postconditions: Runway::getAirport() == airport
      * @param airport
      */
@@ -83,6 +85,7 @@ public:
 
     /**
      * Sets occupied to the given param
+     * Preconditions: propperlyInitialised()
      * Postconditions: Runway::isOccupied() == occupied
      * @param occupied
      */
@@ -96,6 +99,7 @@ public:
 
     /**
      * sets the runway type
+     * Preconditions: propperlyInitialised()
      * Preconditions: type == "grass" || type == "asphalt"
      * Postconditions: Runway::getType() == type
      * @param type
@@ -110,6 +114,7 @@ public:
 
     /**
      * set the length of the runway
+     * Preconditions: propperlyInitialised()
      * Postconditions: Runway::getLength() == length,
      * @param length
      */
@@ -117,6 +122,7 @@ public:
 
     /**
      * Set the taxiRoute
+     * Preconditions: propperlyInitialised()
      * Postconditions: Runway::getTaxiRoute() == taxi
      * @param taxi
      */
@@ -124,12 +130,14 @@ public:
 
     /**
      * Returns the taxiRoute
+     * Preconditions: propperlyInitialised()
      * @return 
      */
     TaxiRoute* getTaxiRoute();
     
     /**
      * Set if a plane is in the holding short position
+     * Preconditions: propperlyInitialised()
      * Postcondition: Runway::getHoldingShortOccupied() == holdingShortOccupied
      * @param holdingShortOccupied
      */
@@ -137,6 +145,7 @@ public:
 
     /**
      * Set if a plane is already waiting for take off on the runway
+     * Preconditions: propperlyInitialised()
      * Postcondition: Runway::getWaitingOnRunway() == waitingOnRunway
      * @param waitingOnRunway
      */
@@ -144,24 +153,28 @@ public:
 
     /**
      * Check if the holding position for planes is occupied
+     * Preconditions: propperlyInitialised()
      * @return bool
      */
     bool getHoldingShortOccupied();
 
     /**
      * Check if a plane is waiting for take off on the runway
+     * Preconditions: propperlyInitialised()
      * @return bool
      */
     bool getWaitingOnRunway();
 
     /**
      * Check if a plane is crossing the runway
+     * Preconditions: propperlyInitialised()
      * @return bool
      */
     bool getCrossing();
 
     /**
      * Set if a plane is crossing the runway
+     * Preconditions: propperlyInitialised()
      * Postcondition: Runway::getCrossing() == crossing
      * @param crossing
      */
@@ -169,12 +182,14 @@ public:
 
     /**
      * Check if a plane has permission to cross the runway
+     * Preconditions: propperlyInitialised()
      * @return bool
      */
     bool getPermissionToCross();
 
     /**
      * Set if a plane has permission to cross te runway
+     * Preconditions: propperlyInitialised()
      * Postconditions: Runway::getPermissionToCross() == permissionToCross
      * @param permissionToCross
      */
@@ -194,12 +209,14 @@ public:
 
     /**
      * Returns true if a plane is on it's way towards the Runway
+     * Preconditions: propperlyInitialised()
      * @return
      */
     bool getOnItsWay();
 
     /**
-     * Set if a plane is on it's way
+     * Set if a plane is on it's way to a runway
+     * Preconditions: propperlyInitialised()
      * Postconditions: Runway::getOnItsWay() == onItsWay
      * @param onitsway
      */

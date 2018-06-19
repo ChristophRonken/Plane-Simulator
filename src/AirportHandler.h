@@ -39,6 +39,7 @@ public:
     /**
      * Removes an airplane from the saved Airplanes
      * Preconditions: AirportHandler::airplaneExists(callsign)
+     * Preconditions: propperlyInitialised()
      * Postconditions: !AirportHandler::airplaneExists(callsign)
      * @param callsign
      */
@@ -48,6 +49,7 @@ public:
     /**
      * Adds an airport to the saved airports
      * Preconditions: AirportHandler::validAirport(Airport*)
+     * Preconditions: propperlyInitialised()
      * @param airport
      */
     void addAirport(Airport *airport);
@@ -55,6 +57,7 @@ public:
     /**
      * Removes an airport from the saved airports
      * Preconditions: AirportHandler::airportExists(iata)
+     * Preconditions: propperlyInitialised()
      * Postcondition: !AirportHandler::airportExists(iata)
      * @param iata
      */
@@ -62,12 +65,14 @@ public:
 
     /**
      * Add airplanes, airports and runways from an given xml file.
+     * Preconditions: propperlyInitialised()
      * @param fileName
      */
     ESuccess addXmlData(const string &fileName);
 
     /**
      * Returns a vector with the saved airports
+     * Preconditions: propperlyInitialised()
      * @return airports
      */
     const vector<Airport *> &getAirports() const;
@@ -79,6 +84,7 @@ public:
      * and might cause memory leaks if not deleted properly.
      * It is adviced to only use this function to initialize the vector of airports.
      * Precondition: validAirports(vector<Airport*>)
+     * Preconditions: propperlyInitialised()
      * Postcondition: Airports == AirportHandler::getAirports()
      * @param airports
      */
@@ -86,6 +92,7 @@ public:
 
     /**
      * Returns a vector with all the saved airplanes
+     * Preconditions: propperlyInitialised()
      * @return airplanes
      */
     const vector<Airplane *> &getAirplanes() const;
@@ -97,6 +104,7 @@ public:
      * and might cause memory leaks if not deleted properly.
      * It is adviced to only use this function to initialize the vector of airplanes.
      * Precondition: AirportHandler::validAirplanes(Airplanes);
+     * Preconditions: propperlyInitialised()
      * Postconditions: AirportHandler::getAirplanes() == Airplanes
      * @param airplanes
      */
@@ -105,6 +113,7 @@ public:
     /**
      * Adds an airplane to the list of planes
      * Precondition: AirportHandler::validAirplane(Airplane*)
+     * Preconditions: propperlyInitialised()
      * Postconditions: AirportHandler::airplaneExists(Plane->getNumber())
      * @param Plane
      */
@@ -112,12 +121,14 @@ public:
 
     /**
      * Get a string with the info of all planes and airports
+     * Preconditions: propperlyInitialised()
      * @return info
      */
     string getInfo();
 
     /**
      * Outputs a file, with the info of the airplanes and airports, to the working directory
+     * Preconditions: propperlyInitialised()
      */
     void fileOutput(const string &fileName = "AirportInfo.txt");;
 
@@ -126,12 +137,14 @@ public:
      * Preconditions: !AirportHandler::getAirports().empty()
      *      && !AirportHandler::getAirplanes().empty()
      *      && !AirportHandler::getAirport(iata)->getRunways().empty()
+     * Preconditions: propperlyInitialised()
      * @param name of the airport to run a simulation on
      */
     void runSimulation(const string &name);
 
     /**
      * Get the pointer to the airportwith the given name.
+     * Preconditions: propperlyInitialised()
      * @param name of the airport
      * @return Airport*
      */
@@ -139,6 +152,7 @@ public:
 
     /**
      * Check if an airplane exists
+     * Preconditions: propperlyInitialised()
      * @param callsign
      * @return bool
      */
@@ -146,6 +160,7 @@ public:
 
     /**
      * Check if an airport already exists.
+     * Preconditions: propperlyInitialised()
      * @param callsign
      * @return bool
      */
@@ -153,6 +168,7 @@ public:
 
     /**
      * Check if a filename is valid
+     * Preconditions: propperlyInitialised()
      * @param name
      * @return bool
      */
@@ -160,6 +176,7 @@ public:
 
     /**
      * Check if the vector of airplanes is valid (no duplicates or faulty initialised airplanes)
+     * Preconditions: propperlyInitialised()
      * @param Planes
      * @return bool
      */
@@ -167,6 +184,7 @@ public:
 
     /**
      * Check if the vector of airports is valid (no duplicates or faulty initialised airports)
+     * Preconditions: propperlyInitialised()
      * @param Ports
      * @return bool
      */
@@ -174,6 +192,7 @@ public:
 
     /**
      * Check if an airplane is valid to add to the system (no duplicate or faulty initialised)
+     * Preconditions: propperlyInitialised()
      * @param Plane
      * @return bool
      */
@@ -181,6 +200,7 @@ public:
 
     /**
      * Check if an airport is valid to add to the system (no duplicate or faulty initialised)
+     * Preconditions: propperlyInitialised()
      * @param Port
      * @return bool
      */
@@ -188,6 +208,7 @@ public:
 
     /**
      * Check if an airport is empty (no airplanes in or around the airport)
+     * Preconditions: propperlyInitialised()
      * @param Port
      * @return bool
      */
@@ -197,6 +218,7 @@ public:
      * Outputs a file with the given airports iata as file name,
      * containing a 2D graphical representation of the Airport in it's current state
      * Preconditions: airportExists(string AirportIata);
+     * Preconditions: propperlyInitialised()
      * @param AirportIata
      */
     void GraphicalAirport2D(const string &iata);
@@ -204,6 +226,7 @@ public:
     /**'
      * Changes a double to it's corresponding time in string format (hh:mm)
      * Time is relative to the starting time of the simulation (default = 12:00)
+     * Preconditions: propperlyInitialised()
      * @param passedTimeUnits
      * @return string
      */
@@ -212,6 +235,7 @@ public:
     /**
      * Outputs an ini file containg the data to be read in a graphical engine
      * to represent the airport in a 3D environement
+     * Preconditions: propperlyInitialised()
      * @param AirportIata
      */
     void GraphicalAirport3D(const string &iata);
@@ -220,8 +244,12 @@ public:
      * Check if the Airporthandler was propperly initiallized and isn't NULL
      * @return bool
      */
-    bool propperlyInitialised();
+    bool properlyInitialised();
 
+    /**
+     * Sorts the airplanes vector by squawk codes
+     * Preconditions: propperlyInitialised()
+     */
     void sortPlanesBySquawk();
 
 

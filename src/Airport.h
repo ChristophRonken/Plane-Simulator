@@ -63,6 +63,7 @@ public:
 
     /**
      * set the name of the airport
+     * Preconditions: propperlyInitialised()
      * Postconditions: Airport::getName() == name
      * @param name
      */
@@ -76,6 +77,7 @@ public:
 
     /**
      * set the iata of the airport
+     * Preconditions: propperlyInitialised()
      * Postconditions: Airport::getIata() == iata
      * @param iata
      */
@@ -89,6 +91,7 @@ public:
 
     /**
      * sets the callsign of the airport
+     * Preconditions: propperlyInitialised()
      * Postconditions: Airport::getCallsign() == callsign
      * @param callsign
      */
@@ -102,6 +105,7 @@ public:
 
     /**
      * set the amount of gates in the airport
+     * Preconditions: propperlyInitialised()
      * Postconditions: Airport::getGates() == gates
      *      && Airport:getGatesOccupied().size() == unsigned(Airport::getGates())
      * @param gates
@@ -117,6 +121,7 @@ public:
     /**
      * set the runways in the airport
      * Preconditions: Airport::validRunways(runways)
+     * Preconditions: propperlyInitialised()
      * Postconditions: Airport::getRunways() == runways
      * @param Runways
      */
@@ -130,6 +135,7 @@ public:
 
     /**
      * set wich gates are occupied through a vector
+     * Preconditions: propperlyInitialised()
      * Postconditions: Airport::getGatesOccupied() == gatesOccupied
      * @param GatesOccupied
      */
@@ -141,6 +147,7 @@ public:
      *      && !runway->getName().empty()
      *      && (runway->getType() == "asphalt" or runway->getType() == "grass")
      *      && !Airport::runwayExists(runway->getName())
+     * Preconditions: propperlyInitialised()
      * Postcondition: Airport::runwayExists(runway->getName())
      * @param runway
      */
@@ -150,6 +157,7 @@ public:
      * removes a runway from the airport
      * Precontition: Airport::runwayExists(name)
      *      && !name.empty()
+     * Preconditions: propperlyInitialised()
      * Postcondition: !Airport::runwayExists(name)
      * @param name
      */
@@ -157,6 +165,7 @@ public:
 
     /**
      * gets the airports info as a string
+     * Preconditions: propperlyInitialised()
      * @return
      */
     string getInfo();
@@ -164,6 +173,7 @@ public:
     /**
      * set a certain gate to occ
      * Precondition: validGateIndex(i)
+     * Preconditions: propperlyInitialised()
      * Postcondition: Airport::getGateOccupied(i) == occ
      * @param int i : index of the gate
      * @param bool occ : occupied or not
@@ -172,6 +182,7 @@ public:
 
     /**
      * get if a certain gate is occupied
+     * Preconditions: propperlyInitialised()
      * Precondition: validGateIndex(int)
      * @param int i
      * @return occupied
@@ -180,6 +191,7 @@ public:
 
     /**
      * Returns a vector with the indexes of all the free gates
+     * Preconditions: propperlyInitialised()
      * Postconditions: &result != NULL
      * @return FreeGates
      */
@@ -187,6 +199,7 @@ public:
 
     /**
      * Returns a vector with the indexes of all the free Runways
+     * Preconditions: propperlyInitialised()
      * Postconditions: &result != NULL
      * @return FreeRunways
      */
@@ -194,6 +207,7 @@ public:
 
     /**
      * Check if the gate index is valid and unoccupied
+     * Preconditions: propperlyInitialised()
      * @param i
      * @return bool
      */
@@ -201,6 +215,7 @@ public:
 
     /**
      * Check if the runway with the given name exists
+     * Preconditions: propperlyInitialised()
      * @param name
      * @return bool
      */
@@ -208,18 +223,21 @@ public:
 
     /**
      * Get the Airplane that is currentle waiting at height 5000.
+     * Preconditions: propperlyInitialised()
      * @return
      */
     Airplane* getWait5000();
 
     /**
      * Get the Airplane that is currently waiting at height 3000.
+     * Preconditions: propperlyInitialised()
      * @return
      */
     Airplane* getWait3000();
 
     /**
      * Set the Airplane that is currently waiting at height 5000.
+     * Preconditions: propperlyInitialised()
      * Postcondition: Airport::getWait5000() == plane
      * @param plane
      */
@@ -227,6 +245,7 @@ public:
 
     /**
      * Set the Airplane that is currently waiting at height 3000.
+     * Preconditions: propperlyInitialised()
      * Postcondition: Airport::getWait3000() == plane
      * @param plane
      */
@@ -235,6 +254,7 @@ public:
     /**
      * Get the runway by name (string)
      * if the runway doesn't exist, it return NULL
+     * Preconditions: propperlyInitialised()
      * @return Runway
      */
     Runway* getRunway(const string &name);
@@ -253,6 +273,7 @@ public:
 
     /**
      * Checks if a vetor of runways is valid to set as this airport's runways
+     * Preconditions: propperlyInitialised()
      * @param runways
      * @return
      */

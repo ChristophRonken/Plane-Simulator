@@ -24,6 +24,7 @@ public:
 
     /**
      * Adds a taxipoint to the list
+     * Preconditions: propperlyInitialised()
      * Postconditions: TaxiRoute::getTaxiPoints()[TaxiRoute::getTaxiPoints().size()-1] == taxipoint
      * @param taxipoint
      */
@@ -31,6 +32,7 @@ public:
 
     /**
      * Adds a crossing to the list
+     * Preconditions: propperlyInitialised()
      * PostConditions: TaxiRoute::getTaxiCrossings()[TaxiRoute::getTaxiCrossings().size()-1] == crossing
      * @param crossing
      */
@@ -38,18 +40,21 @@ public:
 
     /**
      * Returns the list of taxi points
+     * Preconditions: propperlyInitialised()
      * @return
      */
     vector<string> getTaxiPoints();
 
     /**
      * returns the list of taxi crossings
+     * Preconditions: propperlyInitialised()
      * @return
      */
     vector<string> getTaxiCrossings();
 
     /**
      * Checks if the TaxiRoute was propperly initialised
+     * Preconditions: propperlyInitialised()
      * @return
      */
     bool properlyInitialised();

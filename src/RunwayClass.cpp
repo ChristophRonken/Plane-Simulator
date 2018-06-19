@@ -10,6 +10,7 @@ const string &Runway::getName() const {
 }
 
 void Runway::setName(const string &name) {
+    REQUIRE(properlyInitialised(), "properly initialised");
     Runway::name = name;
     ENSURE(Runway::getName() == name, "name set");
 }
@@ -19,6 +20,7 @@ Airport *Runway::getAirport() const {
 }
 
 void Runway::setAirport(Airport *airport) {
+    REQUIRE(properlyInitialised(), "properly initialised");
     Runway::airport = airport;
     ENSURE(Runway::getAirport() == airport, "setAirport set");
 }
@@ -28,6 +30,7 @@ bool Runway::isOccupied() const {
 }
 
 void Runway::setOccupied(bool occupied) {
+    REQUIRE(properlyInitialised(), "properly initialised");
     Runway::occupied = occupied;
     ENSURE(Runway::isOccupied() == occupied, "occupied set");
 }
@@ -66,6 +69,7 @@ const string &Runway::getType() const {
 }
 
 void Runway::setType(const string &type) {
+    REQUIRE(properlyInitialised(), "properly initialised");
     REQUIRE(type == "grass" || type == "asphalt", "valid runway type");
     Runway::type = type;
     ENSURE(Runway::getType() == type, "type set");
@@ -76,52 +80,62 @@ int Runway::getLength() const {
 }
 
 void Runway::setLength(int length) {
+    REQUIRE(properlyInitialised(), "properly initialised");
     Runway::length = length;
     ENSURE(Runway::getLength() == length, "lenght set");
 }
 
 void Runway::setTaxiRoute(TaxiRoute* taxi){
+    REQUIRE(properlyInitialised(), "properly initialised");
     Runway::taxiRoute = taxi;
     ENSURE(Runway::getTaxiRoute() == taxi, "taxiroute set");
 }
 
 TaxiRoute* Runway::getTaxiRoute(){
-
+    REQUIRE(properlyInitialised(), "properly initialised");
     return Runway::taxiRoute;
 }
 
 void Runway::setHoldingShortOccupied(bool holdingShortOccupied){
+    REQUIRE(properlyInitialised(), "properly initialised");
     Runway::holdingShortOccupied = holdingShortOccupied;
     ENSURE(Runway::getHoldingShortOccupied() == holdingShortOccupied, "holding short occupied set");
 }
 
 void Runway::setWaitingOnRunway(bool waitingOnRunway){
+    REQUIRE(properlyInitialised(), "properly initialised");
     Runway::waitingOnRunway = waitingOnRunway;
     ENSURE(Runway::getWaitingOnRunway() == waitingOnRunway, "wayting on runway set");
 }
 
 bool Runway::getHoldingShortOccupied(){
+    REQUIRE(properlyInitialised(), "properly initialised");
     return Runway::holdingShortOccupied;
 }
 
 bool Runway::getWaitingOnRunway(){
+    REQUIRE(properlyInitialised(), "properly initialised");
     return Runway::waitingOnRunway;
 }
 
 bool Runway::getCrossing(){
+    REQUIRE(properlyInitialised(), "properly initialised");
     return Runway::crossing;
 }
 
 void Runway::setCrossing(bool crossing){
+    REQUIRE(properlyInitialised(), "properly initialised");
     Runway::crossing = crossing;
     ENSURE(Runway::getCrossing() == crossing, "crossing set");
 }
 
 bool Runway::getPermissionToCross(){
+    REQUIRE(properlyInitialised(), "properly initialised");
     return Runway::permissionToCross;
 }
 
 void Runway::setPermissionToCross(bool permissionToCross){
+    REQUIRE(properlyInitialised(), "properly initialised");
     Runway::permissionToCross = permissionToCross;
     ENSURE(Runway::getPermissionToCross() == permissionToCross, "permission to cross set");
 }
@@ -140,10 +154,12 @@ bool Runway::isValid() {
 }
 
 bool Runway::getOnItsWay(){
+    REQUIRE(properlyInitialised(), "properly initialised");
     return Runway::onItsWay;
 }
 
 void Runway::setOnItsWay(bool onItsWay){
+    REQUIRE(properlyInitialised(), "properly initialised");
     Runway::onItsWay = onItsWay;
     ENSURE(Runway::getOnItsWay() == onItsWay, "on its way set");
 }
