@@ -706,8 +706,8 @@ void AirportHandler::runSimulation(const string &iata) {
                         airplane->useFuel();
                     }
 
-                    if ( (nowtime - startTime)/AirportHandler::gTimeUnit - 1 > 160){
-                        cout << "yes" << endl;
+                    if ( (nowtime - startTime)/AirportHandler::gTimeUnit - 1 > 180){
+                        cout << "mogelijke oneindige loop gestopt" << endl;
                         end = true;
                     };
                     cout << getTime() << ": " << airplane->getCurrentTask() << " " << airplane->getState() << endl;

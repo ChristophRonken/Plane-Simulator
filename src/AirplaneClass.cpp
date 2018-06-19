@@ -1204,7 +1204,8 @@ void Airplane::takeOff() {
         }
 
         if (Airplane::state == holdingPointRMS) {
-            if (!Airplane::runway->isOccupied() && !Airplane::runway->getWaitingOnRunway() && !Airplane::runway->getHoldingShortOccupied() && !Airplane::runway->getCrossing()) {
+            if (!Airplane::runway->isOccupied() && !Airplane::runway->getWaitingOnRunway() && !Airplane::runway->getCrossing()) {
+                cout << "mag meteen opstijgen" << endl;
                 clearedForTakeOffMessage(this, Airplane::runway, tijd);
                 Airplane::permissionToTakeOff = true;
                 Airplane::state = holdingPointMMS;
@@ -1214,7 +1215,7 @@ void Airplane::takeOff() {
                 Airplane::runway->setHoldingShortOccupied(false);
                 setOperationTime(1);
                 return;
-            } else if (!Airplane::runway->isOccupied() && !Airplane::runway->getWaitingOnRunway() && Airplane::runway->getHoldingShortOccupied() && !Airplane::runway->getCrossing() && Airplane::waitAtRunway) {
+            } else if (!Airplane::runway->isOccupied() && !Airplane::runway->getWaitingOnRunway() && !Airplane::runway->getCrossing() && Airplane::waitAtRunway) {
                 clearedForTakeOffMessage(this, Airplane::runway, tijd);
                 Airplane::permissionToTakeOff = true;
                 Airplane::state = holdingPointMMS;
@@ -1224,7 +1225,7 @@ void Airplane::takeOff() {
                 Airplane::runway->setHoldingShortOccupied(false);
                 setOperationTime(1);
                 return;
-            } else if (!Airplane::runway->isOccupied() && !Airplane::runway->getWaitingOnRunway() && !Airplane::runway->getHoldingShortOccupied() && Airplane::runway->getCrossing()) {
+            } else if (!Airplane::runway->isOccupied() && !Airplane::runway->getWaitingOnRunway() && Airplane::runway->getCrossing()) {
                 lineUpRunwayMessage(this, Airplane::runway, tijd);
                 Airplane::state = holdingPointMMS;
                 Airplane::waitOnRunway = true;
@@ -1233,7 +1234,7 @@ void Airplane::takeOff() {
                 Airplane::runway->setHoldingShortOccupied(false);
                 setOperationTime(1);
                 return;
-            } else if (!Airplane::runway->isOccupied() && !Airplane::runway->getWaitingOnRunway() && Airplane::runway->getHoldingShortOccupied() && Airplane::runway->getCrossing() && Airplane::waitAtRunway) {
+            } else if (!Airplane::runway->isOccupied() && !Airplane::runway->getWaitingOnRunway() && Airplane::runway->getCrossing() && Airplane::waitAtRunway) {
                 lineUpRunwayMessage(this, Airplane::runway, tijd);
                 Airplane::state = holdingPointMMS;
                 Airplane::waitOnRunway = true;
