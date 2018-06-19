@@ -7,9 +7,6 @@
 #include <algorithm>
 #include <vector>
 
-
-
-
 AirportHandler::AirportHandler() {
     self = this;
 
@@ -700,10 +697,18 @@ void AirportHandler::runSimulation(const string &iata) {
                 Airplane *airplane = AirportHandler::airplanes[i];
 
                 if (airplane->notFinished()) {
-                    if (airplane->getHeight() > 0){
-                        airplane->useFuel();
-                        airplane->useFuel();
-                        airplane->useFuel();
+                    if (!airplane->isEmergencySequenceInitiated()){
+                        if (airplane->getFuel() == 0 && airplane->getHeight() > 0){
+                            airplane->setCurrentTask("crash");
+                            airplane->setState(outOfFuel);
+                            airplane->setOperationTime(0);
+                        }
+
+                        if (airplane->getHeight() > 0) {
+                            airplane->useFuel();
+                            airplane->useFuel();
+                            airplane->useFuel();
+                        }
                     }
 
                     if ( (nowtime - startTime)/AirportHandler::gTimeUnit - 1 > 180){
