@@ -1108,7 +1108,6 @@ void Airplane::land(Airport *airport) {
 
             return;
         }
-
         else if (Airplane::height == Airplane::kHeightLevelC) {
             if (Airplane::state == descending) {
 
