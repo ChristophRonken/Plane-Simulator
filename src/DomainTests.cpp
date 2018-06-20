@@ -464,8 +464,7 @@ TEST_F(AirportHandlerDomain, RunSimulation)
 
     // Correcte Luchthaven + airplanes
     EXPECT_EQ(handler2->addXmlData("XMLTests/TestVolledigeLuchthaven10.xml"), success);
-    cout << "AirportHandlerDomain, RunSimulation: infinite loop--------------------------------------" << endl;
-    //EXPECT_NO_FATAL_FAILURE(handler2->runSimulation("ANR"));
+    EXPECT_NO_FATAL_FAILURE(handler2->runSimulation("ANR"));
 }
 
 TEST_F(AirportHandlerDomain, SortAirplanes1)
