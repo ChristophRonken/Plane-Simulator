@@ -683,8 +683,7 @@ void AirportHandler::runSimulation(const string &iata) {
     double nowtime = time(NULL);
     double startTime = nowtime;
 
-    bool end = false;
-    while (!airportEmpty(airport) && !end) {
+    while (!airportEmpty(airport)) {
         double later = time(NULL);
         double deltaTime = difftime(later, nowtime);
 
@@ -720,13 +719,6 @@ void AirportHandler::runSimulation(const string &iata) {
                             airplane->useFuel();
                         }
                     }
-
-                    if ( (nowtime - startTime)/AirportHandler::gTimeUnit - 1 > 180){
-                        cout << "mogelijke oneindige loop gestopt" << endl;
-                        end = true;
-                    };
-                    cout << getTime() << ": " << airplane->getCurrentTask() << " " << airplane->getState() << endl;
-
                     if (airplane->getOperationTime() > 0) {
                         airplane->continueTask(airport);
 
@@ -734,9 +726,6 @@ void AirportHandler::runSimulation(const string &iata) {
                         airplane->execTask(airport);
                     }
                     airplane->setOperationTime(airplane->getOperationTime() - 1);
-                    cout << "fuel: " << airplane->getFuel() << "/" << airplane->getFuelCapacity() << endl;
-                    cout << "passengers: " << airplane->getPassengers() << "/" << airplane->getPassengerCapacity() << endl << endl;
-
                 }
             }
 
@@ -855,7 +844,7 @@ void AirportHandler::GraphicalAirport3D(const string &iata) {
 
     s += "[General]\n";
     s += "size = 1000\n";
-    s += "backgroundcolor = (0, 0, 0)\n";
+    s += "backgroundcolor = (0.05, 0.05, 0.05)\n";
     s += "type = ZBufferedWireframe\n";
     s += "eye = (50, -100, 100)\n";
     s += "nrFigures = " + intToString(aantalfiguren) + "\n";
@@ -999,7 +988,14 @@ void AirportHandler::GraphicalAirport3D(const string &iata) {
             s += "rotateX = 0\n";
             s += "rotateY = 0\n";
             s += "rotateZ = 0\n";
-            s += "center = (50, 0, " + intToString(ceil(airplane->getHeight()/200)) + ")\n";
+            if (airplane->getAttemptRunway() != NULL){
+                s += "center = (" + intToString((airport->getGates() - 1) * 6 / 2 + 15) + ", " +
+                     intToString(20 * (airplane->getAttemptRunway()->getTaxiRoute()->getTaxiPoints().size() -1 + 1))
+                     + ", " + intToString(ceil(airplane->getHeight()/200)) + ")\n";
+            }
+            else{
+                s += "center = (50, 0, " + intToString(ceil(airplane->getHeight()/200)) + ")\n";
+            }
             s += "color = (1, 0.5, 0)\n";
             s += "\n";
             figureNumber += 1;
@@ -1013,7 +1009,7 @@ void AirportHandler::GraphicalAirport3D(const string &iata) {
             s += "rotateX = 0\n";
             s += "rotateY = 0\n";
             s += "rotateZ = 0\n";
-            s += "center = (50, 0, " + intToString(ceil(airplane->getHeight()/200)) + ")\n";
+            s += "center = (-25, 10, " + intToString(ceil(airplane->getHeight()/200)) + ")\n";
             s += "color = (1, 0, 0)\n";
             s += "\n";
             figureNumber += 1;
@@ -1176,7 +1172,7 @@ void AirportHandler::GraphicalAirport3D(const string &iata) {
             figureNumber += 1;
         }
         //holding point (unfinished)
-        else if (state == onHoldingPoint || state == holdingPointRMS || state == holdingPointMMS || state == holdingpointCMS){
+        else if (state == onHoldingPoint || state == holdingPointRMS || state == holdingPointMMS){
             s += "[Figure" + intToString(figureNumber) + "]\n";
             s += "type = \"Sphere\"\n";
             s += "n = 2\n";
@@ -1186,6 +1182,21 @@ void AirportHandler::GraphicalAirport3D(const string &iata) {
             s += "rotateZ = 0\n";
             s += "center = (" + intToString((airport->getGates() - 1) * 6 / 2 + 15) + ", " +
                 intToString(20 * (airplane->getRunway()->getTaxiRoute()->getTaxiPoints().size() -1 + 1) - 5) + ", 0)\n";
+            s += "color = (1, 1, 1)\n";
+            s += "\n";
+            figureNumber += 1;
+        }
+        // lift off
+        else if (state == holdingpointCMS){
+            s += "[Figure" + intToString(figureNumber) + "]\n";
+            s += "type = \"Sphere\"\n";
+            s += "n = 2\n";
+            s += "scale = 2\n";
+            s += "rotateX = 0\n";
+            s += "rotateY = 0\n";
+            s += "rotateZ = 0\n";
+            s += "center = (" + intToString((airport->getGates() - 1) * 6 / 2 + 15) + ", " +
+                 intToString(20 * (airplane->getRunway()->getTaxiRoute()->getTaxiPoints().size() -1 + 1)) + ", 0)\n";
             s += "color = (1, 1, 1)\n";
             s += "\n";
             figureNumber += 1;
@@ -1327,37 +1338,6 @@ void AirportHandler::GraphicalAirport3D(const string &iata) {
                     figureNumber += 1;
                 }
             }
-        }
-
-           /*
-
-
-
-
-
-           else if (state == "lined up"){
-               s += "[Figure" + intToString(i + airport->getRunways().size()
-                                            + airport->getGates()+longesttaxi->getTaxiPoints().size()
-                                            + longesttaxi->getTaxiCrossings().size()) + "]\n";
-               s += "type = \"Sphere\"\n";
-               s += "n = 2\n";
-               s += "scale = 2\n";
-               s += "rotateX = 0\n";
-               s += "rotateY = 0\n";
-               s += "rotateZ = 0\n";
-               for (unsigned int j=0; j<airport->getRunways().size(); j++){
-                   if (airplane->getRunway() == airport->getRunways()[j]){
-                       s += "center = ("+ intToString((airport->getGates()-1)*6 /2  + 15) + ", " + intToString(20*(j+1)) + ", 0)\n";
-                   }
-               }
-               s += "color = (0, 1, 1)\n";
-               s += "\n";
-           }
-
-
-            */
-        else {
-            cout << "WRONG STATE"<< endl;
         }
     }
     fstream file;
