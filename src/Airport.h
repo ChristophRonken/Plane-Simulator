@@ -14,16 +14,16 @@
 #include <algorithm>
 #include "Utils.h"
 
-
 using namespace std;
 
 class Runway;
 
 class Airplane;
 
-class Airport {
+class Airport
+{
 
-    Airport* self;
+    Airport *self;
 
     string name;
     string iata;
@@ -33,11 +33,11 @@ class Airport {
 
     vector<bool> gatesOccupied;
 
-    Airplane* wait5000;
-    Airplane* wait3000;
+    Airplane *wait5000;
+    Airplane *wait3000;
 
-public:
-    vector<Runway*> runways;
+  public:
+    vector<Runway *> runways;
 
     Airport();
 
@@ -151,7 +151,7 @@ public:
      * Postcondition: Airport::runwayExists(runway->getName())
      * @param runway
      */
-    void addRunway(Runway* runway);
+    void addRunway(Runway *runway);
 
     /**
      * removes a runway from the airport
@@ -226,14 +226,14 @@ public:
      * Preconditions: propperlyInitialised()
      * @return
      */
-    Airplane* getWait5000();
+    Airplane *getWait5000();
 
     /**
      * Get the Airplane that is currently waiting at height 3000.
      * Preconditions: propperlyInitialised()
      * @return
      */
-    Airplane* getWait3000();
+    Airplane *getWait3000();
 
     /**
      * Set the Airplane that is currently waiting at height 5000.
@@ -241,7 +241,7 @@ public:
      * Postcondition: Airport::getWait5000() == plane
      * @param plane
      */
-    void setWait5000(Airplane* plane);
+    void setWait5000(Airplane *plane);
 
     /**
      * Set the Airplane that is currently waiting at height 3000.
@@ -249,7 +249,7 @@ public:
      * Postcondition: Airport::getWait3000() == plane
      * @param plane
      */
-    void setWait3000(Airplane* plane);
+    void setWait3000(Airplane *plane);
 
     /**
      * Get the runway by name (string)
@@ -257,7 +257,7 @@ public:
      * Preconditions: propperlyInitialised()
      * @return Runway
      */
-    Runway* getRunway(const string &name);
+    Runway *getRunway(const string &name);
 
     /**
      * Check if the airport is propperly initialised
@@ -277,9 +277,7 @@ public:
      * @param runways
      * @return
      */
-    bool validRunways(vector<Runway*> runways);
-
+    bool validRunways(vector<Runway *> runways);
 };
-
 
 #endif //PSE_V1_AirportCLASS_H

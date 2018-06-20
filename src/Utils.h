@@ -5,7 +5,7 @@
 #ifndef PSE_V1_UTILS_H
 #define PSE_V1_UTILS_H
 
-# include <sstream>
+#include <sstream>
 #include <iostream>
 #include <fstream>
 #include <sys/stat.h>
@@ -19,7 +19,7 @@ using namespace std;
  * @param s
  * @return bool
  */
-bool isNumber(const std::string& s);
+bool isNumber(const std::string &s);
 
 /**
  * Converts Ints to strings
@@ -37,4 +37,3 @@ string intToString(int i);
 bool FileCompare(const std::string leftFileName, const std::string rightFileName);
 
 #endif //PSE_V1_UTILS_H
-

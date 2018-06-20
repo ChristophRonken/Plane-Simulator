@@ -11,17 +11,15 @@
 
 using namespace std;
 
-
-class FlightPlan {
-
-    FlightPlan* self;
+class FlightPlan
+{
+    FlightPlan *self;
     string destination;
     int departure;
     int interval;
     int arrival;
 
-public:
-
+  public:
     /**
      * Constructor
      */
@@ -95,10 +93,6 @@ public:
      * @return bool
      */
     bool isValid();
-
-
 };
-
-
 
 #endif //PSE_V1_AIRPLANEROUTE_H

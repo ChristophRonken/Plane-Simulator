@@ -15,23 +15,27 @@
 #include "FlightPlan.h"
 #include "../xml/tinyxml.h"
 
-enum ESuccess {importAborted, partialImport, success};
+enum ESuccess
+{
+    importAborted,
+    partialImport,
+    success
+};
 
 const int kMinutesPerHour = 60;
 const int kHoursPerDay = 24;
 
-class AirportHandler {
-
-    AirportHandler* self;
-
-    vector<Airport*> airports;
-    vector<Airplane*> airplanes;
-    const static double gTimeUnit = 0.000001;   // in seconds/virtualMinute
+class AirportHandler
+{
+    AirportHandler *self;
+    vector<Airport *> airports;
+    vector<Airplane *> airplanes;
+    const static double gTimeUnit = 0.000001;      // in seconds/virtualMinute
     const static double gSimulationStartTime = 12; // in hours
     vector<int> occupiedColor;
     vector<int> freeColor;
 
-public:
+  public:
     AirportHandler();
 
     virtual ~AirportHandler();
@@ -44,7 +48,6 @@ public:
      * @param callsign
      */
     void removeAirplane(const string &number);
-
 
     /**
      * Adds an airport to the saved airports
@@ -117,7 +120,7 @@ public:
      * Postconditions: AirportHandler::airplaneExists(Plane->getNumber())
      * @param Plane
      */
-    void addAirplane(Airplane* airplane);
+    void addAirplane(Airplane *airplane);
 
     /**
      * Get a string with the info of all planes and airports
@@ -130,7 +133,8 @@ public:
      * Outputs a file, with the info of the airplanes and airports, to the working directory
      * Preconditions: propperlyInitialised()
      */
-    void fileOutput(const string &fileName = "AirportInfo.txt");;
+    void fileOutput(const string &fileName = "AirportInfo.txt");
+    ;
 
     /**
      * Run a simultaion of an airport
@@ -148,7 +152,7 @@ public:
      * @param name of the airport
      * @return Airport*
      */
-    Airport* getAirport(const string &name);
+    Airport *getAirport(const string &name);
 
     /**
      * Check if an airplane exists
@@ -180,7 +184,7 @@ public:
      * @param Planes
      * @return bool
      */
-    bool validAirplanes(vector<Airplane*> airplanes);
+    bool validAirplanes(vector<Airplane *> airplanes);
 
     /**
      * Check if the vector of airports is valid (no duplicates or faulty initialised airports)
@@ -188,7 +192,7 @@ public:
      * @param Ports
      * @return bool
      */
-    bool validAirports(vector<Airport*> airports);
+    bool validAirports(vector<Airport *> airports);
 
     /**
      * Check if an airplane is valid to add to the system (no duplicate or faulty initialised)
@@ -196,7 +200,7 @@ public:
      * @param Plane
      * @return bool
      */
-    bool validAirplane(Airplane* airplane);
+    bool validAirplane(Airplane *airplane);
 
     /**
      * Check if an airport is valid to add to the system (no duplicate or faulty initialised)
@@ -204,7 +208,7 @@ public:
      * @param Port
      * @return bool
      */
-    bool validAirport(Airport* airport);
+    bool validAirport(Airport *airport);
 
     /**
      * Check if an airport is empty (no airplanes in or around the airport)
@@ -251,9 +255,6 @@ public:
      * Preconditions: propperlyInitialised()
      */
     void sortPlanesBySquawk();
-
-
 };
-
 
 #endif //PSE_V1_AIRPORTHANDLER_H

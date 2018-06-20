@@ -11,23 +11,23 @@
 #include "TaxiRoute.h"
 #include "Utils.h"
 
-
 using namespace std;
 
 class Airport;
 
-class Runway {
+class Runway
+{
 
-    Runway* self;
+    Runway *self;
     string name;
-    Airport* airport;
+    Airport *airport;
 
     string type;
     int length;
 
     bool occupied;
 
-    TaxiRoute * taxiRoute;
+    TaxiRoute *taxiRoute;
 
     bool holdingShortOccupied;
     bool waitingOnRunway;
@@ -36,7 +36,7 @@ class Runway {
 
     bool onItsWay;
 
-public:
+  public:
     /**
       * Construct a runway with parameters
       * @param name
@@ -75,7 +75,7 @@ public:
      * Postconditions: Runway::getAirport() == airport
      * @param airport
      */
-    void setAirport(Airport* airport);
+    void setAirport(Airport *airport);
 
     /**
      * gets if the runway is occupied
@@ -126,15 +126,15 @@ public:
      * Postconditions: Runway::getTaxiRoute() == taxi
      * @param taxi
      */
-    void setTaxiRoute(TaxiRoute* taxi);
+    void setTaxiRoute(TaxiRoute *taxi);
 
     /**
      * Returns the taxiRoute
      * Preconditions: propperlyInitialised()
      * @return 
      */
-    TaxiRoute* getTaxiRoute();
-    
+    TaxiRoute *getTaxiRoute();
+
     /**
      * Set if a plane is in the holding short position
      * Preconditions: propperlyInitialised()
@@ -221,8 +221,6 @@ public:
      * @param onitsway
      */
     void setOnItsWay(bool onItsWay);
-
 };
-
 
 #endif //PSE_V1_RUNWAYCLASS_H

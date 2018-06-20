@@ -26,19 +26,59 @@ const int kPrivateMediumSquawk = 1000;
 const int kAirlineMediumPropellerSquawk = 2000;
 const int kAirlineMediumJetSquawk = 3000;
 const int kAirlineLargeSquawk = 4000;
-const int kMilitarySquawk  = 5000;
-const int kEmegencySquawk =  6000;
+const int kMilitarySquawk = 5000;
+const int kEmegencySquawk = 6000;
 
-enum EState {   init, incoming, descending, descendARMS, descendWait,
-                descendBRMS, descendCRMS, onFinalApproach, landing, onRunway,
-                outOfFuel,iEmergencyRMS, oEmergencyRMS, iEmergencyMMS, oEmergencyMMS,
-                eLanded, eUnboardingPassengers, gUnboardingPassengers, eTechnicalCheck, gTechnicalCheck,
-                eRefuel, gRefuel, inGate, boardPassengers, ifr,
-                ifrRMS, ifrMMS, ifrCMS, pushbackRMS, pushbackMMS,
-                pushbackCMS, taxiRequest, onTaxiPoint, taxiPointMMS, taxiPointCMS,
-                onTaxiCrossing, taxiCrossingRMS, taxiCrossingMMS, taxiCrossingCMS, taxiCrossingNF,
-                onHoldingPoint, holdingPointRMS, holdingPointMMS, holdingpointCMS, ascending,
-                simulationIsFinished, idle};
+enum EState
+{
+    init,
+    incoming,
+    descending,
+    descendARMS,
+    descendWait,
+    descendBRMS,
+    descendCRMS,
+    onFinalApproach,
+    landing,
+    onRunway,
+    outOfFuel,
+    iEmergencyRMS,
+    oEmergencyRMS,
+    iEmergencyMMS,
+    oEmergencyMMS,
+    eLanded,
+    eUnboardingPassengers,
+    gUnboardingPassengers,
+    eTechnicalCheck,
+    gTechnicalCheck,
+    eRefuel,
+    gRefuel,
+    inGate,
+    boardPassengers,
+    ifr,
+    ifrRMS,
+    ifrMMS,
+    ifrCMS,
+    pushbackRMS,
+    pushbackMMS,
+    pushbackCMS,
+    taxiRequest,
+    onTaxiPoint,
+    taxiPointMMS,
+    taxiPointCMS,
+    onTaxiCrossing,
+    taxiCrossingRMS,
+    taxiCrossingMMS,
+    taxiCrossingCMS,
+    taxiCrossingNF,
+    onHoldingPoint,
+    holdingPointRMS,
+    holdingPointMMS,
+    holdingpointCMS,
+    ascending,
+    simulationIsFinished,
+    idle
+};
 
 const int kSmall = 1;
 const int kMedium = 2;
@@ -50,9 +90,10 @@ const int kRunwayLengthC = 1500;
 const int kRunwayLengthD = 2000;
 const int kRunwayLengthE = 3000;
 
-class Airplane {
+class Airplane
+{
 
-    Airplane* self;
+    Airplane *self;
 
     string number;
     string callsign;
@@ -62,10 +103,9 @@ class Airplane {
     string size;
     string type;
 
-
-    Airport* airport;
-    Runway* runway;
-    Runway* attemptRunway;
+    Airport *airport;
+    Runway *runway;
+    Runway *attemptRunway;
 
     int gate;
     int fuel;
@@ -80,8 +120,8 @@ class Airplane {
 
     string currentTask;
 
-    FlightPlan* flightPlan;
-    TaxiRoute* taxiRoute;
+    FlightPlan *flightPlan;
+    TaxiRoute *taxiRoute;
     string taxiPoint;
     string taxiCrossing;
 
@@ -107,12 +147,10 @@ class Airplane {
     const static int kHeightLevelB = 5000;
     const static int kHeightLevelC = 3000;
     const static int kHeightLevelD = 1000;
-protected:
 
-
-public:
-
-    Airplane(string type = "none")  ;
+  protected:
+  public:
+    Airplane(string type = "none");
 
     virtual ~Airplane();
 
@@ -348,7 +386,6 @@ public:
      */
     void setOperationTime(int operationTime);
 
-
     /**
      * gets the info of the plane as a string
      * @return info
@@ -377,7 +414,7 @@ public:
      * @param airport
      * @param R
      */
-    void land(Airport* airport);
+    void land(Airport *airport);
 
     /**
      * sends the plane to the given runway
@@ -417,7 +454,7 @@ public:
      * Preconditions: propperlyInitialised()
      * @param airport
      */
-    void execTask(Airport* airport);
+    void execTask(Airport *airport);
 
     /**
      * Get the destination of this airplane
@@ -448,7 +485,7 @@ public:
      * @param runway
      * @return bool
      */
-    virtual bool validRunway(Runway* runway = NULL);
+    virtual bool validRunway(Runway *runway = NULL);
 
     /**
      * Check if the location to land is valid
@@ -457,7 +494,7 @@ public:
      * @param runway
      * @return bool
      */
-    bool validLandingSpot(Airport* airport, Runway* runway = NULL );
+    bool validLandingSpot(Airport *airport, Runway *runway = NULL);
 
     /**
      * Check if the airplane is at an airport
@@ -507,7 +544,7 @@ public:
      * Get the flightplane of this plane
      * @return FlightPlan*
      */
-    FlightPlan * getFlightPlan() const;
+    FlightPlan *getFlightPlan() const;
 
     /**
      * Get the runway the airplane is trying to go to.
@@ -587,7 +624,7 @@ public:
      * @param Runway
      * @return bool
      */
-    bool permissionToDescend(int, Airport*, Runway*);
+    bool permissionToDescend(int, Airport *, Runway *);
 
     /**
      * Make the airplane taxi to a (given) runway if possible
@@ -609,7 +646,7 @@ public:
      * Preconditions: propperlyInitialised()
      * @param airport
      */
-    void emergencyLanding(Airport*);
+    void emergencyLanding(Airport *);
 
     /**
      * Check if the input value would be a valid engine type for the airplane.
@@ -651,7 +688,6 @@ public:
      */
     void refuel();
 
-
     /**
      * Check if the plane was properly initialized
      * Preconditions: propperlyInitialised()
@@ -672,7 +708,7 @@ public:
      */
     bool getSimulationFinished();
 
-   /**
+    /**
     * Set if the simulation was finished
     * Preconditions: propperlyInitialised()
     * Postcondition: Airplane::getsimulationFinished() == finished
@@ -699,19 +735,19 @@ public:
      * Preform tasks that happen over a longer period
      * Preconditions: propperlyInitialised()
      */
-    void continueTask(Airport * airport);
+    void continueTask(Airport *airport);
 
     /**
      * Descend X ft
      * Preconditions: propperlyInitialised()
      */
-    void descend(Airport * airport);
+    void descend(Airport *airport);
 
     /**
      * Ascend X ft
      * Preconditions: propperlyInitialised()
      */
-    void ascend(Airport * airport);
+    void ascend(Airport *airport);
 
     /**
      * Returns boolean isWaitAtRunway
@@ -793,65 +829,60 @@ public:
     void setEmergencySequenceInitiated(bool emergencySequenceInitiated);
 };
 
-
 /// Airplane Subtype
 
-class AirplaneMilitairy : public Airplane {
-public:
-
+class AirplaneMilitairy : public Airplane
+{
+  public:
     AirplaneMilitairy();
 
     virtual bool validEngineType(const string &type);
 
     virtual bool validSize(const string &size);
 
-    bool validRunway(Runway* runway = NULL);
-
+    bool validRunway(Runway *runway = NULL);
 };
 
 /// Airplane Subtype
 
-class AirplanePrivate : public Airplane {
-public:
-
+class AirplanePrivate : public Airplane
+{
+  public:
     AirplanePrivate();
 
     virtual bool validEngineType(const string &type);
 
     virtual bool validSize(const string &size);
 
-    bool validRunway(Runway* runway = NULL);
+    bool validRunway(Runway *runway = NULL);
 };
 
 /// Airplane Subtype
 
-class AirplaneAirline : public Airplane {
-public:
-
+class AirplaneAirline : public Airplane
+{
+  public:
     AirplaneAirline();
 
     virtual bool validEngineType(const string &type);
 
     virtual bool validSize(const string &size);
 
-    bool validRunway(Runway* runway = NULL);
-
-
+    bool validRunway(Runway *runway = NULL);
 };
 
 /// Airplane Subtype
 
-class AirplaneEmergency : public Airplane {
-public:
-
+class AirplaneEmergency : public Airplane
+{
+  public:
     AirplaneEmergency();
 
     virtual bool validEngineType(const string &type);
 
     virtual bool validSize(const string &size);
 
-    bool validRunway(Runway* runway = NULL);
-
+    bool validRunway(Runway *runway = NULL);
 };
 
 /**
@@ -859,7 +890,7 @@ public:
  * Postconditions: getTime() == time
 * @param time
 */
-void setTime(const string& time);
+void setTime(const string &time);
 
 /**
  * Returns string gTime
@@ -892,9 +923,5 @@ void setStartingTime(int time);
  * @return gStartingTime
  */
 int getStartingTime();
-
-
-
-
 
 #endif //PSE_V1_AirplaneCLASS_H

@@ -8,10 +8,10 @@
 
 using namespace std;
 
+int main(int argc, char **argv)
+{
 
-int main(int argc, char **argv){
-
-    AirportHandler* D = new AirportHandler();
+    AirportHandler *D = new AirportHandler();
 
     D->addXmlData("LuchthavenV1.xml");
 

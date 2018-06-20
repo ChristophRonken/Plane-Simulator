@@ -13,7 +13,8 @@
 #include "Runway.h"
 #include "Utils.h"
 
-namespace {
+namespace
+{
 /*
     class AirplaneTest : public ::testing::Test {
     protected:
@@ -1356,7 +1357,8 @@ TEST_F(CommunicationTests, taxiToRunway) {
 
 */
 }
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
     ::testing::InitGoogleTest(&argc, argv);
     ::testing::FLAGS_gtest_death_test_style = "threadsafe";
     return RUN_ALL_TESTS();

@@ -10,13 +10,13 @@
 
 using namespace std;
 
-class TaxiRoute {
+class TaxiRoute
+{
     vector<string> taxipoints;
     vector<string> taxicrossings;
-    TaxiRoute* self;
+    TaxiRoute *self;
 
-public:
-
+  public:
     /**
      * Constructor
      */
@@ -64,9 +64,6 @@ public:
      * @return
      */
     bool isValid();
-
-
 };
-
 
 #endif //PSE_V1_TAXIROUTE_H
