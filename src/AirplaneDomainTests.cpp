@@ -821,6 +821,7 @@ TEST_F(AirplaneDomain, technicalCheck)
 
 TEST_F(AirplaneDomain, refuel)
 {
+    setTime("12:00");
     airplane = new Airplane();
     airplane->setCurrentTask("refueling");
     airport = new Airport();
@@ -835,11 +836,11 @@ TEST_F(AirplaneDomain, refuel)
     airplane->setCurrentTask("refueling");
     flightPlan->setDeparture(300);
     airplane->refuel();
-    EXPECT_EQ(airplane->getCurrentTask(), "idle");
+    EXPECT_EQ(airplane->getCurrentTask(), "board passengers");
     flightPlan->setDeparture(0);
     airplane->setCurrentTask("refueling");
     airplane->refuel();
-    EXPECT_EQ(airplane->getCurrentTask(), "idle");
+    EXPECT_EQ(airplane->getCurrentTask(), "board passengers");
 }
 
 TEST_F(AirplaneDomain, descend)
